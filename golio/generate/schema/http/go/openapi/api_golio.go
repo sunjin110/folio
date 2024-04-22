@@ -72,6 +72,11 @@ func (c *GolioAPIController) Routes() Routes {
 			"/articles",
 			c.ArticlesPut,
 		},
+		"HelloGet": Route{
+			strings.ToUpper("Get"),
+			"/hello",
+			c.HelloGet,
+		},
 		"JwtDelete": Route{
 			strings.ToUpper("Delete"),
 			"/jwt",
@@ -191,6 +196,18 @@ func (c *GolioAPIController) ArticlesPut(w http.ResponseWriter, r *http.Request)
 		return
 	}
 	result, err := c.service.ArticlesPut(r.Context(), articlesPutRequestParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, w)
+}
+
+// HelloGet - hello
+func (c *GolioAPIController) HelloGet(w http.ResponseWriter, r *http.Request) {
+	result, err := c.service.HelloGet(r.Context())
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

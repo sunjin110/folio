@@ -216,6 +216,27 @@ paths:
       summary: 記事取得
       tags:
       - golio
+  /hello:
+    get:
+      deprecated: false
+      description: ""
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                "1":
+                  summary: Success
+                  value:
+                    hello: world
+              schema:
+                $ref: '#/components/schemas/_hello_get_200_response'
+          description: Success
+      security: []
+      summary: hello
+      tags:
+      - golio
 components:
   schemas:
     _jwt_post_request:
@@ -342,5 +363,14 @@ components:
       - id
       - title
       - user_id
+      type: object
+    _hello_get_200_response:
+      example:
+        hello: hello
+      properties:
+        hello:
+          type: string
+      required:
+      - hello
       type: object
   securitySchemes: {}
