@@ -11,15 +11,15 @@ package openapi
 
 import (
 	"encoding/json"
+	"errors"
+	"io"
 	"net/http"
 	"strings"
-
-	"github.com/gorilla/mux"
 )
 
 // AuthAPIController binds http requests to an api service and writes the service results to the http response
 type AuthAPIController struct {
-	service AuthAPIServicer
+	service      AuthAPIServicer
 	errorHandler ErrorHandler
 }
 

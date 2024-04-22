@@ -11,6 +11,8 @@ package openapi
 
 import (
 	"encoding/json"
+	"errors"
+	"io"
 	"net/http"
 	"strings"
 
@@ -19,7 +21,7 @@ import (
 
 // GolioAPIController binds http requests to an api service and writes the service results to the http response
 type GolioAPIController struct {
-	service GolioAPIServicer
+	service      GolioAPIServicer
 	errorHandler ErrorHandler
 }
 
