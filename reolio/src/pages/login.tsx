@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Login: React.FC = () => {
     return (
@@ -9,7 +10,9 @@ const Login: React.FC = () => {
                 <CardTitle>Login</CardTitle>
             </CardHeader>
             <CardContent>
-                <Button>Google Login</Button>
+                <a href="">
+                    <Button>Google Login</Button>
+                </a>
             </CardContent>
         </Card>
     );
