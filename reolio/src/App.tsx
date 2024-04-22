@@ -3,6 +3,7 @@ import './App.css';
 
 import Home from './pages';
 import About from './pages/about';
+import Login from './pages/login';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 
 const App: React.FC = () => {
@@ -17,11 +18,15 @@ const App: React.FC = () => {
             <li>
               <Link to="/about">About</Link>
             </li>
+            <li>
+              <Link to="/login">Login</Link>
+            </li>
           </ul>
         </nav>
         <Routes>
-          <Route path="/about" element={<About />} />
           <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path='/login' element={<Login />} />
         </Routes>
       </div>
     </BrowserRouter>
