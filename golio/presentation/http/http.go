@@ -11,7 +11,7 @@ func Serve() {
 	golioAPIController := openapi.NewGolioAPIController(NewGolioAPIServicer())
 	authAPIController := openapi.NewAuthAPIController(nil)
 	r := openapi.NewRouter(golioAPIController, authAPIController)
-	err := http.ListenAndServe(":8065", r)
+	err := http.ListenAndServe(":3001", r)
 	if err != nil {
 		panic(err)
 	}
