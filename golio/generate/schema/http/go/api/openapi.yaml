@@ -1,0 +1,346 @@
+openapi: 3.0.1
+info:
+  description: ""
+  title: My Project
+  version: 1.0.0
+servers:
+- url: /
+tags:
+- name: golio
+- name: auth
+paths:
+  /jwt:
+    delete:
+      deprecated: false
+      description: ""
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                properties: {}
+                type: object
+          description: Success
+      security: []
+      summary: JWTログアウト
+      tags:
+      - golio
+    post:
+      deprecated: false
+      description: ""
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            example:
+              user: sunjin110@gmail.com
+              pass: password
+            schema:
+              $ref: '#/components/schemas/_jwt_post_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_jwt_post_200_response'
+          description: Success
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_jwt_post_404_response'
+          description: Record not found
+      security: []
+      summary: JWT認証
+      tags:
+      - golio
+      - auth
+  /user:
+    post:
+      deprecated: false
+      description: ""
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                properties: {}
+                type: object
+          description: Success
+      security: []
+      summary: ユーザー作成
+      tags:
+      - golio
+  /articles:
+    get:
+      deprecated: false
+      description: ""
+      parameters:
+      - description: ""
+        example: uuid
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: ""
+        example: "10"
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                "1":
+                  summary: Success
+                  value:
+                    articles:
+                    - id: 記事ID
+                      title: 記事タイトル
+                      created_at: 作成日
+              schema:
+                $ref: '#/components/schemas/_articles_get_200_response'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_jwt_post_404_response'
+          description: Invalid input
+      security: []
+      summary: 記事一覧取得
+      tags:
+      - golio
+    post:
+      deprecated: false
+      description: ""
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            example:
+              title: 記事タイトル
+            schema:
+              $ref: '#/components/schemas/_articles_post_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                properties: {}
+                type: object
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_jwt_post_404_response'
+          description: Invalid input
+      security: []
+      summary: 記事投稿
+      tags:
+      - golio
+    put:
+      deprecated: false
+      description: ""
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            example:
+              title: 記事タイトル
+            schema:
+              $ref: '#/components/schemas/_articles_put_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                properties: {}
+                type: object
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_jwt_post_404_response'
+          description: Invalid input
+      security: []
+      summary: 記事更新
+      tags:
+      - golio
+  /articles/{article_id}:
+    get:
+      deprecated: false
+      description: ""
+      parameters:
+      - description: ""
+        explode: false
+        in: path
+        name: article_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                "1":
+                  summary: Success
+                  value:
+                    id: 記事ID
+                    title: 記事タイトル
+                    body: 記事本文
+              schema:
+                $ref: '#/components/schemas/_articles__article_id__get_200_response'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_jwt_post_404_response'
+          description: Invalid input
+      security: []
+      summary: 記事取得
+      tags:
+      - golio
+components:
+  schemas:
+    _jwt_post_request:
+      properties:
+        user:
+          type: string
+        pass:
+          type: string
+      required:
+      - pass
+      - user
+      type: object
+    _jwt_post_200_response:
+      example:
+        session: session
+      properties:
+        session:
+          type: string
+      required:
+      - session
+      type: object
+    _jwt_post_404_response:
+      example:
+        code: 0
+        message: message
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+      required:
+      - code
+      - message
+      type: object
+    _articles_get_200_response_articles_inner:
+      example:
+        created_at: created_at
+        id: id
+        title: title
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        created_at:
+          type: string
+      type: object
+    _articles_get_200_response_paging:
+      example:
+        offset: offset
+      properties:
+        offset:
+          type: string
+      required:
+      - offset
+      type: object
+    _articles_get_200_response:
+      example:
+        paging:
+          offset: offset
+        articles:
+        - created_at: created_at
+          id: id
+          title: title
+        - created_at: created_at
+          id: id
+          title: title
+      properties:
+        articles:
+          items:
+            $ref: '#/components/schemas/_articles_get_200_response_articles_inner'
+          type: array
+        paging:
+          $ref: '#/components/schemas/_articles_get_200_response_paging'
+      required:
+      - articles
+      - paging
+      type: object
+    _articles_put_request:
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        body:
+          type: string
+      required:
+      - body
+      - id
+      - title
+      type: object
+    _articles_post_request:
+      properties:
+        title:
+          type: string
+        body:
+          type: string
+      required:
+      - body
+      - title
+      type: object
+    _articles__article_id__get_200_response:
+      example:
+        user_id: user_id
+        created_at: 2000-01-23T04:56:07.000+00:00
+        id: id
+        title: title
+        body: body
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        body:
+          type: string
+        created_at:
+          format: date-time
+          type: string
+        user_id:
+          type: string
+      required:
+      - body
+      - created_at
+      - id
+      - title
+      - user_id
+      type: object
+  securitySchemes: {}
