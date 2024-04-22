@@ -22,3 +22,11 @@ func NewOAuth2(ctx context.Context) (*oauth2, error) {
 		svc: svc,
 	}, nil
 }
+
+// https://accounts.google.com/o/oauth2/v2/auth?client_id=682633467318-vvlia00uaag3jplkls0uj1md371k54as.apps.googleusercontent.com&redirect_uri=http://localhost:3001/auth/google-oauth/callback&response_type=code&scope=profile email&access_type=offline
+func (o *oauth2) Start(ctx context.Context) error {
+
+	// o.svc.Tokeninfo().Context(ctx)
+
+	return nil
+}

@@ -1,13 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-// import { generateOAuth2Url } from "@/lib/google/oauth";
+import { generateOAuth2Url } from "@/lib/google/oauth";
 import React from "react";
-import { Link } from "react-router-dom";
-
 const Login: React.FC = () => {
 
-    // const oauth2Url = generateOAuth2Url();
-    // console.log("oauth2url is ", oauth2Url);
+    const oauth2Url = generateOAuth2Url();
+    console.log("oauth2url is ", oauth2Url);
+    console.log("process.env", process.env);
 
 
     return (
@@ -16,7 +15,7 @@ const Login: React.FC = () => {
                 <CardTitle>Login</CardTitle>
             </CardHeader>
             <CardContent>
-                <a href={"/test"}>
+                <a href={`${process.env.REACT_APP_GOLIO_BASE_URL}/`}>
                     <Button>Google Login</Button>
                 </a>
             </CardContent>
