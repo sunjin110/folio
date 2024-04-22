@@ -22,5 +22,6 @@
   },
   "include": [
     "src"
-  ]
+  ],
+  "files": ["./env.d.ts"],
 }
