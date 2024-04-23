@@ -6,7 +6,7 @@ import (
 	"github.com/sunjin110/folio/golio/domain/model"
 )
 
-type InputGetToken struct {
+type InputGetGoogleToken struct {
 	ClientID     string `json:"client_id"`
 	ClientSecret string `json:"client_secret"`
 	Code         string `json:"code"`
@@ -14,8 +14,8 @@ type InputGetToken struct {
 	GrantType    string `json:"grant_type"`
 }
 
-// OutputGetToken https://developers.google.com/identity/protocols/oauth2/web-server?hl=ja#exchange-authorization-code
-type OutputGetToken struct {
+// OutputGetGoogleToken https://developers.google.com/identity/protocols/oauth2/web-server?hl=ja#exchange-authorization-code
+type OutputGetGoogleToken struct {
 	AccessToken  string        `json:"access_token"`
 	ExpiresIn    time.Duration `json:"expires_in"`    // アクセストークンの残り存続期間(秒)
 	RefreshToken string        `json:"refresh_token"` // 新しいアクセストークン
@@ -23,7 +23,7 @@ type OutputGetToken struct {
 	Scope        string        `json:"scope"`
 }
 
-func (o *OutputGetToken) ToModel() *model.Token {
+func (o *OutputGetGoogleToken) ToModel() *model.Token {
 	if o == nil {
 		return nil
 	}
