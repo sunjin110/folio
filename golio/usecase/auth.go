@@ -2,8 +2,10 @@ package usecase
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/sunjin110/folio/golio/domain/model"
+	"github.com/sunjin110/folio/golio/domain/repository"
 )
 
 type Auth interface {
@@ -13,14 +15,21 @@ type Auth interface {
 }
 
 type auth struct {
+	googleOAuth2 repository.GoogleOAuth2
 }
 
-func NewAuth() Auth {
-	return &auth{}
+func NewAuth(googleOAuth2 repository.GoogleOAuth2) Auth {
+	return &auth{
+		googleOAuth2: googleOAuth2,
+	}
 }
 
 func (a *auth) GenerateGoogleAuthorizationURL() (string, error) {
-	panic("unimplemented")
+	url, err := a.googleOAuth2.GenerateAuthorizationURL()
+	if err != nil {
+		return "", fmt.Errorf("failed googleOAuth2.GenerateAuthorizationURL: %w", err)
+	}
+	return url, nil
 }
 
 func (a *auth) GetGoogleTokenFromCode(ctx context.Context, code string) (*model.Token, error) {
