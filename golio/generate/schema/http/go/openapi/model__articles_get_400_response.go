@@ -12,15 +12,15 @@ package openapi
 
 
 
-type JwtPost404Response struct {
+type ArticlesGet400Response struct {
 
 	Code int32 `json:"code"`
 
 	Message string `json:"message"`
 }
 
-// AssertJwtPost404ResponseRequired checks if the required fields are not zero-ed
-func AssertJwtPost404ResponseRequired(obj JwtPost404Response) error {
+// AssertArticlesGet400ResponseRequired checks if the required fields are not zero-ed
+func AssertArticlesGet400ResponseRequired(obj ArticlesGet400Response) error {
 	elements := map[string]interface{}{
 		"code": obj.Code,
 		"message": obj.Message,
@@ -34,7 +34,7 @@ func AssertJwtPost404ResponseRequired(obj JwtPost404Response) error {
 	return nil
 }
 
-// AssertJwtPost404ResponseConstraints checks if the values respects the defined constraints
-func AssertJwtPost404ResponseConstraints(obj JwtPost404Response) error {
+// AssertArticlesGet400ResponseConstraints checks if the values respects the defined constraints
+func AssertArticlesGet400ResponseConstraints(obj ArticlesGet400Response) error {
 	return nil
 }

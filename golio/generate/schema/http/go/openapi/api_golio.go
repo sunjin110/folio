@@ -72,30 +72,10 @@ func (c *GolioAPIController) Routes() Routes {
 			"/articles",
 			c.ArticlesPut,
 		},
-		"AuthGoogleOauthCallbackGet": Route{
-			strings.ToUpper("Get"),
-			"/auth/google-oauth/callback",
-			c.AuthGoogleOauthCallbackGet,
-		},
 		"HelloGet": Route{
 			strings.ToUpper("Get"),
 			"/hello",
 			c.HelloGet,
-		},
-		"JwtDelete": Route{
-			strings.ToUpper("Delete"),
-			"/jwt",
-			c.JwtDelete,
-		},
-		"JwtPost": Route{
-			strings.ToUpper("Post"),
-			"/jwt",
-			c.JwtPost,
-		},
-		"UserPost": Route{
-			strings.ToUpper("Post"),
-			"/user",
-			c.UserPost,
 		},
 	}
 }
@@ -210,113 +190,9 @@ func (c *GolioAPIController) ArticlesPut(w http.ResponseWriter, r *http.Request)
 	EncodeJSONResponse(result.Body, &result.Code, w)
 }
 
-// AuthGoogleOauthCallbackGet - Google OAuth2.0からのコールバックで叩かれるもの
-func (c *GolioAPIController) AuthGoogleOauthCallbackGet(w http.ResponseWriter, r *http.Request) {
-	query, err := parseQuery(r.URL.RawQuery)
-	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-		return
-	}
-	var codeParam string
-	if query.Has("code") {
-		param := query.Get("code")
-
-		codeParam = param
-	} else {
-		c.errorHandler(w, r, &RequiredError{Field: "code"}, nil)
-		return
-	}
-	var scopeParam string
-	if query.Has("scope") {
-		param := query.Get("scope")
-
-		scopeParam = param
-	} else {
-		c.errorHandler(w, r, &RequiredError{Field: "scope"}, nil)
-		return
-	}
-	var authuserParam string
-	if query.Has("authuser") {
-		param := query.Get("authuser")
-
-		authuserParam = param
-	} else {
-		c.errorHandler(w, r, &RequiredError{Field: "authuser"}, nil)
-		return
-	}
-	var promptParam string
-	if query.Has("prompt") {
-		param := query.Get("prompt")
-
-		promptParam = param
-	} else {
-		c.errorHandler(w, r, &RequiredError{Field: "prompt"}, nil)
-		return
-	}
-	result, err := c.service.AuthGoogleOauthCallbackGet(r.Context(), codeParam, scopeParam, authuserParam, promptParam)
-	// If an error occurred, encode the error with the status code
-	if err != nil {
-		c.errorHandler(w, r, err, &result)
-		return
-	}
-	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
-}
-
 // HelloGet - hello
 func (c *GolioAPIController) HelloGet(w http.ResponseWriter, r *http.Request) {
 	result, err := c.service.HelloGet(r.Context())
-	// If an error occurred, encode the error with the status code
-	if err != nil {
-		c.errorHandler(w, r, err, &result)
-		return
-	}
-	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
-}
-
-// JwtDelete - JWTログアウト
-func (c *GolioAPIController) JwtDelete(w http.ResponseWriter, r *http.Request) {
-	result, err := c.service.JwtDelete(r.Context())
-	// If an error occurred, encode the error with the status code
-	if err != nil {
-		c.errorHandler(w, r, err, &result)
-		return
-	}
-	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
-}
-
-// JwtPost - JWT認証
-func (c *GolioAPIController) JwtPost(w http.ResponseWriter, r *http.Request) {
-	jwtPostRequestParam := JwtPostRequest{}
-	d := json.NewDecoder(r.Body)
-	d.DisallowUnknownFields()
-	if err := d.Decode(&jwtPostRequestParam); err != nil && !errors.Is(err, io.EOF) {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-		return
-	}
-	if err := AssertJwtPostRequestRequired(jwtPostRequestParam); err != nil {
-		c.errorHandler(w, r, err, nil)
-		return
-	}
-	if err := AssertJwtPostRequestConstraints(jwtPostRequestParam); err != nil {
-		c.errorHandler(w, r, err, nil)
-		return
-	}
-	result, err := c.service.JwtPost(r.Context(), jwtPostRequestParam)
-	// If an error occurred, encode the error with the status code
-	if err != nil {
-		c.errorHandler(w, r, err, &result)
-		return
-	}
-	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
-}
-
-// UserPost - ユーザー作成
-func (c *GolioAPIController) UserPost(w http.ResponseWriter, r *http.Request) {
-	result, err := c.service.UserPost(r.Context())
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

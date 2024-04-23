@@ -16,23 +16,6 @@ import (
 
 
 
-// ArticleAPIRouter defines the required methods for binding the api requests to a responses for the ArticleAPI
-// The ArticleAPIRouter implementation should parse necessary information from the http request,
-// pass the data to a ArticleAPIServicer to perform the required actions, then write the service results to the http response.
-type ArticleAPIRouter interface { 
-	ArticlesArticleIdGet(http.ResponseWriter, *http.Request)
-	ArticlesGet(http.ResponseWriter, *http.Request)
-	ArticlesPost(http.ResponseWriter, *http.Request)
-	ArticlesPut(http.ResponseWriter, *http.Request)
-}
-// AuthAPIRouter defines the required methods for binding the api requests to a responses for the AuthAPI
-// The AuthAPIRouter implementation should parse necessary information from the http request,
-// pass the data to a AuthAPIServicer to perform the required actions, then write the service results to the http response.
-type AuthAPIRouter interface { 
-	AuthGoogleOauthCallbackGet(http.ResponseWriter, *http.Request)
-	JwtDelete(http.ResponseWriter, *http.Request)
-	JwtPost(http.ResponseWriter, *http.Request)
-}
 // GolioAPIRouter defines the required methods for binding the api requests to a responses for the GolioAPI
 // The GolioAPIRouter implementation should parse necessary information from the http request,
 // pass the data to a GolioAPIServicer to perform the required actions, then write the service results to the http response.
@@ -41,34 +24,7 @@ type GolioAPIRouter interface {
 	ArticlesGet(http.ResponseWriter, *http.Request)
 	ArticlesPost(http.ResponseWriter, *http.Request)
 	ArticlesPut(http.ResponseWriter, *http.Request)
-	AuthGoogleOauthCallbackGet(http.ResponseWriter, *http.Request)
 	HelloGet(http.ResponseWriter, *http.Request)
-	JwtDelete(http.ResponseWriter, *http.Request)
-	JwtPost(http.ResponseWriter, *http.Request)
-	UserPost(http.ResponseWriter, *http.Request)
-}
-
-
-// ArticleAPIServicer defines the api actions for the ArticleAPI service
-// This interface intended to stay up to date with the openapi yaml used to generate it,
-// while the service implementation can be ignored with the .openapi-generator-ignore file
-// and updated with the logic required for the API.
-type ArticleAPIServicer interface { 
-	ArticlesArticleIdGet(context.Context, string) (ImplResponse, error)
-	ArticlesGet(context.Context, string, int32) (ImplResponse, error)
-	ArticlesPost(context.Context, ArticlesPostRequest) (ImplResponse, error)
-	ArticlesPut(context.Context, ArticlesPutRequest) (ImplResponse, error)
-}
-
-
-// AuthAPIServicer defines the api actions for the AuthAPI service
-// This interface intended to stay up to date with the openapi yaml used to generate it,
-// while the service implementation can be ignored with the .openapi-generator-ignore file
-// and updated with the logic required for the API.
-type AuthAPIServicer interface { 
-	AuthGoogleOauthCallbackGet(context.Context, string, string, string, string) (ImplResponse, error)
-	JwtDelete(context.Context) (ImplResponse, error)
-	JwtPost(context.Context, JwtPostRequest) (ImplResponse, error)
 }
 
 
@@ -81,9 +37,5 @@ type GolioAPIServicer interface {
 	ArticlesGet(context.Context, string, int32) (ImplResponse, error)
 	ArticlesPost(context.Context, ArticlesPostRequest) (ImplResponse, error)
 	ArticlesPut(context.Context, ArticlesPutRequest) (ImplResponse, error)
-	AuthGoogleOauthCallbackGet(context.Context, string, string, string, string) (ImplResponse, error)
 	HelloGet(context.Context) (ImplResponse, error)
-	JwtDelete(context.Context) (ImplResponse, error)
-	JwtPost(context.Context, JwtPostRequest) (ImplResponse, error)
-	UserPost(context.Context) (ImplResponse, error)
 }

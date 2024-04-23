@@ -45,10 +45,6 @@ func (g *golioAPIServicer) JwtDelete(context.Context) (openapi.ImplResponse, err
 	panic("a")
 }
 
-func (g *golioAPIServicer) JwtPost(context.Context, openapi.JwtPostRequest) (openapi.ImplResponse, error) {
-	panic("unimplemented")
-}
-
 func (g *golioAPIServicer) UserPost(context.Context) (openapi.ImplResponse, error) {
 	panic("unimplemented")
 }

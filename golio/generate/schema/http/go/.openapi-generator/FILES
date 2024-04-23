@@ -1,8 +1,6 @@
 README.md
 api/openapi.yaml
 openapi/api.go
-openapi/api_article.go
-openapi/api_auth.go
 openapi/api_golio.go
 openapi/error.go
 openapi/helpers.go
@@ -12,10 +10,8 @@ openapi/model__articles__article_id__get_200_response.go
 openapi/model__articles_get_200_response.go
 openapi/model__articles_get_200_response_articles_inner.go
 openapi/model__articles_get_200_response_paging.go
+openapi/model__articles_get_400_response.go
 openapi/model__articles_post_request.go
 openapi/model__articles_put_request.go
 openapi/model__hello_get_200_response.go
-openapi/model__jwt_post_200_response.go
-openapi/model__jwt_post_404_response.go
-openapi/model__jwt_post_request.go
 openapi/routers.go
