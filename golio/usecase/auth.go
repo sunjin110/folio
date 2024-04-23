@@ -33,7 +33,11 @@ func (a *auth) GenerateGoogleAuthorizationURL() (string, error) {
 }
 
 func (a *auth) GetGoogleTokenFromCode(ctx context.Context, code string) (*model.Token, error) {
-	panic("unimplemented")
+	token, err := a.googleOAuth2.GetTokenFromCode(ctx, code)
+	if err != nil {
+		return nil, fmt.Errorf("failed googleOAuth2.GetTokenFromCode: %w", err)
+	}
+	return token, nil
 }
 
 func (a *auth) GetUserAuthorizationFromGoogleToken(ctx context.Context, token string) (*model.UserAuthorization, error) {
