@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log/slog"
 	"net/http"
 	"net/url"
 	"strings"
@@ -20,6 +21,9 @@ const (
 
 	// tokenGetURI トークンを発行するendpointです
 	tokenGetURI = "https://oauth2.googleapis.com/token"
+
+	// personGetURI ユーザーの情報を取得するendpoint
+	personGetURI = "https://people.googleapis.com/v1/people/me"
 )
 
 type oauth2 struct {
@@ -84,4 +88,37 @@ func (o *oauth2) GetTokenFromCode(ctx context.Context, code string) (*model.Toke
 		return nil, fmt.Errorf("failed json.Unmarshal: body: %s, err: %w", string(body), err)
 	}
 	return output.ToModel(), nil
+}
+
+func (o *oauth2) GetUserAuthorization(ctx context.Context, token string) (*model.UserAuthorization, error) {
+	u, err := url.Parse(personGetURI)
+	if err != nil {
+		return nil, fmt.Errorf("failed url.Parse: %w", err)
+	}
+
+	q := u.Query()
+	q.Set("personFields", "name,emailAddresses")
+	u.RawQuery = q.Encode()
+
+	client := &http.Client{}
+	req, err := http.NewRequest(http.MethodGet, u.String(), nil)
+	if err != nil {
+		return nil, fmt.Errorf("failed http.NewRequest: %w", err)
+	}
+
+	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", token))
+
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("failed client.Do: %w", err)
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("failed io.ReadAll: %w", err)
+	}
+
+	slog.Debug("============ debug", "body", string(body))
+	return nil, nil
 }
