@@ -10,9 +10,8 @@ import (
 	"strings"
 
 	"github.com/sunjin110/folio/golio/domain/model"
+	"github.com/sunjin110/folio/golio/domain/repository"
 	"github.com/sunjin110/folio/golio/infrastructure/repository/dto"
-
-	oauth2_v2 "google.golang.org/api/oauth2/v2"
 )
 
 const (
@@ -24,30 +23,18 @@ const (
 )
 
 type oauth2 struct {
-	svc          *oauth2_v2.Service
 	clientID     string
 	clientSecret string
 	redirectURI  string
 }
 
-func NewOAuth2(ctx context.Context) (*oauth2, error) {
-
-	svc, err := oauth2_v2.NewService(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("failed oauth2_v2.NewService: %w", err)
-	}
+func NewOAuth2(ctx context.Context, clientID string, clientSecret string, redirectURI string) (repository.OAuth2, error) {
 
 	return &oauth2{
-		svc: svc,
+		clientID:     clientID,
+		clientSecret: clientID,
+		redirectURI:  redirectURI,
 	}, nil
-}
-
-// https://accounts.google.com/o/oauth2/v2/auth?client_id=682633467318-vvlia00uaag3jplkls0uj1md371k54as.apps.googleusercontent.com&redirect_uri=http://localhost:3001/auth/google-oauth/callback&response_type=code&scope=profile email&access_type=offline
-func (o *oauth2) Start(ctx context.Context) error {
-
-	// o.svc.Tokeninfo().Context(ctx)
-
-	return nil
 }
 
 // InputGetToken tokenを取得するために必要なinput
