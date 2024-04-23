@@ -4,13 +4,18 @@ import (
 	"log/slog"
 	"net/http"
 	"net/url"
+
+	"github.com/sunjin110/folio/golio/usecase"
 )
 
 type googleOAuthController struct {
+	authUsecase usecase.Auth
 }
 
-func NewGoogleOAuthController() *googleOAuthController {
-	return &googleOAuthController{}
+func NewGoogleOAuthController(authUsecase usecase.Auth) *googleOAuthController {
+	return &googleOAuthController{
+		authUsecase: authUsecase,
+	}
 }
 
 func (c *googleOAuthController) Callback(w http.ResponseWriter, r *http.Request) {
@@ -18,14 +23,19 @@ func (c *googleOAuthController) Callback(w http.ResponseWriter, r *http.Request)
 
 	query, err := url.ParseQuery(r.URL.RawQuery)
 	if err != nil {
+		slog.ErrorContext(r.Context(), "failed url.ParseQuery")
 		panic(err)
 	}
 
-	query.Get("code")
+	code := query.Get("code")
+	token, err := c.authUsecase.GetGoogleTokenFromCode(r.Context(), code)
+	if err != nil {
+		panic(err)
+	}
 
-	// r.ParseForm()
+	slog.InfoContext(r.Context(), "token is ", "token", token)
 
-	// TODO なんかあれだよあれしなきゃなんだよ
+	slog.Info("TODO tokenをcookieに詰め込む")
 
 	http.Redirect(w, r, "http://localhost:3000/login", http.StatusFound)
 }

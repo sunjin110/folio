@@ -32,12 +32,12 @@ type googleOauth2 struct {
 	redirectURI  string
 }
 
-func NewOAuth2(ctx context.Context, clientID string, clientSecret string, redirectURI string) (repository.GoogleOAuth2, error) {
+func NewGoogleOAuth2(ctx context.Context, clientID string, clientSecret string, redirectURI string) repository.GoogleOAuth2 {
 	return &googleOauth2{
 		clientID:     clientID,
 		clientSecret: clientID,
 		redirectURI:  redirectURI,
-	}, nil
+	}
 }
 
 // GenerateAuthorizationURL Clientが叩くべき認証のURLを作成する
