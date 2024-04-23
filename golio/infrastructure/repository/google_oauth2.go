@@ -26,14 +26,14 @@ const (
 	personGetURI = "https://people.googleapis.com/v1/people/me"
 )
 
-type oauth2 struct {
+type googleOauth2 struct {
 	clientID     string
 	clientSecret string
 	redirectURI  string
 }
 
-func NewOAuth2(ctx context.Context, clientID string, clientSecret string, redirectURI string) (repository.OAuth2, error) {
-	return &oauth2{
+func NewOAuth2(ctx context.Context, clientID string, clientSecret string, redirectURI string) (repository.GoogleOAuth2, error) {
+	return &googleOauth2{
 		clientID:     clientID,
 		clientSecret: clientID,
 		redirectURI:  redirectURI,
@@ -41,7 +41,7 @@ func NewOAuth2(ctx context.Context, clientID string, clientSecret string, redire
 }
 
 // GenerateAuthorizationURL Clientが叩くべき認証のURLを作成する
-func (o *oauth2) GenerateAuthorizationURL() (string, error) {
+func (o *googleOauth2) GenerateAuthorizationURL() (string, error) {
 	u, err := url.Parse("https://accounts.google.com/o/oauth2/v2/auth")
 	if err != nil {
 		return "", fmt.Errorf("failed url.Parse: %w", err)
@@ -58,7 +58,7 @@ func (o *oauth2) GenerateAuthorizationURL() (string, error) {
 }
 
 // GetTokenFromCode　取得したcodeからTokenを取得する
-func (o *oauth2) GetTokenFromCode(ctx context.Context, code string) (*model.Token, error) {
+func (o *googleOauth2) GetTokenFromCode(ctx context.Context, code string) (*model.Token, error) {
 	formData := url.Values{}
 	formData.Set("client_id", o.clientID)
 	formData.Set("client_secret", o.clientSecret)
@@ -90,7 +90,7 @@ func (o *oauth2) GetTokenFromCode(ctx context.Context, code string) (*model.Toke
 	return output.ToModel(), nil
 }
 
-func (o *oauth2) GetUserAuthorization(ctx context.Context, token string) (*model.UserAuthorization, error) {
+func (o *googleOauth2) GetUserAuthorization(ctx context.Context, token string) (*model.UserAuthorization, error) {
 	u, err := url.Parse(personGetURI)
 	if err != nil {
 		return nil, fmt.Errorf("failed url.Parse: %w", err)
