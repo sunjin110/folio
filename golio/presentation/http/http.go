@@ -19,7 +19,8 @@ func Serve(ctx context.Context) {
 	googleOAuthController := NewGoogleOAuthController(authUsecase)
 	r := openapi.NewRouter(golioAPIController)
 
-	r.HandleFunc("/auth/google-oauth/callback", googleOAuthController.Callback)
+	// r.HandleFunc("/auth/google-oauth/callback", googleOAuthController.Callback)
+	r.Methods(http.MethodGet).Path("/auth/google-oauth/callback").Name("google-oauth/callback").HandlerFunc(googleOAuthController.Callback)
 
 	err := http.ListenAndServe(":3001", r)
 	if err != nil {

@@ -83,6 +83,12 @@ func (o *googleOauth2) GetTokenFromCode(ctx context.Context, code string) (*mode
 		return nil, fmt.Errorf("failed io.ReadAll: %w", err)
 	}
 
+	if resp.StatusCode != http.StatusOK {
+
+		slog.Debug("failed", "statusCode", resp.Status, "body", string(body))
+		return nil, fmt.Errorf("failed GetTokenFromCode request")
+	}
+
 	output := &dto.OutputGetToken{}
 	if err := json.Unmarshal(body, output); err != nil {
 		return nil, fmt.Errorf("failed json.Unmarshal: body: %s, err: %w", string(body), err)
