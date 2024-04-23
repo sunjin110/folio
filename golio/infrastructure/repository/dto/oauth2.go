@@ -11,6 +11,8 @@ type OutputGetToken struct {
 	AccessToken  string        `json:"access_token"`
 	ExpiresIn    time.Duration `json:"expires_in"`    // アクセストークンの残り存続期間(秒)
 	RefreshToken string        `json:"refresh_token"` // 新しいアクセストークン
+	TokenType    string        `json:"token_type"`
+	Scope        string        `json:"scope"`
 }
 
 func (o *OutputGetToken) ToModel() *model.Token {

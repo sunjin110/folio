@@ -59,7 +59,25 @@ type InputGetToken struct {
 	RedirectURI  string `json:"redirect_uri"` // http://localhost:3001/auth/google-oauth/callback
 }
 
-func (o *oauth2) Tokens(ctx context.Context, code string) (*model.Token, error) {
+// GenerateAuthorizationURL Clientが叩くべき認証のURLを作成する
+func (o *oauth2) GenerateAuthorizationURL() (string, error) {
+	u, err := url.Parse("https://accounts.google.com/o/oauth2/v2/auth")
+	if err != nil {
+		return "", fmt.Errorf("failed url.Parse: %w", err)
+	}
+
+	q := u.Query()
+	q.Set("client_id", o.clientID)
+	q.Set("redirect_uri", o.redirectURI)
+	q.Set("response_type", "code")
+	q.Set("scope", "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile")
+	q.Set("access_type", "offline")
+	u.RawQuery = q.Encode()
+	return u.String(), nil
+}
+
+// GetTokenFromCode　取得したcodeからTokenを取得する
+func (o *oauth2) GetTokenFromCode(ctx context.Context, code string) (*model.Token, error) {
 	formData := url.Values{}
 	formData.Set("client_id", o.clientID)
 	formData.Set("client_secret", o.clientSecret)
