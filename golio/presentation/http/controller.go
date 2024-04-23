@@ -30,6 +30,7 @@ func (c *googleOAuthController) Callback(w http.ResponseWriter, r *http.Request)
 	code := query.Get("code")
 	token, err := c.authUsecase.GetGoogleTokenFromCode(r.Context(), code)
 	if err != nil {
+		slog.ErrorContext(r.Context(), "failed authUsecase.GetGoogleTokenFromCode", "code", code, "err", err)
 		panic(err)
 	}
 
