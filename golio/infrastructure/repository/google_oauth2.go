@@ -59,6 +59,8 @@ func (o *googleOauth2) GenerateAuthorizationURL() (string, error) {
 
 // GetTokenFromCode　取得したcodeからTokenを取得する
 func (o *googleOauth2) GetTokenFromCode(ctx context.Context, code string) (*model.Token, error) {
+
+	// TODO jsonにする
 	formData := url.Values{}
 	formData.Set("client_id", o.clientID)
 	formData.Set("client_secret", o.clientSecret)
@@ -85,7 +87,7 @@ func (o *googleOauth2) GetTokenFromCode(ctx context.Context, code string) (*mode
 
 	if resp.StatusCode != http.StatusOK {
 
-		slog.Debug("failed", "statusCode", resp.Status, "body", string(body))
+		slog.Info("failed", "statusCode", resp.Status, "body", string(body))
 		return nil, fmt.Errorf("failed GetTokenFromCode request")
 	}
 

@@ -6,6 +6,14 @@ import (
 	"github.com/sunjin110/folio/golio/domain/model"
 )
 
+type InputGetToken struct {
+	ClientID     string `json:"client_id"`
+	ClientSecret string `json:"client_secret"`
+	Code         string `json:"code"`
+	RedirectURI  string `json:"redirect_uri"`
+	GrantType    string `json:"grant_type"`
+}
+
 // OutputGetToken https://developers.google.com/identity/protocols/oauth2/web-server?hl=ja#exchange-authorization-code
 type OutputGetToken struct {
 	AccessToken  string        `json:"access_token"`
