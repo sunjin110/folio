@@ -29,21 +29,11 @@ type oauth2 struct {
 }
 
 func NewOAuth2(ctx context.Context, clientID string, clientSecret string, redirectURI string) (repository.OAuth2, error) {
-
 	return &oauth2{
 		clientID:     clientID,
 		clientSecret: clientID,
 		redirectURI:  redirectURI,
 	}, nil
-}
-
-// InputGetToken tokenを取得するために必要なinput
-type InputGetToken struct {
-	ClientID     string `json:"client_id"`
-	ClientSecret string `json:"client_secret"`
-	Code         string `json:"code"`
-	GrantType    string `json:"grant_type"`   // authorization_code
-	RedirectURI  string `json:"redirect_uri"` // http://localhost:3001/auth/google-oauth/callback
 }
 
 // GenerateAuthorizationURL Clientが叩くべき認証のURLを作成する
