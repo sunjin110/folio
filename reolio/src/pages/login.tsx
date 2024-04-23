@@ -15,7 +15,7 @@ const Login: React.FC = () => {
                 <CardTitle>Login</CardTitle>
             </CardHeader>
             <CardContent>
-                <a href={`${process.env.REACT_APP_GOLIO_BASE_URL}/`}>
+                <a href={oauth2Url}>
                     <Button>Google Login</Button>
                 </a>
             </CardContent>

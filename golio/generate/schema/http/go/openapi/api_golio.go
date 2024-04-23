@@ -72,6 +72,11 @@ func (c *GolioAPIController) Routes() Routes {
 			"/articles",
 			c.ArticlesPut,
 		},
+		"AuthGoogleOauthCallbackGet": Route{
+			strings.ToUpper("Get"),
+			"/auth/google-oauth/callback",
+			c.AuthGoogleOauthCallbackGet,
+		},
 		"HelloGet": Route{
 			strings.ToUpper("Get"),
 			"/hello",
@@ -196,6 +201,59 @@ func (c *GolioAPIController) ArticlesPut(w http.ResponseWriter, r *http.Request)
 		return
 	}
 	result, err := c.service.ArticlesPut(r.Context(), articlesPutRequestParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, w)
+}
+
+// AuthGoogleOauthCallbackGet - Google OAuth2.0からのコールバックで叩かれるもの
+func (c *GolioAPIController) AuthGoogleOauthCallbackGet(w http.ResponseWriter, r *http.Request) {
+	query, err := parseQuery(r.URL.RawQuery)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	var codeParam string
+	if query.Has("code") {
+		param := query.Get("code")
+
+		codeParam = param
+	} else {
+		c.errorHandler(w, r, &RequiredError{Field: "code"}, nil)
+		return
+	}
+	var scopeParam string
+	if query.Has("scope") {
+		param := query.Get("scope")
+
+		scopeParam = param
+	} else {
+		c.errorHandler(w, r, &RequiredError{Field: "scope"}, nil)
+		return
+	}
+	var authuserParam string
+	if query.Has("authuser") {
+		param := query.Get("authuser")
+
+		authuserParam = param
+	} else {
+		c.errorHandler(w, r, &RequiredError{Field: "authuser"}, nil)
+		return
+	}
+	var promptParam string
+	if query.Has("prompt") {
+		param := query.Get("prompt")
+
+		promptParam = param
+	} else {
+		c.errorHandler(w, r, &RequiredError{Field: "prompt"}, nil)
+		return
+	}
+	result, err := c.service.AuthGoogleOauthCallbackGet(r.Context(), codeParam, scopeParam, authuserParam, promptParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

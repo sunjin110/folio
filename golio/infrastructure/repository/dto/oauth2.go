@@ -1,0 +1,25 @@
+package dto
+
+import (
+	"time"
+
+	"github.com/sunjin110/folio/golio/domain/model"
+)
+
+// OutputGetToken https://developers.google.com/identity/protocols/oauth2/web-server?hl=ja#exchange-authorization-code
+type OutputGetToken struct {
+	AccessToken  string        `json:"access_token"`
+	ExpiresIn    time.Duration `json:"expires_in"`    // アクセストークンの残り存続期間(秒)
+	RefreshToken string        `json:"refresh_token"` // 新しいアクセストークン
+}
+
+func (o *OutputGetToken) ToModel() *model.Token {
+	if o == nil {
+		return nil
+	}
+	return &model.Token{
+		AccessToken:  o.AccessToken,
+		RefreshToken: o.RefreshToken,
+		ExpireTime:   time.Now().Add(o.ExpiresIn * time.Second),
+	}
+}

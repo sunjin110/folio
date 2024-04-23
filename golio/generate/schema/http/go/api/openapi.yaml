@@ -8,6 +8,7 @@ servers:
 tags:
 - name: golio
 - name: auth
+- name: article
 paths:
   /jwt:
     delete:
@@ -26,6 +27,7 @@ paths:
       summary: JWTログアウト
       tags:
       - golio
+      - auth
     post:
       deprecated: false
       description: ""
@@ -121,6 +123,7 @@ paths:
       summary: 記事一覧取得
       tags:
       - golio
+      - article
     post:
       deprecated: false
       description: ""
@@ -150,6 +153,7 @@ paths:
       summary: 記事投稿
       tags:
       - golio
+      - article
     put:
       deprecated: false
       description: ""
@@ -179,6 +183,7 @@ paths:
       summary: 記事更新
       tags:
       - golio
+      - article
   /articles/{article_id}:
     get:
       deprecated: false
@@ -216,6 +221,7 @@ paths:
       summary: 記事取得
       tags:
       - golio
+      - article
   /hello:
     get:
       deprecated: false
@@ -237,6 +243,56 @@ paths:
       summary: hello
       tags:
       - golio
+  /auth/google-oauth/callback:
+    get:
+      deprecated: false
+      description: ""
+      parameters:
+      - description: ""
+        explode: true
+        in: query
+        name: code
+        required: true
+        schema:
+          type: string
+        style: form
+      - description: ""
+        explode: true
+        in: query
+        name: scope
+        required: true
+        schema:
+          type: string
+        style: form
+      - description: ""
+        explode: true
+        in: query
+        name: authuser
+        required: true
+        schema:
+          type: string
+        style: form
+      - description: ""
+        explode: true
+        in: query
+        name: prompt
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "302":
+          content:
+            application/json:
+              schema:
+                properties: {}
+                type: object
+          description: Redirect
+      security: []
+      summary: Google OAuth2.0からのコールバックで叩かれるもの
+      tags:
+      - golio
+      - auth
 components:
   schemas:
     _jwt_post_request:

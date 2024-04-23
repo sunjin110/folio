@@ -1,6 +1,7 @@
 README.md
 api/openapi.yaml
 openapi/api.go
+openapi/api_article.go
 openapi/api_auth.go
 openapi/api_golio.go
 openapi/error.go

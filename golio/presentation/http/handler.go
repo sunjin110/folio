@@ -10,6 +10,11 @@ import (
 type golioAPIServicer struct {
 }
 
+// AuthGoogleOauthCallbackGet implements openapi.GolioAPIServicer.
+func (g *golioAPIServicer) AuthGoogleOauthCallbackGet(context.Context, string, string, string, string) (openapi.ImplResponse, error) {
+	panic("unimplemented")
+}
+
 func NewGolioAPIServicer() openapi.GolioAPIServicer {
 	return &golioAPIServicer{}
 }
