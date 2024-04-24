@@ -35,7 +35,7 @@ type googleOauth2 struct {
 func NewGoogleOAuth2(ctx context.Context, clientID string, clientSecret string, redirectURI string) repository.GoogleOAuth2 {
 	return &googleOauth2{
 		clientID:     clientID,
-		clientSecret: clientID,
+		clientSecret: clientSecret,
 		redirectURI:  redirectURI,
 	}
 }
@@ -59,24 +59,20 @@ func (o *googleOauth2) GenerateAuthorizationURL() (string, error) {
 
 // GetTokenFromCode　取得したcodeからTokenを取得する
 func (o *googleOauth2) GetTokenFromCode(ctx context.Context, code string) (*model.Token, error) {
-	reqBody := &dto.InputGetGoogleToken{
-		ClientID:     o.clientID,
-		ClientSecret: o.clientSecret,
-		Code:         code,
-		RedirectURI:  o.redirectURI,
-		GrantType:    grantTypeCode,
-	}
-
-	b, err := json.Marshal(reqBody)
-	if err != nil {
-		return nil, fmt.Errorf("failed json.Marshal: %w", err)
-	}
+	formData := url.Values{}
+	formData.Set("client_id", o.clientID)
+	formData.Set("client_secret", o.clientSecret)
+	formData.Set("code", code)
+	formData.Set("redirect_uri", o.redirectURI)
+	formData.Set("grant_type", grantTypeCode)
 
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPost, tokenGetURI, strings.NewReader(string(b)))
+	req, err := http.NewRequest(http.MethodPost, tokenGetURI, strings.NewReader(formData.Encode()))
 	if err != nil {
 		return nil, fmt.Errorf("failed http.NewRequest: %w", err)
 	}
+
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
 	resp, err := client.Do(req)
 	if err != nil {
@@ -101,6 +97,51 @@ func (o *googleOauth2) GetTokenFromCode(ctx context.Context, code string) (*mode
 	}
 	return output.ToModel(), nil
 }
+
+// // GetTokenFromCode　取得したcodeからTokenを取得する
+// func (o *googleOauth2) GetTokenFromCode(ctx context.Context, code string) (*model.Token, error) {
+// 	reqBody := &dto.InputGetGoogleToken{
+// 		ClientID:     o.clientID,
+// 		ClientSecret: o.clientSecret,
+// 		Code:         code,
+// 		RedirectURI:  o.redirectURI,
+// 		GrantType:    grantTypeCode,
+// 	}
+
+// 	b, err := json.Marshal(reqBody)
+// 	if err != nil {
+// 		return nil, fmt.Errorf("failed json.Marshal: %w", err)
+// 	}
+
+// 	client := &http.Client{}
+// 	req, err := http.NewRequest(http.MethodPost, tokenGetURI, strings.NewReader(string(b)))
+// 	if err != nil {
+// 		return nil, fmt.Errorf("failed http.NewRequest: %w", err)
+// 	}
+
+// 	resp, err := client.Do(req)
+// 	if err != nil {
+// 		return nil, fmt.Errorf("failed client.Do: %w", err)
+// 	}
+// 	defer resp.Body.Close()
+
+// 	body, err := io.ReadAll(resp.Body)
+// 	if err != nil {
+// 		return nil, fmt.Errorf("failed io.ReadAll: %w", err)
+// 	}
+
+// 	if resp.StatusCode != http.StatusOK {
+
+// 		slog.Info("failed", "statusCode", resp.Status, "body", string(body))
+// 		return nil, fmt.Errorf("failed GetTokenFromCode request")
+// 	}
+
+// 	output := &dto.OutputGetGoogleToken{}
+// 	if err := json.Unmarshal(body, output); err != nil {
+// 		return nil, fmt.Errorf("failed json.Unmarshal: body: %s, err: %w", string(body), err)
+// 	}
+// 	return output.ToModel(), nil
+// }
 
 func (o *googleOauth2) GetUserAuthorization(ctx context.Context, token string) (*model.UserAuthorization, error) {
 	u, err := url.Parse(personGetURI)
