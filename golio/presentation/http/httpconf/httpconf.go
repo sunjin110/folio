@@ -2,7 +2,6 @@ package httpconf
 
 import (
 	"fmt"
-	"log/slog"
 	"path/filepath"
 
 	"github.com/caarlos0/env/v10"
@@ -11,11 +10,12 @@ import (
 )
 
 type Config struct {
-	PORT        string            `env:"PORT"`
+	Server      Server            `envPrefix:"SERVER_"`
 	GoogleOAuth GoogleOAuthConfig `envPrefix:"GOOGLE_OAUTH_"`
 }
 
 type Server struct {
+	PORT string `env:"PORT"`
 }
 
 type GoogleOAuthConfig struct {
@@ -25,13 +25,8 @@ type GoogleOAuthConfig struct {
 }
 
 func NewConfig() (*Config, error) {
-
 	envFilePath := filepath.Join(utils.ProjectRoot(), ".env")
-	slog.Info("a", "envFilePath", envFilePath)
-
-	err := godotenv.Load(envFilePath)
-	slog.Error("godotenv.Load error", "err", err)
-
+	_ = godotenv.Load(envFilePath)
 	cfg := &Config{}
 	if err := env.Parse(cfg); err != nil {
 		return nil, fmt.Errorf("fialed to parse basic config: %w", err)
