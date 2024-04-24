@@ -12,7 +12,7 @@ import (
 
 func Serve(ctx context.Context, cfg *httpconf.Config) {
 
-	googleOAuth2Repo := repository.NewGoogleOAuth2(ctx, "client_id", "client_secret", "redirect_url")
+	googleOAuth2Repo := repository.NewGoogleOAuth2(ctx, cfg.GoogleOAuth.ClientID, cfg.GoogleOAuth.ClientSecret, cfg.GoogleOAuth.RedirectURI)
 	authUsecase := usecase.NewAuth(googleOAuth2Repo)
 
 	golioAPIController := openapi.NewGolioAPIController(NewGolioAPIServicer())
@@ -23,7 +23,7 @@ func Serve(ctx context.Context, cfg *httpconf.Config) {
 	// r.HandleFunc("/auth/google-oauth/callback", googleOAuthController.Callback)
 	r.Methods(http.MethodGet).Path("/auth/google-oauth/callback").Name("google-oauth/callback").HandlerFunc(googleOAuthController.Callback)
 
-	err := http.ListenAndServe(":3001", r)
+	err := http.ListenAndServe(cfg.Server.PORT, r)
 	if err != nil {
 		panic(err)
 	}
