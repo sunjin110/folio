@@ -38,5 +38,13 @@ func (c *googleOAuthController) Callback(w http.ResponseWriter, r *http.Request)
 
 	slog.Info("TODO tokenをcookieに詰め込む")
 
+	http.SetCookie(w, &http.Cookie{
+		Name:     "access_token",
+		Value:    token.AccessToken,
+		HttpOnly: true,
+		Path:     "/",
+		SameSite: http.SameSiteLaxMode,
+	})
+
 	http.Redirect(w, r, "http://localhost:3000/login", http.StatusFound)
 }

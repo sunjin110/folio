@@ -1,5 +1,6 @@
 
 run:
+	
 	go run ./cmd/http/main.go
 
 gen-code:
@@ -11,3 +12,6 @@ gen-code:
 		--git-repo-id kraken/ogp/generate/schema/go \
 		--git-user-id asahi-digital \
   		-o /local/generate/schema/http/go
+
+	
+	
