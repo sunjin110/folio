@@ -9,12 +9,14 @@ import (
 )
 
 type googleOAuthController struct {
-	authUsecase usecase.Auth
+	authUsecase         usecase.Auth
+	callbackRedirectURI string
 }
 
-func NewGoogleOAuthController(authUsecase usecase.Auth) *googleOAuthController {
+func NewGoogleOAuthController(authUsecase usecase.Auth, callbackRedirectURI string) *googleOAuthController {
 	return &googleOAuthController{
-		authUsecase: authUsecase,
+		authUsecase:         authUsecase,
+		callbackRedirectURI: callbackRedirectURI,
 	}
 }
 
@@ -46,5 +48,5 @@ func (c *googleOAuthController) Callback(w http.ResponseWriter, r *http.Request)
 		SameSite: http.SameSiteLaxMode,
 	})
 
-	http.Redirect(w, r, "http://localhost:3000/login", http.StatusFound)
+	http.Redirect(w, r, c.callbackRedirectURI, http.StatusFound)
 }

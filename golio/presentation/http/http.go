@@ -17,7 +17,7 @@ func Serve(ctx context.Context, cfg *httpconf.Config) {
 
 	golioAPIController := openapi.NewGolioAPIController(NewGolioAPIServicer())
 
-	googleOAuthController := NewGoogleOAuthController(authUsecase)
+	googleOAuthController := NewGoogleOAuthController(authUsecase, cfg.GoogleOAuth.CallbackRedirectURI)
 	r := openapi.NewRouter(golioAPIController)
 
 	// r.HandleFunc("/auth/google-oauth/callback", googleOAuthController.Callback)

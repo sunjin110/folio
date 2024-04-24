@@ -19,9 +19,10 @@ type Server struct {
 }
 
 type GoogleOAuthConfig struct {
-	ClientID     string `env:"CLIENT_ID"`
-	ClientSecret string `env:"CLIENT_SECRET"`
-	RedirectURI  string `env:"REDIRECT_URI"`
+	ClientID            string `env:"CLIENT_ID"`
+	ClientSecret        string `env:"CLIENT_SECRET"`
+	RedirectURI         string `env:"REDIRECT_URI"`
+	CallbackRedirectURI string `env:"CALLBACK_REDIRECT_URI"`
 }
 
 func NewConfig() (*Config, error) {
