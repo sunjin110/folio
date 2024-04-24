@@ -8,8 +8,11 @@ import (
 )
 
 type Config struct {
-	PORT        string             `env:"PORT"`
-	GoogleOAuth *GoogleOAuthConfig `envPrefix:"GOOGLE_OAUTH_"`
+	PORT        string            `env:"PORT"`
+	GoogleOAuth GoogleOAuthConfig `envPrefix:"GOOGLE_OAUTH_"`
+}
+
+type Server struct {
 }
 
 type GoogleOAuthConfig struct {
