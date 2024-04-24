@@ -6,10 +6,11 @@ import (
 
 	"github.com/sunjin110/folio/golio/generate/schema/http/go/openapi"
 	"github.com/sunjin110/folio/golio/infrastructure/repository"
+	"github.com/sunjin110/folio/golio/presentation/http/httpconf"
 	"github.com/sunjin110/folio/golio/usecase"
 )
 
-func Serve(ctx context.Context) {
+func Serve(ctx context.Context, cfg *httpconf.Config) {
 
 	googleOAuth2Repo := repository.NewGoogleOAuth2(ctx, "client_id", "client_secret", "redirect_url")
 	authUsecase := usecase.NewAuth(googleOAuth2Repo)
