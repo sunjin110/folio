@@ -59,17 +59,21 @@ func (o *googleOauth2) GenerateAuthorizationURL() (string, error) {
 
 // GetTokenFromCode　取得したcodeからTokenを取得する
 func (o *googleOauth2) GetTokenFromCode(ctx context.Context, code string) (*model.Token, error) {
+	reqBody := &dto.InputGetGoogleToken{
+		ClientID:     o.clientID,
+		ClientSecret: o.clientSecret,
+		Code:         code,
+		RedirectURI:  o.redirectURI,
+		GrantType:    grantTypeCode,
+	}
 
-	// TODO jsonにする
-	formData := url.Values{}
-	formData.Set("client_id", o.clientID)
-	formData.Set("client_secret", o.clientSecret)
-	formData.Set("code", code)
-	formData.Set("redirect_uri", o.redirectURI)
-	formData.Set("grant_type", grantTypeCode)
+	b, err := json.Marshal(reqBody)
+	if err != nil {
+		return nil, fmt.Errorf("failed json.Marshal: %w", err)
+	}
 
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodPost, tokenGetURI, strings.NewReader(formData.Encode()))
+	req, err := http.NewRequest(http.MethodPost, tokenGetURI, strings.NewReader(string(b)))
 	if err != nil {
 		return nil, fmt.Errorf("failed http.NewRequest: %w", err)
 	}
