@@ -22,50 +22,98 @@ import (
 const cloudflareAPIEndpoint = "https://api.cloudflare.com/client/v4"
 
 const (
-	readKVPairPath  = "/accounts/{{.AccountID}}/storage/kv/namespaces/{{.NamespaceID}}/values/{{.KeyName}}"
-	writeKVPairPath = "/accounts/{{.AccountID}}/storage/kv/namespaces/{{.NamespaceID}}/values/{{.KeyName}}"
+	curdKVPairPath = "/accounts/{{.AccountID}}/storage/kv/namespaces/{{.NamespaceID}}/values/{{.KeyName}}"
 )
 
 // https://developers.cloudflare.com/api/operations/workers-kv-namespace-list-namespaces
 type authorizationKVStore struct {
-	apiToken           string
-	accountID          string
-	namespaceID        string
-	client             *http.Client
-	readKVPairPathTmp  *template.Template
-	writeKVPairPathTmp *template.Template
+	apiToken          string
+	accountID         string
+	namespaceID       string
+	client            *http.Client
+	curdKVPairPathTmp *template.Template
 }
 
 func NewAuthorizationKVStore(ctx context.Context, apiToken string, accountID string, namespaceID string) (repository.Authorization, error) {
-	readKVPairPathTmp, err := template.New("read_kv_pair_path").Parse(readKVPairPath)
+	curdKVPairPathTmp, err := template.New("read_kv_pair_path").Parse(curdKVPairPath)
 	if err != nil {
-		return nil, fmt.Errorf("failed make readKVPairPathTmp: %w", err)
-	}
-
-	writeKVPairPathTmp, err := template.New("writer_kv_pair_path").Parse(writeKVPairPath)
-	if err != nil {
-		return nil, fmt.Errorf("failed make writeKVPairPathTmp: %w", err)
+		return nil, fmt.Errorf("failed make curdKVPairPathTmp: %w", err)
 	}
 
 	return &authorizationKVStore{
-		apiToken:           apiToken,
-		accountID:          accountID,
-		namespaceID:        namespaceID,
-		client:             &http.Client{},
-		readKVPairPathTmp:  readKVPairPathTmp,
-		writeKVPairPathTmp: writeKVPairPathTmp,
+		apiToken:          apiToken,
+		accountID:         accountID,
+		namespaceID:       namespaceID,
+		client:            &http.Client{},
+		curdKVPairPathTmp: curdKVPairPathTmp,
 	}, nil
 }
 
-// CloseSession implements repository.Authorization.
-func (a *authorizationKVStore) CloseSession(ctx context.Context, accessToken string) error {
-	panic("unimplemented")
+func (a *authorizationKVStore) StartSession(ctx context.Context, token *model.Token, userAuthorization *model.UserAuthorization) error {
+	userAuthorizationDTO := &dto.AuthorizationKVValue{
+		Email:       userAuthorization.Email,
+		FirstName:   userAuthorization.FirstName,
+		LastName:    userAuthorization.LastName,
+		AccessToken: token.AccessToken,
+	}
+	value, err := userAuthorizationDTO.MarshalJSON()
+	if err != nil {
+		return fmt.Errorf("failed userAuthorizationDTO.MarshalJSON(). dto: %+v, err: %w", userAuthorization, err)
+	}
+
+	metadata, err := json.Marshal(kvdto.NewMetadata(&token.ExpireTime))
+	if err != nil {
+		return fmt.Errorf("failed metadata json marshal: %w", err)
+	}
+
+	formData := url.Values{}
+	formData.Add("value", string(value))
+	formData.Add("metadata", string(metadata))
+
+	url := a.generateURI(a.curdKVPairPathTmp, &kvdto.PathInput{
+		AccountID:   a.accountID,
+		NamespaceID: a.namespaceID,
+		KeyName:     token.AccessToken,
+	})
+
+	req, err := http.NewRequestWithContext(ctx, http.MethodPut, url, strings.NewReader(formData.Encode()))
+	if err != nil {
+		return fmt.Errorf("failed http.NewRequestWithContext. url: %s, err: %w", url, err)
+	}
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", a.apiToken))
+	req.Header.Set("ContentType", "multipart/form-data")
+
+	_, err = a.client.Do(req)
+	if err != nil {
+		return fmt.Errorf("a.client.Do. url: %s, err: %w", url, err)
+	}
+
+	return nil
 }
 
-// Get implements repository.Authorization.
-// Subtle: this method shadows the method (*Client).Get of authorizationKVStore.Client.
+func (a *authorizationKVStore) CloseSession(ctx context.Context, accessToken string) error {
+	url := a.generateURI(a.curdKVPairPathTmp, &kvdto.PathInput{
+		AccountID:   a.accountID,
+		NamespaceID: a.namespaceID,
+		KeyName:     accessToken,
+	})
+
+	req, err := http.NewRequest(http.MethodDelete, url, nil)
+	if err != nil {
+		return fmt.Errorf("http.NewRequest: url: %s, err: %w", url, err)
+	}
+	req = req.WithContext(ctx)
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", a.apiToken))
+	req.Header.Set("ContentType", "application/json")
+	_, err = a.client.Do(req)
+	if err != nil {
+		return fmt.Errorf("failed a.client. url: %s, err: %w", url, err)
+	}
+	return nil
+}
+
 func (a *authorizationKVStore) Get(ctx context.Context, accessToken string) (*model.UserAuthorization, error) {
-	url := a.generateURI(a.readKVPairPathTmp, &kvdto.PathInput{
+	url := a.generateURI(a.curdKVPairPathTmp, &kvdto.PathInput{
 		AccountID:   a.accountID,
 		NamespaceID: a.namespaceID,
 		KeyName:     accessToken,
@@ -94,49 +142,6 @@ func (a *authorizationKVStore) Get(ctx context.Context, accessToken string) (*mo
 		return nil, fmt.Errorf("failed json.Unmarshal. err: %w", err)
 	}
 	return userAuthorization.ToModel(), nil
-}
-
-// StartSession implements repository.Authorization.
-func (a *authorizationKVStore) StartSession(ctx context.Context, token *model.Token, userAuthorization *model.UserAuthorization) error {
-	userAuthorizationDTO := &dto.AuthorizationKVValue{
-		Email:       userAuthorization.Email,
-		FirstName:   userAuthorization.FirstName,
-		LastName:    userAuthorization.LastName,
-		AccessToken: token.AccessToken,
-	}
-	value, err := userAuthorizationDTO.MarshalJSON()
-	if err != nil {
-		return fmt.Errorf("failed userAuthorizationDTO.MarshalJSON(). dto: %+v, err: %w", userAuthorization, err)
-	}
-
-	metadata, err := json.Marshal(kvdto.NewMetadata(&token.ExpireTime))
-	if err != nil {
-		return fmt.Errorf("failed metadata json marshal: %w", err)
-	}
-
-	formData := url.Values{}
-	formData.Add("value", string(value))
-	formData.Add("metadata", string(metadata))
-
-	url := a.generateURI(a.readKVPairPathTmp, &kvdto.PathInput{
-		AccountID:   a.accountID,
-		NamespaceID: a.namespaceID,
-		KeyName:     token.AccessToken,
-	})
-
-	req, err := http.NewRequestWithContext(ctx, http.MethodPut, url, strings.NewReader(formData.Encode()))
-	if err != nil {
-		return fmt.Errorf("failed http.NewRequestWithContext. url: %s, err: %w", url, err)
-	}
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", a.apiToken))
-	req.Header.Set("ContentType", "multipart/form-data")
-
-	_, err = a.client.Do(req)
-	if err != nil {
-		return fmt.Errorf("a.client.Do. url: %s, err: %w", url, err)
-	}
-
-	return nil
 }
 
 func (a *authorizationKVStore) generateURI(pathTemplate *template.Template, pathInput *kvdto.PathInput) string {
