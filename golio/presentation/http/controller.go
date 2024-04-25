@@ -21,7 +21,7 @@ func NewGoogleOAuthController(authUsecase usecase.Auth, callbackRedirectURI stri
 }
 
 func (c *googleOAuthController) Callback(w http.ResponseWriter, r *http.Request) {
-	slog.Info("========= callback!!")
+	slog.Info("googleOAuthController.Callback")
 
 	query, err := url.ParseQuery(r.URL.RawQuery)
 	if err != nil {

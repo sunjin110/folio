@@ -13,7 +13,12 @@ import (
 
 func Serve(ctx context.Context, cfg *httpconf.Config) error {
 	googleOAuth2Repo := repository.NewGoogleOAuth2(ctx, cfg.GoogleOAuth.ClientID, cfg.GoogleOAuth.ClientSecret, cfg.GoogleOAuth.RedirectURI)
-	authUsecase := usecase.NewAuth(googleOAuth2Repo)
+	authRepo, err := repository.NewAuthorizationKVStore(ctx, "api_token", "account_id", "namespace")
+	if err != nil {
+		return fmt.Errorf("failed repository.NewAuthorizationKVStore: %w", err)
+	}
+
+	authUsecase := usecase.NewAuth(googleOAuth2Repo, authRepo)
 
 	golioAPIController := openapi.NewGolioAPIController(NewGolioAPIServicer())
 
@@ -22,8 +27,7 @@ func Serve(ctx context.Context, cfg *httpconf.Config) error {
 
 	r.Methods(http.MethodGet).Path("/auth/google-oauth/callback").Name("google-oauth/callback").HandlerFunc(googleOAuthController.Callback)
 
-	err := http.ListenAndServe(cfg.Server.PORT, r)
-	if err != nil {
+	if err := http.ListenAndServe(cfg.Server.PORT, r); err != nil {
 		return fmt.Errorf("failed http.ListenAndServe: %w", err)
 	}
 	return nil

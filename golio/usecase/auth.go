@@ -16,11 +16,13 @@ type Auth interface {
 
 type auth struct {
 	googleOAuth2 repository.GoogleOAuth2
+	authRepo     repository.Authorization
 }
 
-func NewAuth(googleOAuth2 repository.GoogleOAuth2) Auth {
+func NewAuth(googleOAuth2 repository.GoogleOAuth2, authRepo repository.Authorization) Auth {
 	return &auth{
 		googleOAuth2: googleOAuth2,
+		authRepo:     authRepo,
 	}
 }
 
@@ -41,5 +43,6 @@ func (a *auth) GetGoogleTokenFromCode(ctx context.Context, code string) (*model.
 }
 
 func (a *auth) GetUserAuthorizationFromGoogleToken(ctx context.Context, token string) (*model.UserAuthorization, error) {
+
 	panic("todo")
 }
