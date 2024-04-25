@@ -24,3 +24,6 @@ output "session_repository_token" {
   value = module.session_repository.api_token
 }
 
+output "session_repository_namespace_id" {
+  value = module.session_repository.namespace_id
+}
