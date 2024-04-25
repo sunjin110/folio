@@ -34,7 +34,8 @@ export function generateOAuth2Url(): string {
         client_id: process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID,
         redirect_uri: process.env.REACT_APP_GOOGLE_OAUTH_REDIRECT_URL,
         response_type: 'code',
-        scope: 'profile email',
+        // scope: 'profile email',
+        scope: 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
         access_type: 'offline', // TODO localのみ
     };
 

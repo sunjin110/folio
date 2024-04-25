@@ -7,3 +7,7 @@ local-init:
 
 local-plan:
 	@cd "$(PWD)/env/local" && terraform plan --var-file=./secret.tfvars
+
+local-apply:
+	@cd "$(PWD)/env/local" && terraform apply --var-file=./secret.tfvars
+

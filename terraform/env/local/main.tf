@@ -8,5 +8,19 @@ terraform {
 }
 
 provider "cloudflare" {
-  api_token = var.cloudflare_api_token
+    api_key = var.cloudflare_api_key
+    email = var.cloudflare_email
 }
+
+module "session_repository" {
+  source = "../../modules/kv_store"
+
+  name = "local-folio-session"
+  cloudflare_account_id = var.cloudflare_account_id
+}
+
+output "session_repository_token" {
+  sensitive = true
+  value = module.session_repository.api_token
+}
+
