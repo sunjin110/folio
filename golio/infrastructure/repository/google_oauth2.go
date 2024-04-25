@@ -40,7 +40,7 @@ func NewGoogleOAuth2(ctx context.Context, clientID string, clientSecret string, 
 	}
 }
 
-// GenerateAuthorizationURL Clientが叩くべき認可のURLを作成する
+// GenerateAuthorizationURL Clientが叩くべき認証のURLを作成する
 func (o *googleOauth2) GenerateAuthorizationURL() (string, error) {
 	u, err := url.Parse("https://accounts.google.com/o/oauth2/v2/auth")
 	if err != nil {
