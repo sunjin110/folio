@@ -1,6 +1,10 @@
 package dto
 
-import "github.com/sunjin110/folio/golio/domain/model"
+import (
+	"encoding/json"
+
+	"github.com/sunjin110/folio/golio/domain/model"
+)
 
 // AuthorizationKVValue CloudFlare kvのvalue
 type AuthorizationKVValue struct {
@@ -21,8 +25,6 @@ func (dto *AuthorizationKVValue) ToModel() *model.UserAuthorization {
 	}
 }
 
-type AuthorizationGetInput struct {
-	AccountID   string
-	NamespaceID string
-	AccessToken string
+func (dto *AuthorizationKVValue) MarshalJSON() ([]byte, error) {
+	return json.Marshal(dto)
 }

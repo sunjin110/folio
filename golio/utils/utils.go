@@ -25,3 +25,7 @@ func ProjectRoot() string {
 	}
 	return currentDir
 }
+
+func ToPointer[T any](t T) *T {
+	return &t
+}
