@@ -40,7 +40,7 @@ func NewGoogleOAuth2(ctx context.Context, clientID string, clientSecret string, 
 	}
 }
 
-// GenerateAuthorizationURL Clientが叩くべき認証のURLを作成する
+// GenerateAuthorizationURL Clientが叩くべき認可のURLを作成する
 func (o *googleOauth2) GenerateAuthorizationURL() (string, error) {
 	u, err := url.Parse("https://accounts.google.com/o/oauth2/v2/auth")
 	if err != nil {
@@ -56,47 +56,6 @@ func (o *googleOauth2) GenerateAuthorizationURL() (string, error) {
 	u.RawQuery = q.Encode()
 	return u.String(), nil
 }
-
-// // GetTokenFromCode　取得したcodeからTokenを取得する
-// func (o *googleOauth2) GetTokenFromCode(ctx context.Context, code string) (*model.Token, error) {
-// 	formData := url.Values{}
-// 	formData.Set("client_id", o.clientID)
-// 	formData.Set("client_secret", o.clientSecret)
-// 	formData.Set("code", code)
-// 	formData.Set("redirect_uri", o.redirectURI)
-// 	formData.Set("grant_type", grantTypeCode)
-
-// 	client := &http.Client{}
-// 	req, err := http.NewRequest(http.MethodPost, tokenGetURI, strings.NewReader(formData.Encode()))
-// 	if err != nil {
-// 		return nil, fmt.Errorf("failed http.NewRequest: %w", err)
-// 	}
-
-// 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-
-// 	resp, err := client.Do(req)
-// 	if err != nil {
-// 		return nil, fmt.Errorf("failed client.Do: %w", err)
-// 	}
-// 	defer resp.Body.Close()
-
-// 	body, err := io.ReadAll(resp.Body)
-// 	if err != nil {
-// 		return nil, fmt.Errorf("failed io.ReadAll: %w", err)
-// 	}
-
-// 	if resp.StatusCode != http.StatusOK {
-
-// 		slog.Info("failed", "statusCode", resp.Status, "body", string(body))
-// 		return nil, fmt.Errorf("failed GetTokenFromCode request")
-// 	}
-
-// 	output := &dto.OutputGetGoogleToken{}
-// 	if err := json.Unmarshal(body, output); err != nil {
-// 		return nil, fmt.Errorf("failed json.Unmarshal: body: %s, err: %w", string(body), err)
-// 	}
-// 	return output.ToModel(), nil
-// }
 
 // GetTokenFromCode　取得したcodeからTokenを取得する
 func (o *googleOauth2) GetTokenFromCode(ctx context.Context, code string) (*model.Token, error) {
