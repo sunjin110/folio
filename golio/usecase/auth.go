@@ -15,14 +15,14 @@ type Auth interface {
 }
 
 type auth struct {
-	googleOAuth2 repository.GoogleOAuth2
-	authRepo     repository.Authorization
+	googleOAuth2       repository.GoogleOAuth2
+	authenticationRepo repository.Authorization
 }
 
-func NewAuth(googleOAuth2 repository.GoogleOAuth2, authRepo repository.Authorization) Auth {
+func NewAuth(googleOAuth2 repository.GoogleOAuth2, authenticationRepo repository.Authorization) Auth {
 	return &auth{
-		googleOAuth2: googleOAuth2,
-		authRepo:     authRepo,
+		googleOAuth2:       googleOAuth2,
+		authenticationRepo: authenticationRepo,
 	}
 }
 

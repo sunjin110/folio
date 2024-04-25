@@ -13,12 +13,12 @@ import (
 
 func Serve(ctx context.Context, cfg *httpconf.Config) error {
 	googleOAuth2Repo := repository.NewGoogleOAuth2(ctx, cfg.GoogleOAuth.ClientID, cfg.GoogleOAuth.ClientSecret, cfg.GoogleOAuth.RedirectURI)
-	authRepo, err := repository.NewAuthorizationKVStore(ctx, "api_token", "account_id", "namespace")
+	authenticationRepo, err := repository.NewAuthorizationKVStore(ctx, cfg.AuthenticationKVStore.APIToken, cfg.AuthenticationKVStore.AccountID, cfg.AuthenticationKVStore.NamespaceID)
 	if err != nil {
 		return fmt.Errorf("failed repository.NewAuthorizationKVStore: %w", err)
 	}
 
-	authUsecase := usecase.NewAuth(googleOAuth2Repo, authRepo)
+	authUsecase := usecase.NewAuth(googleOAuth2Repo, authenticationRepo)
 
 	golioAPIController := openapi.NewGolioAPIController(NewGolioAPIServicer())
 
