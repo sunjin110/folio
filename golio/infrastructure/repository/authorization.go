@@ -35,7 +35,7 @@ type authorizationKVStore struct {
 }
 
 func NewAuthorizationKVStore(ctx context.Context, apiToken string, accountID string, namespaceID string) (repository.Authorization, error) {
-	curdKVPairPathTmp, err := template.New("read_kv_pair_path").Parse(curdKVPairPath)
+	curdKVPairPathTmp, err := template.New("curd_kv_pair_path").Parse(curdKVPairPath)
 	if err != nil {
 		return nil, fmt.Errorf("failed make curdKVPairPathTmp: %w", err)
 	}
