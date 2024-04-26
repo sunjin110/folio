@@ -74,6 +74,9 @@ func (a *article) Get(ctx context.Context, id string) (*model.Article, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed summaries d1Client.Query. err: %w", err)
 	}
+
+	fmt.Println("summariesOutput is ", summariesOutput)
+
 	if len(summariesOutput.Results) == 0 {
 		return nil, nil
 	}
@@ -85,6 +88,8 @@ func (a *article) Get(ctx context.Context, id string) (*model.Article, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed bodies d1Client.Query. err: %w", err)
 	}
+
+	fmt.Println("bodiesOutput is ", bodiesOutput)
 	if len(bodiesOutput.Results) == 0 {
 		return nil, nil
 	}

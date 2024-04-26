@@ -2,6 +2,7 @@ package http
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 	"net/http"
 	"time"
@@ -36,6 +37,8 @@ func (g *golioAPIServicer) ArticlesArticleIdGet(ctx context.Context, articleID s
 	if article == nil {
 		return openapi.Response(http.StatusNotFound, "not found"), nil
 	}
+
+	fmt.Println("article======== is ", article)
 
 	return openapi.Response(http.StatusOK, openapi.ArticlesArticleIdGet200Response{
 		Id:        articleID,
