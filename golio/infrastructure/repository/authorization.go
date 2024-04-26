@@ -26,7 +26,7 @@ const (
 )
 
 // https://developers.cloudflare.com/api/operations/workers-kv-namespace-list-namespaces
-type authorizationKVStore struct {
+type sessionKVStore struct {
 	apiToken          string
 	accountID         string
 	namespaceID       string
@@ -34,13 +34,13 @@ type authorizationKVStore struct {
 	curdKVPairPathTmp *template.Template
 }
 
-func NewAuthorizationKVStore(ctx context.Context, apiToken string, accountID string, namespaceID string) (repository.Authorization, error) {
+func NewAuthorizationKVStore(ctx context.Context, apiToken string, accountID string, namespaceID string) (repository.Session, error) {
 	curdKVPairPathTmp, err := template.New("curd_kv_pair_path").Parse(curdKVPairPath)
 	if err != nil {
 		return nil, fmt.Errorf("failed make curdKVPairPathTmp: %w", err)
 	}
 
-	return &authorizationKVStore{
+	return &sessionKVStore{
 		apiToken:          apiToken,
 		accountID:         accountID,
 		namespaceID:       namespaceID,
@@ -49,7 +49,7 @@ func NewAuthorizationKVStore(ctx context.Context, apiToken string, accountID str
 	}, nil
 }
 
-func (a *authorizationKVStore) StartSession(ctx context.Context, token *model.Token, userAuthorization *model.UserAuthorization) error {
+func (a *sessionKVStore) Start(ctx context.Context, token *model.Token, userAuthorization *model.UserAuthorization) error {
 	userAuthorizationDTO := &dto.AuthorizationKVValue{
 		Email:       userAuthorization.Email,
 		FirstName:   userAuthorization.FirstName,
@@ -91,7 +91,7 @@ func (a *authorizationKVStore) StartSession(ctx context.Context, token *model.To
 	return nil
 }
 
-func (a *authorizationKVStore) CloseSession(ctx context.Context, accessToken string) error {
+func (a *sessionKVStore) Close(ctx context.Context, accessToken string) error {
 	url := a.generateURI(a.curdKVPairPathTmp, &kvdto.PathInput{
 		AccountID:   a.accountID,
 		NamespaceID: a.namespaceID,
@@ -112,7 +112,7 @@ func (a *authorizationKVStore) CloseSession(ctx context.Context, accessToken str
 	return nil
 }
 
-func (a *authorizationKVStore) Get(ctx context.Context, accessToken string) (*model.UserAuthorization, error) {
+func (a *sessionKVStore) Get(ctx context.Context, accessToken string) (*model.UserAuthorization, error) {
 	url := a.generateURI(a.curdKVPairPathTmp, &kvdto.PathInput{
 		AccountID:   a.accountID,
 		NamespaceID: a.namespaceID,
@@ -144,7 +144,7 @@ func (a *authorizationKVStore) Get(ctx context.Context, accessToken string) (*mo
 	return userAuthorization.ToModel(), nil
 }
 
-func (a *authorizationKVStore) generateURI(pathTemplate *template.Template, pathInput *kvdto.PathInput) string {
+func (a *sessionKVStore) generateURI(pathTemplate *template.Template, pathInput *kvdto.PathInput) string {
 	buf := &bytes.Buffer{}
 	pathTemplate.Execute(buf, pathInput)
 	return cloudflareAPIEndpoint + buf.String()

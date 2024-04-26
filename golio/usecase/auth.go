@@ -23,14 +23,14 @@ type StartSessionOutput struct {
 }
 
 type auth struct {
-	googleOAuth2       repository.GoogleOAuth2
-	authenticationRepo repository.Authorization
+	googleOAuth2 repository.GoogleOAuth2
+	sessionRepo  repository.Session
 }
 
-func NewAuth(googleOAuth2 repository.GoogleOAuth2, authenticationRepo repository.Authorization) Auth {
+func NewAuth(googleOAuth2 repository.GoogleOAuth2, sessionRepo repository.Session) Auth {
 	return &auth{
-		googleOAuth2:       googleOAuth2,
-		authenticationRepo: authenticationRepo,
+		googleOAuth2: googleOAuth2,
+		sessionRepo:  sessionRepo,
 	}
 }
 
@@ -67,8 +67,8 @@ func (a *auth) StartSessionFromGoogleOAuthCode(ctx context.Context, code string)
 		return nil, fmt.Errorf("failed googleOAuth2.GetUserAuthorization: %w", err)
 	}
 
-	if err := a.authenticationRepo.StartSession(ctx, token, userAuthorization); err != nil {
-		return nil, fmt.Errorf("failed authenticationRepo.StartSession: %w", err)
+	if err := a.sessionRepo.Start(ctx, token, userAuthorization); err != nil {
+		return nil, fmt.Errorf("failed sessionRepo.StartSession: %w", err)
 	}
 
 	return &StartSessionOutput{
