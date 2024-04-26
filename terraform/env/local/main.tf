@@ -37,3 +37,8 @@ output "database_token" {
   sensitive = true
   value = module.database.api_token
 }
+
+output "database_id" {
+  sensitive = true
+  value = module.database.db_id
+}

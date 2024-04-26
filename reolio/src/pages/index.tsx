@@ -1,6 +1,11 @@
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import React from "react";
 
 const Home: React.FC = () => {
-    return <h2 className="text-3xl font-bold underline">Home</h2>;
+    return <Card>
+        <CardHeader>
+            <CardTitle className="text-xl">Index</CardTitle>
+        </CardHeader>
+    </Card>;
 };
 export default Home;
