@@ -3,6 +3,7 @@ package http
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"net/http"
 
 	"github.com/sunjin110/folio/golio/generate/schema/http/go/openapi"
@@ -47,6 +48,7 @@ func Serve(ctx context.Context, cfg *httpconf.Config) error {
 		Name("google-oauth/callback").
 		HandlerFunc(googleOAuthController.Callback)
 
+	slog.Info("server started", "port", cfg.Server.PORT)
 	if err := http.ListenAndServe(cfg.Server.PORT, r); err != nil {
 		return fmt.Errorf("failed http.ListenAndServe: %w", err)
 	}
