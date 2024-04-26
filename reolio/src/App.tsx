@@ -8,6 +8,7 @@ import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import Dashboard from './pages/dashboard';
 import { TooltipProvider } from '@radix-ui/react-tooltip';
 import ArticleDetail from './pages/articles/detail';
+import CreateArticle from './pages/articles/create';
 
 const App: React.FC = () => {
   return (
@@ -20,6 +21,7 @@ const App: React.FC = () => {
             <Route path='/login' element={<Login />} />
             <Route path='/dashboard' element={<Dashboard />} />
             <Route path='/articles/:articleId' element={<ArticleDetail />} />
+            <Route path='/articles/create' element={<CreateArticle />} />
           </Routes>
         </div>
       </BrowserRouter>
