@@ -127,5 +127,18 @@ func (a *article) Update(ctx context.Context, article *model.Article) error {
 }
 
 func (a *article) Delete(ctx context.Context, id string) error {
-	panic("unimplemented")
+	if _, err := a.d1Client.Query(ctx, &d1.Input{
+		Params: []string{id},
+		SQL:    `delete from article_summaries where id = ?`,
+	}); err != nil {
+		return fmt.Errorf("failed delete article_summaries. id: %s, err: %w", id, err)
+	}
+
+	if _, err := a.d1Client.Query(ctx, &d1.Input{
+		Params: []string{id},
+		SQL:    `delete from article_bodies where article_summaries_id = ?`,
+	}); err != nil {
+		return fmt.Errorf("failed delete article_bodies. id: %s, err: %w", id, err)
+	}
+	return nil
 }

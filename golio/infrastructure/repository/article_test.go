@@ -37,6 +37,7 @@ func Test_article_Real(t *testing.T) {
 		So(err, ShouldBeNil)
 
 		getArticle, err := articleRepo.Get(ctx, "id_1")
+		So(err, ShouldBeNil)
 		fmt.Println("getArticle is ", getArticle)
 	})
 }
