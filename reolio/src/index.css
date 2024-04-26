@@ -76,5 +76,6 @@
   }
 
 body {
+  /* TODO brawserでここを変えられるようにはしたい */
   background-color: black;
 }
