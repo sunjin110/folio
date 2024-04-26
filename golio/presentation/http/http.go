@@ -25,7 +25,15 @@ func Serve(ctx context.Context, cfg *httpconf.Config) error {
 	googleOAuthController := NewGoogleOAuthController(authUsecase, cfg.GoogleOAuth.CallbackRedirectURI)
 	r := openapi.NewRouter(golioAPIController)
 
-	r.Methods(http.MethodGet).Path("/auth/google-oauth/callback").Name("google-oauth/callback").HandlerFunc(googleOAuthController.Callback)
+	r.Methods(http.MethodGet).
+		Path("/auth/google-oauth/").
+		Name("google-oauth").
+		HandlerFunc(googleOAuthController.Start)
+
+	r.Methods(http.MethodGet).
+		Path("/auth/google-oauth/callback").
+		Name("google-oauth/callback").
+		HandlerFunc(googleOAuthController.Callback)
 
 	if err := http.ListenAndServe(cfg.Server.PORT, r); err != nil {
 		return fmt.Errorf("failed http.ListenAndServe: %w", err)
