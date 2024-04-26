@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/sunjin110/folio/golio/generate/schema/http/go/openapi"
+	"github.com/sunjin110/folio/golio/infrastructure/cloudflare/d1"
 	"github.com/sunjin110/folio/golio/infrastructure/repository"
 	"github.com/sunjin110/folio/golio/presentation/http/httpconf"
 	"github.com/sunjin110/folio/golio/usecase"
@@ -18,9 +19,20 @@ func Serve(ctx context.Context, cfg *httpconf.Config) error {
 		return fmt.Errorf("failed repository.NewSessionKVStore: %w", err)
 	}
 
-	authUsecase := usecase.NewAuth(googleOAuth2Repo, sessionRepo)
+	d1Client, err := d1.NewClient(cfg.D1Database.AccountID, cfg.D1Database.DatabaseID, cfg.D1Database.APIToken)
+	if err != nil {
+		return fmt.Errorf("failed d1.NewClient: %w", err)
+	}
 
-	golioAPIController := openapi.NewGolioAPIController(NewGolioAPIServicer())
+	articleRepo, err := repository.NewArticle(ctx, d1Client)
+	if err != nil {
+		return fmt.Errorf("failed repository.NewArticle: %w", err)
+	}
+
+	authUsecase := usecase.NewAuth(googleOAuth2Repo, sessionRepo)
+	articleUsecase := usecase.NewArticle(articleRepo)
+
+	golioAPIController := openapi.NewGolioAPIController(NewGolioAPIServicer(articleUsecase))
 
 	googleOAuthController := NewGoogleOAuthController(authUsecase, cfg.GoogleOAuth.CallbackRedirectURI)
 	r := openapi.NewRouter(golioAPIController)
