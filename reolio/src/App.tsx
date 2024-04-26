@@ -12,7 +12,7 @@ const App: React.FC = () => {
   return (
     <TooltipProvider>
       <BrowserRouter>
-        <div>
+        <div className='dark'>
         {/* <nav>
             <ul>
               <li>

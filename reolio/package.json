@@ -35,6 +35,7 @@
   },
   "scripts": {
     "start": "npx craco start",
+    "ps": "npx craco build && serve -s build",
     "build": "npx craco build",
     "test": "npx craco test",
     "eject": "npx craco eject"
