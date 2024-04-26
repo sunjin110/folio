@@ -52,7 +52,7 @@ export default function Login() {
                 </Button>
             </a>
             <Button variant="outline" className="w-full">
-                Sign up with GitHub
+                Sign up with GitHub TODO
             </Button>
             </div>
             <div className="mt-4 text-center text-sm">
