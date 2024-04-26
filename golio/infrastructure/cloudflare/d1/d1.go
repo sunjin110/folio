@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log/slog"
 	"net/http"
 	"strings"
 
@@ -23,6 +24,19 @@ type Input struct {
 
 type Output struct {
 	Results []interface{}
+}
+
+func (o *Output) GetResultMapList() []map[string]interface{} {
+	var list []map[string]interface{}
+	for _, result := range o.Results {
+		m, ok := result.(map[string]interface{})
+		if !ok {
+			slog.Warn("skiped raw", "result", result)
+			continue
+		}
+		list = append(list, m)
+	}
+	return list
 }
 
 type client struct {

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"time"
 
 	_ "embed"
 
@@ -66,20 +67,39 @@ func (a *article) FindSummary(ctx context.Context, sortType repository.SortType,
 }
 
 func (a *article) Get(ctx context.Context, id string) (*model.Article, error) {
-	result, err := a.d1Client.Query(ctx, &d1.Input{
+	summariesOutput, err := a.d1Client.Query(ctx, &d1.Input{
 		Params: []string{id},
 		SQL:    findOneArticleSummariesSQL,
 	})
 	if err != nil {
-		return nil, fmt.Errorf("failed d1Client.Query. err: %w", err)
+		return nil, fmt.Errorf("failed summaries d1Client.Query. err: %w", err)
 	}
-	// result, err := a.d1Client.Query(ctx, &d1.Input{
-	// 	Params: []string{id},
-	// 	SQL:    findOneArticleBodiesSQL,
-	// })
+	if len(summariesOutput.Results) == 0 {
+		return nil, nil
+	}
 
-	fmt.Println("result is ", result)
-	return nil, nil
+	bodiesOutput, err := a.d1Client.Query(ctx, &d1.Input{
+		Params: []string{id},
+		SQL:    findOneArticleBodiesSQL,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed bodies d1Client.Query. err: %w", err)
+	}
+	if len(bodiesOutput.Results) == 0 {
+		return nil, nil
+	}
+
+	summaries := summariesOutput.GetResultMapList()
+	bodies := bodiesOutput.GetResultMapList()
+
+	return &model.Article{
+		ID:        id,
+		Title:     summaries[0]["title"].(string),
+		Body:      bodies[0]["body"].(string),
+		Writer:    "",
+		CreatedAt: time.Unix(int64(summaries[0]["created_at"].(float64)), 0),
+		UpdatedAt: time.Unix(int64(summaries[0]["updated_at"].(float64)), 0),
+	}, nil
 }
 
 func (a *article) Insert(ctx context.Context, article *model.Article) error {

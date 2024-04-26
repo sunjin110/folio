@@ -2,6 +2,7 @@ package repository_test
 
 import (
 	"context"
+	"fmt"
 	"testing"
 	"time"
 
@@ -35,6 +36,7 @@ func Test_article_Real(t *testing.T) {
 		err = articleRepo.Insert(ctx, article)
 		So(err, ShouldBeNil)
 
-		articleRepo.Get(ctx, "id_1")
+		getArticle, err := articleRepo.Get(ctx, "id_1")
+		fmt.Println("getArticle is ", getArticle)
 	})
 }
