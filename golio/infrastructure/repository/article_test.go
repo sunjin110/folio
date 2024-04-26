@@ -35,6 +35,6 @@ func Test_article_Real(t *testing.T) {
 		err = articleRepo.Insert(ctx, article)
 		So(err, ShouldBeNil)
 
-		articleRepo.Get(ctx, "test")
+		articleRepo.Get(ctx, "id_1")
 	})
 }
