@@ -1,3 +1,3 @@
 output "api_token" {
-  value = cloudflare_d1_database.this.value
+  value = cloudflare_api_token.this.value
 }
