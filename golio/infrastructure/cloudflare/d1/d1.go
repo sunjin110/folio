@@ -1,9 +1,15 @@
 package d1
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"fmt"
-	"text/template"
+	"io"
+	"net/http"
+	"strings"
+
+	"github.com/sunjin110/folio/golio/infrastructure/cloudflare/d1/dto"
 )
 
 // Client https://developers.cloudflare.com/api/operations/cloudflare-d1-query-database
@@ -27,28 +33,62 @@ type Metadata struct {
 }
 
 type client struct {
-	accountID     string
-	dbID          string
-	apiToken      string
-	queryPathTemp *template.Template
+	accountID string
+	dbID      string
+	apiToken  string
+	queryPath string
+	client    *http.Client
 }
 
-const queryPath = "https://api.cloudflare.com/client/v4/accounts/{{.AccountID}}/d1/database/{{.DatabaseID}}/query"
+const queryPathFormat = "https://api.cloudflare.com/client/v4/accounts/%s/d1/database/%s/query"
 
 func NewClient(accountID string, dbID string, apiToken string) (Client, error) {
-	pathTemp, err := template.New("d1_path").Parse(queryPath)
-	if err != nil {
-		return nil, fmt.Errorf("failed make d1PathTemp: %w", err)
-	}
+
+	queryPath := fmt.Sprintf(queryPathFormat, accountID, dbID)
+
 	return &client{
-		accountID:     accountID,
-		dbID:          dbID,
-		apiToken:      apiToken,
-		queryPathTemp: pathTemp,
+		accountID: accountID,
+		dbID:      dbID,
+		apiToken:  apiToken,
+		queryPath: queryPath,
+		client:    &http.Client{},
 	}, nil
 }
 
 func (c *client) Query(ctx context.Context, input *Input) (*Output, error) {
+	queryDTO := dto.QueryInput{
+		Params: input.Params,
+		SQL:    input.SQL,
+	}
+	query, err := json.Marshal(queryDTO)
+	if err != nil {
+		return nil, fmt.Errorf("fialed query json.Marshal. queryDTO: %+v, err: %w", queryDTO, err)
+	}
+
+	req, err := http.NewRequest(http.MethodPost, c.queryPath, strings.NewReader(string(query)))
+	if err != nil {
+		return nil, fmt.Errorf("failed http.NewRequest. url: %s, query: %s, err: %w", c.queryPath, string(query), err)
+	}
+
+	req = req.WithContext(ctx)
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.apiToken))
+	req.Header.Set("Content-Type", "application/json")
+
+	resp, err := c.client.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("failed c.client.DO. err: %w", err)
+	}
+	defer resp.Body.Close()
+
+	buf := &bytes.Buffer{}
+	if _, err := io.ReadAll(buf); err != nil {
+		return nil, fmt.Errorf("failed io.ReadAll. err: %w", err)
+	}
+
+	respDTO := &dto.Response{}
+	if err := json.Unmarshal(buf.Bytes(), respDTO); err != nil {
+		return nil, fmt.Errorf("failed json.Unmarshal. buf: %s, err: %w", buf.String(), err)
+	}
 
 	panic("todo")
 }
