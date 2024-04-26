@@ -34,7 +34,7 @@ type sessionKVStore struct {
 	curdKVPairPathTmp *template.Template
 }
 
-func NewAuthorizationKVStore(ctx context.Context, apiToken string, accountID string, namespaceID string) (repository.Session, error) {
+func NewSessionKVStore(ctx context.Context, apiToken string, accountID string, namespaceID string) (repository.Session, error) {
 	curdKVPairPathTmp, err := template.New("curd_kv_pair_path").Parse(curdKVPairPath)
 	if err != nil {
 		return nil, fmt.Errorf("failed make curdKVPairPathTmp: %w", err)
@@ -49,16 +49,16 @@ func NewAuthorizationKVStore(ctx context.Context, apiToken string, accountID str
 	}, nil
 }
 
-func (a *sessionKVStore) Start(ctx context.Context, token *model.Token, userAuthorization *model.UserAuthorization) error {
-	userAuthorizationDTO := &dto.AuthorizationKVValue{
-		Email:       userAuthorization.Email,
-		FirstName:   userAuthorization.FirstName,
-		LastName:    userAuthorization.LastName,
+func (a *sessionKVStore) Start(ctx context.Context, token *model.Token, userSession *model.UserSession) error {
+	userSessionDTO := &dto.SessionKVValue{
+		Email:       userSession.Email,
+		FirstName:   userSession.FirstName,
+		LastName:    userSession.LastName,
 		AccessToken: token.AccessToken,
 	}
-	value, err := userAuthorizationDTO.MarshalJSON()
+	value, err := userSessionDTO.MarshalJSON()
 	if err != nil {
-		return fmt.Errorf("failed userAuthorizationDTO.MarshalJSON(). dto: %+v, err: %w", userAuthorization, err)
+		return fmt.Errorf("failed userSessionDTO.MarshalJSON(). dto: %+v, err: %w", userSession, err)
 	}
 
 	metadata, err := json.Marshal(kvdto.NewMetadata(&token.ExpireTime))
@@ -112,7 +112,7 @@ func (a *sessionKVStore) Close(ctx context.Context, accessToken string) error {
 	return nil
 }
 
-func (a *sessionKVStore) Get(ctx context.Context, accessToken string) (*model.UserAuthorization, error) {
+func (a *sessionKVStore) Get(ctx context.Context, accessToken string) (*model.UserSession, error) {
 	url := a.generateURI(a.curdKVPairPathTmp, &kvdto.PathInput{
 		AccountID:   a.accountID,
 		NamespaceID: a.namespaceID,
@@ -137,11 +137,11 @@ func (a *sessionKVStore) Get(ctx context.Context, accessToken string) (*model.Us
 		return nil, fmt.Errorf("failed io.ReadAll. err: %w", err)
 	}
 
-	userAuthorization := &dto.AuthorizationKVValue{}
-	if err := json.Unmarshal(respBuf.Bytes(), userAuthorization); err != nil {
+	userSession := &dto.SessionKVValue{}
+	if err := json.Unmarshal(respBuf.Bytes(), userSession); err != nil {
 		return nil, fmt.Errorf("failed json.Unmarshal. err: %w", err)
 	}
-	return userAuthorization.ToModel(), nil
+	return userSession.ToModel(), nil
 }
 
 func (a *sessionKVStore) generateURI(pathTemplate *template.Template, pathInput *kvdto.PathInput) string {

@@ -1,6 +1,6 @@
 package model
 
-type UserAuthorization struct {
+type UserSession struct {
 	Email     string
 	FirstName string
 	LastName  string

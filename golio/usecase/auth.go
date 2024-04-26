@@ -11,7 +11,7 @@ import (
 type Auth interface {
 	GenerateGoogleAuthorizationURL() (string, error)
 	GetGoogleTokenFromCode(ctx context.Context, code string) (*model.Token, error)
-	GetUserAuthorizationFromGoogleToken(ctx context.Context, token string) (*model.UserAuthorization, error)
+	GetUserSessionFromGoogleToken(ctx context.Context, token string) (*model.UserSession, error)
 
 	// StartSessionFromGoogleOAuthCode google oauth2.0のcodeからsessionを開始する
 	StartSessionFromGoogleOAuthCode(ctx context.Context, code string) (*StartSessionOutput, error)
@@ -50,7 +50,7 @@ func (a *auth) GetGoogleTokenFromCode(ctx context.Context, code string) (*model.
 	return token, nil
 }
 
-func (a *auth) GetUserAuthorizationFromGoogleToken(ctx context.Context, token string) (*model.UserAuthorization, error) {
+func (a *auth) GetUserSessionFromGoogleToken(ctx context.Context, token string) (*model.UserSession, error) {
 
 	panic("todo")
 }
@@ -62,17 +62,17 @@ func (a *auth) StartSessionFromGoogleOAuthCode(ctx context.Context, code string)
 		return nil, fmt.Errorf("failed googleOAuth2.GetTokenFromCode: %w", err)
 	}
 
-	userAuthorization, err := a.googleOAuth2.GetUserAuthorization(ctx, token.AccessToken)
+	userSession, err := a.googleOAuth2.GetUserSession(ctx, token.AccessToken)
 	if err != nil {
-		return nil, fmt.Errorf("failed googleOAuth2.GetUserAuthorization: %w", err)
+		return nil, fmt.Errorf("failed googleOAuth2.GetUserSession: %w", err)
 	}
 
-	if err := a.sessionRepo.Start(ctx, token, userAuthorization); err != nil {
+	if err := a.sessionRepo.Start(ctx, token, userSession); err != nil {
 		return nil, fmt.Errorf("failed sessionRepo.StartSession: %w", err)
 	}
 
 	return &StartSessionOutput{
 		AccessToken: token.AccessToken,
-		Email:       userAuthorization.Email,
+		Email:       userSession.Email,
 	}, nil
 }

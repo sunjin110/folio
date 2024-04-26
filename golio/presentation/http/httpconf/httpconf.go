@@ -10,9 +10,9 @@ import (
 )
 
 type Config struct {
-	Server                Server            `envPrefix:"SERVER_"`
-	GoogleOAuth           GoogleOAuthConfig `envPrefix:"GOOGLE_OAUTH_"`
-	AuthenticationKVStore KVStoreConfig     `envPrefix:"AUTHENTICATION_KV_STORE_"`
+	Server         Server            `envPrefix:"SERVER_"`
+	GoogleOAuth    GoogleOAuthConfig `envPrefix:"GOOGLE_OAUTH_"`
+	SessionKVStore KVStoreConfig     `envPrefix:"SESSION_KV_STORE_"`
 }
 
 type Server struct {

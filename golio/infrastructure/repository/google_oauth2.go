@@ -104,7 +104,7 @@ func (o *googleOauth2) GetTokenFromCode(ctx context.Context, code string) (*mode
 	return output.ToModel(), nil
 }
 
-func (o *googleOauth2) GetUserAuthorization(ctx context.Context, token string) (*model.UserAuthorization, error) {
+func (o *googleOauth2) GetUserSession(ctx context.Context, token string) (*model.UserSession, error) {
 	u, err := url.Parse(personGetURI)
 	if err != nil {
 		return nil, fmt.Errorf("failed url.Parse: %w", err)

@@ -6,25 +6,25 @@ import (
 	"github.com/sunjin110/folio/golio/domain/model"
 )
 
-// AuthorizationKVValue CloudFlare kvのvalue
-type AuthorizationKVValue struct {
+// SessionKVValue CloudFlare kvのvalue
+type SessionKVValue struct {
 	Email       string `json:"email"`
 	FirstName   string `json:"first_name"`
 	LastName    string `json:"last_name"`
 	AccessToken string `json:"access_token"`
 }
 
-func (dto *AuthorizationKVValue) ToModel() *model.UserAuthorization {
+func (dto *SessionKVValue) ToModel() *model.UserSession {
 	if dto == nil {
 		return nil
 	}
-	return &model.UserAuthorization{
+	return &model.UserSession{
 		Email:     dto.Email,
 		FirstName: dto.FirstName,
 		LastName:  dto.LastName,
 	}
 }
 
-func (dto *AuthorizationKVValue) MarshalJSON() ([]byte, error) {
+func (dto *SessionKVValue) MarshalJSON() ([]byte, error) {
 	return json.Marshal(dto)
 }

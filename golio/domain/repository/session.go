@@ -7,7 +7,7 @@ import (
 )
 
 type Session interface {
-	Start(ctx context.Context, token *model.Token, userAuthorization *model.UserAuthorization) error
-	Get(ctx context.Context, accessToken string) (*model.UserAuthorization, error)
+	Start(ctx context.Context, token *model.Token, userSession *model.UserSession) error
+	Get(ctx context.Context, accessToken string) (*model.UserSession, error)
 	Close(ctx context.Context, accessToken string) error
 }

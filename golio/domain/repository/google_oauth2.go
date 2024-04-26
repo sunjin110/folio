@@ -9,5 +9,5 @@ import (
 type GoogleOAuth2 interface {
 	GenerateAuthorizationURL() (string, error)
 	GetTokenFromCode(ctx context.Context, code string) (*model.Token, error)
-	GetUserAuthorization(ctx context.Context, token string) (*model.UserAuthorization, error)
+	GetUserSession(ctx context.Context, token string) (*model.UserSession, error)
 }
