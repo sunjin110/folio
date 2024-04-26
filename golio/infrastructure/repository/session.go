@@ -109,62 +109,8 @@ func (a *sessionKVStore) Start(ctx context.Context, token *model.Token, userSess
 		b, _ := io.ReadAll(resp.Body)
 		return fmt.Errorf("failed sessionKVStore.Start. url: %s, statusCode: %d, body: %s", url, resp.StatusCode, string(b))
 	}
-
-	b, _ := io.ReadAll(resp.Body)
-	slog.Info("================== response is ", "body", string(b))
-
 	return nil
 }
-
-// func (a *sessionKVStore) Start(ctx context.Context, token *model.Token, userSession *model.UserSession) error {
-// 	userSessionDTO := &dto.SessionKVValue{
-// 		Email:       userSession.Email,
-// 		FirstName:   userSession.FirstName,
-// 		LastName:    userSession.LastName,
-// 		AccessToken: token.AccessToken,
-// 	}
-
-// 	slog.InfoContext(ctx, "sessionKVStore.Start", "userSessionDTO", userSession, "token", token)
-// 	value, err := json.Marshal(userSessionDTO)
-// 	if err != nil {
-// 		return fmt.Errorf("failed userSessionDTO.MarshalJSON(). dto: %+v, err: %w", userSession, err)
-// 	}
-
-// 	metadata, err := json.Marshal(kvdto.NewMetadata(&token.ExpireTime))
-// 	if err != nil {
-// 		return fmt.Errorf("failed metadata json marshal: %w", err)
-// 	}
-
-// 	formData := url.Values{}
-// 	formData.Add("value", string(value))
-// 	formData.Add("metadata", string(metadata))
-
-// 	url := a.generateURI(a.curdKVPairPathTmp, &kvdto.PathInput{
-// 		AccountID:   a.accountID,
-// 		NamespaceID: a.namespaceID,
-// 		KeyName:     token.AccessToken,
-// 	})
-
-// 	req, err := http.NewRequestWithContext(ctx, http.MethodPut, url, strings.NewReader(formData.Encode()))
-// 	if err != nil {
-// 		return fmt.Errorf("failed http.NewRequestWithContext. url: %s, err: %w", url, err)
-// 	}
-// 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", a.apiToken))
-// 	req.Header.Set("ContentType", "multipart/form-data")
-
-// 	resp, err := a.client.Do(req)
-// 	if err != nil {
-// 		return fmt.Errorf("a.client.Do. url: %s, err: %w", url, err)
-// 	}
-
-// 	defer resp.Body.Close()
-// 	if resp.StatusCode != http.StatusOK {
-// 		b, _ := io.ReadAll(resp.Body)
-// 		return fmt.Errorf("failed sessionKVStore.Start. url: %s, statusCode: %d, body: %s", url, resp.StatusCode, string(b))
-// 	}
-
-// 	return nil
-// }
 
 func (a *sessionKVStore) Close(ctx context.Context, accessToken string) error {
 	url := a.generateURI(a.curdKVPairPathTmp, &kvdto.PathInput{

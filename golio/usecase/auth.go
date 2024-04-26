@@ -4,14 +4,12 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/sunjin110/folio/golio/domain/model"
 	"github.com/sunjin110/folio/golio/domain/repository"
 )
 
 type Auth interface {
+	// GenerateGoogleAuthorizationURL google oauth2.0のredirectをURLを返す
 	GenerateGoogleAuthorizationURL() (string, error)
-	GetGoogleTokenFromCode(ctx context.Context, code string) (*model.Token, error)
-	GetUserSessionFromGoogleToken(ctx context.Context, token string) (*model.UserSession, error)
 
 	// StartSessionFromGoogleOAuthCode google oauth2.0のcodeからsessionを開始する
 	StartSessionFromGoogleOAuthCode(ctx context.Context, code string) (*StartSessionOutput, error)
@@ -40,19 +38,6 @@ func (a *auth) GenerateGoogleAuthorizationURL() (string, error) {
 		return "", fmt.Errorf("failed googleOAuth2.GenerateAuthorizationURL: %w", err)
 	}
 	return url, nil
-}
-
-func (a *auth) GetGoogleTokenFromCode(ctx context.Context, code string) (*model.Token, error) {
-	token, err := a.googleOAuth2.GetTokenFromCode(ctx, code)
-	if err != nil {
-		return nil, fmt.Errorf("failed googleOAuth2.GetTokenFromCode: %w", err)
-	}
-	return token, nil
-}
-
-func (a *auth) GetUserSessionFromGoogleToken(ctx context.Context, token string) (*model.UserSession, error) {
-
-	panic("todo")
 }
 
 func (a *auth) StartSessionFromGoogleOAuthCode(ctx context.Context, code string) (*StartSessionOutput, error) {
