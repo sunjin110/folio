@@ -79,10 +79,13 @@ func (c *client) Query(ctx context.Context, input *Input) (*Output, error) {
 		return nil, fmt.Errorf("failed c.client.DO. err: %w", err)
 	}
 	defer resp.Body.Close()
-
 	buf := &bytes.Buffer{}
 	if _, err := io.ReadAll(buf); err != nil {
 		return nil, fmt.Errorf("failed io.ReadAll. err: %w", err)
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("failed StatusCode: %d, err: %s", resp.StatusCode, buf.String())
 	}
 
 	respDTO := &dto.Response{}
