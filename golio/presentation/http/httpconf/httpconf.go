@@ -13,6 +13,7 @@ type Config struct {
 	Server         Server            `envPrefix:"SERVER_"`
 	GoogleOAuth    GoogleOAuthConfig `envPrefix:"GOOGLE_OAUTH_"`
 	SessionKVStore KVStoreConfig     `envPrefix:"SESSION_KV_STORE_"`
+	D1Database     D1Config          `envPrefix:"D1_DATABASE_"`
 }
 
 type Server struct {
@@ -30,6 +31,12 @@ type KVStoreConfig struct {
 	AccountID   string `env:"ACCOUNT_ID"`
 	NamespaceID string `env:"NAMESPACE_ID"`
 	APIToken    string `env:"API_TOKEN"`
+}
+
+type D1Config struct {
+	AccountID  string `env:"ACCOUNT_ID"`
+	DatabaseID string `env:"DATABASE_ID"`
+	APIToken   string `env:"API_TOKEN"`
 }
 
 func NewConfig() (*Config, error) {

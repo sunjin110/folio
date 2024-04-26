@@ -18,11 +18,15 @@ var createArticleBodiesSQL string
 //go:embed query/create_article_summaries.sql
 var createArticleSummariesSQL string
 
+//go:embed query/find_one_article_summaries.sql
+var findOneArticleSummariesSQL string
+
 type article struct {
 	d1Client d1.Client
 }
 
 func NewArticle(ctx context.Context, d1Client d1.Client) (repository.Article, error) {
+
 	article := &article{
 		d1Client: d1Client,
 	}
@@ -54,7 +58,16 @@ func (a *article) FindSummary(ctx context.Context, sortType repository.SortType,
 }
 
 func (a *article) Get(ctx context.Context, id string) (*model.Article, error) {
-	panic("unimplemented")
+
+	result, err := a.d1Client.Query(ctx, &d1.Input{
+		Params: []string{id},
+		SQL:    findOneArticleSummariesSQL,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed d1Client.Query. err: %w", err)
+	}
+	fmt.Println("result is ", result)
+	return nil, nil
 }
 
 func (a *article) Insert(ctx context.Context, article *model.Article) error {
