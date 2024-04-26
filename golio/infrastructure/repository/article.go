@@ -65,6 +65,6 @@ func (a *article) Update(ctx context.Context, article *model.Article) error {
 	panic("unimplemented")
 }
 
-func (a *article) Delete(ctx context.Context, id string) {
+func (a *article) Delete(ctx context.Context, id string) error {
 	panic("unimplemented")
 }

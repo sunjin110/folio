@@ -2,8 +2,10 @@ package usecase
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/sunjin110/folio/golio/domain/model"
+	"github.com/sunjin110/folio/golio/domain/repository"
 )
 
 type Article interface {
@@ -15,14 +17,20 @@ type Article interface {
 }
 
 type article struct {
+	articleRepo repository.Article
 }
 
-func NewArticle() Article {
-	return &article{}
+func NewArticle(articleRepo repository.Article) Article {
+	return &article{
+		articleRepo: articleRepo,
+	}
 }
 
 func (a *article) Delete(ctx context.Context, id string) error {
-	panic("unimplemented")
+	if err := a.articleRepo.Delete(ctx, id); err != nil {
+		return fmt.Errorf("failed articleRepo.Delete: %w", err)
+	}
+	return nil
 }
 
 func (a *article) Find(ctx context.Context) {
@@ -30,15 +38,23 @@ func (a *article) Find(ctx context.Context) {
 }
 
 func (a *article) Get(ctx context.Context, id string) (*model.Article, error) {
-	panic("unimplemented")
+	article, err := a.articleRepo.Get(ctx, id)
+	if err != nil {
+		return nil, fmt.Errorf("failed articleRepo.Get: %w", err)
+	}
+	return article, nil
 }
 
 func (a *article) Insert(ctx context.Context, article *model.Article) error {
-	// 認証/認可
-
-	panic("unimplemented")
+	if err := a.articleRepo.Insert(ctx, article); err != nil {
+		return fmt.Errorf("failed articleRepo.Insert: %w", err)
+	}
+	return nil
 }
 
 func (a *article) Update(ctx context.Context, article *model.Article) error {
-	panic("unimplemented")
+	if err := a.articleRepo.Update(ctx, article); err != nil {
+		return fmt.Errorf("failed articleRepo.Update: %w", err)
+	}
+	return nil
 }

@@ -9,7 +9,7 @@ import (
 type Article interface {
 	Get(ctx context.Context, id string) (*model.Article, error)
 	Insert(ctx context.Context, article *model.Article) error
-	Delete(ctx context.Context, id string)
+	Delete(ctx context.Context, id string) error
 	Update(ctx context.Context, article *model.Article) error
 	FindSummary(ctx context.Context, sortType SortType, paging *Paging) ([]*model.ArticleSummary, error)
 }
