@@ -1,8 +1,6 @@
 package dto
 
 import (
-	"encoding/json"
-
 	"github.com/sunjin110/folio/golio/domain/model"
 )
 
@@ -23,8 +21,4 @@ func (dto *SessionKVValue) ToModel() *model.UserSession {
 		FirstName: dto.FirstName,
 		LastName:  dto.LastName,
 	}
-}
-
-func (dto *SessionKVValue) MarshalJSON() ([]byte, error) {
-	return json.Marshal(dto)
 }

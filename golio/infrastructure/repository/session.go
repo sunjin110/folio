@@ -6,9 +6,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log/slog"
+	"mime/multipart"
 	"net/http"
-	"net/url"
-	"strings"
 
 	"text/template"
 
@@ -56,7 +56,9 @@ func (a *sessionKVStore) Start(ctx context.Context, token *model.Token, userSess
 		LastName:    userSession.LastName,
 		AccessToken: token.AccessToken,
 	}
-	value, err := userSessionDTO.MarshalJSON()
+
+	slog.InfoContext(ctx, "sessionKVStore.Start", "userSessionDTO", userSession, "token", token)
+	value, err := json.Marshal(userSessionDTO)
 	if err != nil {
 		return fmt.Errorf("failed userSessionDTO.MarshalJSON(). dto: %+v, err: %w", userSession, err)
 	}
@@ -66,9 +68,23 @@ func (a *sessionKVStore) Start(ctx context.Context, token *model.Token, userSess
 		return fmt.Errorf("failed metadata json marshal: %w", err)
 	}
 
-	formData := url.Values{}
-	formData.Add("value", string(value))
-	formData.Add("metadata", string(metadata))
+	formData := &bytes.Buffer{}
+	multiFormDataWriter := multipart.NewWriter(formData)
+
+	valueFormData, err := multiFormDataWriter.CreateFormField("value")
+	if err != nil {
+		return fmt.Errorf("failed multiFormDataWriter.CreateFormField(\"value\"): %w", err)
+	}
+	valueFormData.Write(value)
+
+	metadataFormData, err := multiFormDataWriter.CreateFormField("metadata")
+	if err != nil {
+		return fmt.Errorf("failed multiFormDataWriter.CreateFormField(\"metadata\"): %w", err)
+	}
+	metadataFormData.Write(metadata)
+
+	contentType := multiFormDataWriter.FormDataContentType()
+	multiFormDataWriter.Close()
 
 	url := a.generateURI(a.curdKVPairPathTmp, &kvdto.PathInput{
 		AccountID:   a.accountID,
@@ -76,20 +92,79 @@ func (a *sessionKVStore) Start(ctx context.Context, token *model.Token, userSess
 		KeyName:     token.AccessToken,
 	})
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodPut, url, strings.NewReader(formData.Encode()))
+	req, err := http.NewRequestWithContext(ctx, http.MethodPut, url, formData)
 	if err != nil {
 		return fmt.Errorf("failed http.NewRequestWithContext. url: %s, err: %w", url, err)
 	}
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", a.apiToken))
-	req.Header.Set("ContentType", "multipart/form-data")
+	req.Header.Set("Content-Type", contentType)
 
-	_, err = a.client.Do(req)
+	resp, err := a.client.Do(req)
 	if err != nil {
 		return fmt.Errorf("a.client.Do. url: %s, err: %w", url, err)
 	}
 
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		b, _ := io.ReadAll(resp.Body)
+		return fmt.Errorf("failed sessionKVStore.Start. url: %s, statusCode: %d, body: %s", url, resp.StatusCode, string(b))
+	}
+
+	b, _ := io.ReadAll(resp.Body)
+	slog.Info("================== response is ", "body", string(b))
+
 	return nil
 }
+
+// func (a *sessionKVStore) Start(ctx context.Context, token *model.Token, userSession *model.UserSession) error {
+// 	userSessionDTO := &dto.SessionKVValue{
+// 		Email:       userSession.Email,
+// 		FirstName:   userSession.FirstName,
+// 		LastName:    userSession.LastName,
+// 		AccessToken: token.AccessToken,
+// 	}
+
+// 	slog.InfoContext(ctx, "sessionKVStore.Start", "userSessionDTO", userSession, "token", token)
+// 	value, err := json.Marshal(userSessionDTO)
+// 	if err != nil {
+// 		return fmt.Errorf("failed userSessionDTO.MarshalJSON(). dto: %+v, err: %w", userSession, err)
+// 	}
+
+// 	metadata, err := json.Marshal(kvdto.NewMetadata(&token.ExpireTime))
+// 	if err != nil {
+// 		return fmt.Errorf("failed metadata json marshal: %w", err)
+// 	}
+
+// 	formData := url.Values{}
+// 	formData.Add("value", string(value))
+// 	formData.Add("metadata", string(metadata))
+
+// 	url := a.generateURI(a.curdKVPairPathTmp, &kvdto.PathInput{
+// 		AccountID:   a.accountID,
+// 		NamespaceID: a.namespaceID,
+// 		KeyName:     token.AccessToken,
+// 	})
+
+// 	req, err := http.NewRequestWithContext(ctx, http.MethodPut, url, strings.NewReader(formData.Encode()))
+// 	if err != nil {
+// 		return fmt.Errorf("failed http.NewRequestWithContext. url: %s, err: %w", url, err)
+// 	}
+// 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", a.apiToken))
+// 	req.Header.Set("ContentType", "multipart/form-data")
+
+// 	resp, err := a.client.Do(req)
+// 	if err != nil {
+// 		return fmt.Errorf("a.client.Do. url: %s, err: %w", url, err)
+// 	}
+
+// 	defer resp.Body.Close()
+// 	if resp.StatusCode != http.StatusOK {
+// 		b, _ := io.ReadAll(resp.Body)
+// 		return fmt.Errorf("failed sessionKVStore.Start. url: %s, statusCode: %d, body: %s", url, resp.StatusCode, string(b))
+// 	}
+
+// 	return nil
+// }
 
 func (a *sessionKVStore) Close(ctx context.Context, accessToken string) error {
 	url := a.generateURI(a.curdKVPairPathTmp, &kvdto.PathInput{
@@ -104,7 +179,7 @@ func (a *sessionKVStore) Close(ctx context.Context, accessToken string) error {
 	}
 	req = req.WithContext(ctx)
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", a.apiToken))
-	req.Header.Set("ContentType", "application/json")
+	req.Header.Set("Content-Type", "application/json")
 	_, err = a.client.Do(req)
 	if err != nil {
 		return fmt.Errorf("failed a.client. url: %s, err: %w", url, err)
@@ -124,7 +199,7 @@ func (a *sessionKVStore) Get(ctx context.Context, accessToken string) (*model.Us
 	}
 	req = req.WithContext(ctx)
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", a.apiToken))
-	req.Header.Set("ContentType", "application/json")
+	req.Header.Set("Content-Type", "application/json")
 
 	resp, err := a.client.Do(req)
 	if err != nil {

@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"log/slog"
 	"net/http"
 	"net/url"
 	"strings"
@@ -93,9 +92,7 @@ func (o *googleOauth2) GetTokenFromCode(ctx context.Context, code string) (*mode
 	}
 
 	if resp.StatusCode != http.StatusOK {
-
-		slog.Info("failed", "statusCode", resp.Status, "body", string(body))
-		return nil, fmt.Errorf("failed GetTokenFromCode request")
+		return nil, fmt.Errorf("failed GetTokenFromCode request. statusCode: %d, body: %s", resp.StatusCode, string(body))
 	}
 
 	output := &dto.OutputGetGoogleToken{}
