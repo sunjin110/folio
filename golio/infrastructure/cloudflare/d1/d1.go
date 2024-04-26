@@ -23,13 +23,7 @@ type Input struct {
 }
 
 type Output struct {
-	Result   string
-	Metadata *Metadata
-}
-
-type Metadata struct {
-	ChangedDB bool
-	LastRowID any
+	Results []interface{}
 }
 
 type client struct {
@@ -92,6 +86,7 @@ func (c *client) Query(ctx context.Context, input *Input) (*Output, error) {
 	if err := json.Unmarshal(buf.Bytes(), respDTO); err != nil {
 		return nil, fmt.Errorf("failed json.Unmarshal. buf: %s, err: %w", buf.String(), err)
 	}
-
-	panic("todo")
+	return &Output{
+		Results: respDTO.GetQueryResult(),
+	}, nil
 }
