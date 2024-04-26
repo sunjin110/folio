@@ -39,7 +39,7 @@ type Result struct {
 }
 
 type Meta struct {
-	ChangedDB bool `json:"changed_db"`
-	Changes   int  `json:"changes"`
-	Duration  int  `json:"duration"`
+	ChangedDB bool    `json:"changed_db"`
+	Changes   int     `json:"changes"`
+	Duration  float64 `json:"duration"`
 }

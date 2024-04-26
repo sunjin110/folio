@@ -1,7 +1,6 @@
 package d1
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -73,18 +72,19 @@ func (c *client) Query(ctx context.Context, input *Input) (*Output, error) {
 		return nil, fmt.Errorf("failed c.client.DO. err: %w", err)
 	}
 	defer resp.Body.Close()
-	buf := &bytes.Buffer{}
-	if _, err := io.ReadAll(buf); err != nil {
+	respBody, err := io.ReadAll(resp.Body)
+	if err != nil {
 		return nil, fmt.Errorf("failed io.ReadAll. err: %w", err)
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("failed StatusCode: %d, err: %s", resp.StatusCode, buf.String())
+		return nil, fmt.Errorf("failed StatusCode: %d, err: %s", resp.StatusCode, string(respBody))
 	}
 
 	respDTO := &dto.Response{}
-	if err := json.Unmarshal(buf.Bytes(), respDTO); err != nil {
-		return nil, fmt.Errorf("failed json.Unmarshal. buf: %s, err: %w", buf.String(), err)
+	if err := json.Unmarshal(respBody, respDTO); err != nil {
+		return nil, fmt.Errorf("failed response json.Unmarshal. statusCode: %d, buf: %s, err: %w",
+			resp.StatusCode, string(respBody), err)
 	}
 	return &Output{
 		Results: respDTO.GetQueryResult(),

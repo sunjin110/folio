@@ -21,6 +21,12 @@ var createArticleSummariesSQL string
 //go:embed query/find_one_article_summaries.sql
 var findOneArticleSummariesSQL string
 
+//go:embed query/insert_article_bodies.sql
+var insertArticleBodiesSQL string
+
+//go:embed query/insert_article_summaries.sql
+var insertArticleSummariesSQL string
+
 type article struct {
 	d1Client d1.Client
 }
@@ -44,7 +50,6 @@ func (a *article) creteTables(ctx context.Context) error {
 	if err != nil {
 		return fmt.Errorf("failed create article_bodies. err: %w", err)
 	}
-
 	if _, err = a.d1Client.Query(ctx, &d1.Input{
 		SQL: createArticleSummariesSQL,
 	}); err != nil {
@@ -58,7 +63,6 @@ func (a *article) FindSummary(ctx context.Context, sortType repository.SortType,
 }
 
 func (a *article) Get(ctx context.Context, id string) (*model.Article, error) {
-
 	result, err := a.d1Client.Query(ctx, &d1.Input{
 		Params: []string{id},
 		SQL:    findOneArticleSummariesSQL,
@@ -71,7 +75,24 @@ func (a *article) Get(ctx context.Context, id string) (*model.Article, error) {
 }
 
 func (a *article) Insert(ctx context.Context, article *model.Article) error {
-	panic("unimplemented")
+	_, err := a.d1Client.Query(ctx, &d1.Input{
+		Params: []string{article.ID, article.ID, article.Body, fmt.Sprintf("%d", article.CreatedAt.Unix()),
+			fmt.Sprintf("%d", article.UpdatedAt.Unix())},
+		SQL: insertArticleBodiesSQL,
+	})
+	if err != nil {
+		return fmt.Errorf("failed insert articleBody. article: %+v, err: %w", article, err)
+	}
+
+	_, err = a.d1Client.Query(ctx, &d1.Input{
+		Params: []string{article.ID, article.Title, fmt.Sprintf("%d", article.CreatedAt.Unix()),
+			fmt.Sprintf("%d", article.UpdatedAt.Unix())},
+		SQL: insertArticleSummariesSQL,
+	})
+	if err != nil {
+		return fmt.Errorf("failed insert articleSummary. article: %+v, err: %w", article, err)
+	}
+	return nil
 }
 
 func (a *article) Update(ctx context.Context, article *model.Article) error {
