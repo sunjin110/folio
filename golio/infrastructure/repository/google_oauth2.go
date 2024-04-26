@@ -13,6 +13,7 @@ import (
 	"github.com/sunjin110/folio/golio/domain/model"
 	"github.com/sunjin110/folio/golio/domain/repository"
 	"github.com/sunjin110/folio/golio/infrastructure/repository/dto"
+	"github.com/sunjin110/folio/golio/infrastructure/repository/dto/gdto"
 )
 
 const (
@@ -111,7 +112,7 @@ func (o *googleOauth2) GetUserSession(ctx context.Context, token string) (*model
 	}
 
 	q := u.Query()
-	q.Set("personFields", "name,emailAddresses")
+	q.Set("personFields", "names,emailAddresses")
 	u.RawQuery = q.Encode()
 
 	client := &http.Client{}
@@ -133,6 +134,15 @@ func (o *googleOauth2) GetUserSession(ctx context.Context, token string) (*model
 		return nil, fmt.Errorf("failed io.ReadAll: %w", err)
 	}
 
-	slog.Debug("============ debug", "body", string(body))
-	return nil, nil
+	person := &gdto.Person{}
+	if err := json.Unmarshal(body, person); err != nil {
+		return nil, fmt.Errorf("failed json.Unmarshal. body: %s, err: %w", string(body), err)
+	}
+	primaryName := person.GetPrimaryName()
+	return &model.UserSession{
+		Email:       person.GetPrimaryEmailAddress().Value,
+		FirstName:   primaryName.GivenName,
+		LastName:    primaryName.FamilyName,
+		DisplayName: primaryName.DisplayName,
+	}, nil
 }
