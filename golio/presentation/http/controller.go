@@ -22,31 +22,26 @@ func NewGoogleOAuthController(authUsecase usecase.Auth, callbackRedirectURI stri
 
 func (c *googleOAuthController) Callback(w http.ResponseWriter, r *http.Request) {
 	slog.Info("googleOAuthController.Callback")
-
 	query, err := url.ParseQuery(r.URL.RawQuery)
 	if err != nil {
 		slog.ErrorContext(r.Context(), "failed url.ParseQuery")
 		panic(err)
 	}
+	ctx := r.Context()
 
 	code := query.Get("code")
-	token, err := c.authUsecase.GetGoogleTokenFromCode(r.Context(), code)
+	output, err := c.authUsecase.StartSessionFromGoogleOAuthCode(ctx, code)
 	if err != nil {
-		slog.ErrorContext(r.Context(), "failed authUsecase.GetGoogleTokenFromCode", "code", code, "err", err)
-		panic(err)
+		slog.ErrorContext(ctx, "fialed authUsecase.StartSessionFromGoogleOAuthCode", "err", err)
+		http.Error(w, "internal server error", http.StatusInternalServerError)
+		return
 	}
-
-	slog.InfoContext(r.Context(), "token is ", "token", token)
-
-	slog.Info("TODO tokenをcookieに詰め込む")
-
 	http.SetCookie(w, &http.Cookie{
 		Name:     "access_token",
-		Value:    token.AccessToken,
+		Value:    output.AccessToken,
 		HttpOnly: true,
 		Path:     "/",
 		SameSite: http.SameSiteLaxMode,
 	})
-
 	http.Redirect(w, r, c.callbackRedirectURI, http.StatusFound)
 }
