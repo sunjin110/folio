@@ -26,7 +26,7 @@ func Serve(ctx context.Context, cfg *httpconf.Config) error {
 	r := openapi.NewRouter(golioAPIController)
 
 	r.Methods(http.MethodGet).
-		Path("/auth/google-oauth/").
+		Path("/auth/google-oauth").
 		Name("google-oauth").
 		HandlerFunc(googleOAuthController.Start)
 
