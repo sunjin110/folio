@@ -1,5 +1,6 @@
-import { Article, getArticleById } from "@/api/api";
+import {  getArticleById } from "@/api/api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Article } from "@/domain/model/article";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 

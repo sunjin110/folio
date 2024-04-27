@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { DataTable } from "@/components/data-table";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArticleSummary, getArticles } from "@/api/api";
+import { getArticles } from "@/api/api";
+import { ArticleSummary } from "@/domain/model/article";
+import { formatDateFromRFC } from "@/lib/utils";
 
 const columns: ColumnDef<ArticleSummary>[] = [
     {
@@ -14,7 +16,11 @@ const columns: ColumnDef<ArticleSummary>[] = [
     },
     {
         accessorKey: "created_at",
-        header: "CreateTime"
+        // header: "CreateTime",
+        header: () => <div className="">CreatedTime</div>,
+        cell: ({row}) => {
+            return formatDateFromRFC(row.getValue("created_at"));
+        }
     },
 ];
 

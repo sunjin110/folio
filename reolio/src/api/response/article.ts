@@ -1,4 +1,5 @@
-import { ArticleSummary } from "../api";
+import { ArticleSummary } from "@/domain/model/article";
+
 
 export interface GetArticleSummariesOutput {
     articles: ArticleSummary[];
