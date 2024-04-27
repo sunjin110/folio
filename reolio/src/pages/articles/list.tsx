@@ -14,7 +14,6 @@ const columns: ColumnDef<ArticleSummary>[] = [
         cell: ({row}) => {
             return (
                 <Link to={`/articles/${row.getValue("id")}`}>
-                    {/* {`/articles/${row.getValue("id")}`} */}
                     <Button>Detial</Button>
                 </Link>
             )

@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log/slog"
 	"time"
@@ -13,6 +14,7 @@ import (
 	"github.com/sunjin110/folio/golio/domain/repository"
 	"github.com/sunjin110/folio/golio/infrastructure/cloudflare/d1"
 	"github.com/sunjin110/folio/golio/infrastructure/repository/conv"
+	"golang.org/x/sync/errgroup"
 )
 
 //go:embed query/create_article_bodies.sql
@@ -84,30 +86,49 @@ func (a *article) FindSummary(ctx context.Context, sortType repository.SortType,
 }
 
 func (a *article) Get(ctx context.Context, id string) (*model.Article, error) {
-	summariesOutput, err := a.d1Client.Query(ctx, &d1.Input{
-		Params: []interface{}{id},
-		SQL:    findOneArticleSummariesSQL,
-	})
-	if err != nil {
-		return nil, fmt.Errorf("failed summaries d1Client.Query. err: %w", err)
-	}
-	if len(summariesOutput.Results) == 0 {
-		return nil, nil
-	}
 
-	bodiesOutput, err := a.d1Client.Query(ctx, &d1.Input{
-		Params: []interface{}{id},
-		SQL:    findOneArticleBodiesSQL,
-	})
-	if err != nil {
-		return nil, fmt.Errorf("failed bodies d1Client.Query. err: %w", err)
-	}
-	if len(bodiesOutput.Results) == 0 {
-		return nil, nil
-	}
+	eg, ctx := errgroup.WithContext(ctx)
 
-	summaries := summariesOutput.GetResultMapList()
-	bodies := bodiesOutput.GetResultMapList()
+	var summaries []map[string]interface{}
+	eg.Go(func() error {
+		summariesOutput, err := a.d1Client.Query(ctx, &d1.Input{
+			Params: []interface{}{id},
+			SQL:    findOneArticleSummariesSQL,
+		})
+		if err != nil {
+			return fmt.Errorf("failed summaries d1Client.Query. err: %w", err)
+		}
+		if len(summariesOutput.Results) == 0 {
+			return ErrNotFound
+		}
+
+		summaries = summariesOutput.GetResultMapList()
+		return nil
+	})
+
+	var bodies []map[string]interface{}
+	eg.Go(func() error {
+		bodiesOutput, err := a.d1Client.Query(ctx, &d1.Input{
+			Params: []interface{}{id},
+			SQL:    findOneArticleBodiesSQL,
+		})
+		if err != nil {
+			return fmt.Errorf("failed bodies d1Client.Query. err: %w", err)
+		}
+		if len(bodiesOutput.Results) == 0 {
+			return ErrNotFound
+		}
+
+		bodies = bodiesOutput.GetResultMapList()
+		return nil
+	})
+
+	if err := eg.Wait(); err != nil {
+		if errors.Is(err, ErrNotFound) {
+			return nil, nil
+		}
+		return nil, fmt.Errorf("failed article.Get: %w", err)
+	}
 
 	return &model.Article{
 		ID:        id,
