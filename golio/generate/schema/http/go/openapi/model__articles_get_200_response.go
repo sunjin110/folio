@@ -15,15 +15,12 @@ package openapi
 type ArticlesGet200Response struct {
 
 	Articles []ArticlesGet200ResponseArticlesInner `json:"articles"`
-
-	Paging ArticlesGet200ResponsePaging `json:"paging"`
 }
 
 // AssertArticlesGet200ResponseRequired checks if the required fields are not zero-ed
 func AssertArticlesGet200ResponseRequired(obj ArticlesGet200Response) error {
 	elements := map[string]interface{}{
 		"articles": obj.Articles,
-		"paging": obj.Paging,
 	}
 	for name, el := range elements {
 		if isZero := IsZeroValue(el); isZero {
@@ -35,9 +32,6 @@ func AssertArticlesGet200ResponseRequired(obj ArticlesGet200Response) error {
 		if err := AssertArticlesGet200ResponseArticlesInnerRequired(el); err != nil {
 			return err
 		}
-	}
-	if err := AssertArticlesGet200ResponsePagingRequired(obj.Paging); err != nil {
-		return err
 	}
 	return nil
 }

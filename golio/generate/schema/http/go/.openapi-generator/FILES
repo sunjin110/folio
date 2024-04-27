@@ -9,7 +9,6 @@ openapi/logger.go
 openapi/model__articles__article_id__get_200_response.go
 openapi/model__articles_get_200_response.go
 openapi/model__articles_get_200_response_articles_inner.go
-openapi/model__articles_get_200_response_paging.go
 openapi/model__articles_get_400_response.go
 openapi/model__articles_post_request.go
 openapi/model__articles_put_request.go

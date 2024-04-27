@@ -13,5 +13,6 @@ gen-code:
 		--git-user-id asahi-digital \
   		-o /local/generate/schema/http/go
 
-	
+	# import文が不十分なので追加する
+	@./scripts/openapi-gen-code-helper.sh
 	

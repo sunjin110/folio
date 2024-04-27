@@ -187,19 +187,8 @@ components:
         created_at:
           type: string
       type: object
-    _articles_get_200_response_paging:
-      example:
-        offset: offset
-      properties:
-        offset:
-          type: string
-      required:
-      - offset
-      type: object
     _articles_get_200_response:
       example:
-        paging:
-          offset: offset
         articles:
         - created_at: created_at
           id: id
@@ -212,11 +201,8 @@ components:
           items:
             $ref: '#/components/schemas/_articles_get_200_response_articles_inner'
           type: array
-        paging:
-          $ref: '#/components/schemas/_articles_get_200_response_paging'
       required:
       - articles
-      - paging
       type: object
     _articles_get_400_response:
       example:
