@@ -8,6 +8,7 @@ import (
 
 	"github.com/sunjin110/folio/golio/domain/model"
 	"github.com/sunjin110/folio/golio/generate/schema/http/go/openapi"
+	"github.com/sunjin110/folio/golio/presentation/http/conv"
 	"github.com/sunjin110/folio/golio/usecase"
 )
 
@@ -46,7 +47,17 @@ func (g *golioAPIServicer) ArticlesArticleIdGet(ctx context.Context, articleID s
 }
 
 func (g *golioAPIServicer) ArticlesGet(ctx context.Context, offset int32, limit int32) (openapi.ImplResponse, error) {
-	panic("unimplemented")
+	if limit < 0 {
+		limit = 10
+	}
+	if offset < 0 {
+		offset = 0
+	}
+	summaries, err := g.articleUsecase.FindSummaries(ctx, offset, limit)
+	if err != nil {
+		slog.ErrorContext(ctx, "failed articleUsecase.FindSummaries", "offset", offset, "limit", limit, "err", err)
+	}
+	return openapi.Response(http.StatusOK, conv.ToArticlesGet(summaries)), nil
 }
 
 func (g *golioAPIServicer) ArticlesPost(ctx context.Context, req openapi.ArticlesPostRequest) (openapi.ImplResponse, error) {

@@ -13,7 +13,7 @@ type Article interface {
 	Insert(ctx context.Context, article *model.Article) error
 	Update(ctx context.Context, article *model.Article) error
 	Delete(ctx context.Context, id string) error
-	Find(ctx context.Context)
+	FindSummaries(ctx context.Context, offset int32, limit int32) ([]*model.ArticleSummary, error)
 }
 
 type article struct {
@@ -33,7 +33,7 @@ func (a *article) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-func (a *article) Find(ctx context.Context) {
+func (a *article) FindSummaries(ctx context.Context, offset int32, limit int32) ([]*model.ArticleSummary, error) {
 	panic("unimplemented")
 }
 
