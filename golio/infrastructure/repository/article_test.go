@@ -39,5 +39,9 @@ func Test_article_Real(t *testing.T) {
 		getArticle, err := articleRepo.Get(ctx, "id_1")
 		So(err, ShouldBeNil)
 		fmt.Println("getArticle is ", getArticle)
+
+		countTotal, err := articleRepo.CountTotal(context.Background())
+		So(err, ShouldBeNil)
+		fmt.Println("countTotal is ", countTotal)
 	})
 }

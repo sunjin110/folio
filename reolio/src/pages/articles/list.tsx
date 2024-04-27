@@ -45,17 +45,35 @@ const columns: ColumnDef<ArticleSummary>[] = [
 
 export default function Articles() {
     const [data, setData] = useState<ArticleSummary[]>([]);
+
+    const [pageSize, setPageSize] = useState(10);
+    const [pageIndex, setPageIndex] = useState(0);
+    const [pageCount, setPageCount] = useState(0);
+
     useEffect(() => {
         const fetch = async () => {
+
+            const offset = pageIndex * pageSize;
+            const limit = pageSize;
             try {
-                setData(await getArticles());
+                const output = await getArticles(offset, limit);
+                console.log("output is ", output);
+                setData(output.articles);
+                const total = output.total;
+                setPageCount(Math.ceil(total / pageSize));
             } catch (err) {
                 console.error("failed get article summaries", err);
             }
+
         };
         fetch();
-    },[]);
+    },[pageIndex, pageSize]);
+
+    const onPageChange = (newPageIndex: number) => {
+        setPageIndex(newPageIndex);
+    };
+
     return (<div className="container mx-auto py-10">
-        <DataTable columns={columns} data={data}></DataTable>
+        <DataTable columns={columns} data={data} pageIndex={pageIndex} pageSize={pageSize} onPageChange={onPageChange} pageCount={pageCount}></DataTable>
     </div>);
 }

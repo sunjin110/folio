@@ -17,8 +17,8 @@ export async function createArticle(title: string, body: string): Promise<void> 
     });
 }
 
-export async function getArticles(): Promise<ArticleSummary[]> {
-    const resp = await fetch(process.env.REACT_APP_GOLIO_BASE_URL + "/articles");
+export async function getArticles(offset: number, limit: number): Promise<GetArticleSummariesOutput> {
+    const resp = await fetch(process.env.REACT_APP_GOLIO_BASE_URL + `/articles?offset=${offset}&limit=${limit}`);
     const output: GetArticleSummariesOutput = await resp.json();
-    return output.articles;
+    return output;
 }

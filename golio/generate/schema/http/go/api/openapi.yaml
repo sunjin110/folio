@@ -189,6 +189,7 @@ components:
       type: object
     _articles_get_200_response:
       example:
+        total: 0
         articles:
         - created_at: created_at
           id: id
@@ -201,12 +202,15 @@ components:
           items:
             $ref: '#/components/schemas/_articles_get_200_response_articles_inner'
           type: array
+        total:
+          type: integer
       required:
       - articles
+      - total
       type: object
     _articles_get_400_response:
       example:
-        code: 0
+        code: 6
         message: message
       properties:
         code:

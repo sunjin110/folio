@@ -7,9 +7,10 @@ import (
 	"github.com/sunjin110/folio/golio/generate/schema/http/go/openapi"
 )
 
-func ToArticlesGet(articles []*model.ArticleSummary) openapi.ArticlesGet200Response {
+func ToArticlesGet(articles []*model.ArticleSummary, totalCount int32) openapi.ArticlesGet200Response {
 	return openapi.ArticlesGet200Response{
 		Articles: toArticlesGet200ResponseArticlesInners(articles),
+		Total:    totalCount,
 	}
 }
 

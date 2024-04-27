@@ -12,4 +12,5 @@ type Article interface {
 	Delete(ctx context.Context, id string) error
 	Update(ctx context.Context, article *model.Article) error
 	FindSummary(ctx context.Context, sortType SortType, paging *Paging) ([]*model.ArticleSummary, error)
+	CountTotal(ctx context.Context) (int32, error)
 }

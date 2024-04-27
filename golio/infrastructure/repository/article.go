@@ -80,7 +80,7 @@ func (a *article) FindSummary(ctx context.Context, sortType repository.SortType,
 		SQL:    sql,
 	})
 	if err != nil {
-		return nil, fmt.Errorf("failed find summary. sql: %s", sql)
+		return nil, fmt.Errorf("failed find summary. sql: %s, err: %w", sql, err)
 	}
 	return conv.ToArticleSummaries(output), nil
 }
@@ -179,4 +179,21 @@ func (a *article) Delete(ctx context.Context, id string) error {
 		return fmt.Errorf("failed delete article_bodies. id: %s, err: %w", id, err)
 	}
 	return nil
+}
+
+func (a *article) CountTotal(ctx context.Context) (int32, error) {
+	sb := sqlbuilder.NewSelectBuilder().Select("count(*)").From("article_summaries")
+
+	sql, args := sb.Build()
+	output, err := a.d1Client.Query(ctx, &d1.Input{
+		Params: args,
+		SQL:    sql,
+	})
+	if err != nil {
+		return -1, fmt.Errorf("failed count article_summaries. sql: %s, err: %w", sql, err)
+	}
+	fmt.Println("count output is ", output)
+
+	countTotal := int32(output.GetResultMapList()[0]["count(*)"].(float64))
+	return countTotal, nil
 }

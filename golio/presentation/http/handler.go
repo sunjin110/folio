@@ -55,11 +55,11 @@ func (g *golioAPIServicer) ArticlesGet(ctx context.Context, offset int32, limit 
 		offset = 0
 	}
 	fmt.Println("offset is ", offset, "limit is ", limit)
-	summaries, err := g.articleUsecase.FindSummaries(ctx, offset, limit)
+	output, err := g.articleUsecase.FindSummaries(ctx, offset, limit)
 	if err != nil {
 		slog.ErrorContext(ctx, "failed articleUsecase.FindSummaries", "offset", offset, "limit", limit, "err", err)
 	}
-	return openapi.Response(http.StatusOK, conv.ToArticlesGet(summaries)), nil
+	return openapi.Response(http.StatusOK, conv.ToArticlesGet(output.Articles, output.TotalCount)), nil
 }
 
 func (g *golioAPIServicer) ArticlesPost(ctx context.Context, req openapi.ArticlesPostRequest) (openapi.ImplResponse, error) {

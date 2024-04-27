@@ -15,12 +15,15 @@ package openapi
 type ArticlesGet200Response struct {
 
 	Articles []ArticlesGet200ResponseArticlesInner `json:"articles"`
+
+	Total int32 `json:"total"`
 }
 
 // AssertArticlesGet200ResponseRequired checks if the required fields are not zero-ed
 func AssertArticlesGet200ResponseRequired(obj ArticlesGet200Response) error {
 	elements := map[string]interface{}{
 		"articles": obj.Articles,
+		"total": obj.Total,
 	}
 	for name, el := range elements {
 		if isZero := IsZeroValue(el); isZero {
