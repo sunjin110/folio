@@ -18,7 +18,7 @@ type Client interface {
 }
 
 type Input struct {
-	Params []string
+	Params []interface{}
 	SQL    string
 }
 
@@ -63,8 +63,14 @@ func NewClient(accountID string, dbID string, apiToken string) (Client, error) {
 }
 
 func (c *client) Query(ctx context.Context, input *Input) (*Output, error) {
+
+	params := []string{}
+	for _, p := range input.Params {
+		params = append(params, fmt.Sprintf("%v", p))
+	}
+
 	queryDTO := dto.QueryInput{
-		Params: input.Params,
+		Params: params,
 		SQL:    input.SQL,
 	}
 	query, err := json.Marshal(queryDTO)

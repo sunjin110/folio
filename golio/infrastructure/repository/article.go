@@ -8,9 +8,11 @@ import (
 
 	_ "embed"
 
+	"github.com/huandu/go-sqlbuilder"
 	"github.com/sunjin110/folio/golio/domain/model"
 	"github.com/sunjin110/folio/golio/domain/repository"
 	"github.com/sunjin110/folio/golio/infrastructure/cloudflare/d1"
+	"github.com/sunjin110/folio/golio/infrastructure/repository/conv"
 )
 
 //go:embed query/create_article_bodies.sql
@@ -63,33 +65,43 @@ func (a *article) creteTables(ctx context.Context) error {
 }
 
 func (a *article) FindSummary(ctx context.Context, sortType repository.SortType, paging *repository.Paging) ([]*model.ArticleSummary, error) {
-	panic("unimplemented")
+	sb := sqlbuilder.NewSelectBuilder()
+	sb.Select("*").From("article_summaries").Limit(paging.Limit).Offset(paging.Offset).OrderBy("created_at")
+	if sortType == repository.SortTypeAsc {
+		sb.Asc()
+	} else {
+		sb.Desc()
+	}
+	sql, args := sb.Build()
+	output, err := a.d1Client.Query(ctx, &d1.Input{
+		Params: args,
+		SQL:    sql,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed find summary. sql: %s", sql)
+	}
+	return conv.ToArticleSummaries(output), nil
 }
 
 func (a *article) Get(ctx context.Context, id string) (*model.Article, error) {
 	summariesOutput, err := a.d1Client.Query(ctx, &d1.Input{
-		Params: []string{id},
+		Params: []interface{}{id},
 		SQL:    findOneArticleSummariesSQL,
 	})
 	if err != nil {
 		return nil, fmt.Errorf("failed summaries d1Client.Query. err: %w", err)
 	}
-
-	fmt.Println("summariesOutput is ", summariesOutput)
-
 	if len(summariesOutput.Results) == 0 {
 		return nil, nil
 	}
 
 	bodiesOutput, err := a.d1Client.Query(ctx, &d1.Input{
-		Params: []string{id},
+		Params: []interface{}{id},
 		SQL:    findOneArticleBodiesSQL,
 	})
 	if err != nil {
 		return nil, fmt.Errorf("failed bodies d1Client.Query. err: %w", err)
 	}
-
-	fmt.Println("bodiesOutput is ", bodiesOutput)
 	if len(bodiesOutput.Results) == 0 {
 		return nil, nil
 	}
@@ -109,7 +121,7 @@ func (a *article) Get(ctx context.Context, id string) (*model.Article, error) {
 
 func (a *article) Insert(ctx context.Context, article *model.Article) error {
 	_, err := a.d1Client.Query(ctx, &d1.Input{
-		Params: []string{article.ID, article.ID, article.Body, fmt.Sprintf("%d", article.CreatedAt.Unix()),
+		Params: []interface{}{article.ID, article.ID, article.Body, fmt.Sprintf("%d", article.CreatedAt.Unix()),
 			fmt.Sprintf("%d", article.UpdatedAt.Unix())},
 		SQL: upsertArticleBodiesSQL,
 	})
@@ -118,7 +130,7 @@ func (a *article) Insert(ctx context.Context, article *model.Article) error {
 	}
 
 	_, err = a.d1Client.Query(ctx, &d1.Input{
-		Params: []string{article.ID, article.Title, fmt.Sprintf("%d", article.CreatedAt.Unix()), fmt.Sprintf("%d", article.UpdatedAt.Unix())},
+		Params: []interface{}{article.ID, article.Title, fmt.Sprintf("%d", article.CreatedAt.Unix()), fmt.Sprintf("%d", article.UpdatedAt.Unix())},
 		SQL:    upsertArticleSummariesSQL,
 	})
 	if err != nil {
@@ -133,14 +145,14 @@ func (a *article) Update(ctx context.Context, article *model.Article) error {
 
 func (a *article) Delete(ctx context.Context, id string) error {
 	if _, err := a.d1Client.Query(ctx, &d1.Input{
-		Params: []string{id},
+		Params: []interface{}{id},
 		SQL:    `delete from article_summaries where id = ?`,
 	}); err != nil {
 		return fmt.Errorf("failed delete article_summaries. id: %s, err: %w", id, err)
 	}
 
 	if _, err := a.d1Client.Query(ctx, &d1.Input{
-		Params: []string{id},
+		Params: []interface{}{id},
 		SQL:    `delete from article_bodies where article_summaries_id = ?`,
 	}); err != nil {
 		return fmt.Errorf("failed delete article_bodies. id: %s, err: %w", id, err)
