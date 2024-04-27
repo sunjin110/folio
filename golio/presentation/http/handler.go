@@ -2,6 +2,7 @@ package http
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 	"net/http"
 	"time"
@@ -47,12 +48,13 @@ func (g *golioAPIServicer) ArticlesArticleIdGet(ctx context.Context, articleID s
 }
 
 func (g *golioAPIServicer) ArticlesGet(ctx context.Context, offset int32, limit int32) (openapi.ImplResponse, error) {
-	if limit < 0 {
+	if limit <= 0 {
 		limit = 10
 	}
 	if offset < 0 {
 		offset = 0
 	}
+	fmt.Println("offset is ", offset, "limit is ", limit)
 	summaries, err := g.articleUsecase.FindSummaries(ctx, offset, limit)
 	if err != nil {
 		slog.ErrorContext(ctx, "failed articleUsecase.FindSummaries", "offset", offset, "limit", limit, "err", err)
@@ -62,7 +64,7 @@ func (g *golioAPIServicer) ArticlesGet(ctx context.Context, offset int32, limit 
 
 func (g *golioAPIServicer) ArticlesPost(ctx context.Context, req openapi.ArticlesPostRequest) (openapi.ImplResponse, error) {
 	if err := g.articleUsecase.Insert(ctx, model.NewArticle(req.Title, req.Body, "", time.Now())); err != nil {
-		slog.ErrorContext(ctx, "failed article insert", err)
+		slog.ErrorContext(ctx, "failed article insert", "err", err)
 		return openapi.Response(http.StatusInternalServerError, "internal"), nil
 	}
 	return openapi.Response(http.StatusOK, nil), nil

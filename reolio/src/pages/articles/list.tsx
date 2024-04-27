@@ -1,36 +1,35 @@
 import { useEffect, useState } from "react";
-import { columns, Payment } from "./columns";
-import { DataTable } from "./data-table";
+import { DataTable } from "@/components/data-table";
+import { ColumnDef } from "@tanstack/react-table";
+import { ArticleSummary, getArticles } from "@/api/api";
 
-
-export const payments: Payment[] = [
+const columns: ColumnDef<ArticleSummary>[] = [
     {
-        id: "728ed52f",
-        amount: 100,
-        status: "pending",
-        email: "m@example.com",
-      },
-      {
-        id: "489e1d42",
-        amount: 125,
-        status: "processing",
-        email: "example@gmail.com",
-      },
+        accessorKey: "id",
+        header: "ID",
+    },
+    {
+        accessorKey: "title",
+        header: "Title"
+    },
+    {
+        accessorKey: "created_at",
+        header: "CreateTime"
+    },
 ];
 
-async function getData(): Promise<Payment[]> {
-    return payments;
-} 
-
 export default function Articles() {
-    const [data, setData] = useState<Payment[]>([]);
+    const [data, setData] = useState<ArticleSummary[]>([]);
     useEffect(() => {
         const fetch = async () => {
-            setData(await getData());
+            try {
+                setData(await getArticles());
+            } catch (err) {
+                console.error("failed get article summaries", err);
+            }
         };
         fetch();
-
-    });
+    },[]);
     return (<div className="container mx-auto py-10">
         <DataTable columns={columns} data={data}></DataTable>
     </div>);

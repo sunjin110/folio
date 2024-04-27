@@ -1,8 +1,17 @@
+import { GetArticleSummariesOutput } from "./response/article";
+
 export interface Article {
     id: string;
     title: string;
     body: string;
     created_at: string;
+}
+
+export interface ArticleSummary {
+    id: string;
+    title: string;
+    created_at: string;
+    updated_at: string;
 }
 
 export async function getArticleById(articleID: string): Promise<Article> {
@@ -19,4 +28,10 @@ export async function createArticle(title: string, body: string): Promise<void> 
         },
         body: JSON.stringify({'title': title, 'body': body}),
     });
+}
+
+export async function getArticles(): Promise<ArticleSummary[]> {
+    const resp = await fetch(process.env.REACT_APP_GOLIO_BASE_URL + "/articles");
+    const output: GetArticleSummariesOutput = await resp.json();
+    return output.articles;
 }
