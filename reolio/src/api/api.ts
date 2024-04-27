@@ -11,3 +11,12 @@ export async function getArticleById(articleID: string): Promise<Article> {
     return article;
 }
 
+export async function createArticle(title: string, body: string): Promise<void> {
+    const resp = await fetch(process.env.REACT_APP_GOLIO_BASE_URL + "/articles", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({'title': title, 'body': body}),
+    });
+}
