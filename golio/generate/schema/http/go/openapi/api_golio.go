@@ -105,9 +105,16 @@ func (c *GolioAPIController) ArticlesGet(w http.ResponseWriter, r *http.Request)
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	var offsetParam string
+	var offsetParam int32
 	if query.Has("offset") {
-		param := query.Get("offset")
+		param, err := parseNumericParameter[int32](
+			query.Get("offset"),
+			WithParse[int32](parseInt32),
+		)
+		if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+		}
 
 		offsetParam = param
 	} else {

@@ -14,13 +14,13 @@ paths:
       description: ""
       parameters:
       - description: ""
-        example: uuid
+        example: "0"
         explode: true
         in: query
         name: offset
         required: false
         schema:
-          type: string
+          type: integer
         style: form
       - description: ""
         example: "10"
