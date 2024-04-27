@@ -4,6 +4,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { getArticles } from "@/api/api";
 import { ArticleSummary } from "@/domain/model/article";
 import { formatDateFromRFC } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const columns: ColumnDef<ArticleSummary>[] = [
     {
@@ -16,10 +18,21 @@ const columns: ColumnDef<ArticleSummary>[] = [
     },
     {
         accessorKey: "created_at",
-        // header: "CreateTime",
         header: () => <div className="">CreatedTime</div>,
         cell: ({row}) => {
             return formatDateFromRFC(row.getValue("created_at"));
+        }
+    },
+    {
+        accessorKey: "id",
+        header: "Edit",
+        cell: ({row}) => {
+
+            return (
+                <Link to={`/articles/${row.getValue("id")}`}>
+                    <Button>Edit: </Button>
+                </Link>
+            )
         }
     },
 ];
