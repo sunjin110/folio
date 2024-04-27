@@ -10,7 +10,15 @@ import { Link } from "react-router-dom";
 const columns: ColumnDef<ArticleSummary>[] = [
     {
         accessorKey: "id",
-        header: "ID",
+        header: "",
+        cell: ({row}) => {
+            return (
+                <Link to={`/articles/${row.getValue("id")}`}>
+                    {/* {`/articles/${row.getValue("id")}`} */}
+                    <Button>Detial</Button>
+                </Link>
+            )
+        }
     },
     {
         accessorKey: "title",
@@ -27,10 +35,9 @@ const columns: ColumnDef<ArticleSummary>[] = [
         accessorKey: "id",
         header: "Edit",
         cell: ({row}) => {
-
             return (
                 <Link to={`/articles/${row.getValue("id")}`}>
-                    <Button>Edit: </Button>
+                    <Button>TODO Edit</Button>
                 </Link>
             )
         }
