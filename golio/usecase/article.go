@@ -34,7 +34,14 @@ func (a *article) Delete(ctx context.Context, id string) error {
 }
 
 func (a *article) FindSummaries(ctx context.Context, offset int32, limit int32) ([]*model.ArticleSummary, error) {
-	panic("unimplemented")
+	summaries, err := a.articleRepo.FindSummary(ctx, repository.SortTypeDesc, &repository.Paging{
+		Offset: int(offset),
+		Limit:  int(limit),
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed articleRepo.FindSummary: %w", err)
+	}
+	return summaries, nil
 }
 
 func (a *article) Get(ctx context.Context, id string) (*model.Article, error) {
