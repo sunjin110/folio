@@ -9,6 +9,7 @@ import Dashboard from './pages/dashboard';
 import { TooltipProvider } from '@radix-ui/react-tooltip';
 import ArticleDetail from './pages/articles/detail';
 import CreateArticle from './pages/articles/create';
+import Articles from './pages/articles/list';
 
 const App: React.FC = () => {
   return (
@@ -20,6 +21,7 @@ const App: React.FC = () => {
             <Route path="/about" element={<About />} />
             <Route path='/login' element={<Login />} />
             <Route path='/dashboard' element={<Dashboard />} />
+            <Route path='/articles' element={<Articles />} />
             <Route path='/articles/:articleId' element={<ArticleDetail />} />
             <Route path='/articles/create' element={<CreateArticle />} />
           </Routes>
