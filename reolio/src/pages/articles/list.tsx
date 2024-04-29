@@ -5,7 +5,8 @@ import { getArticles } from "@/api/api";
 import { ArticleSummary } from "@/domain/model/article";
 import { formatDateFromRFC } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useToast } from "@/components/ui/use-toast";
 
 const columns: ColumnDef<ArticleSummary>[] = [
     {
@@ -49,6 +50,8 @@ export default function Articles() {
     const [pageSize, setPageSize] = useState(10);
     const [pageIndex, setPageIndex] = useState(0);
     const [pageCount, setPageCount] = useState(0);
+    const { toast } = useToast();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetch = async () => {
@@ -57,14 +60,17 @@ export default function Articles() {
             const limit = pageSize;
             try {
                 const output = await getArticles(offset, limit);
-                console.log("output is ", output);
+                if (output.type === 'error') {
+                    toast({title: "ログインし直してください", description: output.message});
+                    navigate("/login");
+                    return;
+                }
                 setData(output.articles);
                 const total = output.total;
                 setPageCount(Math.ceil(total / pageSize));
             } catch (err) {
                 console.error("failed get article summaries", err);
             }
-
         };
         fetch();
     },[pageIndex, pageSize]);

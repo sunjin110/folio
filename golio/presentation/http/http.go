@@ -49,12 +49,16 @@ func Serve(ctx context.Context, cfg *httpconf.Config) error {
 		Name("google-oauth/callback").
 		HandlerFunc(googleOAuthController.Callback)
 
+	// middleware
+	r.Use(authMW(authUsecase))
+
 	// CORSミドルウェアの設定
 	// すべてのオリジンからのアクセスを許可する設定
 	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"*"}, // すべてのオリジンを許可 TODO 限られたoriginのみにあとで変更する
-		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowedHeaders: []string{"Accept", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"},
+		AllowedOrigins:   []string{"http://localhost:3000"}, // staging, productionのoriginも設定する
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"},
+		AllowCredentials: true,
 	})
 	handler := c.Handler(r)
 

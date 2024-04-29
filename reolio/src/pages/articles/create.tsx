@@ -17,8 +17,12 @@ export default function CreateArticle() {
 
     const handlePost = async () => {
         try {
-            await createArticle(title, body);
-            console.log("success");
+            const output = await createArticle(title, body);
+            if (output.type === 'error') {
+                toast({title: "ログインし直してください", description: output.message});
+                navigate("/login");
+                return;
+            }
             toast({
                 title: 'Success',
                 description: 'posted your article!'
