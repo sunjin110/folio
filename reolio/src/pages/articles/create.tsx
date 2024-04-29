@@ -3,19 +3,27 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/components/ui/use-toast";
 import { Label } from "@radix-ui/react-label";
 import { MouseEventHandler, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function CreateArticle() {
     const [title, setTitle] = useState("");
     const [body, setBody] = useState("");
 
+    const { toast } = useToast();
+    const navigate = useNavigate();
+
     const handlePost = async () => {
-        console.log("start create post", title, body);
         try {
             await createArticle(title, body);
             console.log("success");
+            toast({
+                title: 'Success',
+                description: 'posted your article!'
+            });
+            navigate("/articles");
         } catch (err) {
             console.error("failed create article", err);
         }

@@ -10,6 +10,7 @@ import { TooltipProvider } from '@radix-ui/react-tooltip';
 import ArticleDetail from './pages/articles/detail';
 import CreateArticle from './pages/articles/create';
 import Articles from './pages/articles/list';
+import { Toaster } from './components/ui/toaster';
 
 const App: React.FC = () => {
   return (
@@ -26,6 +27,7 @@ const App: React.FC = () => {
             <Route path='/articles/create' element={<CreateArticle />} />
           </Routes>
         </div>
+        <Toaster />
       </BrowserRouter>
     </TooltipProvider>
   );
