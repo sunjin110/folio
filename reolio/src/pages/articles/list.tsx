@@ -74,6 +74,9 @@ export default function Articles() {
     };
 
     return (<div className="container mx-auto py-10">
+         <Link to={`/articles/create`}>
+            <Button>Create Article</Button>
+        </Link>
         <DataTable columns={columns} data={data} pageIndex={pageIndex} pageSize={pageSize} onPageChange={onPageChange} pageCount={pageCount}></DataTable>
     </div>);
 }

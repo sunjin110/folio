@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@radix-ui/react-label";
 import { MouseEventHandler, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function CreateArticle() {
     const [title, setTitle] = useState("");
@@ -35,7 +36,9 @@ export default function CreateArticle() {
                         <Textarea placeholder="article body" required value={body} onChange={event => setBody(event.target.value)} />
                     </div>
                     <div className="flex items-center justify-between p-5">
-                        <Button>Cancel</Button>
+                        <Link to={"/articles"}>
+                            <Button>Cancel</Button>
+                        </Link>
                         <Button onClick={handlePost}>Post</Button>
                     </div>
                 </CardContent>
