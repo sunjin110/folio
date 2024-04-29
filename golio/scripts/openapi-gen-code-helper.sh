@@ -19,5 +19,3 @@ for import in "${NEW_IMPORTS[@]}"; do
     $import" $FILE
     fi
 done
-
-

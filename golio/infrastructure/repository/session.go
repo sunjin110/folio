@@ -153,14 +153,22 @@ func (a *sessionKVStore) Get(ctx context.Context, accessToken string) (*model.Us
 	}
 	defer resp.Body.Close()
 
-	respBuf := &bytes.Buffer{}
-	if _, err := io.ReadAll(respBuf); err != nil {
+	if resp.StatusCode == http.StatusNotFound {
+		return nil, nil
+	}
+
+	b, err := io.ReadAll(resp.Body)
+	if err != nil {
 		return nil, fmt.Errorf("failed io.ReadAll. err: %w", err)
 	}
 
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("failed get session. statusCode: %d, err: %s", resp.StatusCode, string(b))
+	}
+
 	userSession := &dto.SessionKVValue{}
-	if err := json.Unmarshal(respBuf.Bytes(), userSession); err != nil {
-		return nil, fmt.Errorf("failed json.Unmarshal. err: %w", err)
+	if err := json.Unmarshal(b, userSession); err != nil {
+		return nil, fmt.Errorf("failed json.Unmarshal. body: %s, err: %w", string(b), err)
 	}
 	return userSession.ToModel(), nil
 }
