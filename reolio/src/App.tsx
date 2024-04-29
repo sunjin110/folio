@@ -11,6 +11,7 @@ import ArticleDetail from './pages/articles/detail';
 import CreateArticle from './pages/articles/create';
 import Articles from './pages/articles/list';
 import { Toaster } from './components/ui/toaster';
+import Sample from './pages/sample';
 
 const App: React.FC = () => {
   return (
@@ -25,6 +26,7 @@ const App: React.FC = () => {
             <Route path='/articles' element={<Articles />} />
             <Route path='/articles/:articleId' element={<ArticleDetail />} />
             <Route path='/articles/create' element={<CreateArticle />} />
+            <Route path='/sample' element={<Sample />} />
           </Routes>
         </div>
         <Toaster />

@@ -7,6 +7,7 @@ import { formatDateFromRFC } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
+import { Navigation } from "@/components/organisms/navigation";
 
 const columns: ColumnDef<ArticleSummary>[] = [
     {
@@ -79,10 +80,14 @@ export default function Articles() {
         setPageIndex(newPageIndex);
     };
 
-    return (<div className="container mx-auto py-10">
-         <Link to={`/articles/create`}>
-            <Button>Create Article</Button>
-        </Link>
-        <DataTable columns={columns} data={data} pageIndex={pageIndex} pageSize={pageSize} onPageChange={onPageChange} pageCount={pageCount}></DataTable>
-    </div>);
+    return (
+        <Navigation title="Articles" sidebarPosition='articles'>
+            <div className="container mx-auto py-10">
+                <Link to={`/articles/create`}>
+                    <Button>Create Article</Button>
+                </Link>
+                <DataTable columns={columns} data={data} pageIndex={pageIndex} pageSize={pageSize} onPageChange={onPageChange} pageCount={pageCount}></DataTable>
+            </div>
+        </Navigation>
+    )
 }

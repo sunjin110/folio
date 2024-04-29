@@ -1,4 +1,5 @@
 import { createArticle } from "@/api/api";
+import { Navigation } from "@/components/organisms/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -34,26 +35,28 @@ export default function CreateArticle() {
     };
 
     return (
-            <Card className="min-h-screen">
-                <CardHeader>
-                    <CardTitle>Create Article</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <div>
-                        <Label htmlFor="title">Title</Label>
-                        <Input id="title" type="text" placeholder="article title" required value={title} onChange={event => setTitle(event.target.value)} />
-                    </div>
-                    <div>
-                        <Label htmlFor="body">Body</Label>
-                        <Textarea placeholder="article body" required value={body} onChange={event => setBody(event.target.value)} />
-                    </div>
-                    <div className="flex items-center justify-between p-5">
-                        <Link to={"/articles"}>
-                            <Button>Cancel</Button>
-                        </Link>
-                        <Button onClick={handlePost}>Post</Button>
-                    </div>
-                </CardContent>
-            </Card>
+            <Navigation title="Articles" sidebarPosition='articles'>
+                <Card className="min-h-screen">
+                    <CardHeader>
+                        <CardTitle>Create Article</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div>
+                            <Label htmlFor="title">Title</Label>
+                            <Input id="title" type="text" placeholder="article title" required value={title} onChange={event => setTitle(event.target.value)} />
+                        </div>
+                        <div>
+                            <Label htmlFor="body">Body</Label>
+                            <Textarea placeholder="article body" required value={body} onChange={event => setBody(event.target.value)} />
+                        </div>
+                        <div className="flex items-center justify-between p-5">
+                            <Link to={"/articles"}>
+                                <Button>Cancel</Button>
+                            </Link>
+                            <Button onClick={handlePost}>Post</Button>
+                        </div>
+                    </CardContent>
+                </Card>
+            </Navigation>
     );
 }
