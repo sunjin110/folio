@@ -57,6 +57,29 @@ export async function createArticle(title: string, body: string): Promise<EmptyR
     };
 }
 
+export async function updateArticle(articleId: string, title: string, body: string): Promise<EmptyResponse | ErrorResponse> {
+    const resp = await fetch(process.env.REACT_APP_GOLIO_BASE_URL + `/articles/${articleId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({'title': title, 'body': body}),
+        credentials: 'include',
+    });
+
+    if (!resp.ok) {
+        const msg = await resp.text();
+        return {
+            type: 'error',
+            message: msg,
+            status: resp.status,
+        };
+    }
+    return {
+        type: 'success'
+    };
+}
+
 export async function getArticles(offset: number, limit: number): Promise<GetArticleSummariesOutput | ErrorResponse> {
     const resp = await fetch(process.env.REACT_APP_GOLIO_BASE_URL + `/articles?offset=${offset}&limit=${limit}`, {
         credentials: "include",

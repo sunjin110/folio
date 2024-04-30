@@ -37,8 +37,8 @@ const columns: ColumnDef<ArticleSummary>[] = [
         header: "Edit",
         cell: ({row}) => {
             return (
-                <Link to={`/articles/${row.getValue("id")}`}>
-                    <Button>TODO Edit</Button>
+                <Link to={`/articles/edit/${row.getValue("id")}`}>
+                    <Button>Edit</Button>
                 </Link>
             )
         }

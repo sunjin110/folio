@@ -2,7 +2,6 @@ package http
 
 import (
 	"context"
-	"fmt"
 	"log/slog"
 	"net/http"
 	"time"
@@ -54,7 +53,6 @@ func (g *golioAPIServicer) ArticlesGet(ctx context.Context, offset int32, limit 
 	if offset < 0 {
 		offset = 0
 	}
-	fmt.Println("offset is ", offset, "limit is ", limit)
 	output, err := g.articleUsecase.FindSummaries(ctx, offset, limit)
 	if err != nil {
 		slog.ErrorContext(ctx, "failed articleUsecase.FindSummaries", "offset", offset, "limit", limit, "err", err)
@@ -70,9 +68,9 @@ func (g *golioAPIServicer) ArticlesPost(ctx context.Context, req openapi.Article
 	return openapi.Response(http.StatusOK, nil), nil
 }
 
-func (g *golioAPIServicer) ArticlesPut(ctx context.Context, req openapi.ArticlesPutRequest) (openapi.ImplResponse, error) {
+func (g *golioAPIServicer) ArticlesArticleIdPut(ctx context.Context, articleID string, req openapi.ArticlesPostRequest) (openapi.ImplResponse, error) {
 	if err := g.articleUsecase.Update(ctx, &model.Article{
-		ID:        req.Id,
+		ID:        articleID,
 		Title:     req.Title,
 		Body:      req.Body,
 		UpdatedAt: time.Now(),

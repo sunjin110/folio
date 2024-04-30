@@ -85,35 +85,6 @@ paths:
       summary: 記事投稿
       tags:
       - golio
-    put:
-      deprecated: false
-      description: ""
-      parameters: []
-      requestBody:
-        content:
-          application/json:
-            example:
-              title: 記事タイトル
-            schema:
-              $ref: '#/components/schemas/_articles_put_request'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                properties: {}
-                type: object
-          description: Success
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/_articles_get_400_response'
-          description: Invalid input
-      security: []
-      summary: 記事更新
-      tags:
-      - golio
   /articles/{article_id}:
     get:
       deprecated: false
@@ -149,6 +120,43 @@ paths:
           description: Invalid input
       security: []
       summary: 記事取得
+      tags:
+      - golio
+    put:
+      deprecated: false
+      description: ""
+      parameters:
+      - description: ""
+        explode: false
+        in: path
+        name: article_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            example:
+              title: 記事タイトル
+            schema:
+              $ref: '#/components/schemas/_articles_post_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                properties: {}
+                type: object
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_articles_get_400_response'
+          description: Invalid input
+      security: []
+      summary: 記事更新
       tags:
       - golio
   /hello:
@@ -220,19 +228,6 @@ components:
       required:
       - code
       - message
-      type: object
-    _articles_put_request:
-      properties:
-        id:
-          type: string
-        title:
-          type: string
-        body:
-          type: string
-      required:
-      - body
-      - id
-      - title
       type: object
     _articles_post_request:
       properties:

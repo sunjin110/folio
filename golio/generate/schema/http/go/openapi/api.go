@@ -21,9 +21,9 @@ import (
 // pass the data to a GolioAPIServicer to perform the required actions, then write the service results to the http response.
 type GolioAPIRouter interface { 
 	ArticlesArticleIdGet(http.ResponseWriter, *http.Request)
+	ArticlesArticleIdPut(http.ResponseWriter, *http.Request)
 	ArticlesGet(http.ResponseWriter, *http.Request)
 	ArticlesPost(http.ResponseWriter, *http.Request)
-	ArticlesPut(http.ResponseWriter, *http.Request)
 	HelloGet(http.ResponseWriter, *http.Request)
 }
 
@@ -34,8 +34,8 @@ type GolioAPIRouter interface {
 // and updated with the logic required for the API.
 type GolioAPIServicer interface { 
 	ArticlesArticleIdGet(context.Context, string) (ImplResponse, error)
+	ArticlesArticleIdPut(context.Context, string, ArticlesPostRequest) (ImplResponse, error)
 	ArticlesGet(context.Context, int32, int32) (ImplResponse, error)
 	ArticlesPost(context.Context, ArticlesPostRequest) (ImplResponse, error)
-	ArticlesPut(context.Context, ArticlesPutRequest) (ImplResponse, error)
 	HelloGet(context.Context) (ImplResponse, error)
 }

@@ -55,6 +55,11 @@ func (c *GolioAPIController) Routes() Routes {
 			"/articles/{article_id}",
 			c.ArticlesArticleIdGet,
 		},
+		"ArticlesArticleIdPut": Route{
+			strings.ToUpper("Put"),
+			"/articles/{article_id}",
+			c.ArticlesArticleIdPut,
+		},
 		"ArticlesGet": Route{
 			strings.ToUpper("Get"),
 			"/articles",
@@ -64,11 +69,6 @@ func (c *GolioAPIController) Routes() Routes {
 			strings.ToUpper("Post"),
 			"/articles",
 			c.ArticlesPost,
-		},
-		"ArticlesPut": Route{
-			strings.ToUpper("Put"),
-			"/articles",
-			c.ArticlesPut,
 		},
 		"HelloGet": Route{
 			strings.ToUpper("Get"),
@@ -87,6 +87,39 @@ func (c *GolioAPIController) ArticlesArticleIdGet(w http.ResponseWriter, r *http
 		return
 	}
 	result, err := c.service.ArticlesArticleIdGet(r.Context(), articleIdParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, w)
+}
+
+// ArticlesArticleIdPut - 記事更新
+func (c *GolioAPIController) ArticlesArticleIdPut(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	articleIdParam := params["article_id"]
+	if articleIdParam == "" {
+		c.errorHandler(w, r, &RequiredError{"article_id"}, nil)
+		return
+	}
+	articlesPostRequestParam := ArticlesPostRequest{}
+	d := json.NewDecoder(r.Body)
+	d.DisallowUnknownFields()
+	if err := d.Decode(&articlesPostRequestParam); err != nil && !errors.Is(err, io.EOF) {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	if err := AssertArticlesPostRequestRequired(articlesPostRequestParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	if err := AssertArticlesPostRequestConstraints(articlesPostRequestParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	result, err := c.service.ArticlesArticleIdPut(r.Context(), articleIdParam, articlesPostRequestParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -159,33 +192,6 @@ func (c *GolioAPIController) ArticlesPost(w http.ResponseWriter, r *http.Request
 		return
 	}
 	result, err := c.service.ArticlesPost(r.Context(), articlesPostRequestParam)
-	// If an error occurred, encode the error with the status code
-	if err != nil {
-		c.errorHandler(w, r, err, &result)
-		return
-	}
-	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
-}
-
-// ArticlesPut - 記事更新
-func (c *GolioAPIController) ArticlesPut(w http.ResponseWriter, r *http.Request) {
-	articlesPutRequestParam := ArticlesPutRequest{}
-	d := json.NewDecoder(r.Body)
-	d.DisallowUnknownFields()
-	if err := d.Decode(&articlesPutRequestParam); err != nil && !errors.Is(err, io.EOF) {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-		return
-	}
-	if err := AssertArticlesPutRequestRequired(articlesPutRequestParam); err != nil {
-		c.errorHandler(w, r, err, nil)
-		return
-	}
-	if err := AssertArticlesPutRequestConstraints(articlesPutRequestParam); err != nil {
-		c.errorHandler(w, r, err, nil)
-		return
-	}
-	result, err := c.service.ArticlesPut(r.Context(), articlesPutRequestParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
