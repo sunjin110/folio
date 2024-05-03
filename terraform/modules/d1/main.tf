@@ -1,8 +1,8 @@
 terraform {
   required_providers {
     cloudflare = {
-        source = "cloudflare/cloudflare"
-        version = "~> 4"
+      source  = "cloudflare/cloudflare"
+      version = "~> 4"
     }
   }
 }
@@ -10,7 +10,7 @@ terraform {
 
 resource "cloudflare_d1_database" "this" {
   account_id = var.cloudflare_account_id
-  name = var.name
+  name       = var.name
 }
 
 # token api

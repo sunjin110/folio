@@ -1,32 +1,32 @@
 terraform {
   required_providers {
     cloudflare = {
-        source = "cloudflare/cloudflare"
-        version = "~> 4"
+      source  = "cloudflare/cloudflare"
+      version = "~> 4"
     }
   }
 }
 
 provider "cloudflare" {
-    api_key = var.cloudflare_api_key
-    email = var.cloudflare_email
+  api_key = var.cloudflare_api_key
+  email   = var.cloudflare_email
 }
 
 module "session_repository" {
-  source = "../../modules/kv_store"
-  name = "local-folio-session"
+  source                = "../../modules/kv_store"
+  name                  = "local-folio-session"
   cloudflare_account_id = var.cloudflare_account_id
 }
 
 module "database" {
-  source = "../../modules/d1"
-  name = "local-folio-db"
+  source                = "../../modules/d1"
+  name                  = "local-folio-db"
   cloudflare_account_id = var.cloudflare_account_id
 }
 
 output "session_repository_token" {
   sensitive = true
-  value = module.session_repository.api_token
+  value     = module.session_repository.api_token
 }
 
 output "session_repository_namespace_id" {
@@ -35,10 +35,10 @@ output "session_repository_namespace_id" {
 
 output "database_token" {
   sensitive = true
-  value = module.database.api_token
+  value     = module.database.api_token
 }
 
 output "database_id" {
   sensitive = true
-  value = module.database.db_id
+  value     = module.database.db_id
 }
