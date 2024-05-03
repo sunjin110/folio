@@ -8,6 +8,15 @@ build:
 image/build:
 	@docker build -t golio --platform=linux/arm64 .
 
+image/lambda/build:
+	@docker build -t golio-lambda -f Dockerfile.lambda --platform=linux/arm64 .
+
+image/lambda/test/build:
+	@docker build -t golio-lambda:test -f Dockerfile.lambda.test --platform=linux/arm64 .
+
+image/lambda/test:
+	@docker run -d -p 9000:8080 --entrypoint /usr/local/bin/aws-lambda-rie golio-lambda:test ./main
+
 gen-code:
 	@docker run --rm \
   		-v ${PWD}:/local openapitools/openapi-generator-cli generate \

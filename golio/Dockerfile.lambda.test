@@ -1,0 +1,33 @@
+ARG GO_VERSION=1.22.2
+FROM --platform=$BUILDPLATFORM golang:${GO_VERSION} AS build
+WORKDIR /src
+
+RUN --mount=type=cache,target=/go/pkg/mod/ \
+    --mount=type=bind,source=go.sum,target=go.sum \
+    --mount=type=bind,source=go.mod,target=go.mod \
+    go mod download -x
+
+# This is the architecture you’re building for, which is passed in by the builder.
+# Placing it here allows the previous steps to be cached across architectures.
+ARG TARGETARCH
+
+RUN --mount=type=cache,target=/go/pkg/mod/ \
+    --mount=type=bind,target=. \
+    CGO_ENABLED=0 GOARCH=${TARGETARCH} go build -o /bin/main ./cmd/lambda/main.go
+
+RUN curl -Lo /src/aws-lambda-rie https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie-arm64 && \
+    chmod +x /src/aws-lambda-rie
+
+COPY .env /src/.env
+
+FROM gcr.io/distroless/static-debian12:latest
+COPY --from=build /bin/main ./main
+
+COPY --from=build /src/aws-lambda-rie /usr/local/bin/aws-lambda-rie
+
+COPY --from=build /src/.env ./.env
+
+EXPOSE 8080
+
+USER nonroot
+ENTRYPOINT [ "./main" ]
