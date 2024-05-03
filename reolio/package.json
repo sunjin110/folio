@@ -44,7 +44,8 @@
     "ps": "npx craco build && serve -s build",
     "build": "npx craco build",
     "test": "npx craco test",
-    "eject": "npx craco eject"
+    "eject": "npx craco eject",
+    "format": "npx prettier . --write"
   },
   "eslintConfig": {
     "extends": [
@@ -68,6 +69,7 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@craco/craco": "^7.1.0",
     "@types/react-router-dom": "^5.3.3",
+    "prettier": "3.2.5",
     "tailwindcss": "^3.4.3"
   }
 }
