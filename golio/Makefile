@@ -1,7 +1,12 @@
 
 run:
-	
 	go run ./cmd/http/main.go
+
+build:
+	go build ./cmd/http/main.go
+
+image/build:
+	@docker build -t golio --platform=linux/arm64 .
 
 gen-code:
 	@docker run --rm \

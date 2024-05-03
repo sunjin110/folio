@@ -1,0 +1,22 @@
+ARG GO_VERSION=1.22.2
+FROM --platform=$BUILDPLATFORM golang:${GO_VERSION} AS build
+WORKDIR /src
+
+RUN --mount=type=cache,target=/go/pkg/mod/ \
+    --mount=type=bind,source=go.sum,target=go.sum \
+    --mount=type=bind,source=go.mod,target=go.mod \
+    go mod download -x
+
+# This is the architecture you’re building for, which is passed in by the builder.
+# Placing it here allows the previous steps to be cached across architectures.
+ARG TARGETARCH
+
+RUN --mount=type=cache,target=/go/pkg/mod/ \
+    --mount=type=bind,target=. \
+    CGO_ENABLED=0 GOARCH=${TARGETARCH} go build -o /bin/main ./cmd/http/main.go
+
+FROM gcr.io/distroless/static-debian12:latest
+COPY --from=build /bin/main ./main
+
+USER nonroot
+ENTRYPOINT [ "./main" ]
