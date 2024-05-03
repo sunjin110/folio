@@ -15,7 +15,7 @@ import (
 
 // go test -v -count=1 -timeout 30s -run ^Test_article_Real$ github.com/sunjin110/folio/golio/infrastructure/repository
 func Test_article_Real(t *testing.T) {
-	Convey("Test_article_Real", t, func() {
+	SkipConvey("Test_article_Real", t, func() {
 		cfg, err := httpconf.NewConfig()
 		So(err, ShouldBeNil)
 

@@ -1,0 +1,13 @@
+name: Go Linter for golio
+on:
+    pull_request:
+        types: [opened, synchronize]
+        paths:
+            - "golio/**.go"
+            - ".github/workflows/go_linter_golio.yml"
+            - ".github/workflows/go_linter.yml"
+jobs:
+    lint:
+        uses: ./.github/workflows/go_linter.yml
+        with:
+            directory: ./golio

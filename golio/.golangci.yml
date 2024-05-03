@@ -1,0 +1,8 @@
+linters-settings:
+  govet:
+    skip-dirs:
+      - generate/*
+
+run:
+  skip-dirs:
+    - generate/*

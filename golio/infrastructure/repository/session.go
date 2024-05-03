@@ -75,13 +75,17 @@ func (a *sessionKVStore) Start(ctx context.Context, token *model.Token, userSess
 	if err != nil {
 		return fmt.Errorf("failed multiFormDataWriter.CreateFormField(\"value\"): %w", err)
 	}
-	valueFormData.Write(value)
+	if _, err := valueFormData.Write(value); err != nil {
+		return fmt.Errorf("failed valueFormData.Write: %w", err)
+	}
 
 	metadataFormData, err := multiFormDataWriter.CreateFormField("metadata")
 	if err != nil {
 		return fmt.Errorf("failed multiFormDataWriter.CreateFormField(\"metadata\"): %w", err)
 	}
-	metadataFormData.Write(metadata)
+	if _, err := metadataFormData.Write(metadata); err != nil {
+		return fmt.Errorf("failed metadataFormData.Write: %w", err)
+	}
 
 	contentType := multiFormDataWriter.FormDataContentType()
 	multiFormDataWriter.Close()
@@ -175,6 +179,9 @@ func (a *sessionKVStore) Get(ctx context.Context, accessToken string) (*model.Us
 
 func (a *sessionKVStore) generateURI(pathTemplate *template.Template, pathInput *kvdto.PathInput) string {
 	buf := &bytes.Buffer{}
-	pathTemplate.Execute(buf, pathInput)
+	if err := pathTemplate.Execute(buf, pathInput); err != nil {
+		// テスト時にわかるエラーなため
+		panic(err)
+	}
 	return cloudflareAPIEndpoint + buf.String()
 }
