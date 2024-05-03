@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import MDEditor from "@uiw/react-md-editor";
 
 
 export default function EditArticle() {
@@ -16,7 +17,7 @@ export default function EditArticle() {
     const navigate = useNavigate();
 
     const [title, setTitle] = useState<string>("");
-    const [body, setBody] = useState<string>("");
+    const [body, setBody] = useState<string | undefined>("");
 
     useEffect(() => {
         const fetch = async (id: string) => {
@@ -44,7 +45,7 @@ export default function EditArticle() {
                 console.log("articleId is empty");
                 return;
             }
-            const output = await updateArticle(articleId, title, body);
+            const output = await updateArticle(articleId, title, body === undefined ? '' : body);
             if (output.type === 'error') {
                 toast({title: 'ログインし直してください', description: output.message});
                 navigate("/login");
@@ -61,25 +62,29 @@ export default function EditArticle() {
 
     return (
         <Navigation title="Articles" sidebarPosition='articles'>
-            <Card className="min-h-screen">
-                <CardHeader>Edit</CardHeader>
-                <CardContent>
-                <div>
+        <div className="flex flex-col h-full p-2">
+            <div className="pb-7">
+                <h1 className="text-4xl">Edit</h1>
+            </div>
+            <div className="flex flex-col flex-grow">
+                <div className="pb-2">
                     <Label htmlFor="title">Title</Label>
                     <Input id="title" type="text" placeholder="article title" required value={title} onChange={event => setTitle(event.target.value)} />
                 </div>
-                <div>
+                <div className="flex flex-col flex-grow">
                     <Label htmlFor="body">Body</Label>
-                    <Textarea placeholder="article body" required value={body} onChange={event => setBody(event.target.value)} />
+                    <div className="flex-grow">
+                        <MDEditor value={body} onChange={setBody} height={"100%"} />
+                    </div>
                 </div>
                 <div className="flex items-center justify-between p-5">
                     <Link to={"/articles"}>
-                        <Button>Canccel</Button>
+                        <Button>Cancel</Button>
                     </Link>
                     <Button onClick={handleEdit}>Edit</Button>
                 </div>
-            </CardContent>
-            </Card>
-        </Navigation>
+            </div>
+        </div>
+    </Navigation>
     )
 }
