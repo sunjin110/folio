@@ -1,24 +1,23 @@
 import { createArticle } from "@/api/api";
 import { Navigation } from "@/components/organisms/navigation";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { Label } from "@radix-ui/react-label";
-import { MouseEventHandler, useState } from "react";
+import MDEditor from "@uiw/react-md-editor";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function CreateArticle() {
     const [title, setTitle] = useState("");
-    const [body, setBody] = useState("");
+    const [body, setBody] = useState<string | undefined>("");
 
     const { toast } = useToast();
     const navigate = useNavigate();
 
     const handlePost = async () => {
         try {
-            const output = await createArticle(title, body);
+            const output = await createArticle(title, body === undefined ? '' : body);
             if (output.type === 'error') {
                 toast({title: "ログインし直してください", description: output.message});
                 navigate("/login");
@@ -36,18 +35,18 @@ export default function CreateArticle() {
 
     return (
             <Navigation title="Articles" sidebarPosition='articles'>
-                <Card className="min-h-screen">
-                    <CardHeader>
-                        <CardTitle>Create Article</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <div>
+                <div className="flex flex-col h-full">
+                    <div className="pb-7">
+                        <h1 className="text-4xl">Create</h1>
+                    </div>
+                    <div className="flex flex-col flex-grow">
+                        <div className="pb-2">
                             <Label htmlFor="title">Title</Label>
                             <Input id="title" type="text" placeholder="article title" required value={title} onChange={event => setTitle(event.target.value)} />
                         </div>
-                        <div>
+                        <div className="flex flex-col flex-grow">
                             <Label htmlFor="body">Body</Label>
-                            <Textarea placeholder="article body" required value={body} onChange={event => setBody(event.target.value)} />
+                            <MDEditor value={body} onChange={setBody} height={"100%"}/>
                         </div>
                         <div className="flex items-center justify-between p-5">
                             <Link to={"/articles"}>
@@ -55,8 +54,8 @@ export default function CreateArticle() {
                             </Link>
                             <Button onClick={handlePost}>Post</Button>
                         </div>
-                    </CardContent>
-                </Card>
+                    </div>
+                </div>
             </Navigation>
     );
 }
