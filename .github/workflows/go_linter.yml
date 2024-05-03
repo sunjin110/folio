@@ -1,0 +1,25 @@
+name: Go linter
+on:
+    workflow_call:
+        inputs:
+            directory:
+                required: true
+                type: string
+
+jobs:
+    lint:
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: ${{ inputs.directory }}
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-go@v5
+              with: 
+                go-version-file: '${{ inputs.directory }}/go.mod'
+                cache-dependency-path: '${{ inputs.directory }}'
+            - run: go mod tidy && git diff --exit-code go.sum
+            - uses: golangci/golangci-lint-action@v5
+              with:
+                version: v1.55
+                working-directory: ${{ inputs.directory }}

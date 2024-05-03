@@ -1,0 +1,13 @@
+name: Go Test for golio
+on:
+    pull_request:
+        types: [opened, synchronize]
+        paths:
+            - "golio/**.go"
+            - ".github/workflows/go_test_golio.yml"
+            - ".github/workflows/go_test.yml"
+jobs:
+    test:
+        uses: ./.github/workflows/go_test.yml
+        with:
+            directory: ./golio
