@@ -11,3 +11,5 @@ local-plan:
 local-apply:
 	@cd "$(PWD)/env/local" && terraform apply --var-file=./secret.tfvars
 
+fmt:
+	terraform fmt -recursive

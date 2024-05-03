@@ -1,0 +1,20 @@
+name: Terraform Linter
+on:
+    pull_request:
+        types: [opened, synchronize]
+        paths:
+            - "terraform/**.tf"
+            - ".github/workflows/terraform_lint.yml"
+jobs:
+    tf-fmt:
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: ./terraform
+        steps:
+            - uses: actions/checkout@v4
+            - uses: hashicorp/setup-terraform@v3
+              with:
+                terraform_version: 1.3.7
+            - name: Terraform fmt
+              run: terraform fmt -check -recursive
