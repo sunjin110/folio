@@ -18,6 +18,7 @@ func authMW(authUsecase usecase.Auth) mux.MiddlewareFunc {
 			if strings.HasPrefix(r.URL.Path, "/auth/google-oauth") {
 				// 認証の必要なし
 				next.ServeHTTP(w, r)
+				return
 			}
 
 			cookie, err := r.Cookie("access_token")
@@ -42,9 +43,6 @@ func authMW(authUsecase usecase.Auth) mux.MiddlewareFunc {
 				http.Error(w, "unauthorized", http.StatusUnauthorized)
 				return
 			}
-
-			fmt.Println("userSession is ", userSession)
-
 			next.ServeHTTP(w, r)
 		})
 	}

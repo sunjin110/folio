@@ -9,11 +9,7 @@
 
 package openapi
 
-
-
-
 type ArticlesPutRequest struct {
-
 	Id string `json:"id"`
 
 	Title string `json:"title"`
@@ -24,9 +20,9 @@ type ArticlesPutRequest struct {
 // AssertArticlesPutRequestRequired checks if the required fields are not zero-ed
 func AssertArticlesPutRequestRequired(obj ArticlesPutRequest) error {
 	elements := map[string]interface{}{
-		"id": obj.Id,
+		"id":    obj.Id,
 		"title": obj.Title,
-		"body": obj.Body,
+		"body":  obj.Body,
 	}
 	for name, el := range elements {
 		if isZero := IsZeroValue(el); isZero {

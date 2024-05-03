@@ -16,8 +16,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	slog.Info("config is ", "cfg", cfg)
-
 	if err := http.Serve(context.Background(), cfg); err != nil {
 		slog.Error("failed http.Serve: %w", err)
 		os.Exit(1)

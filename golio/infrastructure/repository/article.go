@@ -192,8 +192,6 @@ func (a *article) CountTotal(ctx context.Context) (int32, error) {
 	if err != nil {
 		return -1, fmt.Errorf("failed count article_summaries. sql: %s, err: %w", sql, err)
 	}
-	fmt.Println("count output is ", output)
-
 	countTotal := int32(output.GetResultMapList()[0]["count(*)"].(float64))
 	return countTotal, nil
 }
