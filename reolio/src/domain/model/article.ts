@@ -1,16 +1,15 @@
 import { formatDateFromRFC } from "@/lib/utils";
 
 export interface Article {
-    id: string;
-    title: string;
-    body: string;
-    created_at: string;
+  id: string;
+  title: string;
+  body: string;
+  created_at: string;
 }
 
 export class ArticleSummary {
-    id!: string;
-    title!: string;
-    created_at!: string;
-    updated_at!: string;
+  id!: string;
+  title!: string;
+  created_at!: string;
+  updated_at!: string;
 }
-

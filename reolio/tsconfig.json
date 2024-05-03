@@ -1,13 +1,9 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": ["./src/*"]
     },
     "allowJs": true,
     "skipLibCheck": true,
@@ -23,11 +19,7 @@
     "noEmit": true,
     "jsx": "preserve"
   },
-  "include": [
-    "src"
-  ],
-  "files": [
-    "./env.d.ts"
-  ],
+  "include": ["src"],
+  "files": ["./env.d.ts"],
   "extends": "./tsconfig.paths.json"
 }
