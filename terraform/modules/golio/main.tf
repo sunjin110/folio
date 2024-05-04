@@ -29,3 +29,15 @@ module "api_gateway" {
   iam    = module.iam
   prefix = var.prefix
 }
+
+module "session_repository" {
+  source                = "../kv_store"
+  name                  = "${var.prefix}-folio-session"
+  cloudflare_account_id = var.cloudflare.account_id
+}
+
+module "d1" {
+  source                = "../d1"
+  name                  = "${var.prefix}-folio-db"
+  cloudflare_account_id = var.cloudflare.account_id
+}

@@ -6,6 +6,12 @@ variable "aws" {
   })
 }
 
+variable "cloudflare" {
+  type = object({
+    account_id = string
+  })
+}
+
 variable "prefix" {
   type = string
 }
