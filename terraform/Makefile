@@ -13,3 +13,12 @@ local-apply:
 
 fmt:
 	terraform fmt -recursive
+
+prd-init:
+	@cd "$(PWD)/env/production" && terraform init
+
+prd-plan:
+	@cd "$(PWD)/env/production" && terraform plan --var-file=./secret.tfvars
+
+prd-apply:
+	@cd "$(PWD)/env/production" && terraform apply --var-file=./secret.tfvars
