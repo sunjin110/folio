@@ -14,3 +14,7 @@ updates:
     directory: "/reolio"
     schedule:
       interval: "weekly"
+  - package-ecosystem: "terraform"
+    directory: "/terraform"
+    schedule:
+      interval: "weekly"
