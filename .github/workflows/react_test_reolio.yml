@@ -1,0 +1,14 @@
+name: React Test for reolio
+on:
+    pull_request:
+        types: [opened, synchronize]
+        paths:
+            - "reolio/**"
+            - ".github/workflows/react_test_reolio.yml"
+            - ".github/workflows/react_test.yml"
+
+jobs:
+    test:
+        uses: ./.github/workflows/react_test.yml
+        with:
+            directory: ./reolio
