@@ -20,6 +20,20 @@ module "lambda" {
   name   = local.lambda_name
   ecr    = module.ecr.repository
   iam    = module.iam
+  environment = {
+    GOOGLE_OAUTH_CLIENT_ID : var.google_oauth.client_id,
+    GOOGLE_OAUTH_CLIENT_SECRET : var.google_oauth.client_secret,
+    GOOGLE_OAUTH_REDIRECT_URI : var.google_oauth.redirect_uri,
+    GOOGLE_OAUTH_CALLBACK_REDIRECT_URI : var.google_oauth.callback_redirect_uri,
+
+    SESSION_KV_STORE_ACCOUNT_ID : var.cloudflare.account_id,
+    SESSION_KV_STORE_NAMESPACE_ID : module.session_repository.namespace_id,
+    SESSION_KV_STORE_API_TOKEN : module.session_repository.api_token,
+
+    D1_DATABASE_ACCOUNT_ID : var.cloudflare.account_id,
+    D1_DATABASE_DATABASE_ID : module.d1.db_id,
+    D1_DATABASE_API_TOKEN : module.d1.api_token
+  }
 }
 
 module "api_gateway" {

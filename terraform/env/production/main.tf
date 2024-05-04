@@ -37,7 +37,12 @@ module "golio" {
   }
 
   prefix = "production"
-
+  google_oauth = {
+    client_id             = var.google_oauth_client_id
+    client_secret         = var.google_oauth_secret_id
+    redirect_uri          = var.google_oauth_redirect_uri
+    callback_redirect_uri = var.google_oauth_callback_redirect_uri
+  }
 }
 
 data "aws_caller_identity" "this" {}
