@@ -8,25 +8,8 @@ import (
 	"strings"
 
 	"github.com/gorilla/mux"
-	"github.com/rs/cors"
 	"github.com/sunjin110/folio/golio/usecase"
 )
-
-func CorsMW() mux.MiddlewareFunc {
-
-	// CORSミドルウェアの設定
-	// すべてのオリジンからのアクセスを許可する設定
-	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:3000"}, // staging, productionのoriginも設定する
-		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowedHeaders:   []string{"Accept", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"},
-		AllowCredentials: true,
-	})
-
-	return func(next http.Handler) http.Handler {
-		return c.Handler(next)
-	}
-}
 
 // authMW 認証する
 func AuthMW(authUsecase usecase.Auth) mux.MiddlewareFunc {
