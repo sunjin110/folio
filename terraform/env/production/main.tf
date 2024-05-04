@@ -16,6 +16,11 @@ provider "aws" {
   profile = "folio-terraform"
 }
 
+provider "cloudflare" {
+  api_key = var.cloudflare_api_key
+  email   = var.cloudflare_email
+}
+
 locals {
   aws = {
     account_id = data.aws_caller_identity.this.account_id
@@ -26,12 +31,13 @@ locals {
 
 module "golio" {
   source = "../../modules/golio"
-  #   providers = {
-  #     aws = aws
-  #   }
-
   aws    = local.aws
+  cloudflare = {
+    account_id = var.cloudflare_account_id
+  }
+
   prefix = "production"
+
 }
 
 data "aws_caller_identity" "this" {}
