@@ -6,7 +6,7 @@ import (
 	"log/slog"
 	"net/http"
 
-	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 	"github.com/sunjin110/folio/golio/generate/schema/http/go/openapi"
 	"github.com/sunjin110/folio/golio/infrastructure/cloudflare/d1"
 	"github.com/sunjin110/folio/golio/infrastructure/repository"
@@ -14,7 +14,7 @@ import (
 	"github.com/sunjin110/folio/golio/usecase"
 )
 
-func Router(ctx context.Context, cfg *httpconf.Config) (*mux.Router, error) {
+func Router(ctx context.Context, cfg *httpconf.Config) (http.Handler, error) {
 	googleOAuth2Repo := repository.NewGoogleOAuth2(ctx, cfg.GoogleOAuth.ClientID, cfg.GoogleOAuth.ClientSecret, cfg.GoogleOAuth.RedirectURI)
 	sessionRepo, err := repository.NewSessionKVStore(ctx, cfg.SessionKVStore.APIToken, cfg.SessionKVStore.AccountID, cfg.SessionKVStore.NamespaceID)
 	if err != nil {
@@ -51,8 +51,17 @@ func Router(ctx context.Context, cfg *httpconf.Config) (*mux.Router, error) {
 
 	// middleware
 	r.Use(AuthMW(authUsecase))
-	r.Use(CorsMW())
-	return r, nil
+
+	// CORSミドルウェアの設定
+	// すべてのオリジンからのアクセスを許可する設定
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"http://localhost:3000"}, // staging, productionのoriginも設定する
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"},
+		AllowCredentials: true,
+	})
+
+	return c.Handler(r), nil
 }
 
 func Serve(ctx context.Context, cfg *httpconf.Config) error {

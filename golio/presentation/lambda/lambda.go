@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/aws/aws-lambda-go/events"
-	"github.com/awslabs/aws-lambda-go-api-proxy/core"
-	"github.com/awslabs/aws-lambda-go-api-proxy/gorillamux"
+	"github.com/awslabs/aws-lambda-go-api-proxy/httpadapter"
+	"github.com/rs/cors"
 	"github.com/sunjin110/folio/golio/generate/schema/http/go/openapi"
 	"github.com/sunjin110/folio/golio/infrastructure/cloudflare/d1"
 	"github.com/sunjin110/folio/golio/infrastructure/repository"
@@ -71,17 +71,22 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 		HandlerFunc(googleOAuthController.Callback)
 
 	// middleware
-	r.Use(golio_http.CorsMW())
 	r.Use(golio_http.AuthMW(authUsecase))
 
-	adapter := gorillamux.New(r)
+	// CORSミドルウェアの設定
+	// すべてのオリジンからのアクセスを許可する設定
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"http://localhost:3000"}, // staging, productionのoriginも設定する
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"},
+		AllowCredentials: true,
+	})
 
-	res, err := adapter.ProxyWithContext(ctx, *core.NewSwitchableAPIGatewayRequestV1(&request))
-	if err != nil {
-		return events.APIGatewayProxyResponse{}, fmt.Errorf("failed adapter.ProxyWithContext: %w", err)
-	}
+	handler := c.Handler(r)
 
-	return *res.Version1(), nil
+	adapter := httpadapter.New(handler)
+
+	return adapter.ProxyWithContext(ctx, request)
 }
 
 func accessLog(ctx context.Context, request events.APIGatewayProxyRequest) (reqEndLogFunc func()) {
