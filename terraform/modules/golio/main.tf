@@ -21,3 +21,11 @@ module "lambda" {
   ecr    = module.ecr.repository
   iam    = module.iam
 }
+
+module "api_gateway" {
+  source = "./api_gateway"
+  aws    = var.aws
+  lambda = module.lambda.lambda
+  iam    = module.iam
+  prefix = var.prefix
+}
