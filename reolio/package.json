@@ -45,7 +45,9 @@
     "build": "npx craco build",
     "test": "npx craco test",
     "eject": "npx craco eject",
-    "format": "npx prettier . --write"
+    "format": "npx prettier . --write",
+    "lint": "npx eslint --ext ts,tsx .",
+    "lint:fix": "npx eslint --ext ts,tsx --fix ."
   },
   "eslintConfig": {
     "extends": [
