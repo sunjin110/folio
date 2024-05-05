@@ -13,6 +13,12 @@ resource "github_actions_secret" "cloudflare_api_token" {
   plaintext_value = cloudflare_api_token.cloudflare_api_token.value
 }
 
+resource "github_actions_secret" "cloudflare_account_id" {
+  repository = "folio"
+  secret_name = "CLOUDFLARE_ACCOUNT_ID"
+  plaintext_value = var.cloudflare.account_id
+}
+
 resource "cloudflare_api_token" "cloudflare_api_token" {
   name = "github_actions_access_token"
   policy {
