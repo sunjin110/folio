@@ -48,7 +48,7 @@ const columns: ColumnDef<ArticleSummary>[] = [
 export default function Articles() {
   const [data, setData] = useState<ArticleSummary[]>([]);
 
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize] = useState(10);
   const [pageIndex, setPageIndex] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const { toast } = useToast();
@@ -76,7 +76,7 @@ export default function Articles() {
       }
     };
     fetch();
-  }, [pageIndex, pageSize]);
+  }, [pageIndex, pageSize, navigate, toast]);
 
   const onPageChange = (newPageIndex: number) => {
     setPageIndex(newPageIndex);

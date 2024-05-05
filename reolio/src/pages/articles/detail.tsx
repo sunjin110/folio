@@ -1,6 +1,5 @@
 import { getArticleById } from "@/api/api";
 import { Navigation } from "@/components/organisms/navigation";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { Article } from "@/domain/model/article";
 import MDEditor from "@uiw/react-md-editor";
@@ -34,7 +33,7 @@ export default function ArticleDetail() {
     if (articleId) {
       fetchArticle(articleId);
     }
-  }, [articleId]);
+  }, [articleId, toast, navigate]);
 
   return (
     <Navigation title="Articles" sidebarPosition="articles">

@@ -45,6 +45,18 @@ module "golio" {
   }
 }
 
+module "reolio" {
+  source = "../../modules/reolio"
+  cloudflare = {
+    account_id = var.cloudflare_account_id
+  }
+
+  cloudflare_pages = {
+    production_branch = "main"
+    name              = "reolio"
+  }
+}
+
 data "aws_caller_identity" "this" {}
 
 data "aws_region" "this" {}

@@ -12,7 +12,6 @@ import {
   Triangle,
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 export interface NavigationProps {
