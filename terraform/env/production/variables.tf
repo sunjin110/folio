@@ -11,6 +11,10 @@ variable "cloudflare_email" {
   type = string
 }
 
+variable "cloudflare_zone_id" {
+  type = string
+}
+
 variable "google_oauth_client_id" {
   type = string
 }

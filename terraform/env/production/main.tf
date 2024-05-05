@@ -49,11 +49,13 @@ module "reolio" {
   source = "../../modules/reolio"
   cloudflare = {
     account_id = var.cloudflare_account_id
+    zone_id    = var.cloudflare_zone_id
   }
 
   cloudflare_pages = {
     production_branch = "main"
-    name              = "reolio"
+    project_name      = "reolio"
+    subdomain_name    = "folio"
   }
 }
 

@@ -1,6 +1,7 @@
 variable "cloudflare" {
   type = object({
     account_id : string
+    zone_id : string
   })
 }
 
@@ -8,6 +9,7 @@ variable "cloudflare" {
 variable "cloudflare_pages" {
   type = object({
     production_branch = string
-    name              = string
+    project_name      = string
+    subdomain_name    = string
   })
 }
