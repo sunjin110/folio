@@ -8,4 +8,4 @@ jobs:
     deploy:
         uses: ./.github/workflows/deploy_reolio.yml
         with:
-          project_name: "folio"
+          project_name: "reolio"
