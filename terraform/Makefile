@@ -22,3 +22,12 @@ prd-plan:
 
 prd-apply:
 	@cd "$(PWD)/env/production" && terraform apply --var-file=./secret.tfvars
+
+deploy-init:
+	@cd "$(PWD)/env/deployment" && terraform init
+
+deploy-plan:
+	@cd "$(PWD)/env/deployment" && terraform plan --var-file=./secret.tfvars
+
+deploy-apply:
+	@cd "$(PWD)/env/deployment" && terraform apply --var-file=./secret.tfvars
