@@ -1,4 +1,4 @@
-import { Article, ArticleSummary } from "@/domain/model/article";
+import { Article } from "@/domain/model/article";
 import {
   GetArticleByIdOutput,
   GetArticleSummariesOutput,

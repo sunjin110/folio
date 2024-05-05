@@ -1,4 +1,4 @@
-import React, { useState } from "react"; // Reactのインポートが必要
+import React from "react"; // Reactのインポートが必要
 import {
   Table,
   TableBody,

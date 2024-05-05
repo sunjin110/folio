@@ -1,10 +1,8 @@
 import { getArticleById, updateArticle } from "@/api/api";
 import { Navigation } from "@/components/organisms/navigation";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -36,7 +34,7 @@ export default function EditArticle() {
     if (articleId) {
       fetch(articleId);
     }
-  }, [articleId]);
+  }, [articleId, navigate, toast]);
 
   const handleEdit = async () => {
     try {
