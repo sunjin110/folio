@@ -33,6 +33,8 @@ module "lambda" {
     D1_DATABASE_ACCOUNT_ID : var.cloudflare.account_id,
     D1_DATABASE_DATABASE_ID : module.d1.db_id,
     D1_DATABASE_API_TOKEN : module.d1.api_token
+
+    CORS_ALLOWED_ORIGINS : var.reolio.base_url
   }
 }
 

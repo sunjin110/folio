@@ -24,3 +24,9 @@ variable "google_oauth" {
     callback_redirect_uri = string
   })
 }
+
+variable "reolio" {
+  type = object({
+    base_url : string
+  })
+}

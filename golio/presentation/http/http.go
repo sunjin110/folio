@@ -55,7 +55,7 @@ func Router(ctx context.Context, cfg *httpconf.Config) (http.Handler, error) {
 	// CORSミドルウェアの設定
 	// すべてのオリジンからのアクセスを許可する設定
 	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:3000"}, // staging, productionのoriginも設定する
+		AllowedOrigins:   cfg.CORS.GetAllowedOrigins(),
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"Accept", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"},
 		AllowCredentials: true,

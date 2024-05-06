@@ -76,7 +76,7 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	// CORSミドルウェアの設定
 	// すべてのオリジンからのアクセスを許可する設定
 	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:3000"}, // staging, productionのoriginも設定する
+		AllowedOrigins:   cfg.CORS.GetAllowedOrigins(),
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"Accept", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"},
 		AllowCredentials: true,

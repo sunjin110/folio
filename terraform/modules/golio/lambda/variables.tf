@@ -33,5 +33,7 @@ variable "environment" {
     D1_DATABASE_ACCOUNT_ID : string,
     D1_DATABASE_DATABASE_ID : string,
     D1_DATABASE_API_TOKEN : string,
+
+    CORS_ALLOWED_ORIGINS : string,
   })
 }
