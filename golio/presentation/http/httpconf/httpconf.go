@@ -3,6 +3,7 @@ package httpconf
 import (
 	"fmt"
 	"path/filepath"
+	"strings"
 
 	"github.com/caarlos0/env/v10"
 	"github.com/joho/godotenv"
@@ -14,6 +15,7 @@ type Config struct {
 	GoogleOAuth    GoogleOAuthConfig `envPrefix:"GOOGLE_OAUTH_"`
 	SessionKVStore KVStoreConfig     `envPrefix:"SESSION_KV_STORE_"`
 	D1Database     D1Config          `envPrefix:"D1_DATABASE_"`
+	CORS           CORSConfig        `envPrefix:"CORS_"`
 }
 
 type Server struct {
@@ -37,6 +39,14 @@ type D1Config struct {
 	AccountID  string `env:"ACCOUNT_ID"`
 	DatabaseID string `env:"DATABASE_ID"`
 	APIToken   string `env:"API_TOKEN"`
+}
+
+type CORSConfig struct {
+	AllowedOrigins string `env:"ALLOWED_ORIGINS"`
+}
+
+func (c *CORSConfig) GetAllowedOrigins() []string {
+	return strings.Split(c.AllowedOrigins, ",")
 }
 
 func NewConfig() (*Config, error) {

@@ -43,6 +43,10 @@ module "golio" {
     redirect_uri          = var.google_oauth_redirect_uri
     callback_redirect_uri = var.google_oauth_callback_redirect_uri
   }
+
+  reolio = {
+    base_url = "https://folio.sunjin.info"
+  }
 }
 
 module "reolio" {
