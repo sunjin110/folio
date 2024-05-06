@@ -7,5 +7,5 @@ output "api_token" {
 }
 
 output "namespace_id" {
-  value = cloudflare_api_token.this.id
+  value = cloudflare_workers_kv_namespace.this.id
 }
