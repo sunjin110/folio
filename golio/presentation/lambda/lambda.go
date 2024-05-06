@@ -78,7 +78,7 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	c := cors.New(cors.Options{
 		AllowedOrigins:   cfg.CORS.GetAllowedOrigins(),
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowedHeaders:   []string{"Accept", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"},
+		AllowedHeaders:   []string{"Accept", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization", "Cookie"},
 		AllowCredentials: true,
 	})
 

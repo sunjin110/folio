@@ -58,8 +58,10 @@ func (c *googleOAuthController) Callback(w http.ResponseWriter, r *http.Request)
 		Name:     "access_token",
 		Value:    output.AccessToken,
 		HttpOnly: true,
+		Secure:   true,
 		Path:     "/",
-		SameSite: http.SameSiteLaxMode,
+		// SameSite: http.SameSiteLaxMode,
+		SameSite: http.SameSiteNoneMode,
 	})
 	http.Redirect(w, r, c.callbackRedirectURI, http.StatusFound)
 }
