@@ -7,6 +7,7 @@ terraform {
   }
 }
 
+# cloudflare
 resource "github_actions_secret" "cloudflare_api_token" {
   repository      = "folio"
   secret_name     = "CLOUDFLARE_API_TOKEN"
@@ -48,3 +49,5 @@ resource "cloudflare_api_token" "cloudflare_api_token" {
 data "cloudflare_api_token_permission_groups" "all" {
   # https://developers.cloudflare.com/fundamentals/api/reference/permissions/
 }
+
+# aws
