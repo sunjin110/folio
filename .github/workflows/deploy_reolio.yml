@@ -5,6 +5,9 @@ on:
             project_name: 
                 required: true
                 type: string
+            golio_base_url:
+                required: true
+                type: string
         secrets:
             CLOUDFLARE_API_TOKEN:
                 required: true
@@ -25,6 +28,9 @@ jobs:
                 node-version: '20.x'
             - run: npm install
             - run: npm run build
+              env:
+                REACT_APP_GOLIO_BASE_URL: ${{ inputs.golio_base_url }}
+
             - uses: cloudflare/wrangler-action@v3
               with:
                 apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
