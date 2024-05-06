@@ -3,7 +3,6 @@ module "cloudflare_pages" {
   production_branch = var.cloudflare_pages.production_branch
   name              = var.cloudflare_pages.project_name
   cloudflare        = var.cloudflare
-  golio             = var.golio
 }
 
 module "domain" {

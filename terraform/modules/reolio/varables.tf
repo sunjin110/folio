@@ -13,9 +13,3 @@ variable "cloudflare_pages" {
     subdomain_name    = string
   })
 }
-
-variable "golio" {
-  type = object({
-    base_url : string
-  })
-}
