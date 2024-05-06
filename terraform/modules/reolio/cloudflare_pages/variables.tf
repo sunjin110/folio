@@ -11,9 +11,3 @@ variable "name" {
 variable "production_branch" {
   type = string
 }
-
-variable "golio" {
-  type = object({
-    base_url : string
-  })
-}

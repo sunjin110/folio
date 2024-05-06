@@ -20,6 +20,7 @@ locals {
     profile    = "folio-terraform"
   }
   reolio_base_url = "https://folio.sunjin.info"
+  golio_domain    = "folio-api.sunjin.info"
 }
 
 module "golio" {
@@ -40,7 +41,7 @@ module "golio" {
   google_oauth = {
     client_id             = var.google_oauth_client_id
     client_secret         = var.google_oauth_secret_id
-    redirect_uri          = var.google_oauth_redirect_uri
+    redirect_uri          = "https://${local.golio_domain}/auth/google-oauth/callback"
     callback_redirect_uri = "${local.reolio_base_url}/login"
   }
 
@@ -49,7 +50,7 @@ module "golio" {
   }
 
   domain = {
-    domain_name = "folio-api.sunjin.info"
+    domain_name = local.golio_domain
     name        = "folio-api"
   }
 }
@@ -65,10 +66,6 @@ module "reolio" {
     production_branch = "main"
     project_name      = "reolio"
     subdomain_name    = "folio"
-  }
-
-  golio = {
-    base_url = module.golio.golio.base_url
   }
 }
 
