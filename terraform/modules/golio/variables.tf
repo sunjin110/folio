@@ -9,6 +9,7 @@ variable "aws" {
 variable "cloudflare" {
   type = object({
     account_id = string
+    zone_id    = string
   })
 }
 
@@ -28,5 +29,12 @@ variable "google_oauth" {
 variable "reolio" {
   type = object({
     base_url : string
+  })
+}
+
+variable "domain" {
+  type = object({
+    domain_name : string
+    name : string
   })
 }

@@ -57,3 +57,22 @@ module "d1" {
   name                  = "${var.prefix}-folio-db"
   cloudflare_account_id = var.cloudflare.account_id
 }
+
+module "acm" {
+  source = "./acm"
+  providers = {
+    aws = aws.virginia
+  }
+
+  cloudflare  = var.cloudflare
+  domain_name = var.domain.domain_name
+}
+
+module "domain" {
+  source      = "./domain"
+  domain_name = var.domain.domain_name
+  name        = var.domain.name
+  api_gateway = module.api_gateway.api_gateway
+  cloudflare  = var.cloudflare
+  acm         = module.acm.acm
+}

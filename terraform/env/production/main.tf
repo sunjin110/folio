@@ -11,15 +11,7 @@ terraform {
   }
 }
 
-provider "aws" {
-  region  = "ap-northeast-1"
-  profile = "folio-terraform"
-}
 
-provider "cloudflare" {
-  api_key = var.cloudflare_api_key
-  email   = var.cloudflare_email
-}
 
 locals {
   aws = {
@@ -32,9 +24,16 @@ locals {
 
 module "golio" {
   source = "../../modules/golio"
-  aws    = local.aws
+
+  providers = {
+    aws          = aws
+    aws.virginia = aws.virginia
+  }
+
+  aws = local.aws
   cloudflare = {
     account_id = var.cloudflare_account_id
+    zone_id    = var.cloudflare_zone_id
   }
 
   prefix = "production"
@@ -47,6 +46,11 @@ module "golio" {
 
   reolio = {
     base_url = local.reolio_base_url
+  }
+
+  domain = {
+    domain_name = "folio-api.sunjin.info"
+    name        = "folio-api"
   }
 }
 
