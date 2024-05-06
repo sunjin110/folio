@@ -27,6 +27,7 @@ locals {
     region     = data.aws_region.this.name
     profile    = "folio-terraform"
   }
+  reolio_base_url = "https://folio.sunjin.info"
 }
 
 module "golio" {
@@ -41,11 +42,11 @@ module "golio" {
     client_id             = var.google_oauth_client_id
     client_secret         = var.google_oauth_secret_id
     redirect_uri          = var.google_oauth_redirect_uri
-    callback_redirect_uri = var.google_oauth_callback_redirect_uri
+    callback_redirect_uri = "${local.reolio_base_url}/login"
   }
 
   reolio = {
-    base_url = "https://folio.sunjin.info"
+    base_url = local.reolio_base_url
   }
 }
 
