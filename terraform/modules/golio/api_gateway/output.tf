@@ -5,5 +5,7 @@ output "api_gateway" {
     arn : aws_api_gateway_rest_api.this.arn
     stage_arn : aws_api_gateway_stage.this.arn
     invoke_url : aws_api_gateway_stage.this.invoke_url
+    stage_name : local.stage_name
+
   }
 }
