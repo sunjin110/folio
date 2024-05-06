@@ -57,6 +57,10 @@ module "reolio" {
     project_name      = "reolio"
     subdomain_name    = "folio"
   }
+
+  golio = {
+    base_url = module.golio.golio.base_url
+  }
 }
 
 data "aws_caller_identity" "this" {}
