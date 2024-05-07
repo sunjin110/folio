@@ -9,6 +9,14 @@ terraform {
       version = "~> 5.0.1"
     }
   }
+  backend "s3" {
+    bucket         = "production-folio-terraform-state"
+    key            = "terraform.tfstate"
+    region         = "ap-northeast-1"
+    dynamodb_table = "production-folio-terraform-state"
+    encrypt        = true
+    profile        = "folio-terraform"
+  }
 }
 
 
@@ -21,6 +29,7 @@ locals {
   }
   reolio_base_url = "https://folio.sunjin.info"
   golio_domain    = "folio-api.sunjin.info"
+  tfstate_name    = "production-folio-terraform-state"
 }
 
 module "golio" {
@@ -67,6 +76,11 @@ module "reolio" {
     project_name      = "reolio"
     subdomain_name    = "folio"
   }
+}
+
+module "tfstate" {
+  source = "../../modules/tfstate"
+  name   = local.tfstate_name
 }
 
 data "aws_caller_identity" "this" {}
