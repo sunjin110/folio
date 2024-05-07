@@ -1,0 +1,13 @@
+name: Js Test for reolio
+on:
+    pull_request:
+        types: [opened, synchronize]
+        paths:
+            - "reolio/**"
+            - ".github/workflows/js_test_reolio.yml"
+            - ".github/workflows/js_test.yml"
+jobs:
+    test:
+        uses: ./.github/workflows/js_test.yml
+        with:
+            directory: ./reolio
