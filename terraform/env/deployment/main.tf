@@ -13,6 +13,14 @@ terraform {
       version = "~> 5.0.1"
     }
   }
+  backend "s3" {
+    bucket = "deployment-folio-terraform-state"
+    key = "terraform.tfstate"
+    region = "ap-northeast-1"
+    dynamodb_table = "deployment-folio-terraform-state"
+    encrypt = true
+    profile = "folio-terraform"
+  }
 }
 
 locals {
@@ -46,6 +54,11 @@ module "deployment" {
   aws_deploy = {
     role_name = "githubactions"
   }
+}
+
+module "tfstate" {
+  source = "../../modules/tfstate"
+  name = "deployment-folio-terraform-state"
 }
 
 data "aws_caller_identity" "this" {}
