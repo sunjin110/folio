@@ -14,12 +14,12 @@ terraform {
     }
   }
   backend "s3" {
-    bucket = "deployment-folio-terraform-state"
-    key = "terraform.tfstate"
-    region = "ap-northeast-1"
+    bucket         = "deployment-folio-terraform-state"
+    key            = "terraform.tfstate"
+    region         = "ap-northeast-1"
     dynamodb_table = "deployment-folio-terraform-state"
-    encrypt = true
-    profile = "folio-terraform"
+    encrypt        = true
+    profile        = "folio-terraform"
   }
 }
 
@@ -58,7 +58,7 @@ module "deployment" {
 
 module "tfstate" {
   source = "../../modules/tfstate"
-  name = "deployment-folio-terraform-state"
+  name   = "deployment-folio-terraform-state"
 }
 
 data "aws_caller_identity" "this" {}
