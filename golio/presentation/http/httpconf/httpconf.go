@@ -16,6 +16,7 @@ type Config struct {
 	SessionKVStore KVStoreConfig     `envPrefix:"SESSION_KV_STORE_"`
 	D1Database     D1Config          `envPrefix:"D1_DATABASE_"`
 	CORS           CORSConfig        `envPrefix:"CORS_"`
+	PostgresDB     PostgresConfig    `envPrefix:"POSTGRES_"`
 }
 
 type Server struct {
@@ -47,6 +48,10 @@ type CORSConfig struct {
 
 func (c *CORSConfig) GetAllowedOrigins() []string {
 	return strings.Split(c.AllowedOrigins, ",")
+}
+
+type PostgresConfig struct {
+	Datasource string `env:"DATASOURCE"`
 }
 
 func NewConfig() (*Config, error) {

@@ -6,18 +6,25 @@ require (
 	github.com/aws/aws-lambda-go v1.47.0
 	github.com/awslabs/aws-lambda-go-api-proxy v0.16.2
 	github.com/caarlos0/env/v10 v10.0.0
+	github.com/golang-migrate/migrate/v4 v4.17.1
 	github.com/google/uuid v1.6.0
 	github.com/gorilla/mux v1.8.1
 	github.com/huandu/go-sqlbuilder v1.27.1
+	github.com/jmoiron/sqlx v1.4.0
 	github.com/joho/godotenv v1.5.1
 	github.com/rs/cors v1.11.0
 	github.com/smartystreets/goconvey v1.8.1
 	golang.org/x/sync v0.7.0
+	golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2
 )
 
 require (
 	github.com/gopherjs/gopherjs v1.17.2 // indirect
+	github.com/hashicorp/errwrap v1.1.0 // indirect
+	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/huandu/xstrings v1.3.2 // indirect
 	github.com/jtolds/gls v4.20.0+incompatible // indirect
+	github.com/lib/pq v1.10.9 // indirect
 	github.com/smarty/assertions v1.15.0 // indirect
+	go.uber.org/atomic v1.7.0 // indirect
 )

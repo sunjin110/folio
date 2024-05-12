@@ -11,3 +11,7 @@ https://zenn.dev/acompany/articles/51e1dcc83279ee
 ```sh
 curl "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{"path":"/hello"}'
 ```
+
+# migrations
+
+migrate create -ext sql -dir schema/postgres/migrations -seq create_article_summaries
