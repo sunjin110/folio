@@ -75,6 +75,26 @@ func (c *GolioAPIController) Routes() Routes {
 			"/hello",
 			c.HelloGet,
 		},
+		"MediaGet": Route{
+			strings.ToUpper("Get"),
+			"/media",
+			c.MediaGet,
+		},
+		"MediaMediumIdDelete": Route{
+			strings.ToUpper("Delete"),
+			"/media/{medium_id}",
+			c.MediaMediumIdDelete,
+		},
+		"MediaMediumIdGet": Route{
+			strings.ToUpper("Get"),
+			"/media/{medium_id}",
+			c.MediaMediumIdGet,
+		},
+		"MediaPost": Route{
+			strings.ToUpper("Post"),
+			"/media",
+			c.MediaPost,
+		},
 	}
 }
 
@@ -204,6 +224,99 @@ func (c *GolioAPIController) ArticlesPost(w http.ResponseWriter, r *http.Request
 // HelloGet - hello
 func (c *GolioAPIController) HelloGet(w http.ResponseWriter, r *http.Request) {
 	result, err := c.service.HelloGet(r.Context())
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, w)
+}
+
+// MediaGet - メディア一覧取得
+func (c *GolioAPIController) MediaGet(w http.ResponseWriter, r *http.Request) {
+	query, err := parseQuery(r.URL.RawQuery)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	var offsetParam int32
+	if query.Has("offset") {
+		param, err := parseNumericParameter[int32](
+			query.Get("offset"),
+			WithParse[int32](parseInt32),
+		)
+		if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+		}
+
+		offsetParam = param
+	} else {
+	}
+	var limitParam int32
+	if query.Has("limit") {
+		param, err := parseNumericParameter[int32](
+			query.Get("limit"),
+			WithParse[int32](parseInt32),
+		)
+		if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+		}
+
+		limitParam = param
+	} else {
+	}
+	result, err := c.service.MediaGet(r.Context(), offsetParam, limitParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, w)
+}
+
+// MediaMediumIdDelete - メディアの削除
+func (c *GolioAPIController) MediaMediumIdDelete(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	mediumIdParam := params["medium_id"]
+	if mediumIdParam == "" {
+		c.errorHandler(w, r, &RequiredError{"medium_id"}, nil)
+		return
+	}
+	result, err := c.service.MediaMediumIdDelete(r.Context(), mediumIdParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, w)
+}
+
+// MediaMediumIdGet - メディアの取得
+func (c *GolioAPIController) MediaMediumIdGet(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	mediumIdParam := params["medium_id"]
+	if mediumIdParam == "" {
+		c.errorHandler(w, r, &RequiredError{"medium_id"}, nil)
+		return
+	}
+	result, err := c.service.MediaMediumIdGet(r.Context(), mediumIdParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, w)
+}
+
+// MediaPost - メディアの登録
+func (c *GolioAPIController) MediaPost(w http.ResponseWriter, r *http.Request) {
+	result, err := c.service.MediaPost(r.Context())
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

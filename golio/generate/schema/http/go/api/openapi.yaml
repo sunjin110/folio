@@ -180,6 +180,103 @@ paths:
       summary: hello
       tags:
       - golio
+  /media:
+    get:
+      deprecated: false
+      description: ""
+      parameters:
+      - description: ""
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: ""
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                properties: {}
+                type: object
+          description: Success
+      security: []
+      summary: メディア一覧取得
+      tags:
+      - golio
+    post:
+      deprecated: false
+      description: ""
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                properties: {}
+                type: object
+          description: Success
+      security: []
+      summary: メディアの登録
+      tags:
+      - golio
+  /media/{medium_id}:
+    delete:
+      deprecated: false
+      description: ""
+      parameters:
+      - description: ""
+        explode: false
+        in: path
+        name: medium_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                properties: {}
+                type: object
+          description: Success
+      security: []
+      summary: メディアの削除
+      tags:
+      - golio
+    get:
+      deprecated: false
+      description: ""
+      parameters:
+      - description: ""
+        explode: false
+        in: path
+        name: medium_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_media__medium_id__get_200_response'
+          description: Success
+      security: []
+      summary: メディアの取得
+      tags:
+      - golio
 components:
   schemas:
     _articles_get_200_response_articles_inner:
@@ -273,5 +370,26 @@ components:
           type: string
       required:
       - hello
+      type: object
+    _media__medium_id__get_200_response:
+      example:
+        file_type: file_type
+        download_url: download_url
+        medium_id: medium_id
+        thumbnail_url: thumbnail_url
+      properties:
+        medium_id:
+          type: string
+        thumbnail_url:
+          type: string
+        download_url:
+          type: string
+        file_type:
+          type: string
+      required:
+      - download_url
+      - file_type
+      - medium_id
+      - thumbnail_url
       type: object
   securitySchemes: {}

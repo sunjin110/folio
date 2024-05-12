@@ -79,3 +79,16 @@ func (g *golioAPIServicer) ArticlesArticleIdPut(ctx context.Context, articleID s
 	}
 	return openapi.Response(http.StatusOK, nil), nil
 }
+
+func (g *golioAPIServicer) MediaGet(ctx context.Context, offset int32, limit int32) (openapi.ImplResponse, error) {
+	panic("")
+}
+func (g *golioAPIServicer) MediaMediumIdDelete(ctx context.Context, mediumID string) (openapi.ImplResponse, error) {
+	panic("")
+}
+func (g *golioAPIServicer) MediaMediumIdGet(ctx context.Context, mediumID string) (openapi.ImplResponse, error) {
+	panic("")
+}
+func (g *golioAPIServicer) MediaPost(ctx context.Context) (openapi.ImplResponse, error) {
+	panic("")
+}
