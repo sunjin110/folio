@@ -1,5 +1,19 @@
-version: "3.8"
 services:
+  db:
+    image: postgres:16.2
+    ports:
+      - 127.0.0.1:5441:5432
+    environment:
+      POSTGRES_USER: golion
+      POSTGRES_PASSWORD: golio-password
+      POSTGRES_DB: golio
+    volumes:
+      - golio-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready --username=golion --dbname=golio"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
   s3:
     image: localstack/localstack:latest
     ports:
@@ -33,3 +47,7 @@ services:
      "
        aws --endpoint-url=http://s3:4566 s3api create-bucket --bucket golio-media --region ap-northeast-1 --create-bucket-configuration LocationConstraint=ap-northeast-1
      "
+
+volumes:
+  golio-db:
+    driver: local
