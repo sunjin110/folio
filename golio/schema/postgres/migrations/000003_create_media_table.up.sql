@@ -5,4 +5,3 @@ create table if not exists media(
     created_at timestamp not null,
     updated_at timestamp not null
 );
-
