@@ -17,6 +17,8 @@ type Config struct {
 	D1Database     D1Config          `envPrefix:"D1_DATABASE_"`
 	CORS           CORSConfig        `envPrefix:"CORS_"`
 	PostgresDB     PostgresConfig    `envPrefix:"POSTGRES_"`
+	AWS            AWSConfig         `envPrefix:"AWS_"`
+	MediaS3        S3Config          `envPrefix:"MEDIA_S3_"`
 }
 
 type Server struct {
@@ -52,6 +54,17 @@ func (c *CORSConfig) GetAllowedOrigins() []string {
 
 type PostgresConfig struct {
 	Datasource string `env:"DATASOURCE"`
+}
+
+type AWSConfig struct {
+	AccessKeyID     string `env:"ACCESS_KEY_ID"`
+	SecretAccessKey string `env:"SECRET_ACCESS_KEY"`
+	DefaultRegion   string `env:"DEFAULT_REGION"`
+}
+
+type S3Config struct {
+	Region     string `env:"REGION"`
+	BucketName string `env:"BUCKET_NAME"`
 }
 
 func NewConfig() (*Config, error) {
