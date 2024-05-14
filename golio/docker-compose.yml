@@ -21,8 +21,8 @@ services:
     environment:
       - SERVICES=s3:4566
       - HOSTNAME=s3
-      - HOSTNAME_EXTERNAL=s3
-      - DEFAULT_REGION=ap-northeast-1
+      - LOCALSTACK_HOST=s3
+      - S3_SKIP_SIGNATURE_VALIDATION=0
   s3-gui-client:
     image: cloudlena/s3manager:latest
     ports:
@@ -41,11 +41,12 @@ services:
     environment:
       - AWS_ACCESS_KEY_ID=test
       - AWS_SECRET_ACCESS_KEY=test
-      - AWS_DEFAULT_REGION=ap-northeast-1
+      - AWS_DEFAULT_REGION=us-east-1
     entrypoint: /bin/sh -c
     command: >
      "
-       aws --endpoint-url=http://s3:4566 s3api create-bucket --bucket golio-media --region ap-northeast-1 --create-bucket-configuration LocationConstraint=ap-northeast-1
+      #  aws --endpoint-url=http://s3:4566 s3api create-bucket --bucket golio-media --region us-east-1 --create-bucket-configuration LocationConstraint=us-east-1
+      aws --endpoint-url=http://s3:4566 s3api create-bucket --bucket golio-media --region us-east-1
      "
 
 volumes:
