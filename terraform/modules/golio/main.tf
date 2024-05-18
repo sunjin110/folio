@@ -83,3 +83,9 @@ module "network" {
   cidr_block = var.cidr_block
   prefix     = var.prefix
 }
+
+module "rds" {
+  source  = "./rds"
+  network = module.network.network
+  prefix  = var.prefix
+}
