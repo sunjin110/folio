@@ -316,7 +316,22 @@ func (c *GolioAPIController) MediaMediumIdGet(w http.ResponseWriter, r *http.Req
 
 // MediaPost - メディアの登録
 func (c *GolioAPIController) MediaPost(w http.ResponseWriter, r *http.Request) {
-	result, err := c.service.MediaPost(r.Context())
+	mediaPostRequestParam := MediaPostRequest{}
+	d := json.NewDecoder(r.Body)
+	d.DisallowUnknownFields()
+	if err := d.Decode(&mediaPostRequestParam); err != nil && !errors.Is(err, io.EOF) {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	if err := AssertMediaPostRequestRequired(mediaPostRequestParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	if err := AssertMediaPostRequestConstraints(mediaPostRequestParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	result, err := c.service.MediaPost(r.Context(), mediaPostRequestParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

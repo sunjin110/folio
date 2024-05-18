@@ -43,7 +43,7 @@ func (m *Medium) ToSummaryModel(thumbnailURL string) *model.MediumSummary {
 	return &model.MediumSummary{
 		ID:           m.ID,
 		FileType:     m.FileType,
-		ThumbnailURL: thumbnailURL,
+		ThumbnailURL: &thumbnailURL,
 		CreatedAt:    m.CreatedAt,
 		UpdatedAt:    m.UpdatedAt,
 	}

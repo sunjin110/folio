@@ -5,10 +5,32 @@ on:
             directory:
                 required: true
                 type: string
-
 jobs:
     test:
         runs-on: ubuntu-latest
+        services:
+            db:
+                image: postgres:16.2
+                ports:
+                    - 5442:5432
+                env:
+                    POSTGRES_USER: golion
+                    POSTGRES_PASSWORD: golio-password
+                    POSTGRES_DB: golio
+                options: >-
+                    --health-cmd pg_isready
+                    --health-interval 10s
+                    --health-timeout 5s
+                    --health-retries 5
+            s3:
+                image: localstack/localstack:latest
+                ports:
+                    - 4566:4566
+                env:
+                    SERVICES: s3:4566
+                    HOSTNAME: s3
+                    LOCALSTACK_HOST: s3
+                    S3_SKIP_SIGNATURE_VALIDATION: 0
         defaults:
             run:
                 working-directory: ${{ inputs.directory }}
@@ -18,4 +40,9 @@ jobs:
               with:
                 go-version-file: '${{ inputs.directory }}/go.mod'
                 cache-dependency-path: '${{ inputs.directory }}'
+            - run: |
+                aws configure set aws_access_key_id test
+                aws configure set aws_secret_access_key test
+                aws configure set region us-east-1
+                aws --endpoint-url=http://localhost:4566 s3api create-bucket --bucket golio-media --region us-east-1
             - run: go test ./... -cover

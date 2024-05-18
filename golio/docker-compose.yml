@@ -14,6 +14,21 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+  test_db:
+    image: postgres:16.2
+    ports:
+      - 127.0.0.1:5442:5432
+    environment:
+      POSTGRES_USER: golion
+      POSTGRES_PASSWORD: golio-password
+      POSTGRES_DB: golio
+    volumes:
+      - golio-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready --username=golion --dbname=golio"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
   s3:
     image: localstack/localstack:latest
     ports:

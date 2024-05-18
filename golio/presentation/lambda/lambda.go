@@ -55,7 +55,8 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	authUsecase := usecase.NewAuth(googleOAuth2Repo, sessionRepo)
 	articleUsecase := usecase.NewArticle(articleRepo)
 
-	golioAPIController := openapi.NewGolioAPIController(golio_http.NewGolioAPIServicer(articleUsecase))
+	// TODO
+	golioAPIController := openapi.NewGolioAPIController(golio_http.NewGolioAPIServicer(articleUsecase, nil))
 
 	googleOAuthController := golio_http.NewGoogleOAuthController(authUsecase, cfg.GoogleOAuth.CallbackRedirectURI)
 	r := openapi.NewRouter(golioAPIController)

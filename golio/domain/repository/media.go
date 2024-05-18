@@ -12,4 +12,5 @@ type Media interface {
 	Get(ctx context.Context, id string) (*model.Medium, error)
 	Delete(ctx context.Context, id string) error
 	FindSummary(ctx context.Context, paging *Paging) ([]*model.MediumSummary, error)
+	TotalCount(ctx context.Context) (int32, error)
 }

@@ -65,7 +65,7 @@ func (m *media) FindSummary(ctx context.Context, paging *repository.Paging) ([]*
 	sb.Select("*").From("media").Limit(paging.Limit).Offset(paging.Offset).OrderBy("created_at")
 	sb.Desc()
 
-	sql, args := sb.Build()
+	sql, args := sb.BuildWithFlavor(sqlbuilder.PostgreSQL)
 
 	media := dto.Media{}
 	if err := m.db.SelectContext(ctx, &media, sql, args...); err != nil {
@@ -79,7 +79,7 @@ func (m *media) FindSummary(ctx context.Context, paging *repository.Paging) ([]*
 func (m *media) Get(ctx context.Context, id string) (*model.Medium, error) {
 	sb := sqlbuilder.NewSelectBuilder()
 	sb.Select("*").From("media").Limit(1).Where(sb.EQ("id", id))
-	sql, args := sb.Build()
+	sql, args := sb.BuildWithFlavor(sqlbuilder.PostgreSQL)
 
 	mediumDto := &dto.Medium{}
 	if err := m.db.GetContext(ctx, mediumDto, sql, args...); err != nil {
@@ -103,12 +103,11 @@ func (m *media) Insert(ctx context.Context, txTime time.Time, id string, fileTyp
 	}
 	sb := sqlbuilder.NewInsertBuilder()
 	sql, args := sb.InsertInto("media").
-		Cols("id", "path", "file_tpe", "created_at", "updated_at").
-		Values(id, path, fileType, txTime, txTime).
-		Build()
+		Cols("id", "path", "file_type", "created_at", "updated_at").
+		Values(id, path, fileType, txTime, txTime).BuildWithFlavor(sqlbuilder.PostgreSQL)
 
 	if _, err := m.db.ExecContext(ctx, sql, args...); err != nil {
-		return "", fmt.Errorf("failed insert to db: %w", err)
+		return "", fmt.Errorf("failed insert to db. sql: %s, err: %w", sql, err)
 	}
 	return uploadPresignedURL, nil
 }
@@ -142,4 +141,25 @@ func (m *media) getDownloadPresignedURL(ctx context.Context, path string) (strin
 		return "", fmt.Errorf("failed make presigned url: %w", err)
 	}
 	return req.URL, nil
+}
+
+func (m *media) TotalCount(ctx context.Context) (int32, error) {
+	sb := sqlbuilder.NewSelectBuilder()
+	sb.Select("count(*)").From("media")
+	sql, _ := sb.BuildWithFlavor(sqlbuilder.PostgreSQL)
+
+	rows, err := m.db.DB.QueryContext(ctx, sql)
+	if err != nil {
+		return -1, fmt.Errorf("failed queryContext: %w", err)
+	}
+	defer rows.Close()
+	if !rows.Next() {
+		return -1, fmt.Errorf("rows not found")
+	}
+
+	var totalCount int32
+	if err := rows.Scan(&totalCount); err != nil {
+		return -1, fmt.Errorf("failed scan: %w", err)
+	}
+	return totalCount, nil
 }
