@@ -2,12 +2,15 @@ package postgres
 
 import (
 	"errors"
+	"fmt"
 	"log/slog"
 
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
+	"github.com/golang-migrate/migrate/v4/source/iofs"
 	"github.com/jmoiron/sqlx"
+	"github.com/sunjin110/folio/golio/schema"
 	"golang.org/x/xerrors"
 )
 
@@ -42,8 +45,14 @@ func MigrateDB(datasource string) error {
 		return xerrors.Errorf("failed make postgres driver: %w", err)
 	}
 
-	m, err := migrate.NewWithDatabaseInstance(
-		"file://./schema/postgres/migrations",
+	d, err := iofs.New(schema.PostgresMigrations, "postgres/migrations")
+	if err != nil {
+		return fmt.Errorf("failed iofs.New: %w", err)
+	}
+
+	m, err := migrate.NewWithInstance(
+		"iofs",
+		d,
 		"postgres",
 		driver,
 	)
@@ -55,7 +64,47 @@ func MigrateDB(datasource string) error {
 		return xerrors.Errorf("failed migration: %w", err)
 	}
 
-	// zap.L().Info("データベースのマイグレーションを終了します")
 	slog.Info("finished database migration")
+	return nil
+}
+
+func MigrateDownDB(datasource string) error {
+	slog.Info("start down migration")
+	db, err := OpenDB(datasource)
+	if err != nil {
+		return xerrors.Errorf("failed database open: %w", err)
+	}
+
+	defer func() {
+		if err := db.Close(); err != nil {
+			slog.Error("failed close database", "err", err)
+		}
+	}()
+
+	driver, err := postgres.WithInstance(db.DB, &postgres.Config{})
+	if err != nil {
+		return xerrors.Errorf("failed make postgres driver: %w", err)
+	}
+
+	d, err := iofs.New(schema.PostgresMigrations, "postgres/migrations")
+	if err != nil {
+		return fmt.Errorf("failed iofs.New: %w", err)
+	}
+
+	m, err := migrate.NewWithInstance(
+		"iofs",
+		d,
+		"postgres",
+		driver,
+	)
+	if err != nil {
+		return xerrors.Errorf("failed read migration file: %w", err)
+	}
+
+	if err := m.Down(); err != nil && !errors.Is(err, migrate.ErrNoChange) {
+		return xerrors.Errorf("failed migration: %w", err)
+	}
+
+	slog.Info("finished database migration down")
 	return nil
 }

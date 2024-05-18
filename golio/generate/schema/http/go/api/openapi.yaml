@@ -205,9 +205,19 @@ paths:
         "200":
           content:
             application/json:
+              examples:
+                "1":
+                  summary: Success
+                  value:
+                    total_count: 0
+                    media:
+                    - id: ""
+                      file_type: ""
+                      thumbnail_url: ""
+                      created_at: ""
+                      updated_at: ""
               schema:
-                properties: {}
-                type: object
+                $ref: '#/components/schemas/_media_get_200_response'
           description: Success
       security: []
       summary: メディア一覧取得
@@ -217,13 +227,25 @@ paths:
       deprecated: false
       description: ""
       parameters: []
+      requestBody:
+        content:
+          application/json:
+            example:
+              file_name: ""
+              file_type: ""
+            schema:
+              $ref: '#/components/schemas/_media_post_request'
       responses:
         "200":
           content:
             application/json:
+              examples:
+                "1":
+                  summary: Success
+                  value:
+                    upload_presigned_url: ""
               schema:
-                properties: {}
-                type: object
+                $ref: '#/components/schemas/_media_post_200_response'
           description: Success
       security: []
       summary: メディアの登録
@@ -370,6 +392,75 @@ components:
           type: string
       required:
       - hello
+      type: object
+    _media_get_200_response_media_inner:
+      example:
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        file_type: file_type
+        created_at: 2000-01-23T04:56:07.000+00:00
+        id: id
+        thumbnail_url: http://example.com/aeiou
+      properties:
+        id:
+          type: string
+        file_type:
+          type: string
+        thumbnail_url:
+          format: url
+          nullable: true
+          type: string
+        created_at:
+          format: date-time
+          type: string
+        updated_at:
+          format: date-time
+          type: string
+      required:
+      - created_at
+      - file_type
+      - id
+      - updated_at
+      type: object
+    _media_get_200_response:
+      example:
+        total_count: 0
+        media:
+        - updated_at: 2000-01-23T04:56:07.000+00:00
+          file_type: file_type
+          created_at: 2000-01-23T04:56:07.000+00:00
+          id: id
+          thumbnail_url: http://example.com/aeiou
+        - updated_at: 2000-01-23T04:56:07.000+00:00
+          file_type: file_type
+          created_at: 2000-01-23T04:56:07.000+00:00
+          id: id
+          thumbnail_url: http://example.com/aeiou
+      properties:
+        total_count:
+          type: integer
+        media:
+          items:
+            $ref: '#/components/schemas/_media_get_200_response_media_inner'
+          type: array
+      required:
+      - media
+      - total_count
+      type: object
+    _media_post_request:
+      properties:
+        file_name:
+          type: string
+      required:
+      - file_name
+      type: object
+    _media_post_200_response:
+      example:
+        upload_presigned_url: upload_presigned_url
+      properties:
+        upload_presigned_url:
+          type: string
+      required:
+      - upload_presigned_url
       type: object
     _media__medium_id__get_200_response:
       example:

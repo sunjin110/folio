@@ -6,9 +6,12 @@ import (
 	"log/slog"
 	"net/http"
 
+	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/rs/cors"
 	"github.com/sunjin110/folio/golio/generate/schema/http/go/openapi"
+	"github.com/sunjin110/folio/golio/infrastructure/aws/s3"
 	"github.com/sunjin110/folio/golio/infrastructure/cloudflare/d1"
+	"github.com/sunjin110/folio/golio/infrastructure/postgres"
 	"github.com/sunjin110/folio/golio/infrastructure/repository"
 	"github.com/sunjin110/folio/golio/presentation/http/httpconf"
 	"github.com/sunjin110/folio/golio/usecase"
@@ -26,15 +29,28 @@ func Router(ctx context.Context, cfg *httpconf.Config) (http.Handler, error) {
 		return nil, fmt.Errorf("failed d1.NewClient: %w", err)
 	}
 
+	db, err := postgres.OpenDB(cfg.PostgresDB.Datasource)
+	if err != nil {
+		return nil, fmt.Errorf("failed oepn db: %w", err)
+	}
+
 	articleRepo, err := repository.NewArticle(ctx, d1Client)
 	if err != nil {
 		return nil, fmt.Errorf("failed repository.NewArticle: %w", err)
 	}
 
+	awsCfg, err := config.LoadDefaultConfig(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed load aws config: %w", err)
+	}
+
+	mediaRepo := repository.NewMedia(db, cfg.MediaS3.BucketName, s3.NewS3Client(awsCfg))
+
 	authUsecase := usecase.NewAuth(googleOAuth2Repo, sessionRepo)
 	articleUsecase := usecase.NewArticle(articleRepo)
+	mediaUsecase := usecase.NewMedia(mediaRepo)
 
-	golioAPIController := openapi.NewGolioAPIController(NewGolioAPIServicer(articleUsecase))
+	golioAPIController := openapi.NewGolioAPIController(NewGolioAPIServicer(articleUsecase, mediaUsecase))
 
 	googleOAuthController := NewGoogleOAuthController(authUsecase, cfg.GoogleOAuth.CallbackRedirectURI)
 	r := openapi.NewRouter(golioAPIController)

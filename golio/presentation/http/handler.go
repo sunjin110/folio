@@ -14,11 +14,13 @@ import (
 
 type golioAPIServicer struct {
 	articleUsecase usecase.Article
+	mediaUsecase   usecase.Media
 }
 
-func NewGolioAPIServicer(articleUsecase usecase.Article) openapi.GolioAPIServicer {
+func NewGolioAPIServicer(articleUsecase usecase.Article, mediaUsecase usecase.Media) openapi.GolioAPIServicer {
 	return &golioAPIServicer{
 		articleUsecase: articleUsecase,
+		mediaUsecase:   mediaUsecase,
 	}
 }
 
@@ -75,20 +77,54 @@ func (g *golioAPIServicer) ArticlesArticleIdPut(ctx context.Context, articleID s
 		Body:      req.Body,
 		UpdatedAt: time.Now(),
 	}); err != nil {
+		slog.ErrorContext(ctx, "failed article update", "err", err, "articleID", articleID, "req", req)
 		return openapi.Response(http.StatusInternalServerError, "internal"), nil
 	}
 	return openapi.Response(http.StatusOK, nil), nil
 }
 
 func (g *golioAPIServicer) MediaGet(ctx context.Context, offset int32, limit int32) (openapi.ImplResponse, error) {
-	panic("")
+	output, err := g.mediaUsecase.FindSummaries(ctx, offset, limit)
+	if err != nil {
+		slog.ErrorContext(ctx, "failed get media", "err", err, "offfset", offset, "limit", limit)
+		return openapi.Response(http.StatusInternalServerError, "internal"), nil
+	}
+	return openapi.Response(http.StatusOK, conv.ToMediaGet(output.Media, output.TotalCount)), nil
 }
+
 func (g *golioAPIServicer) MediaMediumIdDelete(ctx context.Context, mediumID string) (openapi.ImplResponse, error) {
-	panic("")
+	if err := g.mediaUsecase.Delete(ctx, mediumID); err != nil {
+		slog.ErrorContext(ctx, "failed delete medium", "err", err, "id", mediumID)
+		return openapi.Response(http.StatusInternalServerError, "internal"), nil
+	}
+	return openapi.Response(http.StatusOK, nil), nil
 }
 func (g *golioAPIServicer) MediaMediumIdGet(ctx context.Context, mediumID string) (openapi.ImplResponse, error) {
-	panic("")
+	medium, err := g.mediaUsecase.Get(ctx, mediumID)
+	if err != nil {
+		slog.ErrorContext(ctx, "fialed get medium", "err", err, "mediumID", mediumID)
+		return openapi.Response(http.StatusInternalServerError, "internal"), nil
+	}
+
+	if medium == nil {
+		return openapi.Response(http.StatusNotFound, nil), nil
+	}
+
+	return openapi.Response(http.StatusOK, openapi.MediaMediumIdGet200Response{
+		MediumId:     mediumID,
+		ThumbnailUrl: medium.ThumbnailURL,
+		DownloadUrl:  medium.DownloadURL,
+		FileType:     medium.FileType,
+	}), nil
 }
-func (g *golioAPIServicer) MediaPost(ctx context.Context) (openapi.ImplResponse, error) {
-	panic("")
+
+func (g *golioAPIServicer) MediaPost(ctx context.Context, req openapi.MediaPostRequest) (openapi.ImplResponse, error) {
+	presignedURL, err := g.mediaUsecase.Insert(ctx, req.FileName)
+	if err != nil {
+		return openapi.Response(http.StatusInternalServerError, "internal"), nil
+	}
+
+	return openapi.Response(http.StatusOK, openapi.MediaPost200Response{
+		UploadPresignedUrl: presignedURL,
+	}), nil
 }

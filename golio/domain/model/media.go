@@ -14,7 +14,7 @@ type Medium struct {
 type MediumSummary struct {
 	ID           string
 	FileType     string
-	ThumbnailURL string
+	ThumbnailURL *string
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 }

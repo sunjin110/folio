@@ -13,10 +13,10 @@ type Article interface {
 	Insert(ctx context.Context, article *model.Article) error
 	Update(ctx context.Context, article *model.Article) error
 	Delete(ctx context.Context, id string) error
-	FindSummaries(ctx context.Context, offset int32, limit int32) (*FindSummariesOutput, error)
+	FindSummaries(ctx context.Context, offset int32, limit int32) (*FindArticleSummariesOutput, error)
 }
 
-type FindSummariesOutput struct {
+type FindArticleSummariesOutput struct {
 	Articles   []*model.ArticleSummary
 	TotalCount int32
 }
@@ -38,7 +38,7 @@ func (a *article) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-func (a *article) FindSummaries(ctx context.Context, offset int32, limit int32) (*FindSummariesOutput, error) {
+func (a *article) FindSummaries(ctx context.Context, offset int32, limit int32) (*FindArticleSummariesOutput, error) {
 	summaries, err := a.articleRepo.FindSummary(ctx, repository.SortTypeDesc, &repository.Paging{
 		Offset: int(offset),
 		Limit:  int(limit),
@@ -52,7 +52,7 @@ func (a *article) FindSummaries(ctx context.Context, offset int32, limit int32) 
 		return nil, fmt.Errorf("failed articleRepo.CountTotal: %w", err)
 	}
 
-	return &FindSummariesOutput{
+	return &FindArticleSummariesOutput{
 		Articles:   summaries,
 		TotalCount: totalCount,
 	}, nil
