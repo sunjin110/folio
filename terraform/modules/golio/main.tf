@@ -76,3 +76,10 @@ module "domain" {
   cloudflare  = var.cloudflare
   acm         = module.acm.acm
 }
+
+
+module "network" {
+  source     = "./network"
+  cidr_block = var.cidr_block
+  prefix     = var.prefix
+}

@@ -38,3 +38,6 @@ variable "domain" {
     name : string
   })
 }
+variable "cidr_block" {
+  type = string
+}
