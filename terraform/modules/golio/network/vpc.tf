@@ -19,4 +19,16 @@ resource "aws_subnet" "private_subnet_2" {
   availability_zone_id                = data.aws_availability_zones.available.zone_ids[1]
 }
 
+resource "aws_subnet" "public_subnet_1" {
+  vpc_id               = aws_vpc.this.id
+  cidr_block           = cidrsubnet(aws_vpc.this.cidr_block, 4, 0)
+  availability_zone_id = data.aws_availability_zones.available.zone_ids[0]
+}
+
+resource "aws_subnet" "public_subnet_2" {
+  vpc_id               = aws_vpc.this.id
+  cidr_block           = cidrsubnet(aws_vpc.this.cidr_block, 4, 1)
+  availability_zone_id = data.aws_availability_zones.available.zone_ids[1]
+}
+
 data "aws_availability_zones" "available" {}
