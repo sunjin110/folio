@@ -36,6 +36,8 @@ module "lambda" {
 
     CORS_ALLOWED_ORIGINS : var.reolio.base_url
   }
+  network = module.network.network
+  prefix  = var.prefix
 }
 
 module "api_gateway" {

@@ -10,4 +10,9 @@ resource "aws_lambda_function" "this" {
   environment {
     variables = var.environment
   }
+
+  vpc_config {
+    subnet_ids         = var.network.private_subnet_ids
+    security_group_ids = [aws_security_group.this.id]
+  }
 }
