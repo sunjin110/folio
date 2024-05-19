@@ -2,6 +2,10 @@ variable "name" {
   type = string
 }
 
+variable "prefix" {
+  type = string
+}
+
 variable "ecr" {
   type = object({
     repository_url = string
@@ -35,5 +39,13 @@ variable "environment" {
     D1_DATABASE_API_TOKEN : string,
 
     CORS_ALLOWED_ORIGINS : string,
+  })
+}
+
+variable "network" {
+  type = object({
+    vpc_id : string,
+    private_cidr_blocks : list(string)
+    private_subnet_ids : list(string)
   })
 }
