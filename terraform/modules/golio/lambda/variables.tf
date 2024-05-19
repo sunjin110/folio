@@ -39,6 +39,10 @@ variable "environment" {
     D1_DATABASE_API_TOKEN : string,
 
     CORS_ALLOWED_ORIGINS : string,
+
+    POSTGRES_DATASOURCE : string,
+    MEDIA_S3_REGION : string,
+    MEDIA_S3_BUCKET_NAME : string,
   })
 }
 

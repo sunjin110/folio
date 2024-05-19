@@ -1,5 +1,6 @@
 locals {
-  lambda_name = "${var.prefix}-golio-lambda"
+  lambda_name   = "${var.prefix}-golio-lambda"
+  media_s3_name = "${var.prefix}-golio-media"
 }
 
 module "ecr" {
@@ -35,7 +36,12 @@ module "lambda" {
     D1_DATABASE_API_TOKEN : module.d1.api_token
 
     CORS_ALLOWED_ORIGINS : var.reolio.base_url
+
+    POSTGRES_DATASOURCE : module.rds.uri,
+    MEDIA_S3_REGION : var.aws.region,
+    MEDIA_S3_BUCKET_NAME : local.media_s3_name,
   }
+
   network = module.network.network
   prefix  = var.prefix
 }
@@ -90,4 +96,9 @@ module "rds" {
   source  = "./rds"
   network = module.network.network
   prefix  = var.prefix
+}
+
+module "media_s3" {
+  source = "./s3"
+  name   = local.media_s3_name
 }

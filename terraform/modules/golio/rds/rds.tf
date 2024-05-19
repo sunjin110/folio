@@ -1,10 +1,15 @@
+locals {
+  user    = "golion"
+  db_name = "golio"
+}
+
 resource "aws_rds_cluster" "this" {
   cluster_identifier = "${var.prefix}-golio-db"
   engine             = "aurora-postgresql"
   engine_version     = "16.2"
   engine_mode        = "provisioned" # aurora serverless v2はprovisionedエンジンモードで動作する https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/rds_cluster
-  database_name      = "golio"
-  master_username    = "golion"
+  database_name      = local.db_name
+  master_username    = local.user
   master_password    = random_password.user_password.result
 
   skip_final_snapshot = true
