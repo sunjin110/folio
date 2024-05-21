@@ -9,10 +9,13 @@ import (
 	"time"
 
 	"github.com/aws/aws-lambda-go/events"
+	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/awslabs/aws-lambda-go-api-proxy/httpadapter"
 	"github.com/rs/cors"
 	"github.com/sunjin110/folio/golio/generate/schema/http/go/openapi"
+	"github.com/sunjin110/folio/golio/infrastructure/aws/s3"
 	"github.com/sunjin110/folio/golio/infrastructure/cloudflare/d1"
+	"github.com/sunjin110/folio/golio/infrastructure/postgres"
 	"github.com/sunjin110/folio/golio/infrastructure/repository"
 	golio_http "github.com/sunjin110/folio/golio/presentation/http"
 	"github.com/sunjin110/folio/golio/presentation/lambda/lambdaconf"
@@ -27,6 +30,10 @@ func Setup() error {
 		return fmt.Errorf("failed lambdaconf.NewConfig: %w", err)
 	}
 	lambdaConfig = cfg
+
+	if err := postgres.MigrateDB(cfg.PostgresDB.Datasource); err != nil {
+		return fmt.Errorf("failed postgres migrate: %w", err)
+	}
 	return nil
 }
 
@@ -47,16 +54,28 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 		return events.APIGatewayProxyResponse{}, fmt.Errorf("failed d1.NewClient: %w", err)
 	}
 
+	db, err := postgres.OpenDB(cfg.PostgresDB.Datasource)
+	if err != nil {
+		return events.APIGatewayProxyResponse{}, fmt.Errorf("failed open db: %w", err)
+	}
+
+	awsCfg, err := config.LoadDefaultConfig(ctx)
+	if err != nil {
+		return events.APIGatewayProxyResponse{}, fmt.Errorf("failed load aws config: %w", err)
+	}
+
 	articleRepo, err := repository.NewArticle(ctx, d1Client)
 	if err != nil {
 		return events.APIGatewayProxyResponse{}, fmt.Errorf("failed repository.NewArticle: %w", err)
 	}
 
+	mediaRepo := repository.NewMedia(db, cfg.MediaS3.BucketName, s3.NewS3Client(awsCfg))
+
 	authUsecase := usecase.NewAuth(googleOAuth2Repo, sessionRepo)
 	articleUsecase := usecase.NewArticle(articleRepo)
+	mediaUsecase := usecase.NewMedia(mediaRepo)
 
-	// TODO
-	golioAPIController := openapi.NewGolioAPIController(golio_http.NewGolioAPIServicer(articleUsecase, nil))
+	golioAPIController := openapi.NewGolioAPIController(golio_http.NewGolioAPIServicer(articleUsecase, mediaUsecase))
 
 	googleOAuthController := golio_http.NewGoogleOAuthController(authUsecase, cfg.GoogleOAuth.CallbackRedirectURI)
 	r := openapi.NewRouter(golioAPIController)
