@@ -25,12 +25,16 @@ import (
 var lambdaConfig *lambdaconf.Config
 
 func Setup() error {
+	fmt.Println("======== lambda conf...")
 	cfg, err := lambdaconf.NewConfig()
 	if err != nil {
 		return fmt.Errorf("failed lambdaconf.NewConfig: %w", err)
 	}
 	lambdaConfig = cfg
 
+	slog.Info("lambdaconf success", "conf", cfg)
+
+	fmt.Println("======== migrate start...")
 	if err := postgres.MigrateDB(cfg.PostgresDB.Datasource); err != nil {
 		return fmt.Errorf("failed postgres migrate: %w", err)
 	}
