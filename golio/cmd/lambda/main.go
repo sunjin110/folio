@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"context"
 	"log/slog"
 	"os"
 
@@ -10,12 +10,14 @@ import (
 )
 
 func main() {
-	fmt.Println("======== lambda start!")
-	slog.Info("======== lambda started!!")
 	if err := lambda.Setup(); err != nil {
-		fmt.Println("========== error is ", err)
 		slog.Error("failed lambda setup", "err", err)
 		os.Exit(1)
 	}
-	awslambda.Start(lambda.Handler)
+	handler, err := lambda.GetHandler(context.Background())
+	if err != nil {
+		slog.Error("failed get handler", "err", err)
+		os.Exit(1)
+	}
+	awslambda.Start(handler)
 }
