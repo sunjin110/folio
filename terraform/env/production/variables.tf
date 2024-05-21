@@ -25,11 +25,11 @@ variable "google_oauth_secret_id" {
 }
 
 # TODO これはapiのcustom domainを決めたタイミングでどうにかする
-variable "google_oauth_redirect_uri" {
-  type = string
-}
+# variable "google_oauth_redirect_uri" {
+#   type = string
+# }
 
-variable "google_oauth_callback_redirect_uri" {
-  type = string
-}
+# variable "google_oauth_callback_redirect_uri" {
+#   type = string
+# }
 

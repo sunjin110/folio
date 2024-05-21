@@ -31,3 +31,13 @@ deploy-plan:
 
 deploy-apply:
 	@cd "$(PWD)/env/deployment" && terraform apply --var-file=./secret.tfvars
+
+lint-init:
+	@cd "$(PWD)/env/deployment" && tflint --init
+	@cd "$(PWD)/env/production" && tflint --init
+	@cd "$(PWD)/env/local" && tflint --init
+
+lint:
+	cd "$(PWD)/env/deployment" && tflint
+	cd "$(PWD)/env/production" && tflint
+	cd "$(PWD)/env/local" && tflint
