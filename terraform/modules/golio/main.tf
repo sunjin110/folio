@@ -37,7 +37,8 @@ module "lambda" {
 
     CORS_ALLOWED_ORIGINS : var.reolio.base_url
 
-    POSTGRES_DATASOURCE : module.rds.uri,
+    # POSTGRES_DATASOURCE : module.rds.uri,
+    POSTGRES_DATASOURCE : module.rds.datasource,
     MEDIA_S3_REGION : var.aws.region,
     MEDIA_S3_BUCKET_NAME : local.media_s3_name,
   }
@@ -92,8 +93,14 @@ module "network" {
   prefix     = var.prefix
 }
 
+# module "rds" {
+#   source  = "./rds"
+#   network = module.network.network
+#   prefix  = var.prefix
+# }
+
 module "rds" {
-  source  = "./rds"
+  source  = "./rds2"
   network = module.network.network
   prefix  = var.prefix
 }
