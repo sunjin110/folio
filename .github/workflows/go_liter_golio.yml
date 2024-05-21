@@ -4,6 +4,8 @@ on:
         types: [opened, synchronize]
         paths:
             - "golio/**.go"
+            - "golio/**.mod"
+            - "golio/**.sum"
             - ".github/workflows/go_linter_golio.yml"
             - ".github/workflows/go_linter.yml"
 jobs:
