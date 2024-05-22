@@ -10,7 +10,6 @@ import (
 	"github.com/rs/cors"
 	"github.com/sunjin110/folio/golio/generate/schema/http/go/openapi"
 	"github.com/sunjin110/folio/golio/infrastructure/aws/s3"
-	"github.com/sunjin110/folio/golio/infrastructure/cloudflare/d1"
 	"github.com/sunjin110/folio/golio/infrastructure/postgres"
 	"github.com/sunjin110/folio/golio/infrastructure/repository"
 	"github.com/sunjin110/folio/golio/presentation/http/httpconf"
@@ -24,20 +23,22 @@ func Router(ctx context.Context, cfg *httpconf.Config) (http.Handler, error) {
 		return nil, fmt.Errorf("failed repository.NewSessionKVStore: %w", err)
 	}
 
-	d1Client, err := d1.NewClient(cfg.D1Database.AccountID, cfg.D1Database.DatabaseID, cfg.D1Database.APIToken)
-	if err != nil {
-		return nil, fmt.Errorf("failed d1.NewClient: %w", err)
-	}
+	// d1Client, err := d1.NewClient(cfg.D1Database.AccountID, cfg.D1Database.DatabaseID, cfg.D1Database.APIToken)
+	// if err != nil {
+	// 	return nil, fmt.Errorf("failed d1.NewClient: %w", err)
+	// }
 
 	db, err := postgres.OpenDB(cfg.PostgresDB.Datasource)
 	if err != nil {
 		return nil, fmt.Errorf("failed oepn db: %w", err)
 	}
 
-	articleRepo, err := repository.NewArticle(ctx, d1Client)
-	if err != nil {
-		return nil, fmt.Errorf("failed repository.NewArticle: %w", err)
-	}
+	// articleRepo, err := repository.NewArticle(ctx, d1Client)
+	// if err != nil {
+	// 	return nil, fmt.Errorf("failed repository.NewArticle: %w", err)
+	// }
+
+	articleRepo := repository.NewArticleV2(ctx, db)
 
 	awsCfg, err := config.LoadDefaultConfig(ctx)
 	if err != nil {
