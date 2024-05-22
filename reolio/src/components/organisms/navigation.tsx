@@ -10,6 +10,7 @@ import {
   Settings,
   SquareUser,
   Triangle,
+  Images,
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Link } from "react-router-dom";
@@ -17,11 +18,12 @@ import { Link } from "react-router-dom";
 export interface NavigationProps {
   title?: string;
   children: string | JSX.Element | JSX.Element[];
-  sidebarPosition: "" | "messages" | "articles";
+  headerContent?: string | JSX.Element | JSX.Element[];
+  sidebarPosition: "" | "messages" | "articles" | "media";
 }
 
 export function Navigation(props: NavigationProps) {
-  const { title, children, sidebarPosition } = props;
+  const { title, children, headerContent, sidebarPosition } = props;
 
   return (
     <div className="text-white grid h-screen w-full pl-[56px]">
@@ -66,6 +68,23 @@ export function Navigation(props: NavigationProps) {
             </TooltipTrigger>
             <TooltipContent side="right" sideOffset={5}>
               Articles
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link to={"/media"}>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className={`rounded-lg ${sidebarPosition === "media" ? "bg-muted" : ""}`}
+                  aria-label="Media"
+                >
+                  <Images className="size-5" />
+                </Button>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent side="right" sideOffset={5}>
+              Media
             </TooltipContent>
           </Tooltip>
           <Tooltip>
@@ -165,6 +184,9 @@ export function Navigation(props: NavigationProps) {
       <div className="flex flex-col">
         <header className="sticky top-0 z-10 flex h-[57px] items-center gap-1 border-b bg-background px-4">
           <h1 className="text-xl font-semibold">{title}</h1>
+          <div>
+            {headerContent && headerContent}
+          </div>
         </header>
         <main className="grid flex-1 gap-4 overflow-auto p-4 md:grid-cols-1 lg:grid-cols-1">
           {children}

@@ -23,20 +23,10 @@ func Router(ctx context.Context, cfg *httpconf.Config) (http.Handler, error) {
 		return nil, fmt.Errorf("failed repository.NewSessionKVStore: %w", err)
 	}
 
-	// d1Client, err := d1.NewClient(cfg.D1Database.AccountID, cfg.D1Database.DatabaseID, cfg.D1Database.APIToken)
-	// if err != nil {
-	// 	return nil, fmt.Errorf("failed d1.NewClient: %w", err)
-	// }
-
 	db, err := postgres.OpenDB(cfg.PostgresDB.Datasource)
 	if err != nil {
 		return nil, fmt.Errorf("failed oepn db: %w", err)
 	}
-
-	// articleRepo, err := repository.NewArticle(ctx, d1Client)
-	// if err != nil {
-	// 	return nil, fmt.Errorf("failed repository.NewArticle: %w", err)
-	// }
 
 	articleRepo := repository.NewArticleV2(ctx, db)
 
@@ -45,7 +35,15 @@ func Router(ctx context.Context, cfg *httpconf.Config) (http.Handler, error) {
 		return nil, fmt.Errorf("failed load aws config: %w", err)
 	}
 
-	mediaRepo := repository.NewMedia(db, cfg.MediaS3.BucketName, s3.NewS3Client(awsCfg))
+	s3Client := s3.NewS3Client(awsCfg)
+	if cfg.MediaS3.IsLocakStack {
+		s3Client, err = s3.NewLocalStackS3Client()
+		if err != nil {
+			return nil, fmt.Errorf("failed new local stack s3 client. err: %w", err)
+		}
+	}
+
+	mediaRepo := repository.NewMedia(db, cfg.MediaS3.BucketName, s3Client)
 
 	authUsecase := usecase.NewAuth(googleOAuth2Repo, sessionRepo)
 	articleUsecase := usecase.NewArticle(articleRepo)

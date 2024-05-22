@@ -63,8 +63,9 @@ type AWSConfig struct {
 }
 
 type S3Config struct {
-	Region     string `env:"REGION"`
-	BucketName string `env:"BUCKET_NAME"`
+	Region       string `env:"REGION"`
+	BucketName   string `env:"BUCKET_NAME"`
+	IsLocakStack bool   `env:"IS_LOCAL_STACK"`
 }
 
 func NewConfig() (*Config, error) {

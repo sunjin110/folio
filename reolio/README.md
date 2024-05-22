@@ -4,6 +4,10 @@
 
 https://ui.shadcn.com/docs/components/accordion
 
+tailwind: https://tailwindcss.com/
+
+
+
 ## icons
 
 https://react-icons.github.io/react-icons/

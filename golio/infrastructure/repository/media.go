@@ -10,6 +10,8 @@ import (
 	"github.com/sunjin110/folio/golio/domain/model"
 	"github.com/sunjin110/folio/golio/domain/repository"
 	"github.com/sunjin110/folio/golio/infrastructure/repository/dto"
+	"github.com/sunjin110/folio/golio/utils/smap"
+	"golang.org/x/sync/errgroup"
 
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 )
@@ -72,8 +74,26 @@ func (m *media) FindSummary(ctx context.Context, paging *repository.Paging) ([]*
 		return nil, fmt.Errorf("failed findSummary. sql: %s, args: %+v, err: %w", sql, args, err)
 	}
 
-	// thumnailはどうにかしなきゃな
-	return media.ToSummariesModel(nil /*TODO*/), nil
+	presignedURLMap := smap.NewMap[string, string]()
+	eg, ctx := errgroup.WithContext(ctx)
+	for _, medium := range media {
+		medium := medium
+		eg.Go(func() error {
+			path := m.generatePath(medium.ID, medium.FileType)
+			presignedURL, err := m.getDownloadPresignedURL(ctx, path)
+			if err != nil {
+				return fmt.Errorf("failed get download presigned url. path: %s, err: %w", path, err)
+			}
+
+			presignedURLMap.Put(medium.ID, presignedURL)
+			return nil
+		})
+	}
+
+	if err := eg.Wait(); err != nil {
+		return nil, fmt.Errorf("failed get presigned url. err: %w", err)
+	}
+	return media.ToSummariesModel(presignedURLMap.GetRawMap()), nil
 }
 
 func (m *media) Get(ctx context.Context, id string) (*model.Medium, error) {

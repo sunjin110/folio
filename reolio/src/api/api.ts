@@ -5,7 +5,7 @@ import {
   GetArticleSummariesOutput,
 } from "./response/article";
 
-interface ErrorResponse {
+export interface ErrorResponse {
   type: "error";
   message: string;
   status: number;
