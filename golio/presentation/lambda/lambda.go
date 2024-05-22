@@ -14,7 +14,6 @@ import (
 	"github.com/rs/cors"
 	"github.com/sunjin110/folio/golio/generate/schema/http/go/openapi"
 	"github.com/sunjin110/folio/golio/infrastructure/aws/s3"
-	"github.com/sunjin110/folio/golio/infrastructure/cloudflare/d1"
 	"github.com/sunjin110/folio/golio/infrastructure/postgres"
 	"github.com/sunjin110/folio/golio/infrastructure/repository"
 	golio_http "github.com/sunjin110/folio/golio/presentation/http"
@@ -44,10 +43,10 @@ func GetHandler(ctx context.Context) (lambdaHandlerFunc func(ctx context.Context
 		return nil, fmt.Errorf("failed repository.NewSessionKVStore: %w", err)
 	}
 
-	d1Client, err := d1.NewClient(cfg.D1Database.AccountID, cfg.D1Database.DatabaseID, cfg.D1Database.APIToken)
-	if err != nil {
-		return nil, fmt.Errorf("failed d1.NewClient: %w", err)
-	}
+	// d1Client, err := d1.NewClient(cfg.D1Database.AccountID, cfg.D1Database.DatabaseID, cfg.D1Database.APIToken)
+	// if err != nil {
+	// 	return nil, fmt.Errorf("failed d1.NewClient: %w", err)
+	// }
 
 	db, err := postgres.OpenDB(cfg.PostgresDB.Datasource)
 	if err != nil {
@@ -59,10 +58,12 @@ func GetHandler(ctx context.Context) (lambdaHandlerFunc func(ctx context.Context
 		return nil, fmt.Errorf("failed load aws config: %w", err)
 	}
 
-	articleRepo, err := repository.NewArticle(ctx, d1Client)
-	if err != nil {
-		return nil, fmt.Errorf("failed repository.NewArticle: %w", err)
-	}
+	// articleRepo, err := repository.NewArticle(ctx, d1Client)
+	// if err != nil {
+	// 	return nil, fmt.Errorf("failed repository.NewArticle: %w", err)
+	// }
+
+	articleRepo := repository.NewArticleV2(ctx, db)
 
 	mediaRepo := repository.NewMedia(db, cfg.MediaS3.BucketName, s3.NewS3Client(awsCfg))
 
@@ -107,78 +108,6 @@ func GetHandler(ctx context.Context) (lambdaHandlerFunc func(ctx context.Context
 		return adapter.ProxyWithContext(ctx, req)
 	}, nil
 }
-
-// func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-// 	reqEndLogFunc := accessLog(ctx, request)
-// 	defer reqEndLogFunc()
-
-// 	cfg := lambdaConfig
-
-// 	googleOAuth2Repo := repository.NewGoogleOAuth2(ctx, cfg.GoogleOAuth.ClientID, cfg.GoogleOAuth.ClientSecret, cfg.GoogleOAuth.RedirectURI)
-// 	sessionRepo, err := repository.NewSessionKVStore(ctx, cfg.SessionKVStore.APIToken, cfg.SessionKVStore.AccountID, cfg.SessionKVStore.NamespaceID)
-// 	if err != nil {
-// 		return events.APIGatewayProxyResponse{}, fmt.Errorf("failed repository.NewSessionKVStore: %w", err)
-// 	}
-
-// 	d1Client, err := d1.NewClient(cfg.D1Database.AccountID, cfg.D1Database.DatabaseID, cfg.D1Database.APIToken)
-// 	if err != nil {
-// 		return events.APIGatewayProxyResponse{}, fmt.Errorf("failed d1.NewClient: %w", err)
-// 	}
-
-// 	db, err := postgres.OpenDB(cfg.PostgresDB.Datasource)
-// 	if err != nil {
-// 		return events.APIGatewayProxyResponse{}, fmt.Errorf("failed open db: %w", err)
-// 	}
-
-// 	awsCfg, err := config.LoadDefaultConfig(ctx)
-// 	if err != nil {
-// 		return events.APIGatewayProxyResponse{}, fmt.Errorf("failed load aws config: %w", err)
-// 	}
-
-// 	articleRepo, err := repository.NewArticle(ctx, d1Client)
-// 	if err != nil {
-// 		return events.APIGatewayProxyResponse{}, fmt.Errorf("failed repository.NewArticle: %w", err)
-// 	}
-
-// 	mediaRepo := repository.NewMedia(db, cfg.MediaS3.BucketName, s3.NewS3Client(awsCfg))
-
-// 	authUsecase := usecase.NewAuth(googleOAuth2Repo, sessionRepo)
-// 	articleUsecase := usecase.NewArticle(articleRepo)
-// 	mediaUsecase := usecase.NewMedia(mediaRepo)
-
-// 	golioAPIController := openapi.NewGolioAPIController(golio_http.NewGolioAPIServicer(articleUsecase, mediaUsecase))
-
-// 	googleOAuthController := golio_http.NewGoogleOAuthController(authUsecase, cfg.GoogleOAuth.CallbackRedirectURI)
-// 	r := openapi.NewRouter(golioAPIController)
-
-// 	r.Methods(http.MethodGet).
-// 		Path("/auth/google-oauth").
-// 		Name("google-oauth").
-// 		HandlerFunc(googleOAuthController.Start)
-
-// 	r.Methods(http.MethodGet).
-// 		Path("/auth/google-oauth/callback").
-// 		Name("google-oauth/callback").
-// 		HandlerFunc(googleOAuthController.Callback)
-
-// 	// middleware
-// 	r.Use(golio_http.AuthMW(authUsecase))
-
-// 	// CORSミドルウェアの設定
-// 	// すべてのオリジンからのアクセスを許可する設定
-// 	c := cors.New(cors.Options{
-// 		AllowedOrigins:   cfg.CORS.GetAllowedOrigins(),
-// 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-// 		AllowedHeaders:   []string{"Accept", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization", "Cookie"},
-// 		AllowCredentials: true,
-// 	})
-
-// 	handler := c.Handler(r)
-
-// 	adapter := httpadapter.New(handler)
-
-// 	return adapter.ProxyWithContext(ctx, request)
-// }
 
 func accessLog(ctx context.Context, request events.APIGatewayProxyRequest) (reqEndLogFunc func()) {
 
