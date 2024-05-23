@@ -10,7 +10,7 @@ import (
 
 type Article interface {
 	Get(ctx context.Context, id string) (*model.Article, error)
-	Insert(ctx context.Context, article *model.Article) error
+	Insert(ctx context.Context, article *model.Article) (*model.Article, error)
 	Update(ctx context.Context, article *model.Article) error
 	Delete(ctx context.Context, id string) error
 	FindSummaries(ctx context.Context, offset int32, limit int32) (*FindArticleSummariesOutput, error)
@@ -66,11 +66,11 @@ func (a *article) Get(ctx context.Context, id string) (*model.Article, error) {
 	return article, nil
 }
 
-func (a *article) Insert(ctx context.Context, article *model.Article) error {
+func (a *article) Insert(ctx context.Context, article *model.Article) (*model.Article, error) {
 	if err := a.articleRepo.Insert(ctx, article); err != nil {
-		return fmt.Errorf("failed articleRepo.Insert: %w", err)
+		return nil, fmt.Errorf("failed articleRepo.Insert: %w", err)
 	}
-	return nil
+	return article, nil
 }
 
 func (a *article) Update(ctx context.Context, article *model.Article) error {

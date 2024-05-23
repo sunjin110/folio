@@ -1,5 +1,6 @@
 import { Article } from "@/domain/model/article";
 import {
+  CreateArticleOutput,
   GetArticleByIdOutput,
   GetArticleSummariesOutput,
 } from "./response/article";
@@ -44,7 +45,7 @@ export async function getArticleById(
 export async function createArticle(
   title: string,
   body: string,
-): Promise<EmptyResponse | ErrorResponse> {
+): Promise<CreateArticleOutput | ErrorResponse> {
   const resp = await fetch(process.env.REACT_APP_GOLIO_BASE_URL + "/articles", {
     method: "POST",
     headers: {
@@ -62,9 +63,9 @@ export async function createArticle(
       status: resp.status,
     };
   }
-  return {
-    type: "success",
-  };
+
+  const output: CreateArticleOutput = await resp.json();
+  return output;
 }
 
 export async function updateArticle(

@@ -10,3 +10,8 @@ export interface GetArticleByIdOutput {
   type: "sucess";
   article: Article;
 }
+
+export interface CreateArticleOutput {
+  type: "success";
+  id: string;
+};

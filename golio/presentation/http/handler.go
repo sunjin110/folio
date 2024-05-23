@@ -63,11 +63,14 @@ func (g *golioAPIServicer) ArticlesGet(ctx context.Context, offset int32, limit 
 }
 
 func (g *golioAPIServicer) ArticlesPost(ctx context.Context, req openapi.ArticlesPostRequest) (openapi.ImplResponse, error) {
-	if err := g.articleUsecase.Insert(ctx, model.NewArticle(req.Title, req.Body, "", time.Now())); err != nil {
+	inserted, err := g.articleUsecase.Insert(ctx, model.NewArticle(req.Title, req.Body, "", time.Now()))
+	if err != nil {
 		slog.ErrorContext(ctx, "failed article insert", "err", err)
 		return openapi.Response(http.StatusInternalServerError, "internal"), nil
 	}
-	return openapi.Response(http.StatusOK, nil), nil
+	return openapi.Response(http.StatusOK, openapi.ArticlesPost200Response{
+		Id: inserted.ID,
+	}), nil
 }
 
 func (g *golioAPIServicer) ArticlesArticleIdPut(ctx context.Context, articleID string, req openapi.ArticlesPostRequest) (openapi.ImplResponse, error) {

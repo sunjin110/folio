@@ -71,9 +71,13 @@ paths:
         "200":
           content:
             application/json:
+              examples:
+                "1":
+                  summary: Success
+                  value:
+                    id: ""
               schema:
-                properties: {}
-                type: object
+                $ref: '#/components/schemas/_articles_post_200_response'
           description: Success
         "400":
           content:
@@ -357,6 +361,15 @@ components:
       required:
       - body
       - title
+      type: object
+    _articles_post_200_response:
+      example:
+        id: id
+      properties:
+        id:
+          type: string
+      required:
+      - id
       type: object
     _articles__article_id__get_200_response:
       example:
