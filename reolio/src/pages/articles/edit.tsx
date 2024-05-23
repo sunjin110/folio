@@ -7,6 +7,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import MDEditor from "@uiw/react-md-editor";
+import { getRandomEmoji } from "@/domain/service/joke";
 
 export default function EditArticle() {
   const { articleId } = useParams();
@@ -55,8 +56,9 @@ export default function EditArticle() {
         navigate("/login");
         return;
       }
+      const emoji = getRandomEmoji();
       toast({
-        title: "Success",
+        title: `${emoji} Success ${emoji}`,
         description: "updated your article!",
       });
     } catch (err) {
