@@ -43,6 +43,21 @@ export default function EditArticle() {
         console.log("articleId is empty");
         return;
       }
+
+      if (!title) {
+        toast({
+          title: 'タイトルを入力してください',
+        });
+        return;
+      }
+
+      if (!body) {
+        toast({
+          title: '本文を入力してください'
+        });
+        return;
+      }
+
       const output = await updateArticle(
         articleId,
         title,
@@ -65,6 +80,22 @@ export default function EditArticle() {
       console.error("failed cedit article", err);
     }
   };
+
+  useEffect(() => {
+    const handleSaveShortcut = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key === 's') {
+        event.preventDefault();
+        handleEdit();
+      }
+    }
+
+    window.addEventListener('keydown', handleSaveShortcut);
+
+    return () => {
+      // コンポーネントがアンマウントされるときにリスナーをクリーンアップ
+      window.removeEventListener('keydown', handleSaveShortcut);
+    }
+  }, [title, body]);
 
   return (
     <Navigation title="Articles" sidebarPosition="articles">
