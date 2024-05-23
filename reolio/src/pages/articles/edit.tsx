@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import MDEditor from "@uiw/react-md-editor";
 import { getRandomEmoji } from "@/domain/service/joke";
@@ -37,7 +37,9 @@ export default function EditArticle() {
     }
   }, [articleId, navigate, toast]);
 
-  const handleEdit = async () => {
+  
+
+  const handleEdit = useCallback(async () => {
     try {
       if (!articleId) {
         console.log("articleId is empty");
@@ -79,7 +81,7 @@ export default function EditArticle() {
     } catch (err) {
       console.error("failed cedit article", err);
     }
-  };
+  }, [articleId, title, body, toast, navigate]);
 
   useEffect(() => {
     const handleSaveShortcut = (event: KeyboardEvent) => {
@@ -95,7 +97,7 @@ export default function EditArticle() {
       // コンポーネントがアンマウントされるときにリスナーをクリーンアップ
       window.removeEventListener('keydown', handleSaveShortcut);
     }
-  }, [title, body]);
+  }, [handleEdit]);
 
   return (
     <Navigation title="Articles" sidebarPosition="articles">
