@@ -30,7 +30,7 @@ export default function CreateArticle() {
         title: "Success",
         description: "posted your article!",
       });
-      navigate("/articles");
+      navigate(`/articles/edit/${output.id}`);
     } catch (err) {
       console.error("failed create article", err);
     }
