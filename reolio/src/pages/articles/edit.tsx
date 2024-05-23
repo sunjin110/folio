@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import MDEditor from "@uiw/react-md-editor";
 import { getRandomEmoji } from "@/domain/service/joke";
@@ -37,12 +37,29 @@ export default function EditArticle() {
     }
   }, [articleId, navigate, toast]);
 
-  const handleEdit = async () => {
+  
+
+  const handleEdit = useCallback(async () => {
     try {
       if (!articleId) {
         console.log("articleId is empty");
         return;
       }
+
+      if (!title) {
+        toast({
+          title: 'タイトルを入力してください',
+        });
+        return;
+      }
+
+      if (!body) {
+        toast({
+          title: '本文を入力してください'
+        });
+        return;
+      }
+
       const output = await updateArticle(
         articleId,
         title,
@@ -64,7 +81,23 @@ export default function EditArticle() {
     } catch (err) {
       console.error("failed cedit article", err);
     }
-  };
+  }, [articleId, title, body, toast, navigate]);
+
+  useEffect(() => {
+    const handleSaveShortcut = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key === 's') {
+        event.preventDefault();
+        handleEdit();
+      }
+    }
+
+    window.addEventListener('keydown', handleSaveShortcut);
+
+    return () => {
+      // コンポーネントがアンマウントされるときにリスナーをクリーンアップ
+      window.removeEventListener('keydown', handleSaveShortcut);
+    }
+  }, [handleEdit]);
 
   return (
     <Navigation title="Articles" sidebarPosition="articles">
