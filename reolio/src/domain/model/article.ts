@@ -1,5 +1,3 @@
-import { formatDateFromRFC } from "@/lib/utils";
-
 export interface Article {
   id: string;
   title: string;

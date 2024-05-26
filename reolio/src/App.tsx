@@ -11,8 +11,23 @@ import CreateArticle from "./pages/articles/create";
 import Articles from "./pages/articles/list";
 import { Toaster } from "./components/ui/toaster";
 import EditArticle from "./pages/articles/edit";
+import Media from "./pages/media/list";
+import { NewMediaRepository } from "./infrastructure/repository/media";
+import { NewMediaUsecase } from "./usecase/media";
+import { Configuration, GolioApi } from "./generate/schema/http";
 
 const App: React.FC = () => {
+
+  // goli apiの設定
+  const golioConfig = new Configuration({
+    basePath: process.env.REACT_APP_GOLIO_BASE_URL,
+    credentials: "include",
+  });
+  const golioApi = new GolioApi(golioConfig);
+
+  const mediaRepo = NewMediaRepository(golioApi);
+  const mediaUsecase = NewMediaUsecase(mediaRepo);
+
   return (
     <TooltipProvider>
       <BrowserRouter>
@@ -22,6 +37,7 @@ const App: React.FC = () => {
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
             <Route path="/articles" element={<Articles />} />
+            <Route path="/media" element={<Media mediaUsecase={mediaUsecase} />} />
             <Route path="/articles/:articleId" element={<ArticleDetail />} />
             <Route path="/articles/create" element={<CreateArticle />} />
             <Route path="/articles/edit/:articleId" element={<EditArticle />} />
