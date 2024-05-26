@@ -1,4 +1,4 @@
-import { MediumSummary } from "@/domain/model/media";
+import { Medium, MediumSummary } from "@/domain/model/media";
 import { MediaRepository } from "@/domain/repository/media";
 
 export interface MediaUsecase {
@@ -10,6 +10,8 @@ export interface MediaUsecase {
 
     // FindMedia メディアの一覧を取得する
     FindMedia(offset: number, limit: number): Promise<FindMediaOutput>;
+
+    GetMedium(id: string): Promise<Medium>;
 }
 
 export function NewMediaUsecase(mediaRepo: MediaRepository): MediaUsecase {
@@ -28,6 +30,11 @@ class media implements MediaUsecase {
     constructor(mediaRepo: MediaRepository) {
         this.mediaRepo = mediaRepo;
     }
+
+    async GetMedium(id: string): Promise<Medium> {
+        return await this.mediaRepo.GetMedium(id);
+    }
+
     async FindMedia(offset: number, limit: number): Promise<FindMediaOutput> {
         const output = await this.mediaRepo.FindMediumSummaries(offset, limit);
         return {
@@ -46,12 +53,11 @@ class media implements MediaUsecase {
 
     async UploadFiles(files: File[]): Promise<void> {
         try {
-            // TODO 非同期
-            for (let file of files) {
+            await Promise.all(files.map(async (file) => {
                 const presignedUrl = await this.mediaRepo.CreateMedium(file.name);
-                this.mediaRepo.UploadFile(presignedUrl, file);
-            }
-        } catch(err) {
+                await this.mediaRepo.UploadFile(presignedUrl, file);
+            }))
+        } catch (err) {
             throw err;
         }
     }
