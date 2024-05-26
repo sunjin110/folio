@@ -36,6 +36,7 @@ variable "domain" {
   type = object({
     domain_name : string
     name : string
+    reolio_base_url : string
   })
 }
 variable "cidr_block" {
