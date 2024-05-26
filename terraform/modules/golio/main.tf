@@ -108,4 +108,7 @@ module "rds" {
 module "media_s3" {
   source = "./s3"
   name   = local.media_s3_name
+  cors = {
+    allowed_origins = [var.domain.reolio_base_url]
+  }
 }

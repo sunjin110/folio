@@ -58,8 +58,9 @@ module "golio" {
   }
 
   domain = {
-    domain_name = local.golio_domain
-    name        = "folio-api"
+    domain_name     = local.golio_domain
+    name            = "folio-api"
+    reolio_base_url = local.reolio_base_url
   }
 
   cidr_block = "10.0.0.0/16"
