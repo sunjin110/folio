@@ -5,13 +5,15 @@ import { MediumSummary } from "@/domain/model/media";
 import { AuthError, InternalError } from "@/error/error";
 // import { useImageNew } from "@/hooks/useImageNew";
 import { MediaUsecase } from "@/usecase/media";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {  useCallback, useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useNavigate } from "react-router-dom";
 
 export interface MediaProps {
     mediaUsecase: MediaUsecase
 }
+
+const SUMMARY_PAGING_LIMIT = 10;
 
 function useUniqueSummaries(initialData: MediumSummary[], initialIdMap?: Map<string, boolean>) {
     const [summaries, setSummaries] = useState<MediumSummary[]>(initialData);
@@ -41,12 +43,14 @@ export default function Media(props: MediaProps) {
 
     const { summaries, addSummaries } = useUniqueSummaries([]);
 
-    // const [previeImagePaths, setPreviewImagePaths] = useState<string[]>();
+    const [previeImagePaths, setPreviewImagePaths] = useState<string[]>([]);
+    const [uploadImagePaths, setUploadImagePathes] = useState<string[]>([]);
+
     const [files, setFiles] = useState<File[]>();
     const onDrop = (acceptedFiles: File[]) => {
         setFiles(acceptedFiles);
-        // const dataUrls = acceptedFiles.map((file) => URL.createObjectURL(file));
-        // setPreviewImagePaths(dataUrls);
+        const dataUrls = acceptedFiles.map((file) => URL.createObjectURL(file));
+        setPreviewImagePaths(dataUrls);
     }
 
     const { getRootProps, getInputProps } = useDropzone({ 
@@ -64,10 +68,10 @@ export default function Media(props: MediaProps) {
         if (node) observer.current.observe(node);
     }, [hasMore]);
 
-    const handleUploadButton = async () => {
+    const handleUploadButton = useCallback(async () => {
         if (!files || files.length === 0) {
             toast({
-                title: 'select files'
+                title: '📁 Please select files 📁'
             });
             return;
         }
@@ -95,15 +99,16 @@ export default function Media(props: MediaProps) {
             })
         }
 
-    };
+        setUploadImagePathes(prev => [...previeImagePaths, ...prev])
+        setPreviewImagePaths([]);
+        setFiles([]);
+    }, [files, mediaUsecase, previeImagePaths, toast]);
 
     useEffect(() => {
         const loadMoreMedia = async () => {
             try {
-                console.log("追加ロードが走ったよ");
-                const output = await mediaUsecase.FindMedia(page * 3, 3);
+                const output = await mediaUsecase.FindMedia(page * SUMMARY_PAGING_LIMIT, SUMMARY_PAGING_LIMIT);
                 if (output.summaries.length === 0) {
-                    console.log("もうないよ!");
                     setHasMore(false);
                     return;
                 }
@@ -112,14 +117,14 @@ export default function Media(props: MediaProps) {
             } catch (err) {
                 if (err instanceof AuthError) {
                     toast({
-                        title: 'Please login',
+                        title: '🔑 Please login 🔒',
                         description: err.message,
                     });
                     navigate("/login");
                     return;
                 }
                 toast({
-                    title: 'Error',
+                    title: '🚫 Error 🚫',
                     description: `${err}`
                 })
                 return;
@@ -129,16 +134,78 @@ export default function Media(props: MediaProps) {
     }, [page, mediaUsecase, addSummaries, toast, navigate]);
 
 
+    useEffect(() => {
+        if (files && files.length > 0) {
+            handleUploadButton();
+        }
+    }, [files, handleUploadButton]);
+
+    const filesInputRef = useRef<HTMLInputElement>(null);
+
+    const clickFileSelect = () => {
+        if (filesInputRef.current) {
+            filesInputRef.current.click();
+        }
+    };
+
+    const onFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (!event.target.files) {
+            return;
+        }
+        let targetFiles: File[] = [];
+        for (let i = 0; i < event.target.files.length; i++) {
+            const f = event.target.files.item(i);
+            if (!f) {
+                continue;
+            }
+            targetFiles.push(f);
+        }
+        setFiles(targetFiles);
+        const dataUrls = targetFiles.map((file) => URL.createObjectURL(file));
+        setPreviewImagePaths(dataUrls);
+    };
+
     return (
         <Navigation title="Media" sidebarPosition="media">
             <div {...getRootProps({className: "dropzone"})}>
                 <input {...getInputProps()} />
 
-                <div className="mb-2">
-                <Button onClick={handleUploadButton}>Upload</Button>
+                <div className="mb-4">
+                    <Button onClick={clickFileSelect}>📁 Upload files</Button>
+                    <input type="file" hidden onChange={onFileInputChange} ref={filesInputRef} />
                 </div>
                 
                 <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4">
+
+                {previeImagePaths && (
+                    previeImagePaths.map((path) => {
+                        return (
+                            <div key={path} className="w-full aspect-square overflow-hidden relative group">
+                                <img src={path} 
+                                    key={path}
+                                    alt="preview"
+                                    className="w-full h-full object-cover object-center transition-transform duration-300 ease-in-out transform group-hover:scale-110" 
+                                />
+                                <div className="absolute inset-0 bg-white bg-opacity-50"></div>
+                            </div>
+                        )
+                    })
+                )}
+
+                {uploadImagePaths && (
+                    uploadImagePaths.map((path) => {
+                        return (
+                            <div key={path} className="w-full aspect-square overflow-hidden relative group">
+                                <img src={path} 
+                                    key={path}
+                                    alt="doned"
+                                    className="w-full h-full object-cover object-center transition-transform duration-300 ease-in-out transform group-hover:scale-110" 
+                                />
+                            </div>
+                        )
+                    })
+                )}
+
                 {summaries && (
                     summaries.map((summary, index) => {
                         const isLastElement = index === summaries.length - 1;
@@ -148,7 +215,6 @@ export default function Media(props: MediaProps) {
                             key={summary.id} 
                             ref={isLastElement ? lastMediaElementRef : null}
                             className="w-full aspect-square overflow-hidden relative group"
-                            style={{ backgroundImage: `url(/image/no_image_square.jpg)` }}
                         >
                             <img 
                                 src={summary.thumbnailUrl} 

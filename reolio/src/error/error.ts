@@ -1,4 +1,3 @@
-
 export class FolioBaseError extends Error {
     name: string;
     stack?: string | undefined;
