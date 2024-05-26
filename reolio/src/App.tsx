@@ -15,6 +15,7 @@ import Media from "./pages/media/list";
 import { NewMediaRepository } from "./infrastructure/repository/media";
 import { NewMediaUsecase } from "./usecase/media";
 import { Configuration, GolioApi } from "./generate/schema/http";
+import MediaDetail from "./pages/media/detial";
 
 const App: React.FC = () => {
 
@@ -38,6 +39,7 @@ const App: React.FC = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/articles" element={<Articles />} />
             <Route path="/media" element={<Media mediaUsecase={mediaUsecase} />} />
+            <Route path="/media/:mediaId" element={<MediaDetail mediaUsecase={mediaUsecase} />} />
             <Route path="/articles/:articleId" element={<ArticleDetail />} />
             <Route path="/articles/create" element={<CreateArticle />} />
             <Route path="/articles/edit/:articleId" element={<EditArticle />} />

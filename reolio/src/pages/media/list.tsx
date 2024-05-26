@@ -7,6 +7,7 @@ import { AuthError, InternalError } from "@/error/error";
 import { MediaUsecase } from "@/usecase/media";
 import {  useCallback, useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 export interface MediaProps {
@@ -216,12 +217,14 @@ export default function Media(props: MediaProps) {
                             ref={isLastElement ? lastMediaElementRef : null}
                             className="w-full aspect-square overflow-hidden relative group"
                         >
+                            <Link to={`/media/${summary.id}`}>
                             <img 
                                 src={summary.thumbnailUrl} 
                                 alt="Thumbnail"
                                 className="w-full h-full object-cover object-center transition-transform duration-300 ease-in-out transform group-hover:scale-110"
                                 onError={(e) => e.currentTarget.src = '/image/no_image_square.jpg'}
                             />
+                            </Link>
                         </div>
                         );
                     })

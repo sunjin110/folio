@@ -6,3 +6,10 @@ export class MediumSummary {
     createdAt!: Date;
     updatedAt!: Date;
 }
+
+export class Medium {
+    id!: string;
+    fileType!: string;
+    downloadUrl!: string;
+}
+

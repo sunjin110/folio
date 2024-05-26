@@ -1,7 +1,7 @@
-import { MediumSummary } from "@/domain/model/media";
+import { Medium, MediumSummary } from "@/domain/model/media";
 import { FindMediumSummariesOutput, MediaRepository } from "@/domain/repository/media";
 import { AuthError, InternalError } from "@/error/error";
-import { GolioApi, MediaGet200Response, MediaPost200Response, ResponseError } from "@/generate/schema/http";
+import { GolioApi, MediaGet200Response, MediaMediumIdGet200Response, MediaPost200Response, ResponseError } from "@/generate/schema/http";
 
 export function NewMediaRepository(golioApi: GolioApi): MediaRepository {
     return new media(golioApi);
@@ -10,6 +10,34 @@ export function NewMediaRepository(golioApi: GolioApi): MediaRepository {
 class media implements MediaRepository {
     constructor(golioApi: GolioApi) {
         this.golioApi = golioApi;
+    }
+    async GetMedium(id: string): Promise<Medium> {
+        let resp: MediaMediumIdGet200Response = {
+            mediumId: "",
+            thumbnailUrl: "",
+            downloadUrl: "",
+            fileType: "",
+        };
+        
+        try {
+            resp = await this.golioApi.mediaMediumIdGet({
+                mediumId: id,
+            })
+        } catch(err) {
+            if (err instanceof ResponseError) {
+                if (err.response.status === 401 || err.response.status === 403) {
+                    throw new AuthError("failed get media", err);
+                }
+                throw new InternalError("failed get media", err);
+            }
+            throw err;
+        }
+
+        return {
+            id: resp.mediumId,
+            fileType: resp.fileType,
+            downloadUrl: resp.downloadUrl,
+        };
     }
     
     golioApi: GolioApi;
@@ -31,6 +59,7 @@ class media implements MediaRepository {
                 }
                 throw new InternalError("failed find media", err);
             }
+            throw err;
         }
         let mediumSummaries: MediumSummary[] = [];
         for (let medium of resp.media) {
