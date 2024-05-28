@@ -40,6 +40,11 @@ resource "aws_iam_role_policy_attachment" "lambda_rds_access" {
   policy_arn = aws_iam_policy.lambda_rds_access.arn
 }
 
+resource "aws_iam_role_policy_attachment" "lambda_dynamodb_access" {
+  role       = aws_iam_role.lambda.name
+  policy_arn = aws_iam_policy.lambda_dynamodb_policy.arn
+}
+
 resource "aws_iam_policy" "lambda_s3_access" {
   name = "${var.prefix}-lambda-s3-access"
 
@@ -71,6 +76,30 @@ resource "aws_iam_policy" "lambda_rds_access" {
         ],
         Resource = "*",
         Effect   = "Allow"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy" "lambda_dynamodb_policy" {
+  name = "${var.prefix}-lambda-dynamodb-policy"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "dynamodb:GetItem",
+          "dynamodb:PutItem",
+          "dynamodb:UpdateItem",
+          "dynamodb:DeleteItem",
+          "dynamodb:Scan",
+          "dynamodb:Query",
+          "dynamodb:BatchGetItem",
+          "dynamodb:BatchWriteItem"
+        ]
+        Resource = "arn:aws:dynamodb:${var.aws.region}:${var.aws.account_id}:table/*"
       }
     ]
   })

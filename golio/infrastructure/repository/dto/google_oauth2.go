@@ -16,11 +16,11 @@ type InputGetGoogleToken struct {
 
 // OutputGetGoogleToken https://developers.google.com/identity/protocols/oauth2/web-server?hl=ja#exchange-authorization-code
 type OutputGetGoogleToken struct {
-	AccessToken  string        `json:"access_token"`
-	ExpiresIn    time.Duration `json:"expires_in"`    // アクセストークンの残り存続期間(秒)
-	RefreshToken string        `json:"refresh_token"` // 新しいアクセストークン
-	TokenType    string        `json:"token_type"`
-	Scope        string        `json:"scope"`
+	AccessToken  string `json:"access_token"`
+	ExpiresIn    int32  `json:"expires_in"`    // アクセストークンの残り存続期間(秒)
+	RefreshToken string `json:"refresh_token"` // 新しいアクセストークン
+	TokenType    string `json:"token_type"`
+	Scope        string `json:"scope"`
 }
 
 func (o *OutputGetGoogleToken) ToModel() *model.Token {
@@ -30,6 +30,32 @@ func (o *OutputGetGoogleToken) ToModel() *model.Token {
 	return &model.Token{
 		AccessToken:  o.AccessToken,
 		RefreshToken: o.RefreshToken,
-		ExpireTime:   time.Now().Add(o.ExpiresIn * time.Second),
+		ExpireTime:   time.Now().Add(time.Duration(o.ExpiresIn) * time.Second),
+	}
+}
+
+// https://developers.google.com/identity/protocols/oauth2/web-server?hl=ja#offline
+type InputRefreshGoogleToken struct {
+	ClientID     string `json:"client_id"`
+	ClientSecret string `json:"client_secret"`
+	GrantType    string `json:"grant_type"`    // refresh_token
+	RefreshToken string `json:"refresh_token"` // 認証コード返還から返された更新トークン
+}
+
+type OutputRefreshGoogleToken struct {
+	AccessToken string `json:"access_token"`
+	ExpireIn    int32  `json:"expires_in"` // アクセストークンの残り時間(秒)
+	Scope       string `json:"scope"`
+	TokenType   string `json:"token_type"`
+}
+
+func (o *OutputRefreshGoogleToken) ToToken(refreshToken string) *model.Token {
+	if o == nil {
+		return nil
+	}
+	return &model.Token{
+		AccessToken:  o.AccessToken,
+		RefreshToken: refreshToken,
+		ExpireTime:   time.Now().Add(time.Duration(o.ExpireIn) * time.Second),
 	}
 }

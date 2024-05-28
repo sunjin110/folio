@@ -5,3 +5,10 @@ variable "cidr_block" {
 variable "prefix" {
   type = string
 }
+
+variable "aws" {
+  type = object({
+    region     = string
+    account_id = string
+  })
+}

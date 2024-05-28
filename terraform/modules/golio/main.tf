@@ -1,6 +1,7 @@
 locals {
-  lambda_name   = "${var.prefix}-golio-lambda"
-  media_s3_name = "${var.prefix}-golio-media"
+  lambda_name                 = "${var.prefix}-golio-lambda"
+  media_s3_name               = "${var.prefix}-golio-media"
+  dynamodb_user_sessions_name = "${var.prefix}_user_sessions"
 }
 
 module "ecr" {
@@ -37,10 +38,11 @@ module "lambda" {
 
     CORS_ALLOWED_ORIGINS : var.reolio.base_url
 
-    # POSTGRES_DATASOURCE : module.rds.uri,
     POSTGRES_DATASOURCE : module.rds.datasource,
     MEDIA_S3_REGION : var.aws.region,
     MEDIA_S3_BUCKET_NAME : local.media_s3_name,
+
+    SESSION_DYNAMODB_TABLE_NAME : local.dynamodb_user_sessions_name,
   }
 
   network = module.network.network
@@ -91,13 +93,9 @@ module "network" {
   source     = "./network"
   cidr_block = var.cidr_block
   prefix     = var.prefix
+  aws        = var.aws
 }
 
-# module "rds" {
-#   source  = "./rds"
-#   network = module.network.network
-#   prefix  = var.prefix
-# }
 
 module "rds" {
   source  = "./rds2"
@@ -111,4 +109,9 @@ module "media_s3" {
   cors = {
     allowed_origins = [var.domain.reolio_base_url]
   }
+}
+
+module "dynamodb" {
+  source = "./dynamodb"
+  prefix = var.prefix
 }

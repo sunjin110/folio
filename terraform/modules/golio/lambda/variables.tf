@@ -43,6 +43,8 @@ variable "environment" {
     POSTGRES_DATASOURCE : string,
     MEDIA_S3_REGION : string,
     MEDIA_S3_BUCKET_NAME : string,
+
+    SESSION_DYNAMODB_TABLE_NAME : string,
   })
 }
 
