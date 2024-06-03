@@ -11,14 +11,15 @@ import (
 )
 
 type Config struct {
-	Server         Server            `envPrefix:"SERVER_"`
-	GoogleOAuth    GoogleOAuthConfig `envPrefix:"GOOGLE_OAUTH_"`
-	SessionKVStore KVStoreConfig     `envPrefix:"SESSION_KV_STORE_"`
-	D1Database     D1Config          `envPrefix:"D1_DATABASE_"`
-	CORS           CORSConfig        `envPrefix:"CORS_"`
-	PostgresDB     PostgresConfig    `envPrefix:"POSTGRES_"`
-	AWS            AWSConfig         `envPrefix:"AWS_"`
-	MediaS3        S3Config          `envPrefix:"MEDIA_S3_"`
+	Server          Server            `envPrefix:"SERVER_"`
+	GoogleOAuth     GoogleOAuthConfig `envPrefix:"GOOGLE_OAUTH_"`
+	SessionKVStore  KVStoreConfig     `envPrefix:"SESSION_KV_STORE_"`
+	SessionDynamoDB DynamoDBConfig    `envPrefix:"SESSION_DYNAMODB_"`
+	D1Database      D1Config          `envPrefix:"D1_DATABASE_"`
+	CORS            CORSConfig        `envPrefix:"CORS_"`
+	PostgresDB      PostgresConfig    `envPrefix:"POSTGRES_"`
+	AWS             AWSConfig         `envPrefix:"AWS_"`
+	MediaS3         S3Config          `envPrefix:"MEDIA_S3_"`
 }
 
 type Server struct {
@@ -46,6 +47,10 @@ type D1Config struct {
 
 type CORSConfig struct {
 	AllowedOrigins string `env:"ALLOWED_ORIGINS"`
+}
+
+type DynamoDBConfig struct {
+	TableName string `env:"TABLE_NAME"`
 }
 
 func (c *CORSConfig) GetAllowedOrigins() []string {

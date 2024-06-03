@@ -19,6 +19,9 @@ const (
 	// grantTypeCode codeを利用したやり方
 	grantTypeCode = "authorization_code"
 
+	// refreshGrantType refresh tokenを利用したやり方
+	refreshGrantType = "refresh_token"
+
 	// tokenGetURI トークンを発行するendpointです
 	tokenGetURI = "https://oauth2.googleapis.com/token"
 
@@ -100,6 +103,48 @@ func (o *googleOauth2) GetTokenFromCode(ctx context.Context, code string) (*mode
 		return nil, fmt.Errorf("failed json.Unmarshal: body: %s, err: %w", string(body), err)
 	}
 	return output.ToModel(), nil
+}
+
+func (o *googleOauth2) GetTokenFromRefreshToken(ctx context.Context, refreshToken string) (*model.Token, error) {
+	reqBody := &dto.InputRefreshGoogleToken{
+		ClientID:     o.clientID,
+		ClientSecret: o.clientSecret,
+		GrantType:    refreshGrantType,
+		RefreshToken: refreshToken,
+	}
+
+	b, err := json.Marshal(reqBody)
+	if err != nil {
+		return nil, fmt.Errorf("failed json.Marshal. err: %w", err)
+	}
+
+	client := &http.Client{}
+	req, err := http.NewRequest(http.MethodPost, tokenGetURI, strings.NewReader(string(b)))
+	if err != nil {
+		return nil, fmt.Errorf("failed http.NewRequest. err: %w", err)
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("failed client.Do. err: %w", err)
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("failed io.ReadAll. err: %w", err)
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("failed GetTokenFromRefreshToken request. statusCode: %d, body: %s", resp.StatusCode, string(body))
+	}
+
+	output := &dto.OutputRefreshGoogleToken{}
+	if err := json.Unmarshal(body, output); err != nil {
+		return nil, fmt.Errorf("failed json.Unmarshal. body: %s, err: %w", string(body), err)
+	}
+	return output.ToToken(refreshToken), nil
 }
 
 func (o *googleOauth2) GetUserSession(ctx context.Context, token string) (*model.UserSession, error) {

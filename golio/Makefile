@@ -2,6 +2,7 @@ run:
 	go run ./cmd/http/main.go
 
 up:
+	docker compose build
 	docker compose up -d
 
 down:

@@ -99,7 +99,7 @@ func (a *article) Get(ctx context.Context, id string) (*model.Article, error) {
 			return fmt.Errorf("failed summaries d1Client.Query. err: %w", err)
 		}
 		if len(summariesOutput.Results) == 0 {
-			return ErrNotFound
+			return repository.ErrNotFound
 		}
 
 		summaries = summariesOutput.GetResultMapList()
@@ -116,7 +116,7 @@ func (a *article) Get(ctx context.Context, id string) (*model.Article, error) {
 			return fmt.Errorf("failed bodies d1Client.Query. err: %w", err)
 		}
 		if len(bodiesOutput.Results) == 0 {
-			return ErrNotFound
+			return repository.ErrNotFound
 		}
 
 		bodies = bodiesOutput.GetResultMapList()
@@ -124,7 +124,7 @@ func (a *article) Get(ctx context.Context, id string) (*model.Article, error) {
 	})
 
 	if err := eg.Wait(); err != nil {
-		if errors.Is(err, ErrNotFound) {
+		if errors.Is(err, repository.ErrNotFound) {
 			return nil, nil
 		}
 		return nil, fmt.Errorf("failed article.Get: %w", err)

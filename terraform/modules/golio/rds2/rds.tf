@@ -8,7 +8,7 @@ locals {
 resource "aws_rds_cluster" "this" {
   cluster_identifier     = "${var.prefix}-golio"
   engine                 = "aurora-postgresql"
-  engine_version         = "15.2"
+  engine_version         = "15.4"
   engine_mode            = "provisioned"
   master_username        = local.user
   master_password        = local.password

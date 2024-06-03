@@ -2,10 +2,10 @@ package http
 
 import (
 	"errors"
-	"fmt"
 	"log/slog"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/sunjin110/folio/golio/usecase"
@@ -24,7 +24,6 @@ func AuthMW(authUsecase usecase.Auth) mux.MiddlewareFunc {
 			cookie, err := r.Cookie("access_token")
 			if err != nil {
 				if errors.Is(err, http.ErrNoCookie) {
-					fmt.Println("見つからなかった")
 					http.Error(w, "unauthorized", http.StatusUnauthorized)
 					return
 				}
@@ -35,14 +34,35 @@ func AuthMW(authUsecase usecase.Auth) mux.MiddlewareFunc {
 
 			userSession, err := authUsecase.GetSessionInfoFromToken(r.Context(), cookie.Value)
 			if err != nil {
+				if errors.Is(err, usecase.ErrNotFound) {
+					http.Error(w, "unauthorized", http.StatusUnauthorized)
+					return
+				}
 				slog.Error("failed get user session", "err", err)
 				http.Error(w, "internal error", http.StatusInternalServerError)
 				return
 			}
-			if userSession == nil {
-				http.Error(w, "unauthorized", http.StatusUnauthorized)
-				return
+
+			// check
+			if userSession.AccessTokenExpireTime.Before(time.Now()) {
+				refreshedUserSession, err := authUsecase.RefreshSessionFromRefreshToken(r.Context(), userSession)
+				if err != nil {
+					slog.Error("failed refresh token", "err", err)
+					http.Error(w, "refresh token error", http.StatusUnauthorized)
+					return
+				}
+
+				// CookieのaccessTokenを更新
+				http.SetCookie(w, &http.Cookie{
+					Name:     "access_token",
+					Value:    refreshedUserSession.AccessToken,
+					HttpOnly: true,
+					Secure:   true,
+					Path:     "/",
+					SameSite: http.SameSiteNoneMode,
+				})
 			}
+
 			next.ServeHTTP(w, r)
 		})
 	}

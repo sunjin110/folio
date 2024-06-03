@@ -74,6 +74,38 @@ services:
 
       aws s3api get-bucket-cors --bucket golio-media --endpoint-url=http://s3:4566
      "
+  dynamo:
+    image: amazon/dynamodb-local
+    ports:
+     - "18000:8000"
+    command: -jar DynamoDBLocal.jar -sharedDb -inMemory
+    healthcheck:
+      test: ["CMD-SHELL", "curl http://localhost:8000/shell || exit 1"]
+      interval: 1s
+      timeout: 10s
+      retries: 5
+  dynamo-admin: # localのdynamoDBを操作するGUI tool
+    image: aaronshaf/dynamodb-admin
+    ports:
+      - "8001:8001"
+    depends_on:
+      dynamo:
+        condition: service_healthy
+    environment:
+      DYNAMO_ENDPOINT: http://dynamo:8000
+  dynamo-create-table:
+    build:
+      context: ./local/dynamodb/create_table
+      dockerfile: Dockerfile
+    environment:
+      ENDPOINT_URL: http://dynamo:8000
+      AWS_ACCESS_KEY_ID: dummy
+      AWS_SECRET_ACCESS_KEY: dummy
+      AWS_DEFAULT_REGION: dummy
+      AWS_DEFAULT_OUTPUT: text
+    depends_on:
+      dynamo:
+        condition: service_healthy
 
 volumes:
   golio-db:

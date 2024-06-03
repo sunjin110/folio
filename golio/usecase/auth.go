@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/sunjin110/folio/golio/domain/model"
@@ -16,7 +17,10 @@ type Auth interface {
 	StartSessionFromGoogleOAuthCode(ctx context.Context, code string) (*StartSessionOutput, error)
 
 	// GetSessionInfoFromToken Session情報をtokenから取得する
-	GetSessionInfoFromToken(ctx context.Context, token string) (*model.UserSession, error)
+	GetSessionInfoFromToken(ctx context.Context, token string) (*model.UserSessionV2, error)
+
+	// RefreshSessionFromRefreshToken Session情報をrefreshTokenを利用して綺麗にする
+	RefreshSessionFromRefreshToken(ctx context.Context, userSession *model.UserSessionV2) (*model.UserSessionV2, error)
 }
 
 type StartSessionOutput struct {
@@ -25,14 +29,14 @@ type StartSessionOutput struct {
 }
 
 type auth struct {
-	googleOAuth2 repository.GoogleOAuth2
-	sessionRepo  repository.Session
+	googleOAuth2  repository.GoogleOAuth2
+	sessionV2Repo repository.SessionV2
 }
 
-func NewAuth(googleOAuth2 repository.GoogleOAuth2, sessionRepo repository.Session) Auth {
+func NewAuth(googleOAuth2 repository.GoogleOAuth2, sessionRepoV2 repository.SessionV2) Auth {
 	return &auth{
-		googleOAuth2: googleOAuth2,
-		sessionRepo:  sessionRepo,
+		googleOAuth2:  googleOAuth2,
+		sessionV2Repo: sessionRepoV2,
 	}
 }
 
@@ -55,8 +59,16 @@ func (a *auth) StartSessionFromGoogleOAuthCode(ctx context.Context, code string)
 		return nil, fmt.Errorf("failed googleOAuth2.GetUserSession: %w", err)
 	}
 
-	if err := a.sessionRepo.Start(ctx, token, userSession); err != nil {
-		return nil, fmt.Errorf("failed sessionRepo.StartSession: %w", err)
+	if err := a.sessionV2Repo.Upsert(ctx, &model.UserSessionV2{
+		Email:                 userSession.Email,
+		FirstName:             userSession.FirstName,
+		LastName:              userSession.LastName,
+		DisplayName:           userSession.DisplayName,
+		AccessToken:           token.AccessToken,
+		RefreshToken:          token.RefreshToken,
+		AccessTokenExpireTime: token.ExpireTime,
+	}); err != nil {
+		return nil, fmt.Errorf("failed sessionV2Repo.Upsert. err: %w", err)
 	}
 
 	return &StartSessionOutput{
@@ -65,10 +77,35 @@ func (a *auth) StartSessionFromGoogleOAuthCode(ctx context.Context, code string)
 	}, nil
 }
 
-func (a *auth) GetSessionInfoFromToken(ctx context.Context, token string) (*model.UserSession, error) {
-	userSession, err := a.sessionRepo.Get(ctx, token)
+func (a *auth) GetSessionInfoFromToken(ctx context.Context, token string) (*model.UserSessionV2, error) {
+	userSessionV2, err := a.sessionV2Repo.GetByAccessToken(ctx, token)
 	if err != nil {
-		return nil, fmt.Errorf("failed get session: %w", err)
+		if errors.Is(err, repository.ErrNotFound) {
+			return nil, ErrNotFound
+		}
+		return nil, fmt.Errorf("failed get sessionV2. err: %w", err)
 	}
-	return userSession, nil
+	return userSessionV2, nil
+}
+
+func (a *auth) RefreshSessionFromRefreshToken(ctx context.Context, userSession *model.UserSessionV2) (*model.UserSessionV2, error) {
+	token, err := a.googleOAuth2.GetTokenFromRefreshToken(ctx, userSession.RefreshToken)
+	if err != nil {
+		return nil, fmt.Errorf("failed get token from refresh token. err: %w", err)
+	}
+
+	refreshedUserSession := &model.UserSessionV2{
+		Email:                 userSession.Email,
+		FirstName:             userSession.FirstName,
+		LastName:              userSession.LastName,
+		DisplayName:           userSession.DisplayName,
+		AccessToken:           token.AccessToken,
+		RefreshToken:          userSession.RefreshToken,
+		AccessTokenExpireTime: token.ExpireTime,
+	}
+
+	if err := a.sessionV2Repo.Upsert(ctx, refreshedUserSession); err != nil {
+		return nil, fmt.Errorf("failed sessionV2Repo.Upsert. err: %w", err)
+	}
+	return refreshedUserSession, nil
 }
