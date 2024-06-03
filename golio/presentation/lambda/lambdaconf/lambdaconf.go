@@ -12,9 +12,7 @@ import (
 
 type Config struct {
 	GoogleOAuth     GoogleOAuthConfig `envPrefix:"GOOGLE_OAUTH_"`
-	SessionKVStore  KVStoreConfig     `envPrefix:"SESSION_KV_STORE_"`
 	SessionDynamoDB DynamoDBConfig    `envPrefix:"SESSION_DYNAMODB_"`
-	D1Database      D1Config          `envPrefix:"D1_DATABASE_"`
 	CORS            CORSConfig        `envPrefix:"CORS_"`
 	PostgresDB      PostgresConfig    `envPrefix:"POSTGRES_"`
 	AWS             AWSConfig         `envPrefix:"AWS_"`
@@ -26,18 +24,6 @@ type GoogleOAuthConfig struct {
 	ClientSecret        string `env:"CLIENT_SECRET"`
 	RedirectURI         string `env:"REDIRECT_URI"`
 	CallbackRedirectURI string `env:"CALLBACK_REDIRECT_URI"`
-}
-
-type KVStoreConfig struct {
-	AccountID   string `env:"ACCOUNT_ID"`
-	NamespaceID string `env:"NAMESPACE_ID"`
-	APIToken    string `env:"API_TOKEN"`
-}
-
-type D1Config struct {
-	AccountID  string `env:"ACCOUNT_ID"`
-	DatabaseID string `env:"DATABASE_ID"`
-	APIToken   string `env:"API_TOKEN"`
 }
 
 type CORSConfig struct {
