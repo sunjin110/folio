@@ -184,7 +184,14 @@ func (c *GolioAPIController) ArticlesGet(w http.ResponseWriter, r *http.Request)
 		limitParam = param
 	} else {
 	}
-	result, err := c.service.ArticlesGet(r.Context(), offsetParam, limitParam)
+	var searchTitleTextParam string
+	if query.Has("search_title_text") {
+		param := query.Get("search_title_text")
+
+		searchTitleTextParam = param
+	} else {
+	}
+	result, err := c.service.ArticlesGet(r.Context(), offsetParam, limitParam, searchTitleTextParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

@@ -11,6 +11,10 @@ type Article interface {
 	Insert(ctx context.Context, article *model.Article) error
 	Delete(ctx context.Context, id string) error
 	Update(ctx context.Context, article *model.Article) error
-	FindSummary(ctx context.Context, sortType SortType, paging *Paging) ([]*model.ArticleSummary, error)
-	CountTotal(ctx context.Context) (int32, error)
+	FindSummary(ctx context.Context, sortType SortType, paging *Paging, search *ArticleSearch) ([]*model.ArticleSummary, error)
+	CountTotal(ctx context.Context, search *ArticleSearch) (int32, error)
+}
+
+type ArticleSearch struct {
+	Title *string
 }
