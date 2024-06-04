@@ -22,8 +22,6 @@ services:
       POSTGRES_USER: golion
       POSTGRES_PASSWORD: golio-password
       POSTGRES_DB: golio
-    volumes:
-      - golio-db:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready --username=golion --dbname=golio"]
       interval: 5s

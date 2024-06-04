@@ -31,6 +31,14 @@ paths:
         schema:
           type: integer
         style: form
+      - description: タイトルの検索
+        explode: true
+        in: query
+        name: search_title_text
+        required: false
+        schema:
+          type: string
+        style: form
       responses:
         "200":
           content:

@@ -48,14 +48,20 @@ func (g *golioAPIServicer) ArticlesArticleIdGet(ctx context.Context, articleID s
 	}), nil
 }
 
-func (g *golioAPIServicer) ArticlesGet(ctx context.Context, offset int32, limit int32) (openapi.ImplResponse, error) {
+func (g *golioAPIServicer) ArticlesGet(ctx context.Context, offset int32, limit int32, titleSearchTextQueryParam string) (openapi.ImplResponse, error) {
 	if limit <= 0 {
 		limit = 10
 	}
 	if offset < 0 {
 		offset = 0
 	}
-	output, err := g.articleUsecase.FindSummaries(ctx, offset, limit)
+
+	var titleSearchText *string
+	if titleSearchTextQueryParam != "" {
+		titleSearchText = &titleSearchTextQueryParam
+	}
+
+	output, err := g.articleUsecase.FindSummaries(ctx, offset, limit, titleSearchText)
 	if err != nil {
 		slog.ErrorContext(ctx, "failed articleUsecase.FindSummaries", "offset", offset, "limit", limit, "err", err)
 	}

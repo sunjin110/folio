@@ -32,13 +32,18 @@ func NewArticleV2(ctx context.Context, db *sqlx.DB) repository.Article {
 	}
 }
 
-func (a *articleV2) CountTotal(ctx context.Context) (int32, error) {
+func (a *articleV2) CountTotal(ctx context.Context, search *repository.ArticleSearch) (int32, error) {
 	sb := sqlbuilder.NewSelectBuilder()
 	sb.Select("count(*)").From("article_summaries")
 
-	sql, _ := sb.BuildWithFlavor(sqlbuilder.PostgreSQL)
+	if search != nil && search.Title != nil {
+		// TODO indexが利用できないため将来的にPGroongaを利用する
+		sb.Where(sb.Like("title", "%"+*search.Title+"%"))
+	}
 
-	rows, err := a.db.QueryxContext(ctx, sql)
+	sql, args := sb.BuildWithFlavor(sqlbuilder.PostgreSQL)
+
+	rows, err := a.db.QueryxContext(ctx, sql, args...)
 	if err != nil {
 		return -1, fmt.Errorf("failed QueryContext. sql: %s, err: %w", sql, err)
 	}
@@ -82,9 +87,16 @@ func (a *articleV2) Delete(ctx context.Context, id string) (err error) {
 	return nil
 }
 
-func (a *articleV2) FindSummary(ctx context.Context, sortType repository.SortType, paging *repository.Paging) ([]*model.ArticleSummary, error) {
+func (a *articleV2) FindSummary(ctx context.Context, sortType repository.SortType, paging *repository.Paging, search *repository.ArticleSearch) ([]*model.ArticleSummary, error) {
 	sb := sqlbuilder.NewSelectBuilder()
-	sb.Select("*").From("article_summaries").Limit(paging.Limit).Offset(paging.Offset).OrderBy("created_at")
+	sb.Select("*").From("article_summaries")
+
+	if search != nil && search.Title != nil {
+		// TODO indexが利用できないため将来的にPGroongaを利用する
+		sb.Where(sb.Like("title", "%"+*search.Title+"%"))
+	}
+
+	sb.Limit(paging.Limit).Offset(paging.Offset).OrderBy("created_at")
 	if sortType == repository.SortTypeAsc {
 		sb.Asc()
 	} else {

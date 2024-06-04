@@ -39,7 +39,7 @@ type GolioAPIRouter interface {
 type GolioAPIServicer interface { 
 	ArticlesArticleIdGet(context.Context, string) (ImplResponse, error)
 	ArticlesArticleIdPut(context.Context, string, ArticlesPostRequest) (ImplResponse, error)
-	ArticlesGet(context.Context, int32, int32) (ImplResponse, error)
+	ArticlesGet(context.Context, int32, int32, string) (ImplResponse, error)
 	ArticlesPost(context.Context, ArticlesPostRequest) (ImplResponse, error)
 	HelloGet(context.Context) (ImplResponse, error)
 	MediaGet(context.Context, int32, int32) (ImplResponse, error)
