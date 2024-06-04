@@ -108,7 +108,6 @@ export default function Articles(props: ArticlesProps) {
   const handleSearchTitleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.nativeEvent.isComposing || e.key !== 'Enter') return;
     setSearchTitleText(viewSearchTitleText);
-    fetch(viewSearchTitleText);
   };
 
   const onPageChange = (newPageIndex: number) => {
