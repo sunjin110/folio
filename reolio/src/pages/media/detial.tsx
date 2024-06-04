@@ -23,10 +23,8 @@ export default function MediaDetail(props: MediaDetailProps) {
 
     useEffect(() => {
         const fetchMedium = async (id: string) => {
-            console.log("id: ", id);
             try {
                 const resp = await mediaUsecase.GetMedium(id);
-                console.log("resp is ", resp);
                 setMedium(resp);
             } catch(err) {
                 if (err instanceof AuthError) {

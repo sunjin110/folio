@@ -1,13 +1,16 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { DataTable } from "@/components/data-table";
 import { ColumnDef } from "@tanstack/react-table";
-import { getArticles } from "@/api/api";
 import { ArticleSummary } from "@/domain/model/article";
 import { formatDateFromRFC } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { Navigation } from "@/components/organisms/navigation";
+import { Input } from "@/components/ui/input";
+import { Label } from "@radix-ui/react-label";
+import { ArticleUsecase } from "@/usecase/article";
+import { AuthError, InternalError } from "@/error/error";
 
 const columns: ColumnDef<ArticleSummary>[] = [
   {
@@ -45,38 +48,68 @@ const columns: ColumnDef<ArticleSummary>[] = [
   },
 ];
 
-export default function Articles() {
+export interface ArticlesProps {
+  articleUsecase: ArticleUsecase;
+}
+
+export default function Articles(props: ArticlesProps) {
+
+  const { articleUsecase } = props;
+
   const [data, setData] = useState<ArticleSummary[]>([]);
 
   const [pageSize] = useState(10);
   const [pageIndex, setPageIndex] = useState(0);
   const [pageCount, setPageCount] = useState(0);
+  const [searchTitleText, setSearchTitleText] = useState("");
+  const [viewSearchTitleText, setViewSearchTitleText] = useState("");
+
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetch = async () => {
-      const offset = pageIndex * pageSize;
-      const limit = pageSize;
-      try {
-        const output = await getArticles(offset, limit);
-        if (output.type === "error") {
-          toast({
-            title: "ログインし直してください",
-            description: output.message,
-          });
-          navigate("/login");
-          return;
-        }
-        setData(output.articles);
-        const total = output.total;
-        setPageCount(Math.ceil(total / pageSize));
-      } catch (err) {
-        console.error("failed get article summaries", err);
+
+  const fetch = useCallback(async (searchTitleText: string) => {
+    const offset = pageIndex * pageSize;
+    const limit = pageSize;
+
+    try {
+      const resp = await articleUsecase.FindSummaries(offset, limit, searchTitleText);
+      setData(resp.summaries);
+      setPageCount(Math.ceil(resp.totalCount / pageSize));
+    }  catch (err) {
+      if (err instanceof AuthError) {
+        toast({
+          title: 'Please login again',
+          description: err.message,
+        });
+        navigate("/login");
+        return;
+      } else if (err instanceof InternalError) {
+        toast({
+          title: 'Error',
+          description: err.message,
+        });
+        return;
       }
-    };
-    fetch();
-  }, [pageIndex, pageSize, navigate, toast]);
+
+      toast({
+        title: 'Error',
+        description: `${err}`
+      });
+
+      console.error(err);
+    }
+  }, [articleUsecase, navigate, pageIndex, pageSize, toast]);
+
+  useEffect(() => {
+    fetch(searchTitleText);
+  }, [pageIndex, pageSize, navigate, toast, fetch, searchTitleText]);
+
+  const handleSearchTitleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.nativeEvent.isComposing || e.key !== 'Enter') return;
+    setSearchTitleText(viewSearchTitleText);
+    fetch(viewSearchTitleText);
+  };
 
   const onPageChange = (newPageIndex: number) => {
     setPageIndex(newPageIndex);
@@ -88,6 +121,12 @@ export default function Articles() {
         <Link to={`/articles/create`}>
           <Button>Create Article</Button>
         </Link>
+
+        <div className="pb-2 pt-2">
+          <Label id="search_title_text_label" htmlFor="search_title_text">Search Title: {searchTitleText}</Label>
+          <Input id="search_title_text" type="text" placeholder="Title" onKeyDown={handleSearchTitleKeyDown} value={viewSearchTitleText} onChange={(event) => setViewSearchTitleText(event.target.value)}></Input>
+        </div>
+
         <DataTable
           columns={columns}
           data={data}

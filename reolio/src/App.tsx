@@ -16,6 +16,8 @@ import { NewMediaRepository } from "./infrastructure/repository/media";
 import { NewMediaUsecase } from "./usecase/media";
 import { Configuration, GolioApi } from "./generate/schema/http";
 import MediaDetail from "./pages/media/detial";
+import { NewArticleRepository } from "./infrastructure/repository/article";
+import { NewArticleUsecase } from "./usecase/article";
 
 const App: React.FC = () => {
 
@@ -27,7 +29,10 @@ const App: React.FC = () => {
   const golioApi = new GolioApi(golioConfig);
 
   const mediaRepo = NewMediaRepository(golioApi);
+  const articleRepo = NewArticleRepository(golioApi);
   const mediaUsecase = NewMediaUsecase(mediaRepo);
+  const articleUsecase = NewArticleUsecase(articleRepo);
+
 
   return (
     <TooltipProvider>
@@ -37,7 +42,7 @@ const App: React.FC = () => {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/articles" element={<Articles />} />
+            <Route path="/articles" element={<Articles articleUsecase={articleUsecase} />} />
             <Route path="/media" element={<Media mediaUsecase={mediaUsecase} />} />
             <Route path="/media/:mediaId" element={<MediaDetail mediaUsecase={mediaUsecase} />} />
             <Route path="/articles/:articleId" element={<ArticleDetail />} />

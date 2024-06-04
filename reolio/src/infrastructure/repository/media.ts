@@ -8,6 +8,8 @@ export function NewMediaRepository(golioApi: GolioApi): MediaRepository {
 }
 
 class media implements MediaRepository {
+    private golioApi: GolioApi;
+    
     constructor(golioApi: GolioApi) {
         this.golioApi = golioApi;
     }
@@ -39,8 +41,6 @@ class media implements MediaRepository {
             downloadUrl: resp.downloadUrl,
         };
     }
-    
-    golioApi: GolioApi;
 
     async FindMediumSummaries(offset: number, limit: number): Promise<FindMediumSummariesOutput> {
         let resp: MediaGet200Response = {

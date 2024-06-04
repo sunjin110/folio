@@ -61,6 +61,7 @@ export interface ArticlesArticleIdPutRequest {
 export interface ArticlesGetRequest {
     offset?: number;
     limit?: number;
+    searchTitleText?: string;
 }
 
 export interface ArticlesPostOperationRequest {
@@ -175,6 +176,10 @@ export class GolioApi extends runtime.BaseAPI {
 
         if (requestParameters['limit'] != null) {
             queryParameters['limit'] = requestParameters['limit'];
+        }
+
+        if (requestParameters['searchTitleText'] != null) {
+            queryParameters['search_title_text'] = requestParameters['searchTitleText'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
