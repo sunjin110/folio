@@ -24,6 +24,11 @@ variable "google_oauth_secret_id" {
   sensitive = true
 }
 
+variable "chat_gpt_api_key" {
+  type      = string
+  sensitive = true
+}
+
 # TODO これはapiのcustom domainを決めたタイミングでどうにかする
 # variable "google_oauth_redirect_uri" {
 #   type = string

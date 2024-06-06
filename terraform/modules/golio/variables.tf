@@ -42,3 +42,9 @@ variable "domain" {
 variable "cidr_block" {
   type = string
 }
+
+variable "chat_gpt" {
+  type = object({
+    api_key : string
+  })
+}

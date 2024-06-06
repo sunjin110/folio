@@ -47,7 +47,7 @@ const App: React.FC = () => {
             <Route path="/media/:mediaId" element={<MediaDetail mediaUsecase={mediaUsecase} />} />
             <Route path="/articles/:articleId" element={<ArticleDetail />} />
             <Route path="/articles/create" element={<CreateArticle />} />
-            <Route path="/articles/edit/:articleId" element={<EditArticle />} />
+            <Route path="/articles/edit/:articleId" element={<EditArticle articleUsecase={articleUsecase} />} />
           </Routes>
         </div>
         <Toaster />

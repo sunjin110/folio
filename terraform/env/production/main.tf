@@ -64,6 +64,10 @@ module "golio" {
   }
 
   cidr_block = "10.0.0.0/16"
+
+  chat_gpt = {
+    api_key = var.chat_gpt_api_key
+  }
 }
 
 module "reolio" {

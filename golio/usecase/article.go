@@ -14,6 +14,7 @@ type Article interface {
 	Update(ctx context.Context, article *model.Article) error
 	Delete(ctx context.Context, id string) error
 	FindSummaries(ctx context.Context, offset int32, limit int32, titleSearchText *string) (*FindArticleSummariesOutput, error)
+	GenerateBodyByAI(ctx context.Context, id string, orderToAI string) (*model.Article, error)
 }
 
 type FindArticleSummariesOutput struct {
@@ -82,4 +83,18 @@ func (a *article) Update(ctx context.Context, article *model.Article) error {
 		return fmt.Errorf("failed articleRepo.Update: %w", err)
 	}
 	return nil
+}
+
+func (a *article) GenerateBodyByAI(ctx context.Context, id string, orderToAI string) (*model.Article, error) {
+	article, err := a.articleRepo.Get(ctx, id)
+	if err != nil {
+		return nil, fmt.Errorf("failed articleRepo.Get. err: %w", err)
+	}
+
+	generatedArticle, err := a.articleRepo.ChangeBodyByAI(ctx, article, orderToAI)
+	if err != nil {
+		return nil, fmt.Errorf("failed articleRepo.ChangeBodyByAI. err: %w", err)
+	}
+
+	return generatedArticle, nil
 }

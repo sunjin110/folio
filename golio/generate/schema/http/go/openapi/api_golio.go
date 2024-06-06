@@ -50,6 +50,11 @@ func NewGolioAPIController(s GolioAPIServicer, opts ...GolioAPIOption) Router {
 // Routes returns all the api routes for the GolioAPIController
 func (c *GolioAPIController) Routes() Routes {
 	return Routes{
+		"ArticlesArticleIdAiPut": Route{
+			strings.ToUpper("Put"),
+			"/articles/{article_id}/ai",
+			c.ArticlesArticleIdAiPut,
+		},
 		"ArticlesArticleIdGet": Route{
 			strings.ToUpper("Get"),
 			"/articles/{article_id}",
@@ -96,6 +101,39 @@ func (c *GolioAPIController) Routes() Routes {
 			c.MediaPost,
 		},
 	}
+}
+
+// ArticlesArticleIdAiPut - 記事AI更新
+func (c *GolioAPIController) ArticlesArticleIdAiPut(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	articleIdParam := params["article_id"]
+	if articleIdParam == "" {
+		c.errorHandler(w, r, &RequiredError{"article_id"}, nil)
+		return
+	}
+	articlesArticleIdAiPutRequestParam := ArticlesArticleIdAiPutRequest{}
+	d := json.NewDecoder(r.Body)
+	d.DisallowUnknownFields()
+	if err := d.Decode(&articlesArticleIdAiPutRequestParam); err != nil && !errors.Is(err, io.EOF) {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	if err := AssertArticlesArticleIdAiPutRequestRequired(articlesArticleIdAiPutRequestParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	if err := AssertArticlesArticleIdAiPutRequestConstraints(articlesArticleIdAiPutRequestParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	result, err := c.service.ArticlesArticleIdAiPut(r.Context(), articleIdParam, articlesArticleIdAiPutRequestParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, w)
 }
 
 // ArticlesArticleIdGet - 記事取得

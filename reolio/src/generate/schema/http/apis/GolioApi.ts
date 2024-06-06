@@ -15,6 +15,8 @@
 
 import * as runtime from '../runtime';
 import type {
+  ArticlesArticleIdAiPut200Response,
+  ArticlesArticleIdAiPutRequest,
   ArticlesArticleIdGet200Response,
   ArticlesGet200Response,
   ArticlesGet400Response,
@@ -27,6 +29,10 @@ import type {
   MediaPostRequest,
 } from '../models/index';
 import {
+    ArticlesArticleIdAiPut200ResponseFromJSON,
+    ArticlesArticleIdAiPut200ResponseToJSON,
+    ArticlesArticleIdAiPutRequestFromJSON,
+    ArticlesArticleIdAiPutRequestToJSON,
     ArticlesArticleIdGet200ResponseFromJSON,
     ArticlesArticleIdGet200ResponseToJSON,
     ArticlesGet200ResponseFromJSON,
@@ -48,6 +54,11 @@ import {
     MediaPostRequestFromJSON,
     MediaPostRequestToJSON,
 } from '../models/index';
+
+export interface ArticlesArticleIdAiPutOperationRequest {
+    articleId: string;
+    articlesArticleIdAiPutRequest?: ArticlesArticleIdAiPutRequest;
+}
 
 export interface ArticlesArticleIdGetRequest {
     articleId: string;
@@ -89,6 +100,44 @@ export interface MediaPostOperationRequest {
  * 
  */
 export class GolioApi extends runtime.BaseAPI {
+
+    /**
+     * AIに命令を下して、記事の内容の更新をするAPIです
+     * 記事AI更新
+     */
+    async articlesArticleIdAiPutRaw(requestParameters: ArticlesArticleIdAiPutOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ArticlesArticleIdAiPut200Response>> {
+        if (requestParameters['articleId'] == null) {
+            throw new runtime.RequiredError(
+                'articleId',
+                'Required parameter "articleId" was null or undefined when calling articlesArticleIdAiPut().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/articles/{article_id}/ai`.replace(`{${"article_id"}}`, encodeURIComponent(String(requestParameters['articleId']))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: ArticlesArticleIdAiPutRequestToJSON(requestParameters['articlesArticleIdAiPutRequest']),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ArticlesArticleIdAiPut200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * AIに命令を下して、記事の内容の更新をするAPIです
+     * 記事AI更新
+     */
+    async articlesArticleIdAiPut(requestParameters: ArticlesArticleIdAiPutOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ArticlesArticleIdAiPut200Response> {
+        const response = await this.articlesArticleIdAiPutRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * 

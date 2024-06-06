@@ -45,6 +45,8 @@ variable "environment" {
     MEDIA_S3_BUCKET_NAME : string,
 
     SESSION_DYNAMODB_TABLE_NAME : string,
+
+    CHAT_GPT_API_KEY : string,
   })
 }
 

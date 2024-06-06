@@ -43,6 +43,8 @@ module "lambda" {
     MEDIA_S3_BUCKET_NAME : local.media_s3_name,
 
     SESSION_DYNAMODB_TABLE_NAME : local.dynamodb_user_sessions_name,
+
+    CHAT_GPT_API_KEY : var.chat_gpt.api_key
   }
 
   network = module.network.network
