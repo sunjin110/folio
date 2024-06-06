@@ -13,6 +13,29 @@ class article implements ArticleRepository {
     constructor(golioApi: GolioApi) {
         this.golioApi = golioApi;
     }
+    async GenerateBodyByAI(articleID: string, prompt: string): Promise<string> {
+        let resp = {
+            generatedBody: ""
+        };
+
+        try {
+            resp = await this.golioApi.articlesArticleIdAiPut({
+                articleId: articleID,
+                articlesArticleIdAiPutRequest: {
+                    message: prompt
+                }
+            });
+        } catch (err) {
+            if (err instanceof ResponseError) {
+                if (err.response.status === 401 || err.response.status === 403) {
+                    throw new AuthError("failed generate body by ai", err);
+                }
+                throw new InternalError("failed generate body by ai", err);
+            }
+            throw err;
+        }
+        return resp.generatedBody;
+    }
 
     async FindSummaries(offset?: number, limit?: number, searchTitleText?: string): Promise<GetArticleSummariesOutput> {
         let resp: ArticlesGet200Response = {

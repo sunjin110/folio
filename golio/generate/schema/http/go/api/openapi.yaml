@@ -171,6 +171,48 @@ paths:
       summary: 記事更新
       tags:
       - golio
+  /articles/{article_id}/ai:
+    put:
+      deprecated: false
+      description: AIに命令を下して、記事の内容の更新をするAPIです
+      parameters:
+      - description: ""
+        explode: false
+        in: path
+        name: article_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            example:
+              title: 記事タイトル
+            schema:
+              $ref: '#/components/schemas/_articles__article_id__ai_put_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                "1":
+                  summary: Success
+                  value:
+                    generated_body: ""
+              schema:
+                $ref: '#/components/schemas/_articles__article_id__ai_put_200_response'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_articles_get_400_response'
+          description: Invalid input
+      security: []
+      summary: 記事AI更新
+      tags:
+      - golio
   /hello:
     get:
       deprecated: false
@@ -404,6 +446,23 @@ components:
       - id
       - title
       - user_id
+      type: object
+    _articles__article_id__ai_put_request:
+      properties:
+        message:
+          description: AIに対する命令のメッセージです
+          type: string
+      required:
+      - message
+      type: object
+    _articles__article_id__ai_put_200_response:
+      example:
+        generated_body: generated_body
+      properties:
+        generated_body:
+          type: string
+      required:
+      - generated_body
       type: object
     _hello_get_200_response:
       example:

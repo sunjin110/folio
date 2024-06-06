@@ -15,6 +15,7 @@ import (
 	"github.com/sunjin110/folio/golio/generate/schema/http/go/openapi"
 	"github.com/sunjin110/folio/golio/infrastructure/aws/dynamodb"
 	"github.com/sunjin110/folio/golio/infrastructure/aws/s3"
+	"github.com/sunjin110/folio/golio/infrastructure/chatgpt"
 	"github.com/sunjin110/folio/golio/infrastructure/postgres"
 	"github.com/sunjin110/folio/golio/infrastructure/repository"
 	"github.com/sunjin110/folio/golio/infrastructure/repository/dto/dynamodto"
@@ -51,7 +52,9 @@ func GetHandler(ctx context.Context) (lambdaHandlerFunc func(ctx context.Context
 		return nil, fmt.Errorf("failed load aws config: %w", err)
 	}
 
-	articleRepo := repository.NewArticleV2(ctx, db)
+	chatGPTClient := chatgpt.NewClient(cfg.ChatGPT.APIKey)
+
+	articleRepo := repository.NewArticleV2(ctx, db, chatGPTClient)
 
 	mediaRepo := repository.NewMedia(db, cfg.MediaS3.BucketName, s3.NewS3Client(awsCfg))
 

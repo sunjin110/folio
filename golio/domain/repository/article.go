@@ -13,6 +13,7 @@ type Article interface {
 	Update(ctx context.Context, article *model.Article) error
 	FindSummary(ctx context.Context, sortType SortType, paging *Paging, search *ArticleSearch) ([]*model.ArticleSummary, error)
 	CountTotal(ctx context.Context, search *ArticleSearch) (int32, error)
+	ChangeBodyByAI(ctx context.Context, article *model.Article, orderToAI string) (*model.Article, error)
 }
 
 type ArticleSearch struct {

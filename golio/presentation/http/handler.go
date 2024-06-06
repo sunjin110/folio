@@ -92,6 +92,21 @@ func (g *golioAPIServicer) ArticlesArticleIdPut(ctx context.Context, articleID s
 	return openapi.Response(http.StatusOK, nil), nil
 }
 
+func (g *golioAPIServicer) ArticlesArticleIdAiPut(ctx context.Context, articleID string, req openapi.ArticlesArticleIdAiPutRequest) (openapi.ImplResponse, error) {
+	article, err := g.articleUsecase.GenerateBodyByAI(ctx, articleID, req.Message)
+	if err != nil {
+		slog.ErrorContext(ctx, "failed articleUsecase.GenerateBodyByAI", "err", err)
+		return openapi.Response(http.StatusInternalServerError, "internal server error"), nil
+	}
+	if article == nil {
+		return openapi.Response(http.StatusNotFound, "not found"), nil
+	}
+
+	return openapi.Response(http.StatusOK, openapi.ArticlesArticleIdAiPut200Response{
+		GeneratedBody: article.Body,
+	}), nil
+}
+
 func (g *golioAPIServicer) MediaGet(ctx context.Context, offset int32, limit int32) (openapi.ImplResponse, error) {
 	output, err := g.mediaUsecase.FindSummaries(ctx, offset, limit)
 	if err != nil {

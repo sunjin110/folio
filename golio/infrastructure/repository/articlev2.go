@@ -11,7 +11,10 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/sunjin110/folio/golio/domain/model"
 	"github.com/sunjin110/folio/golio/domain/repository"
+	"github.com/sunjin110/folio/golio/infrastructure/chatgpt"
+	chatgptDto "github.com/sunjin110/folio/golio/infrastructure/chatgpt/dto"
 	"github.com/sunjin110/folio/golio/infrastructure/repository/dto/postgres_dto"
+	"github.com/sunjin110/folio/golio/infrastructure/repository/prompts"
 )
 
 var (
@@ -23,12 +26,14 @@ var (
 )
 
 type articleV2 struct {
-	db *sqlx.DB
+	db            *sqlx.DB
+	chatGPTClient chatgpt.Client
 }
 
-func NewArticleV2(ctx context.Context, db *sqlx.DB) repository.Article {
+func NewArticleV2(ctx context.Context, db *sqlx.DB, chatGPTClient chatgpt.Client) repository.Article {
 	return &articleV2{
-		db: db,
+		db:            db,
+		chatGPTClient: chatGPTClient,
 	}
 }
 
@@ -179,4 +184,28 @@ func (a *articleV2) upsert(ctx context.Context, article *model.Article) (err err
 		return fmt.Errorf("failed commit. err: %w", err)
 	}
 	return nil
+}
+
+func (a *articleV2) ChangeBodyByAI(ctx context.Context, article *model.Article, orderToAI string) (*model.Article, error) {
+	output, err := a.chatGPTClient.CreateChatCompletions(ctx, &chatgptDto.ChatCompletionsInput{
+		Model: chatgpt.GPT3Point5TurboModel,
+		Messages: []chatgptDto.Message{
+			&chatgptDto.SystemMessage{
+				Role:    "system",
+				Content: "You are a helpful professional assistant",
+			},
+			&chatgptDto.UserMessage{
+				Role:    "user",
+				Content: fmt.Sprintf(prompts.ChangeArticleBodyChatGPT, orderToAI, article.Body),
+			},
+		},
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed chatGPTClient.CreateChatCompletions. err: %w", err)
+	}
+
+	body := output.GetMessage()
+
+	article.Body = body
+	return article, nil
 }

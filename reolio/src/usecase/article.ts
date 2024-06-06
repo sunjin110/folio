@@ -3,6 +3,7 @@ import { ArticleRepository } from "@/domain/repository/article";
 
 export interface ArticleUsecase {
     FindSummaries(offset?: number, limit?: number, searchTitleText?: string): Promise<FindArticleSummariesOutput>;
+    GenerateBodyByAI(articleID: string, prompt: string): Promise<string>;
 }
 
 export interface FindArticleSummariesOutput {
@@ -20,6 +21,10 @@ class article implements ArticleUsecase {
 
     constructor(articleRepo: ArticleRepository) {
         this.articleRepo = articleRepo;
+    }
+
+    async GenerateBodyByAI(articleID: string, prompt: string): Promise<string> {
+        return await this.articleRepo.GenerateBodyByAI(articleID, prompt);
     }
 
     async FindSummaries(offset?: number, limit?: number, searchTitleText?: string): Promise<FindArticleSummariesOutput> {

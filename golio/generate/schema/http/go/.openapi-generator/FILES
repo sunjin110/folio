@@ -6,6 +6,8 @@ openapi/error.go
 openapi/helpers.go
 openapi/impl.go
 openapi/logger.go
+openapi/model__articles__article_id__ai_put_200_response.go
+openapi/model__articles__article_id__ai_put_request.go
 openapi/model__articles__article_id__get_200_response.go
 openapi/model__articles_get_200_response.go
 openapi/model__articles_get_200_response_articles_inner.go

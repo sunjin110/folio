@@ -17,6 +17,7 @@ type Config struct {
 	PostgresDB      PostgresConfig    `envPrefix:"POSTGRES_"`
 	AWS             AWSConfig         `envPrefix:"AWS_"`
 	MediaS3         S3Config          `envPrefix:"MEDIA_S3_"`
+	ChatGPT         ChatGPTConfig     `envPrefix:"CHAT_GPT_"`
 }
 
 type GoogleOAuthConfig struct {
@@ -51,6 +52,10 @@ type AWSConfig struct {
 type S3Config struct {
 	Region     string `env:"REGION"`
 	BucketName string `env:"BUCKET_NAME"`
+}
+
+type ChatGPTConfig struct {
+	APIKey string `env:"API_KEY"`
 }
 
 func NewConfig() (*Config, error) {
