@@ -45,6 +45,11 @@ resource "aws_iam_role_policy_attachment" "lambda_dynamodb_access" {
   policy_arn = aws_iam_policy.lambda_dynamodb_policy.arn
 }
 
+resource "aws_iam_role_policy_attachment" "lambda_aws_translate_policy" {
+  role       = aws_iam_role.lambda.name
+  policy_arn = aws_iam_policy.lambda_aws_translate_policy.arn
+}
+
 resource "aws_iam_policy" "lambda_s3_access" {
   name = "${var.prefix}-lambda-s3-access"
 
@@ -104,3 +109,26 @@ resource "aws_iam_policy" "lambda_dynamodb_policy" {
     ]
   })
 }
+
+resource "aws_iam_policy" "lambda_aws_translate_policy" {
+  name = "${var.prefix}-lambda-aws-translate-policy"
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "translate:TranslateText",
+          "translate:ListTextTranslationJobs",
+          "translate:StartTextTranslationJob",
+          "translate:DescribeTextTranslationJob",
+          "translate:StopTextTranslationJob",
+          "translate:DeleteTextTranslationJob"
+        ],
+        "Resource" : "*"
+      }
+    ]
+  })
+}
+

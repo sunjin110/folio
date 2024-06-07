@@ -23,7 +23,7 @@ func main() {
 	}
 
 	if err := http.Serve(context.Background(), cfg); err != nil {
-		slog.Error("failed http.Serve: %w", err)
+		slog.Error("failed http.Serve: %w", "err", err)
 		os.Exit(1)
 	}
 }

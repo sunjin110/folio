@@ -35,6 +35,7 @@ func getTestDB(t *testing.T) (db *sqlx.DB, finish func()) {
 func getTestS3Client(t *testing.T) *s3.Client {
 	t.Helper()
 
+	//nolint:staticcheck
 	cfg, err := config.LoadDefaultConfig(context.TODO(),
 		config.WithEndpointResolverWithOptions(aws.EndpointResolverWithOptionsFunc(func(service, region string, options ...interface{}) (aws.Endpoint, error) {
 			return aws.Endpoint{
