@@ -15,6 +15,7 @@ import (
 	"github.com/sunjin110/folio/golio/generate/schema/http/go/openapi"
 	"github.com/sunjin110/folio/golio/infrastructure/aws/dynamodb"
 	"github.com/sunjin110/folio/golio/infrastructure/aws/s3"
+	"github.com/sunjin110/folio/golio/infrastructure/aws/translate"
 	"github.com/sunjin110/folio/golio/infrastructure/chatgpt"
 	"github.com/sunjin110/folio/golio/infrastructure/postgres"
 	"github.com/sunjin110/folio/golio/infrastructure/repository"
@@ -52,6 +53,8 @@ func GetHandler(ctx context.Context) (lambdaHandlerFunc func(ctx context.Context
 		return nil, fmt.Errorf("failed load aws config: %w", err)
 	}
 
+	awsTranslateClient := translate.NewAWSTranslate(awsCfg)
+
 	chatGPTClient := chatgpt.NewClient(cfg.ChatGPT.APIKey)
 
 	articleRepo := repository.NewArticleV2(ctx, db, chatGPTClient)
@@ -65,7 +68,9 @@ func GetHandler(ctx context.Context) (lambdaHandlerFunc func(ctx context.Context
 	articleUsecase := usecase.NewArticle(articleRepo)
 	mediaUsecase := usecase.NewMedia(mediaRepo)
 
-	golioAPIController := openapi.NewGolioAPIController(golio_http.NewGolioAPIServicer(articleUsecase, mediaUsecase))
+	translateRepo := repository.NewTranslate(awsTranslateClient)
+
+	golioAPIController := openapi.NewGolioAPIController(golio_http.NewGolioAPIServicer(articleUsecase, mediaUsecase, translateRepo))
 
 	googleOAuthController := golio_http.NewGoogleOAuthController(authUsecase, cfg.GoogleOAuth.CallbackRedirectURI)
 	r := openapi.NewRouter(golioAPIController)

@@ -30,6 +30,7 @@ type GolioAPIRouter interface {
 	MediaMediumIdDelete(http.ResponseWriter, *http.Request)
 	MediaMediumIdGet(http.ResponseWriter, *http.Request)
 	MediaPost(http.ResponseWriter, *http.Request)
+	TranslationPost(http.ResponseWriter, *http.Request)
 }
 
 
@@ -48,4 +49,5 @@ type GolioAPIServicer interface {
 	MediaMediumIdDelete(context.Context, string) (ImplResponse, error)
 	MediaMediumIdGet(context.Context, string) (ImplResponse, error)
 	MediaPost(context.Context, MediaPostRequest) (ImplResponse, error)
+	TranslationPost(context.Context, TranslationPostRequest) (ImplResponse, error)
 }

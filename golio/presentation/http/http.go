@@ -11,6 +11,7 @@ import (
 	"github.com/sunjin110/folio/golio/generate/schema/http/go/openapi"
 	"github.com/sunjin110/folio/golio/infrastructure/aws/dynamodb"
 	"github.com/sunjin110/folio/golio/infrastructure/aws/s3"
+	"github.com/sunjin110/folio/golio/infrastructure/aws/translate"
 	"github.com/sunjin110/folio/golio/infrastructure/chatgpt"
 	"github.com/sunjin110/folio/golio/infrastructure/postgres"
 	"github.com/sunjin110/folio/golio/infrastructure/repository"
@@ -43,6 +44,8 @@ func Router(ctx context.Context, cfg *httpconf.Config) (http.Handler, error) {
 		}
 	}
 
+	awsTranslateClient := translate.NewAWSTranslate(awsCfg)
+
 	mediaRepo := repository.NewMedia(db, cfg.MediaS3.BucketName, s3Client)
 
 	dynamoInnerClient := dynamodb.NewInnerClient(awsCfg)
@@ -52,7 +55,9 @@ func Router(ctx context.Context, cfg *httpconf.Config) (http.Handler, error) {
 	articleUsecase := usecase.NewArticle(articleRepo)
 	mediaUsecase := usecase.NewMedia(mediaRepo)
 
-	golioAPIController := openapi.NewGolioAPIController(NewGolioAPIServicer(articleUsecase, mediaUsecase))
+	translateRepo := repository.NewTranslate(awsTranslateClient)
+
+	golioAPIController := openapi.NewGolioAPIController(NewGolioAPIServicer(articleUsecase, mediaUsecase, translateRepo))
 
 	googleOAuthController := NewGoogleOAuthController(authUsecase, cfg.GoogleOAuth.CallbackRedirectURI)
 	r := openapi.NewRouter(golioAPIController)

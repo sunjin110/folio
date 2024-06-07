@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/sunjin110/folio/golio/domain/model"
+	"github.com/sunjin110/folio/golio/domain/repository"
 	"github.com/sunjin110/folio/golio/generate/schema/http/go/openapi"
 	"github.com/sunjin110/folio/golio/presentation/http/conv"
 	"github.com/sunjin110/folio/golio/usecase"
@@ -15,12 +16,14 @@ import (
 type golioAPIServicer struct {
 	articleUsecase usecase.Article
 	mediaUsecase   usecase.Media
+	translateRepo  repository.Translate
 }
 
-func NewGolioAPIServicer(articleUsecase usecase.Article, mediaUsecase usecase.Media) openapi.GolioAPIServicer {
+func NewGolioAPIServicer(articleUsecase usecase.Article, mediaUsecase usecase.Media, translateRepo repository.Translate) openapi.GolioAPIServicer {
 	return &golioAPIServicer{
 		articleUsecase: articleUsecase,
 		mediaUsecase:   mediaUsecase,
+		translateRepo:  translateRepo,
 	}
 }
 
@@ -150,5 +153,15 @@ func (g *golioAPIServicer) MediaPost(ctx context.Context, req openapi.MediaPostR
 
 	return openapi.Response(http.StatusOK, openapi.MediaPost200Response{
 		UploadPresignedUrl: presignedURL,
+	}), nil
+}
+
+func (g *golioAPIServicer) TranslationPost(ctx context.Context, req openapi.TranslationPostRequest) (openapi.ImplResponse, error) {
+	translatedText, err := g.translateRepo.TranslateText(ctx, req.Text, model.TranslateLanguageCode(req.SourceLanguageCode), model.TranslateLanguageCode(req.TargetLanguageCode))
+	if err != nil {
+		return openapi.Response(http.StatusInternalServerError, "internal"), nil
+	}
+	return openapi.Response(http.StatusOK, openapi.TranslationPost200Response{
+		TranslatedText: translatedText,
 	}), nil
 }

@@ -20,4 +20,7 @@ openapi/model__media_get_200_response.go
 openapi/model__media_get_200_response_media_inner.go
 openapi/model__media_post_200_response.go
 openapi/model__media_post_request.go
+openapi/model__translation_post_200_response.go
+openapi/model__translation_post_request.go
+openapi/model_language_code.go
 openapi/routers.go
