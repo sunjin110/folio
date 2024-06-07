@@ -100,6 +100,11 @@ func (c *GolioAPIController) Routes() Routes {
 			"/media",
 			c.MediaPost,
 		},
+		"TranslationPost": Route{
+			strings.ToUpper("Post"),
+			"/translation",
+			c.TranslationPost,
+		},
 	}
 }
 
@@ -377,6 +382,33 @@ func (c *GolioAPIController) MediaPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	result, err := c.service.MediaPost(r.Context(), mediaPostRequestParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, w)
+}
+
+// TranslationPost - 翻訳
+func (c *GolioAPIController) TranslationPost(w http.ResponseWriter, r *http.Request) {
+	translationPostRequestParam := TranslationPostRequest{}
+	d := json.NewDecoder(r.Body)
+	d.DisallowUnknownFields()
+	if err := d.Decode(&translationPostRequestParam); err != nil && !errors.Is(err, io.EOF) {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	if err := AssertTranslationPostRequestRequired(translationPostRequestParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	if err := AssertTranslationPostRequestConstraints(translationPostRequestParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	result, err := c.service.TranslationPost(r.Context(), translationPostRequestParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
