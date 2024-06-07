@@ -117,3 +117,11 @@ module "dynamodb" {
   source = "./dynamodb"
   prefix = var.prefix
 }
+
+module "aws_translate" {
+  source             = "./aws_translate"
+  prefix             = var.prefix
+  aws                = var.aws
+  network            = module.network.network
+  security_group_ids = [module.lambda.lambda.security_group_id]
+}

@@ -18,10 +18,11 @@ func NewPresignClient(cfg aws.Config) *s3.PresignClient {
 	return s3.NewPresignClient(s3Client)
 }
 
+//nolint:staticcheck // まだLocalstackが対応してなさそう
 func NewLocalStackS3Client() (*s3.Client, error) {
 	cfg, err := config.LoadDefaultConfig(context.TODO(),
-		config.WithEndpointResolverWithOptions(aws.EndpointResolverWithOptionsFunc(func(service, region string, options ...interface{}) (aws.Endpoint, error) {
-			return aws.Endpoint{
+		config.WithEndpointResolverWithOptions(aws.EndpointResolverWithOptionsFunc(func(service, region string, options ...interface{}) (aws.Endpoint, error) { //nolint:staticcheck
+			return aws.Endpoint{ //nolint:staticcheck
 				URL:           "http://localhost:4566", // LocalStackのURLに変更してください
 				SigningRegion: "us-east-1",             // 署名リージョンも適宜調整
 			}, nil
