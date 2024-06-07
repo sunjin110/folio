@@ -15,6 +15,7 @@ const endpoint = "https://api.openai.com"
 
 const (
 	GPT3Point5TurboModel = "gpt-3.5-turbo"
+	GPT4Model            = "gpt-4"
 )
 
 const (

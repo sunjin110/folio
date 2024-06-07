@@ -14,7 +14,6 @@ import (
 	"github.com/sunjin110/folio/golio/infrastructure/chatgpt"
 	chatgptDto "github.com/sunjin110/folio/golio/infrastructure/chatgpt/dto"
 	"github.com/sunjin110/folio/golio/infrastructure/repository/dto/postgres_dto"
-	"github.com/sunjin110/folio/golio/infrastructure/repository/prompts"
 )
 
 var (
@@ -188,15 +187,19 @@ func (a *articleV2) upsert(ctx context.Context, article *model.Article) (err err
 
 func (a *articleV2) ChangeBodyByAI(ctx context.Context, article *model.Article, orderToAI string) (*model.Article, error) {
 	output, err := a.chatGPTClient.CreateChatCompletions(ctx, &chatgptDto.ChatCompletionsInput{
-		Model: chatgpt.GPT3Point5TurboModel,
+		Model: chatgpt.GPT4Model,
 		Messages: []chatgptDto.Message{
 			&chatgptDto.SystemMessage{
 				Role:    "system",
-				Content: "You are a helpful professional assistant",
+				Content: "You are a helpful assistant who helps edit articles based on user instructions.",
 			},
 			&chatgptDto.UserMessage{
 				Role:    "user",
-				Content: fmt.Sprintf(prompts.ChangeArticleBodyChatGPT, orderToAI, article.Body),
+				Content: fmt.Sprintf("I wrote an article or a note. Here's the paragraph: '%s'", article.Body),
+			},
+			&chatgptDto.UserMessage{
+				Role:    "user",
+				Content: orderToAI,
 			},
 		},
 	})
