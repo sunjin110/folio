@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 
 import Home from "./pages";
@@ -18,8 +18,33 @@ import { Configuration, GolioApi } from "./generate/schema/http";
 import MediaDetail from "./pages/media/detial";
 import { NewArticleRepository } from "./infrastructure/repository/article";
 import { NewArticleUsecase } from "./usecase/article";
+import Modal from 'react-modal';
+import { TranslateModal } from "./components/organisms/translateModal";
+
+// https://github.com/reactjs/react-modal?tab=readme-ov-file
+Modal.setAppElement('#root');
 
 const App: React.FC = () => {
+
+  // translate modal setting
+  const [isTranslateModalOpen, setIsTranslateModalOpen] = useState(false);
+  const onTranslateModalRequestClose = () => {
+    setIsTranslateModalOpen(false);
+  };
+
+  // cmd + kでmodalが開くようにする
+  useEffect(() => {
+    const handleTranslateModalOpen = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
+        event.preventDefault();
+        setIsTranslateModalOpen(true);
+      }
+    };
+    window.addEventListener('keydown', handleTranslateModalOpen);
+    return () => {
+      window.removeEventListener('keydown', handleTranslateModalOpen);
+    }
+  });
 
   // goli apiの設定
   const golioConfig = new Configuration({
@@ -36,6 +61,7 @@ const App: React.FC = () => {
 
   return (
     <TooltipProvider>
+      <TranslateModal isOpen={isTranslateModalOpen} onRequestClose={onTranslateModalRequestClose} />
       <BrowserRouter>
         <div className="dark">
           <Routes>
