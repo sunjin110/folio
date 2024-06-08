@@ -27,6 +27,8 @@ import type {
   MediaMediumIdGet200Response,
   MediaPost200Response,
   MediaPostRequest,
+  TranslationPost200Response,
+  TranslationPostRequest,
 } from '../models/index';
 import {
     ArticlesArticleIdAiPut200ResponseFromJSON,
@@ -53,6 +55,10 @@ import {
     MediaPost200ResponseToJSON,
     MediaPostRequestFromJSON,
     MediaPostRequestToJSON,
+    TranslationPost200ResponseFromJSON,
+    TranslationPost200ResponseToJSON,
+    TranslationPostRequestFromJSON,
+    TranslationPostRequestToJSON,
 } from '../models/index';
 
 export interface ArticlesArticleIdAiPutOperationRequest {
@@ -94,6 +100,10 @@ export interface MediaMediumIdGetRequest {
 
 export interface MediaPostOperationRequest {
     mediaPostRequest?: MediaPostRequest;
+}
+
+export interface TranslationPostOperationRequest {
+    translationPostRequest?: TranslationPostRequest;
 }
 
 /**
@@ -445,6 +455,37 @@ export class GolioApi extends runtime.BaseAPI {
      */
     async mediaPost(requestParameters: MediaPostOperationRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MediaPost200Response> {
         const response = await this.mediaPostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * 
+     * 翻訳
+     */
+    async translationPostRaw(requestParameters: TranslationPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TranslationPost200Response>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/translation`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: TranslationPostRequestToJSON(requestParameters['translationPostRequest']),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => TranslationPost200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * 
+     * 翻訳
+     */
+    async translationPost(requestParameters: TranslationPostOperationRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TranslationPost200Response> {
+        const response = await this.translationPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

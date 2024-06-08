@@ -159,6 +159,7 @@ func (g *golioAPIServicer) MediaPost(ctx context.Context, req openapi.MediaPostR
 func (g *golioAPIServicer) TranslationPost(ctx context.Context, req openapi.TranslationPostRequest) (openapi.ImplResponse, error) {
 	translatedText, err := g.translateRepo.TranslateText(ctx, req.Text, model.TranslateLanguageCode(req.SourceLanguageCode), model.TranslateLanguageCode(req.TargetLanguageCode))
 	if err != nil {
+		slog.ErrorContext(ctx, "failed translate text", "req", req, "err", err)
 		return openapi.Response(http.StatusInternalServerError, "internal"), nil
 	}
 	return openapi.Response(http.StatusOK, openapi.TranslationPost200Response{
