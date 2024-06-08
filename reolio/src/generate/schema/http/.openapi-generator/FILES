@@ -10,10 +10,13 @@ models/ArticlesGet400Response.ts
 models/ArticlesPost200Response.ts
 models/ArticlesPostRequest.ts
 models/HelloGet200Response.ts
+models/LanguageCode.ts
 models/MediaGet200Response.ts
 models/MediaGet200ResponseMediaInner.ts
 models/MediaMediumIdGet200Response.ts
 models/MediaPost200Response.ts
 models/MediaPostRequest.ts
+models/TranslationPost200Response.ts
+models/TranslationPostRequest.ts
 models/index.ts
 runtime.ts
