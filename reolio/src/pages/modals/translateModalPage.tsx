@@ -34,7 +34,7 @@ export function TranslateModalPage(props: TranslateModalPageProps) {
     // cmd + kでmodalが開くようにする
     useEffect(() => {
         const handleTranslateModalOpen = (event: KeyboardEvent) => {
-            if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
+            if ((event.metaKey || event.ctrlKey) && event.key === 'u') {
                 event.preventDefault();
                 setIsTranslateModalOpen(!isTranslateModalOpen);
             }
