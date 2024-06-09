@@ -1,6 +1,8 @@
 apis/GolioApi.ts
 apis/index.ts
 index.ts
+models/ArticlesAiPost200Response.ts
+models/ArticlesAiPostRequest.ts
 models/ArticlesArticleIdAiPut200Response.ts
 models/ArticlesArticleIdAiPutRequest.ts
 models/ArticlesArticleIdGet200Response.ts

@@ -1,5 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
+export * from './ArticlesAiPost200Response';
+export * from './ArticlesAiPostRequest';
 export * from './ArticlesArticleIdAiPut200Response';
 export * from './ArticlesArticleIdAiPutRequest';
 export * from './ArticlesArticleIdGet200Response';

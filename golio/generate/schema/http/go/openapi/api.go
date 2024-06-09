@@ -20,6 +20,7 @@ import (
 // The GolioAPIRouter implementation should parse necessary information from the http request,
 // pass the data to a GolioAPIServicer to perform the required actions, then write the service results to the http response.
 type GolioAPIRouter interface { 
+	ArticlesAiPost(http.ResponseWriter, *http.Request)
 	ArticlesArticleIdAiPut(http.ResponseWriter, *http.Request)
 	ArticlesArticleIdGet(http.ResponseWriter, *http.Request)
 	ArticlesArticleIdPut(http.ResponseWriter, *http.Request)
@@ -39,6 +40,7 @@ type GolioAPIRouter interface {
 // while the service implementation can be ignored with the .openapi-generator-ignore file
 // and updated with the logic required for the API.
 type GolioAPIServicer interface { 
+	ArticlesAiPost(context.Context, ArticlesAiPostRequest) (ImplResponse, error)
 	ArticlesArticleIdAiPut(context.Context, string, ArticlesArticleIdAiPutRequest) (ImplResponse, error)
 	ArticlesArticleIdGet(context.Context, string) (ImplResponse, error)
 	ArticlesArticleIdPut(context.Context, string, ArticlesPostRequest) (ImplResponse, error)

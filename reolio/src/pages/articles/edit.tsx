@@ -107,7 +107,7 @@ export default function EditArticle(props: ArticleEditProps) {
     });
 
     try {
-      const generatedBody = await articleUsecase.GenerateBodyByAI(articleId, prompt);
+      const generatedBody = await articleUsecase.AsistantBodyByAI(articleId, prompt);
       setBody(`${generatedBody}\n\n---\n\n # article before change\n\n${beforeBody}`);
     } catch (err) {
       if (err instanceof AuthError) {
