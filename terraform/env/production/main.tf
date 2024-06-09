@@ -26,6 +26,9 @@ locals {
     region     = data.aws_region.this.name
     profile    = "folio-terraform"
   }
+  gcp = {
+    project_id = "folio-sunjin"
+  }
   reolio_base_url = "https://folio.sunjin.info"
   golio_domain    = "folio-api.sunjin.info"
   tfstate_name    = "production-folio-terraform-state"
@@ -40,6 +43,7 @@ module "golio" {
   }
 
   aws = local.aws
+  gcp = local.gcp
   cloudflare = {
     account_id = var.cloudflare_account_id
     zone_id    = var.cloudflare_zone_id

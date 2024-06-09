@@ -18,3 +18,8 @@ provider "cloudflare" {
   email   = var.cloudflare_email
 }
 
+provider "google" {
+  project     = "folio-sunjin"
+  region      = "asia-northeast1-a"
+  credentials = "../../credentials-terraform.json"
+}

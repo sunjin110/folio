@@ -6,6 +6,12 @@ variable "aws" {
   })
 }
 
+variable "gcp" {
+  type = object({
+    project_id = string
+  })
+}
+
 variable "cloudflare" {
   type = object({
     account_id = string
