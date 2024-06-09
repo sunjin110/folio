@@ -17,6 +17,7 @@ import (
 	"github.com/sunjin110/folio/golio/infrastructure/aws/s3"
 	"github.com/sunjin110/folio/golio/infrastructure/aws/translate"
 	"github.com/sunjin110/folio/golio/infrastructure/chatgpt"
+	"github.com/sunjin110/folio/golio/infrastructure/gcp/custom_search_api"
 	"github.com/sunjin110/folio/golio/infrastructure/postgres"
 	"github.com/sunjin110/folio/golio/infrastructure/repository"
 	"github.com/sunjin110/folio/golio/infrastructure/repository/dto/dynamodto"
@@ -57,7 +58,14 @@ func GetHandler(ctx context.Context) (lambdaHandlerFunc func(ctx context.Context
 
 	chatGPTClient := chatgpt.NewClient(cfg.ChatGPT.APIKey)
 
-	articleRepo := repository.NewArticleV2(ctx, db, chatGPTClient)
+	googleCustomeSearchClient, err := custom_search_api.NewClient(ctx, cfg.GoogleCustomSearchKey)
+	if err != nil {
+		return nil, fmt.Errorf("failed googleCustomeSearchClient. err: %w", err)
+	}
+
+	googleCustomSearchRepo := repository.NewGoogleCustomSearch(googleCustomeSearchClient)
+
+	articleRepo := repository.NewArticleV2(ctx, db, chatGPTClient, googleCustomSearchRepo)
 
 	mediaRepo := repository.NewMedia(db, cfg.MediaS3.BucketName, s3.NewS3Client(awsCfg))
 

@@ -11,14 +11,15 @@ import (
 )
 
 type Config struct {
-	Server          Server            `envPrefix:"SERVER_"`
-	GoogleOAuth     GoogleOAuthConfig `envPrefix:"GOOGLE_OAUTH_"`
-	SessionDynamoDB DynamoDBConfig    `envPrefix:"SESSION_DYNAMODB_"`
-	CORS            CORSConfig        `envPrefix:"CORS_"`
-	PostgresDB      PostgresConfig    `envPrefix:"POSTGRES_"`
-	AWS             AWSConfig         `envPrefix:"AWS_"`
-	MediaS3         S3Config          `envPrefix:"MEDIA_S3_"`
-	ChatGPT         ChatGPTConfig     `envPrefix:"CHAT_GPT_"`
+	Server                Server            `envPrefix:"SERVER_"`
+	GoogleOAuth           GoogleOAuthConfig `envPrefix:"GOOGLE_OAUTH_"`
+	SessionDynamoDB       DynamoDBConfig    `envPrefix:"SESSION_DYNAMODB_"`
+	CORS                  CORSConfig        `envPrefix:"CORS_"`
+	PostgresDB            PostgresConfig    `envPrefix:"POSTGRES_"`
+	AWS                   AWSConfig         `envPrefix:"AWS_"`
+	MediaS3               S3Config          `envPrefix:"MEDIA_S3_"`
+	ChatGPT               ChatGPTConfig     `envPrefix:"CHAT_GPT_"`
+	GoogleCustomSearchKey string            `env:"GOOGLE_CUSTOM_SEARCH_KEY"`
 }
 
 type Server struct {

@@ -72,6 +72,8 @@ module "golio" {
   chat_gpt = {
     api_key = var.chat_gpt_api_key
   }
+
+  google_custom_search_key = var.google_custom_search_key
 }
 
 module "reolio" {

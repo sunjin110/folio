@@ -12,7 +12,7 @@ type ChatCompletionsOutput struct {
 func (output *ChatCompletionsOutput) GetMessage() string {
 	contents := []string{}
 	for _, choice := range output.Choices {
-		if choice == nil || choice.Message == nil {
+		if choice == nil || choice.Message == nil || choice.Message.Content == nil {
 			continue
 		}
 		contents = append(contents, *choice.Message.Content)

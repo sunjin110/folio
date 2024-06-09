@@ -13,6 +13,7 @@ import (
 	"github.com/sunjin110/folio/golio/infrastructure/aws/s3"
 	"github.com/sunjin110/folio/golio/infrastructure/aws/translate"
 	"github.com/sunjin110/folio/golio/infrastructure/chatgpt"
+	"github.com/sunjin110/folio/golio/infrastructure/gcp/custom_search_api"
 	"github.com/sunjin110/folio/golio/infrastructure/postgres"
 	"github.com/sunjin110/folio/golio/infrastructure/repository"
 	"github.com/sunjin110/folio/golio/infrastructure/repository/dto/dynamodto"
@@ -29,7 +30,15 @@ func Router(ctx context.Context, cfg *httpconf.Config) (http.Handler, error) {
 	}
 
 	chatGPTClient := chatgpt.NewClient(cfg.ChatGPT.APIKey)
-	articleRepo := repository.NewArticleV2(ctx, db, chatGPTClient)
+
+	googleCustomeSearchClient, err := custom_search_api.NewClient(ctx, cfg.GoogleCustomSearchKey)
+	if err != nil {
+		return nil, fmt.Errorf("failed googleCustomeSearchClient. err: %w", err)
+	}
+
+	googleCustomSearchRepo := repository.NewGoogleCustomSearch(googleCustomeSearchClient)
+
+	articleRepo := repository.NewArticleV2(ctx, db, chatGPTClient, googleCustomSearchRepo)
 
 	awsCfg, err := config.LoadDefaultConfig(ctx)
 	if err != nil {

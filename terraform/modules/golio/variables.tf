@@ -54,3 +54,7 @@ variable "chat_gpt" {
     api_key : string
   })
 }
+
+variable "google_custom_search_key" {
+  type = string
+}
