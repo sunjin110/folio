@@ -96,9 +96,9 @@ func (g *golioAPIServicer) ArticlesArticleIdPut(ctx context.Context, articleID s
 }
 
 func (g *golioAPIServicer) ArticlesArticleIdAiPut(ctx context.Context, articleID string, req openapi.ArticlesArticleIdAiPutRequest) (openapi.ImplResponse, error) {
-	article, err := g.articleUsecase.GenerateBodyByAI(ctx, articleID, req.Message)
+	article, err := g.articleUsecase.AssistantBodyByAI(ctx, articleID, req.Message)
 	if err != nil {
-		slog.ErrorContext(ctx, "failed articleUsecase.GenerateBodyByAI", "err", err)
+		slog.ErrorContext(ctx, "failed articleUsecase.AssistantBodyByAI", "err", err)
 		return openapi.Response(http.StatusInternalServerError, "internal server error"), nil
 	}
 	if article == nil {
@@ -107,6 +107,18 @@ func (g *golioAPIServicer) ArticlesArticleIdAiPut(ctx context.Context, articleID
 
 	return openapi.Response(http.StatusOK, openapi.ArticlesArticleIdAiPut200Response{
 		GeneratedBody: article.Body,
+	}), nil
+}
+
+func (g *golioAPIServicer) ArticlesAiPost(ctx context.Context, req openapi.ArticlesAiPostRequest) (openapi.ImplResponse, error) {
+	article, err := g.articleUsecase.GenerateArticleByAI(ctx, req.Prompt)
+	if err != nil {
+		slog.ErrorContext(ctx, "failed articleUsecase.GenerateArticleByAI", "err", err)
+		return openapi.Response(http.StatusInternalServerError, "internal server error"), nil
+	}
+
+	return openapi.Response(http.StatusOK, openapi.ArticlesAiPost200Response{
+		ArticleId: article.ID,
 	}), nil
 }
 

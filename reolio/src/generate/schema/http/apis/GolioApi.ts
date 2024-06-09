@@ -15,6 +15,8 @@
 
 import * as runtime from '../runtime';
 import type {
+  ArticlesAiPost200Response,
+  ArticlesAiPostRequest,
   ArticlesArticleIdAiPut200Response,
   ArticlesArticleIdAiPutRequest,
   ArticlesArticleIdGet200Response,
@@ -31,6 +33,10 @@ import type {
   TranslationPostRequest,
 } from '../models/index';
 import {
+    ArticlesAiPost200ResponseFromJSON,
+    ArticlesAiPost200ResponseToJSON,
+    ArticlesAiPostRequestFromJSON,
+    ArticlesAiPostRequestToJSON,
     ArticlesArticleIdAiPut200ResponseFromJSON,
     ArticlesArticleIdAiPut200ResponseToJSON,
     ArticlesArticleIdAiPutRequestFromJSON,
@@ -60,6 +66,10 @@ import {
     TranslationPostRequestFromJSON,
     TranslationPostRequestToJSON,
 } from '../models/index';
+
+export interface ArticlesAiPostOperationRequest {
+    articlesAiPostRequest?: ArticlesAiPostRequest;
+}
 
 export interface ArticlesArticleIdAiPutOperationRequest {
     articleId: string;
@@ -110,6 +120,37 @@ export interface TranslationPostOperationRequest {
  * 
  */
 export class GolioApi extends runtime.BaseAPI {
+
+    /**
+     * AIに命令を下して、記事を作成するAPIです
+     * 記事AI作成
+     */
+    async articlesAiPostRaw(requestParameters: ArticlesAiPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ArticlesAiPost200Response>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/articles/ai`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: ArticlesAiPostRequestToJSON(requestParameters['articlesAiPostRequest']),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ArticlesAiPost200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * AIに命令を下して、記事を作成するAPIです
+     * 記事AI作成
+     */
+    async articlesAiPost(requestParameters: ArticlesAiPostOperationRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ArticlesAiPost200Response> {
+        const response = await this.articlesAiPostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * AIに命令を下して、記事の内容の更新をするAPIです

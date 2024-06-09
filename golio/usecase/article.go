@@ -3,6 +3,7 @@ package usecase
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/sunjin110/folio/golio/domain/model"
 	"github.com/sunjin110/folio/golio/domain/repository"
@@ -14,7 +15,8 @@ type Article interface {
 	Update(ctx context.Context, article *model.Article) error
 	Delete(ctx context.Context, id string) error
 	FindSummaries(ctx context.Context, offset int32, limit int32, titleSearchText *string) (*FindArticleSummariesOutput, error)
-	GenerateBodyByAI(ctx context.Context, id string, orderToAI string) (*model.Article, error)
+	AssistantBodyByAI(ctx context.Context, id string, orderToAI string) (*model.Article, error)
+	GenerateArticleByAI(ctx context.Context, prompt string) (*model.Article, error)
 }
 
 type FindArticleSummariesOutput struct {
@@ -85,7 +87,7 @@ func (a *article) Update(ctx context.Context, article *model.Article) error {
 	return nil
 }
 
-func (a *article) GenerateBodyByAI(ctx context.Context, id string, orderToAI string) (*model.Article, error) {
+func (a *article) AssistantBodyByAI(ctx context.Context, id string, orderToAI string) (*model.Article, error) {
 	article, err := a.articleRepo.Get(ctx, id)
 	if err != nil {
 		return nil, fmt.Errorf("failed articleRepo.Get. err: %w", err)
@@ -97,4 +99,18 @@ func (a *article) GenerateBodyByAI(ctx context.Context, id string, orderToAI str
 	}
 
 	return generatedArticle, nil
+}
+
+func (a *article) GenerateArticleByAI(ctx context.Context, prompt string) (*model.Article, error) {
+	body, err := a.articleRepo.GenerateBodyByAI(ctx, prompt)
+	if err != nil {
+		return nil, fmt.Errorf("fialed articleRepo.GenerateBodyByAI. err: %w", err)
+	}
+
+	article := model.NewArticle(prompt, body, "", time.Now())
+
+	if err := a.articleRepo.Insert(ctx, article); err != nil {
+		return nil, fmt.Errorf("failed articleRepo.Insert. err: %w", err)
+	}
+	return article, nil
 }

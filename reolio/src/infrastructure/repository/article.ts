@@ -1,7 +1,7 @@
 import { ArticleSummary } from "@/domain/model/article";
 import { ArticleRepository, GetArticleSummariesOutput } from "@/domain/repository/article";
-import { AuthError, InternalError } from "@/error/error";
-import { ArticlesGet200Response, GolioApi, ResponseError } from "@/generate/schema/http";
+import { ArticlesAiPost200Response, ArticlesGet200Response, GolioApi } from "@/generate/schema/http";
+import { handleError } from "./error";
 
 export function NewArticleRepository(golioApi: GolioApi): ArticleRepository {
     return new article(golioApi);
@@ -13,7 +13,8 @@ class article implements ArticleRepository {
     constructor(golioApi: GolioApi) {
         this.golioApi = golioApi;
     }
-    async GenerateBodyByAI(articleID: string, prompt: string): Promise<string> {
+   
+    async AsistantBodyByAI(articleID: string, prompt: string): Promise<string> {
         let resp = {
             generatedBody: ""
         };
@@ -26,13 +27,7 @@ class article implements ArticleRepository {
                 }
             });
         } catch (err) {
-            if (err instanceof ResponseError) {
-                if (err.response.status === 401 || err.response.status === 403) {
-                    throw new AuthError("failed generate body by ai", err);
-                }
-                throw new InternalError("failed generate body by ai", err);
-            }
-            throw err;
+            handleError(err, "failed generate body by ai");
         }
         return resp.generatedBody;
     }
@@ -50,13 +45,7 @@ class article implements ArticleRepository {
                 searchTitleText: searchTitleText,
             })
         } catch(err) {
-            if (err instanceof ResponseError) {
-                if (err.response.status === 401 || err.response.status === 403) {
-                    throw new AuthError("failed list articles", err);
-                }
-                throw new InternalError("failed list articles", err);
-            }
-            throw err;
+            handleError(err, "failed list articles");
         }
 
         let summaries: ArticleSummary[] = [];
@@ -73,5 +62,21 @@ class article implements ArticleRepository {
             totalCount: resp.total,
             summaries: summaries,
         };
+    }
+
+    async GenerateArticleByAI(prompt: string): Promise<string> {
+        let resp: ArticlesAiPost200Response = {
+            articleId: ""
+        };
+        try {
+            resp = await this.golioApi.articlesAiPost({
+                articlesAiPostRequest: {
+                    prompt: prompt,
+                }
+            });
+        } catch(err) {
+            handleError(err, "failed generate article by ai");
+        }
+        return resp.articleId;
     }
 }

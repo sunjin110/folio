@@ -54,7 +54,7 @@ const App: React.FC = () => {
             <Route path="/media" element={<Media mediaUsecase={mediaUsecase} />} />
             <Route path="/media/:mediaId" element={<MediaDetail mediaUsecase={mediaUsecase} />} />
             <Route path="/articles/:articleId" element={<ArticleDetail />} />
-            <Route path="/articles/create" element={<CreateArticle />} />
+            <Route path="/articles/create" element={<CreateArticle articleUsecase={articleUsecase} />} />
             <Route path="/articles/edit/:articleId" element={<EditArticle articleUsecase={articleUsecase} />} />
           </Routes>
         </div>

@@ -50,6 +50,11 @@ func NewGolioAPIController(s GolioAPIServicer, opts ...GolioAPIOption) Router {
 // Routes returns all the api routes for the GolioAPIController
 func (c *GolioAPIController) Routes() Routes {
 	return Routes{
+		"ArticlesAiPost": Route{
+			strings.ToUpper("Post"),
+			"/articles/ai",
+			c.ArticlesAiPost,
+		},
 		"ArticlesArticleIdAiPut": Route{
 			strings.ToUpper("Put"),
 			"/articles/{article_id}/ai",
@@ -106,6 +111,33 @@ func (c *GolioAPIController) Routes() Routes {
 			c.TranslationPost,
 		},
 	}
+}
+
+// ArticlesAiPost - 記事AI作成
+func (c *GolioAPIController) ArticlesAiPost(w http.ResponseWriter, r *http.Request) {
+	articlesAiPostRequestParam := ArticlesAiPostRequest{}
+	d := json.NewDecoder(r.Body)
+	d.DisallowUnknownFields()
+	if err := d.Decode(&articlesAiPostRequestParam); err != nil && !errors.Is(err, io.EOF) {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	if err := AssertArticlesAiPostRequestRequired(articlesAiPostRequestParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	if err := AssertArticlesAiPostRequestConstraints(articlesAiPostRequestParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	result, err := c.service.ArticlesAiPost(r.Context(), articlesAiPostRequestParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, w)
 }
 
 // ArticlesArticleIdAiPut - 記事AI更新

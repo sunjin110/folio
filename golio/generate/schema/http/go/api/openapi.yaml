@@ -213,6 +213,40 @@ paths:
       summary: 記事AI更新
       tags:
       - golio
+  /articles/ai:
+    post:
+      deprecated: false
+      description: AIに命令を下して、記事を作成するAPIです
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            example:
+              prompt: ut eiusmod enim cillum
+            schema:
+              $ref: '#/components/schemas/_articles_ai_post_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                "1":
+                  summary: Success
+                  value:
+                    article_id: ""
+              schema:
+                $ref: '#/components/schemas/_articles_ai_post_200_response'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_articles_get_400_response'
+          description: Invalid input
+      security: []
+      summary: 記事AI作成
+      tags:
+      - golio
   /hello:
     get:
       deprecated: false
@@ -563,6 +597,23 @@ components:
           type: string
       required:
       - generated_body
+      type: object
+    _articles_ai_post_request:
+      properties:
+        prompt:
+          description: AIに対する命令のメッセージです
+          type: string
+      required:
+      - prompt
+      type: object
+    _articles_ai_post_200_response:
+      example:
+        article_id: article_id
+      properties:
+        article_id:
+          type: string
+      required:
+      - article_id
       type: object
     _hello_get_200_response:
       example:

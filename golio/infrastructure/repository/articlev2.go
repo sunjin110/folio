@@ -212,3 +212,33 @@ func (a *articleV2) ChangeBodyByAI(ctx context.Context, article *model.Article, 
 	article.Body = body
 	return article, nil
 }
+
+func (a *articleV2) GenerateBodyByAI(ctx context.Context, prompt string) (string, error) {
+	output, err := a.chatGPTClient.CreateChatCompletions(ctx, &chatgptDto.ChatCompletionsInput{
+		Model: chatgpt.GPT4Model,
+		Messages: []chatgptDto.Message{
+			&chatgptDto.SystemMessage{
+				Role:    "system",
+				Content: "You are a highly knowledgeable assistant.",
+			},
+			&chatgptDto.SystemMessage{
+				Role:    "system",
+				Content: "Write detailed articles in Markdown format.",
+			},
+			&chatgptDto.SystemMessage{
+				Role:    "system",
+				Content: "Avoid using code blocks in your Markdown responses.",
+			},
+			&chatgptDto.SystemMessage{
+				Role:    "user",
+				Content: prompt,
+			},
+		},
+	})
+	if err != nil {
+		return "", fmt.Errorf("failed chatGPTClient.CreateChatCompletions. err: %w", err)
+	}
+
+	body := output.GetMessage()
+	return body, nil
+}
