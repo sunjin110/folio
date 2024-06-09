@@ -125,3 +125,16 @@ module "aws_translate" {
   network            = module.network.network
   security_group_ids = [module.lambda.lambda.security_group_id]
 }
+
+module "google_project_service" {
+  source = "./google_project_service"
+  gcp    = var.gcp
+}
+
+module "google_service_account" {
+  source = "./google_service_account"
+  prefix = var.prefix
+  depends_on = [
+    module.google_project_service
+  ]
+}
