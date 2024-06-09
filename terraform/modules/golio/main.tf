@@ -45,6 +45,8 @@ module "lambda" {
     SESSION_DYNAMODB_TABLE_NAME : local.dynamodb_user_sessions_name,
 
     CHAT_GPT_API_KEY : var.chat_gpt.api_key
+
+    GOOGLE_CUSTOM_SEARCH_KEY : var.google_custom_search_key,
   }
 
   network = module.network.network

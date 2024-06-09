@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log/slog"
 
@@ -25,14 +26,17 @@ var (
 )
 
 type articleV2 struct {
-	db            *sqlx.DB
-	chatGPTClient chatgpt.Client
+	db                     *sqlx.DB
+	chatGPTClient          chatgpt.Client
+	googleCustomSearchRepo repository.GoogleCustomSearch
 }
 
-func NewArticleV2(ctx context.Context, db *sqlx.DB, chatGPTClient chatgpt.Client) repository.Article {
+func NewArticleV2(ctx context.Context, db *sqlx.DB, chatGPTClient chatgpt.Client,
+	googleCustomSearch repository.GoogleCustomSearch) repository.Article {
 	return &articleV2{
-		db:            db,
-		chatGPTClient: chatGPTClient,
+		db:                     db,
+		chatGPTClient:          chatGPTClient,
+		googleCustomSearchRepo: googleCustomSearch,
 	}
 }
 
@@ -214,6 +218,28 @@ func (a *articleV2) ChangeBodyByAI(ctx context.Context, article *model.Article, 
 }
 
 func (a *articleV2) GenerateBodyByAI(ctx context.Context, prompt string) (string, error) {
+
+	// toolの定義
+	tools := chatgptDto.Tools{
+		&chatgptDto.ToolFunction{
+			Type: "function",
+			Function: &chatgptDto.Function{
+				Name:        "searchGoogle",
+				Description: "When you need information that you don't know or when you need the latest information, search the internet (Google) for it.",
+				Parameters: chatgptDto.FuncitonParameters{
+					Type: "object",
+					Properties: map[string]*chatgptDto.FunctionPropertiesValue{
+						"keyword": {
+							Type: "string",
+						},
+					},
+					Required: []string{"keyword"},
+				},
+			},
+		},
+	}
+
+	// 一度目
 	output, err := a.chatGPTClient.CreateChatCompletions(ctx, &chatgptDto.ChatCompletionsInput{
 		Model: chatgpt.GPT4Model,
 		Messages: []chatgptDto.Message{
@@ -234,11 +260,75 @@ func (a *articleV2) GenerateBodyByAI(ctx context.Context, prompt string) (string
 				Content: prompt,
 			},
 		},
+		Tools:      tools,
+		ToolChoice: "auto",
 	})
 	if err != nil {
 		return "", fmt.Errorf("failed chatGPTClient.CreateChatCompletions. err: %w", err)
 	}
 
-	body := output.GetMessage()
-	return body, nil
+	if len(output.Choices) == 0 {
+		return "", fmt.Errorf("empty result")
+	}
+
+	// tool callsではない場合はそのまま返す
+	if output.Choices[0].FinishReason != "tool_calls" {
+		return output.GetMessage(), nil
+	}
+
+	// google検索
+	// TODO これだと不十分だから、サマライズのAPIを利用して、中身を取るのがいいかも
+	arguments := output.Choices[0].Message.ToolCalls[0].Function.Arguments
+	argmentsMap := map[string]string{}
+	if err := json.Unmarshal([]byte(arguments), &argmentsMap); err != nil {
+		return "", fmt.Errorf("failed json.Unmarshal. err: %w", err)
+	}
+	googleSearchResults, err := a.googleCustomSearchRepo.Search(ctx, argmentsMap["keyword"])
+	if err != nil {
+		return "", fmt.Errorf("failed google search. err: %w", err)
+	}
+
+	googleSearchResultsJSON, err := json.Marshal(googleSearchResults)
+	if err != nil {
+		return "", fmt.Errorf("failed json.Unmarshal. err: %w", err)
+	}
+
+	toolCallID := output.Choices[0].Message.ToolCalls[0].ID
+
+	// まとめ
+	output2, err := a.chatGPTClient.CreateChatCompletions(ctx, &chatgptDto.ChatCompletionsInput{
+		Model: chatgpt.GPT4Model,
+		Messages: []chatgptDto.Message{
+			&chatgptDto.AssistantMessage{
+				Role:    "assistant",
+				Content: "tool_calls",
+				ToolCalls: []chatgptDto.AssistantMessageToolCall{
+					{
+						ID:   toolCallID,
+						Type: "function",
+						Function: chatgptDto.AssistantMessageToolCallFunction{
+							Name:      "searchGoogle",
+							Arguments: arguments,
+						},
+					},
+				},
+			},
+			&chatgptDto.ToolMessage{
+				Role:       "tool",
+				Content:    string(googleSearchResultsJSON), // google検索結果
+				ToolCallID: toolCallID,
+			},
+			&chatgptDto.SystemMessage{
+				Role:    "system",
+				Content: "Please provide the user with the information obtained from a Google search and the reference URLs.",
+			},
+		},
+		Tools:      tools,
+		ToolChoice: "none",
+	})
+	if err != nil {
+		return "", fmt.Errorf("failed 2回目 chatGPTClient.CreateChatCompletions. err: %w", err)
+	}
+
+	return output2.GetMessage(), nil
 }

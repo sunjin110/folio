@@ -47,6 +47,7 @@ variable "environment" {
     SESSION_DYNAMODB_TABLE_NAME : string,
 
     CHAT_GPT_API_KEY : string,
+    GOOGLE_CUSTOM_SEARCH_KEY : string,
   })
 }
 
