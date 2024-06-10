@@ -38,7 +38,9 @@ func Router(ctx context.Context, cfg *httpconf.Config) (http.Handler, error) {
 
 	googleCustomSearchRepo := repository.NewGoogleCustomSearch(googleCustomeSearchClient)
 
-	articleRepo := repository.NewArticleV2(ctx, db, chatGPTClient, googleCustomSearchRepo)
+	htmlContentRepo := repository.NewHtmlContent()
+
+	articleRepo := repository.NewArticleV2(ctx, db, chatGPTClient, googleCustomSearchRepo, htmlContentRepo)
 
 	awsCfg, err := config.LoadDefaultConfig(ctx)
 	if err != nil {

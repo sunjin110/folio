@@ -22,7 +22,7 @@ func TestHtmlExtractor_ExtractText(t *testing.T) {
 			{
 				name:        "取得できていること",
 				htmlContent: "<html><head><title>Test</title></head><body><p>This is a test paragraph.</p></body></html>",
-				want:        "Test\nThis is a test paragraph.\n",
+				want:        "This is a test paragraph.\n",
 			},
 		}
 

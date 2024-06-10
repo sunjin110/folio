@@ -24,7 +24,7 @@ func NewClient(apiKey string) Client {
 func (c *client) CreateChatCompletions(ctx context.Context, input openai.ChatCompletionRequest) (openai.ChatCompletionResponse, error) {
 	output, err := c.client.CreateChatCompletion(ctx, input)
 	if err != nil {
-		return openai.ChatCompletionResponse{}, fmt.Errorf("failed client.CreateChatCompletion")
+		return openai.ChatCompletionResponse{}, fmt.Errorf("failed client.CreateChatCompletion. err: %w", err)
 	}
 	return output, nil
 }

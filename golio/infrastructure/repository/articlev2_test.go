@@ -25,7 +25,7 @@ func Test_articleV2_ChangeBodyByAI_Real(t *testing.T) {
 
 		googleCustomSearchRepo := repository.NewGoogleCustomSearch(customSearchClient)
 
-		articleV2Repo := repository.NewArticleV2(context.Background(), nil, client, googleCustomSearchRepo)
+		articleV2Repo := repository.NewArticleV2(context.Background(), nil, client, googleCustomSearchRepo, nil)
 
 		_, err = articleV2Repo.ChangeBodyByAI(ctx, &model.Article{
 			Body: `
@@ -82,9 +82,12 @@ func Test_articleV2_GenerateBodyByAI_Real(t *testing.T) {
 
 		googleCustomSearchRepo := repository.NewGoogleCustomSearch(customSearchClient)
 
-		articleV2Repo := repository.NewArticleV2(context.Background(), nil, client, googleCustomSearchRepo)
+		htmlContentRepo := repository.NewHtmlContent()
 
-		result, err := articleV2Repo.GenerateBodyByAI(ctx, "今日の天気を教えてください")
+		articleV2Repo := repository.NewArticleV2(context.Background(), nil, client, googleCustomSearchRepo, htmlContentRepo)
+
+		// result, err := articleV2Repo.GenerateBodyByAI(ctx, "please summarize a news about the Apple")
+		result, err := articleV2Repo.GenerateBodyByAI(ctx, "今日の東京の天気を教えてください")
 		So(err, ShouldBeNil)
 		fmt.Println("result is ", result)
 	})
