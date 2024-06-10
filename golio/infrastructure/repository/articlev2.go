@@ -246,8 +246,6 @@ func (a *articleV2) GenerateBodyByAI(ctx context.Context, prompt string) (string
 		return "", fmt.Errorf("failed a.searchByGoogleForGenerateBody. arguments: %s, err: %w", arguments, err)
 	}
 
-	fmt.Println("htmlContentsJson is ", htmlContentsJSON)
-
 	// Googleの結果を利用して回答を出す
 	toolCallID := output.Choices[0].Message.ToolCalls[0].ID
 	outputWithGoogle, err := a.generateBodyByAIAndGoogleResult(ctx, toolCallID, arguments, htmlContentsJSON)
