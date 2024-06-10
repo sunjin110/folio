@@ -4,7 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log/slog"
+	"sort"
+	"sync"
 
 	_ "embed"
 
@@ -30,14 +33,16 @@ type articleV2 struct {
 	db                     *sqlx.DB
 	chatGPTClient          chatgpt.Client
 	googleCustomSearchRepo repository.GoogleCustomSearch
+	htmlContentRepo        repository.HtmlContent
 }
 
 func NewArticleV2(ctx context.Context, db *sqlx.DB, chatGPTClient chatgpt.Client,
-	googleCustomSearch repository.GoogleCustomSearch) repository.Article {
+	googleCustomSearch repository.GoogleCustomSearch, htmlContentRepo repository.HtmlContent) repository.Article {
 	return &articleV2{
 		db:                     db,
 		chatGPTClient:          chatGPTClient,
 		googleCustomSearchRepo: googleCustomSearch,
+		htmlContentRepo:        htmlContentRepo,
 	}
 }
 
@@ -236,14 +241,16 @@ func (a *articleV2) GenerateBodyByAI(ctx context.Context, prompt string) (string
 	// google検索
 	// TODO これだと不十分だから、サマライズのAPIを利用して、中身を取るのがいいかも
 	arguments := output.Choices[0].Message.ToolCalls[0].Function.Arguments
-	googleSearchResultJSON, err := a.searchByGoogleForGenerateBody(ctx, arguments)
+	htmlContentsJSON, err := a.searchByGoogleForGenerateBody(ctx, arguments)
 	if err != nil {
 		return "", fmt.Errorf("failed a.searchByGoogleForGenerateBody. arguments: %s, err: %w", arguments, err)
 	}
 
+	fmt.Println("htmlContentsJson is ", htmlContentsJSON)
+
 	// Googleの結果を利用して回答を出す
 	toolCallID := output.Choices[0].Message.ToolCalls[0].ID
-	outputWithGoogle, err := a.generateBodyByAIAndGoogleResult(ctx, toolCallID, arguments, googleSearchResultJSON)
+	outputWithGoogle, err := a.generateBodyByAIAndGoogleResult(ctx, toolCallID, arguments, htmlContentsJSON)
 	if err != nil {
 		return "", fmt.Errorf("failed a.generateBodyByAIAndGoogleResult. err: %w", err)
 	}
@@ -307,17 +314,82 @@ func (a *articleV2) searchByGoogleForGenerateBody(ctx context.Context, arguments
 	if err != nil {
 		return "", fmt.Errorf("failed google search. err: %w", err)
 	}
-	googleSearchResultsJSON, err := json.Marshal(googleSearchResults)
+
+	wg := sync.WaitGroup{}
+	wg.Add(len(googleSearchResults))
+	mu := sync.Mutex{}
+	htmlContents := []*model.HtmlContent{}
+
+	orderMap := map[string]int{} // 関連度が高いやつを優先するようにする
+
+	for i, googleSearchResult := range googleSearchResults {
+		googleSearchResult := googleSearchResult
+
+		// orderMap[i] = googleSearchResult.URL
+		orderMap[googleSearchResult.URL] = i
+
+		go func() {
+			defer wg.Done()
+			body, err := a.htmlContentRepo.Get(ctx, googleSearchResult.URL)
+			if err != nil {
+				slog.Warn("failed get htmlContent", "url", googleSearchResult.URL)
+				return
+			}
+
+			bodyBytes, err := io.ReadAll(body)
+			if err != nil {
+				slog.Warn("failed read all body", "url", googleSearchResult.URL)
+				return
+			}
+
+			extractor := model.NewHtmlExtractor(string(bodyBytes))
+
+			bodyText, err := extractor.ExtractText(ctx)
+			if err != nil {
+				slog.Warn("failed extract text", "body", body, "url", googleSearchResult.URL)
+				return
+			}
+
+			if bodyText == "" {
+				return
+			}
+
+			// TODO 内容の要約APIを将来的に導入して文字数を削減する
+
+			mu.Lock()
+			htmlContents = append(htmlContents, &model.HtmlContent{
+				Title:    googleSearchResult.Title,
+				URL:      googleSearchResult.URL,
+				Overview: googleSearchResult.Overview,
+				BodyText: bodyText,
+			})
+			mu.Unlock()
+		}()
+	}
+
+	wg.Wait()
+
+	// 優先度
+	sort.Slice(htmlContents, func(i, j int) bool {
+		return orderMap[htmlContents[i].URL] < orderMap[htmlContents[j].URL]
+	})
+
+	// 今の所1つにする... token数が圧倒的に足りない...
+	htmlContents = htmlContents[0:min(len(htmlContents), 1)]
+
+	htmlContentsJSON, err := json.Marshal(htmlContents)
 	if err != nil {
 		return "", fmt.Errorf("failed json.Unmarshal. err: %w", err)
 	}
-	return string(googleSearchResultsJSON), nil
+	return string(htmlContentsJSON), nil
 }
 
-func (a *articleV2) generateBodyByAIAndGoogleResult(ctx context.Context, toolCallID string, arguments string, googleSearchResult string) (openai.ChatCompletionResponse, error) {
+func (a *articleV2) generateBodyByAIAndGoogleResult(ctx context.Context, toolCallID string, arguments string, htmlContentJSON string) (openai.ChatCompletionResponse, error) {
 	outputWithGoogle, err := a.chatGPTClient.CreateChatCompletions(ctx,
 		openai.ChatCompletionRequest{
-			Model: openai.GPT4,
+			// Model: openai.GPT4,
+			Model: openai.GPT4o, // token数の関係でこれにした
+			// Model: openai.GPT3Dot5Turbo,
 			Messages: []openai.ChatCompletionMessage{
 				{
 					Role:    openai.ChatMessageRoleAssistant,
@@ -335,7 +407,7 @@ func (a *articleV2) generateBodyByAIAndGoogleResult(ctx context.Context, toolCal
 				},
 				{
 					Role:       openai.ChatMessageRoleTool,
-					Content:    googleSearchResult,
+					Content:    htmlContentJSON,
 					ToolCallID: toolCallID,
 				},
 				{

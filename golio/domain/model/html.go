@@ -22,6 +22,18 @@ func NewHtmlExtractor(htmlContent string) *HtmlExtractor {
 
 func (he *HtmlExtractor) ExtractText(ctx context.Context) (string, error) {
 	sb := &strings.Builder{}
+
+	depth := 0
+	currentIgnoreTag := ""
+
+	ignoreTagMap := map[string]bool{
+		"script": true,
+		"style":  true,
+		"header": true,
+		"iframe": true,
+		"head":   true,
+	}
+
 	for {
 		select {
 		case <-ctx.Done():
@@ -34,9 +46,42 @@ func (he *HtmlExtractor) ExtractText(ctx context.Context) (string, error) {
 					return sb.String(), nil
 				}
 				return "", fmt.Errorf("html.ErrorToken. err: %w", err)
+			case html.StartTagToken:
+				if depth > 0 {
+					continue
+				}
+
+				token := he.tokenizer.Token()
+				if ignoreTagMap[token.Data] {
+					depth++
+					currentIgnoreTag = token.Data
+				}
+
+			case html.EndTagToken:
+				token := he.tokenizer.Token()
+
+				if depth == 0 || currentIgnoreTag != token.Data {
+					continue
+				}
+
+				if ignoreTagMap[token.Data] {
+					depth--
+					currentIgnoreTag = ""
+				}
+
 			case html.TextToken:
-				sb.WriteString(he.tokenizer.Token().Data)
-				sb.WriteString("\n")
+				if depth > 0 {
+					continue
+				}
+
+				rawData := he.tokenizer.Token().Data
+
+				text := strings.Join(strings.Fields(rawData), " ")
+				if text == "" {
+					continue
+				}
+
+				sb.WriteString(text)
 			}
 		}
 	}

@@ -65,7 +65,9 @@ func GetHandler(ctx context.Context) (lambdaHandlerFunc func(ctx context.Context
 
 	googleCustomSearchRepo := repository.NewGoogleCustomSearch(googleCustomeSearchClient)
 
-	articleRepo := repository.NewArticleV2(ctx, db, chatGPTClient, googleCustomSearchRepo)
+	htmlContentRepo := repository.NewHtmlContent()
+
+	articleRepo := repository.NewArticleV2(ctx, db, chatGPTClient, googleCustomSearchRepo, htmlContentRepo)
 
 	mediaRepo := repository.NewMedia(db, cfg.MediaS3.BucketName, s3.NewS3Client(awsCfg))
 
