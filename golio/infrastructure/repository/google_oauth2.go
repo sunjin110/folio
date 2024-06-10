@@ -55,7 +55,8 @@ func (o *googleOauth2) GenerateAuthorizationURL() (string, error) {
 	q.Set("redirect_uri", o.redirectURI)
 	q.Set("response_type", "code")
 	q.Set("scope", "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile")
-	q.Set("access_type", "offline")
+	q.Set("access_type", "offline") // prompt=consent
+	q.Set("prompt", "consent")
 	u.RawQuery = q.Encode()
 	return u.String(), nil
 }
