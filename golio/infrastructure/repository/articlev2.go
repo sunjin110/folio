@@ -10,10 +10,11 @@ import (
 
 	"github.com/huandu/go-sqlbuilder"
 	"github.com/jmoiron/sqlx"
+	"github.com/sashabaranov/go-openai"
 	"github.com/sunjin110/folio/golio/domain/model"
 	"github.com/sunjin110/folio/golio/domain/repository"
 	"github.com/sunjin110/folio/golio/infrastructure/chatgpt"
-	chatgptDto "github.com/sunjin110/folio/golio/infrastructure/chatgpt/dto"
+	cdto "github.com/sunjin110/folio/golio/infrastructure/chatgpt/dto"
 	"github.com/sunjin110/folio/golio/infrastructure/repository/dto/postgres_dto"
 )
 
@@ -190,79 +191,35 @@ func (a *articleV2) upsert(ctx context.Context, article *model.Article) (err err
 }
 
 func (a *articleV2) ChangeBodyByAI(ctx context.Context, article *model.Article, orderToAI string) (*model.Article, error) {
-	output, err := a.chatGPTClient.CreateChatCompletions(ctx, &chatgptDto.ChatCompletionsInput{
-		Model: chatgpt.GPT4Model,
-		Messages: []chatgptDto.Message{
-			&chatgptDto.SystemMessage{
-				Role:    "system",
+	output, err := a.chatGPTClient.CreateChatCompletions(ctx, openai.ChatCompletionRequest{
+		Model: openai.GPT4,
+		Messages: []openai.ChatCompletionMessage{
+			{
+				Role:    openai.ChatMessageRoleSystem,
 				Content: "You are a helpful assistant who helps edit articles based on user instructions.",
 			},
-			&chatgptDto.UserMessage{
-				Role:    "user",
+			{
+				Role:    openai.ChatMessageRoleUser,
 				Content: fmt.Sprintf("I wrote an article or a note. Here's the paragraph: '%s'", article.Body),
 			},
-			&chatgptDto.UserMessage{
-				Role:    "user",
+			{
+				Role:    openai.ChatMessageRoleUser,
 				Content: orderToAI,
 			},
 		},
 	})
+
 	if err != nil {
 		return nil, fmt.Errorf("failed chatGPTClient.CreateChatCompletions. err: %w", err)
 	}
 
-	body := output.GetMessage()
-
+	body := output.Choices[0].Message.Content
 	article.Body = body
 	return article, nil
 }
 
 func (a *articleV2) GenerateBodyByAI(ctx context.Context, prompt string) (string, error) {
-
-	// toolの定義
-	tools := chatgptDto.Tools{
-		&chatgptDto.ToolFunction{
-			Type: "function",
-			Function: &chatgptDto.Function{
-				Name:        "searchGoogle",
-				Description: "When you need information that you don't know or when you need the latest information, search the internet (Google) for it.",
-				Parameters: chatgptDto.FuncitonParameters{
-					Type: "object",
-					Properties: map[string]*chatgptDto.FunctionPropertiesValue{
-						"keyword": {
-							Type: "string",
-						},
-					},
-					Required: []string{"keyword"},
-				},
-			},
-		},
-	}
-
-	// 一度目
-	output, err := a.chatGPTClient.CreateChatCompletions(ctx, &chatgptDto.ChatCompletionsInput{
-		Model: chatgpt.GPT4Model,
-		Messages: []chatgptDto.Message{
-			&chatgptDto.SystemMessage{
-				Role:    "system",
-				Content: "You are a highly knowledgeable assistant.",
-			},
-			&chatgptDto.SystemMessage{
-				Role:    "system",
-				Content: "Write detailed articles in Markdown format.",
-			},
-			&chatgptDto.SystemMessage{
-				Role:    "system",
-				Content: "Avoid using code blocks in your Markdown responses.",
-			},
-			&chatgptDto.SystemMessage{
-				Role:    "user",
-				Content: prompt,
-			},
-		},
-		Tools:      tools,
-		ToolChoice: "auto",
-	})
+	output, err := a.generateBodyByAI(ctx, prompt)
 	if err != nil {
 		return "", fmt.Errorf("failed chatGPTClient.CreateChatCompletions. err: %w", err)
 	}
@@ -273,12 +230,75 @@ func (a *articleV2) GenerateBodyByAI(ctx context.Context, prompt string) (string
 
 	// tool callsではない場合はそのまま返す
 	if output.Choices[0].FinishReason != "tool_calls" {
-		return output.GetMessage(), nil
+		return chatgpt.GetMessageContent(output), nil
 	}
 
 	// google検索
 	// TODO これだと不十分だから、サマライズのAPIを利用して、中身を取るのがいいかも
 	arguments := output.Choices[0].Message.ToolCalls[0].Function.Arguments
+	googleSearchResultJSON, err := a.searchByGoogleForGenerateBody(ctx, arguments)
+	if err != nil {
+		return "", fmt.Errorf("failed a.searchByGoogleForGenerateBody. arguments: %s, err: %w", arguments, err)
+	}
+
+	// Googleの結果を利用して回答を出す
+	toolCallID := output.Choices[0].Message.ToolCalls[0].ID
+	outputWithGoogle, err := a.generateBodyByAIAndGoogleResult(ctx, toolCallID, arguments, googleSearchResultJSON)
+	if err != nil {
+		return "", fmt.Errorf("failed a.generateBodyByAIAndGoogleResult. err: %w", err)
+	}
+
+	return chatgpt.GetMessageContent(outputWithGoogle), nil
+}
+
+func (a *articleV2) generateBodyByAI(ctx context.Context, prompt string) (openai.ChatCompletionResponse, error) {
+	output, err := a.chatGPTClient.CreateChatCompletions(ctx, openai.ChatCompletionRequest{
+		Model: openai.GPT4,
+		Messages: []openai.ChatCompletionMessage{
+			{
+				Role:    openai.ChatMessageRoleSystem,
+				Content: "You are a highly knowledgeable assistant.",
+			},
+			{
+				Role:    openai.ChatMessageRoleSystem,
+				Content: "Write detailed articles in Markdown format.",
+			},
+			{
+				Role:    openai.ChatMessageRoleSystem,
+				Content: "Avoid using code blocks in your Markdown responses.",
+			},
+			{
+				Role:    openai.ChatMessageRoleUser,
+				Content: prompt,
+			},
+		},
+		Tools: []openai.Tool{
+			{
+				Type: openai.ToolTypeFunction,
+				Function: &openai.FunctionDefinition{
+					Name:        "searchGoogle",
+					Description: "When you need information that you don't know or when you need the latest information, search the internet (Google) for it.",
+					Parameters: cdto.M{
+						"type": "object",
+						"properties": cdto.M{
+							"keyword": cdto.M{
+								"type": "string",
+							},
+						},
+						"required": []string{"keyword"},
+					},
+				},
+			},
+		},
+		ToolChoice: "auto",
+	})
+	if err != nil {
+		return openai.ChatCompletionResponse{}, fmt.Errorf("failed chatGPTClient.CreateChatCompletions. err: %w", err)
+	}
+	return output, nil
+}
+
+func (a *articleV2) searchByGoogleForGenerateBody(ctx context.Context, arguments string) (string, error) {
 	argmentsMap := map[string]string{}
 	if err := json.Unmarshal([]byte(arguments), &argmentsMap); err != nil {
 		return "", fmt.Errorf("failed json.Unmarshal. err: %w", err)
@@ -287,48 +307,46 @@ func (a *articleV2) GenerateBodyByAI(ctx context.Context, prompt string) (string
 	if err != nil {
 		return "", fmt.Errorf("failed google search. err: %w", err)
 	}
-
 	googleSearchResultsJSON, err := json.Marshal(googleSearchResults)
 	if err != nil {
 		return "", fmt.Errorf("failed json.Unmarshal. err: %w", err)
 	}
+	return string(googleSearchResultsJSON), nil
+}
 
-	toolCallID := output.Choices[0].Message.ToolCalls[0].ID
-
-	// まとめ
-	output2, err := a.chatGPTClient.CreateChatCompletions(ctx, &chatgptDto.ChatCompletionsInput{
-		Model: chatgpt.GPT4Model,
-		Messages: []chatgptDto.Message{
-			&chatgptDto.AssistantMessage{
-				Role:    "assistant",
-				Content: "tool_calls",
-				ToolCalls: []chatgptDto.AssistantMessageToolCall{
-					{
-						ID:   toolCallID,
-						Type: "function",
-						Function: chatgptDto.AssistantMessageToolCallFunction{
-							Name:      "searchGoogle",
-							Arguments: arguments,
+func (a *articleV2) generateBodyByAIAndGoogleResult(ctx context.Context, toolCallID string, arguments string, googleSearchResult string) (openai.ChatCompletionResponse, error) {
+	outputWithGoogle, err := a.chatGPTClient.CreateChatCompletions(ctx,
+		openai.ChatCompletionRequest{
+			Model: openai.GPT4,
+			Messages: []openai.ChatCompletionMessage{
+				{
+					Role:    openai.ChatMessageRoleAssistant,
+					Content: "tool_calls",
+					ToolCalls: []openai.ToolCall{
+						{
+							ID:   toolCallID,
+							Type: openai.ToolTypeFunction,
+							Function: openai.FunctionCall{
+								Name:      "searchGoogle",
+								Arguments: arguments,
+							},
 						},
 					},
 				},
-			},
-			&chatgptDto.ToolMessage{
-				Role:       "tool",
-				Content:    string(googleSearchResultsJSON), // google検索結果
-				ToolCallID: toolCallID,
-			},
-			&chatgptDto.SystemMessage{
-				Role:    "system",
-				Content: "Please provide the user with the information obtained from a Google search and the reference URLs.",
+				{
+					Role:       openai.ChatMessageRoleTool,
+					Content:    googleSearchResult,
+					ToolCallID: toolCallID,
+				},
+				{
+					Role:    openai.ChatMessageRoleSystem,
+					Content: "Please provide the user with the information obtained from a Google search and the reference URLs.",
+				},
 			},
 		},
-		Tools:      tools,
-		ToolChoice: "none",
-	})
+	)
 	if err != nil {
-		return "", fmt.Errorf("failed 2回目 chatGPTClient.CreateChatCompletions. err: %w", err)
+		return openai.ChatCompletionResponse{}, fmt.Errorf("failed chatGPTClient.CreateChatCompletions. err: %w", err)
 	}
-
-	return output2.GetMessage(), nil
+	return outputWithGoogle, nil
 }
