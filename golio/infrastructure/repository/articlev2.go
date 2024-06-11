@@ -340,7 +340,13 @@ func (a *articleV2) searchByGoogleForGenerateBody(ctx context.Context, arguments
 				return
 			}
 
-			extractor := model.NewHtmlExtractor(string(bodyBytes))
+			baseURL, err := googleSearchResult.GetBaseURL()
+			if err != nil {
+				slog.Warn("failed get base url", "url", googleSearchResult.URL, "err", err)
+				return
+			}
+
+			extractor := model.NewHtmlExtractor(string(bodyBytes), baseURL)
 
 			bodyText, err := extractor.ExtractText(ctx)
 			if err != nil {
