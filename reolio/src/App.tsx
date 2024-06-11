@@ -18,16 +18,14 @@ import { Configuration, GolioApi } from "./generate/schema/http";
 import MediaDetail from "./pages/media/detial";
 import { NewArticleRepository } from "./infrastructure/repository/article";
 import { NewArticleUsecase } from "./usecase/article";
-import Modal from 'react-modal';
+import Modal from "react-modal";
 import { TranslateModalPage } from "./pages/modals/translateModalPage";
 import { NewTranslationRepository } from "./infrastructure/repository/translation";
 
 // https://github.com/reactjs/react-modal?tab=readme-ov-file
-Modal.setAppElement('#root');
+Modal.setAppElement("#root");
 
 const App: React.FC = () => {
-
-
   // goli apiの設定
   const golioConfig = new Configuration({
     basePath: process.env.REACT_APP_GOLIO_BASE_URL,
@@ -37,7 +35,7 @@ const App: React.FC = () => {
 
   const mediaRepo = NewMediaRepository(golioApi);
   const articleRepo = NewArticleRepository(golioApi);
-  const translationRepo =  NewTranslationRepository(golioApi);
+  const translationRepo = NewTranslationRepository(golioApi);
   const mediaUsecase = NewMediaUsecase(mediaRepo);
   const articleUsecase = NewArticleUsecase(articleRepo);
 
@@ -50,12 +48,27 @@ const App: React.FC = () => {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/articles" element={<Articles articleUsecase={articleUsecase} />} />
-            <Route path="/media" element={<Media mediaUsecase={mediaUsecase} />} />
-            <Route path="/media/:mediaId" element={<MediaDetail mediaUsecase={mediaUsecase} />} />
+            <Route
+              path="/articles"
+              element={<Articles articleUsecase={articleUsecase} />}
+            />
+            <Route
+              path="/media"
+              element={<Media mediaUsecase={mediaUsecase} />}
+            />
+            <Route
+              path="/media/:mediaId"
+              element={<MediaDetail mediaUsecase={mediaUsecase} />}
+            />
             <Route path="/articles/:articleId" element={<ArticleDetail />} />
-            <Route path="/articles/create" element={<CreateArticle articleUsecase={articleUsecase} />} />
-            <Route path="/articles/edit/:articleId" element={<EditArticle articleUsecase={articleUsecase} />} />
+            <Route
+              path="/articles/create"
+              element={<CreateArticle articleUsecase={articleUsecase} />}
+            />
+            <Route
+              path="/articles/edit/:articleId"
+              element={<EditArticle articleUsecase={articleUsecase} />}
+            />
           </Routes>
         </div>
         <Toaster />

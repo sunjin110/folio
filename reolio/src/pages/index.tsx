@@ -16,9 +16,7 @@ const Home: React.FC = () => {
           <div>
             あとはこのポートフォリオの概要なんかを書いていってもいいかもね、各機能への遷移も置いてあげたら優しいかも
           </div>
-          <div>
-            変わっているか確認
-          </div>
+          <div>変わっているか確認</div>
         </CardContent>
       </Card>
     </Navigation>

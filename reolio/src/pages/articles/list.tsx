@@ -53,7 +53,6 @@ export interface ArticlesProps {
 }
 
 export default function Articles(props: ArticlesProps) {
-
   const { articleUsecase } = props;
 
   const [data, setData] = useState<ArticleSummary[]>([]);
@@ -67,46 +66,54 @@ export default function Articles(props: ArticlesProps) {
   const { toast } = useToast();
   const navigate = useNavigate();
 
+  const fetch = useCallback(
+    async (searchTitleText: string) => {
+      const offset = pageIndex * pageSize;
+      const limit = pageSize;
 
-  const fetch = useCallback(async (searchTitleText: string) => {
-    const offset = pageIndex * pageSize;
-    const limit = pageSize;
+      try {
+        const resp = await articleUsecase.FindSummaries(
+          offset,
+          limit,
+          searchTitleText,
+        );
+        setData(resp.summaries);
+        setPageCount(Math.ceil(resp.totalCount / pageSize));
+      } catch (err) {
+        if (err instanceof AuthError) {
+          toast({
+            title: "Please login again",
+            description: err.message,
+          });
+          navigate("/login");
+          return;
+        } else if (err instanceof InternalError) {
+          toast({
+            title: "Error",
+            description: err.message,
+          });
+          return;
+        }
 
-    try {
-      const resp = await articleUsecase.FindSummaries(offset, limit, searchTitleText);
-      setData(resp.summaries);
-      setPageCount(Math.ceil(resp.totalCount / pageSize));
-    }  catch (err) {
-      if (err instanceof AuthError) {
         toast({
-          title: 'Please login again',
-          description: err.message,
+          title: "Error",
+          description: `${err}`,
         });
-        navigate("/login");
-        return;
-      } else if (err instanceof InternalError) {
-        toast({
-          title: 'Error',
-          description: err.message,
-        });
-        return;
+
+        console.error(err);
       }
-
-      toast({
-        title: 'Error',
-        description: `${err}`
-      });
-
-      console.error(err);
-    }
-  }, [articleUsecase, navigate, pageIndex, pageSize, toast]);
+    },
+    [articleUsecase, navigate, pageIndex, pageSize, toast],
+  );
 
   useEffect(() => {
     fetch(searchTitleText);
   }, [pageIndex, pageSize, navigate, toast, fetch, searchTitleText]);
 
-  const handleSearchTitleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.nativeEvent.isComposing || e.key !== 'Enter') return;
+  const handleSearchTitleKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+  ) => {
+    if (e.nativeEvent.isComposing || e.key !== "Enter") return;
     setSearchTitleText(viewSearchTitleText);
   };
 
@@ -122,8 +129,17 @@ export default function Articles(props: ArticlesProps) {
         </Link>
 
         <div className="pb-2 pt-2">
-          <Label id="search_title_text_label" htmlFor="search_title_text">Search Title: {searchTitleText}</Label>
-          <Input id="search_title_text" type="text" placeholder="Title" onKeyDown={handleSearchTitleKeyDown} value={viewSearchTitleText} onChange={(event) => setViewSearchTitleText(event.target.value)}></Input>
+          <Label id="search_title_text_label" htmlFor="search_title_text">
+            Search Title: {searchTitleText}
+          </Label>
+          <Input
+            id="search_title_text"
+            type="text"
+            placeholder="Title"
+            onKeyDown={handleSearchTitleKeyDown}
+            value={viewSearchTitleText}
+            onChange={(event) => setViewSearchTitleText(event.target.value)}
+          ></Input>
         </div>
 
         <DataTable
