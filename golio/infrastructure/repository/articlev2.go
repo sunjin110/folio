@@ -19,14 +19,7 @@ import (
 	"github.com/sunjin110/folio/golio/infrastructure/chatgpt"
 	cdto "github.com/sunjin110/folio/golio/infrastructure/chatgpt/dto"
 	"github.com/sunjin110/folio/golio/infrastructure/repository/dto/postgres_dto"
-)
-
-var (
-	//go:embed query/postgresql/upsert_article_summary.sql
-	upsertArticleSummaryPostgreSQL string
-
-	//go:embed query/postgresql/upsert_article_body.sql
-	upsertArticleBodyPostgreSQL string
+	"github.com/sunjin110/folio/golio/infrastructure/repository/query/postgresql"
 )
 
 type articleV2 struct {
@@ -170,7 +163,7 @@ func (a *articleV2) upsert(ctx context.Context, article *model.Article) (err err
 		}
 	}()
 
-	if _, err := tx.NamedExecContext(ctx, upsertArticleBodyPostgreSQL, &postgres_dto.ArticleBody{
+	if _, err := tx.NamedExecContext(ctx, postgresql.UpsertArticleBody, &postgres_dto.ArticleBody{
 		ID:                 article.ID,
 		ArticleSummariesID: article.ID,
 		Body:               article.Body,
@@ -180,7 +173,7 @@ func (a *articleV2) upsert(ctx context.Context, article *model.Article) (err err
 		return fmt.Errorf("failed upsert article_bodies. err: %w", err)
 	}
 
-	if _, err := tx.NamedExecContext(ctx, upsertArticleSummaryPostgreSQL, &postgres_dto.ArticleSummary{
+	if _, err := tx.NamedExecContext(ctx, postgresql.UpsertArticleSummary, &postgres_dto.ArticleSummary{
 		ID:        article.ID,
 		Title:     article.Title,
 		CreatedAt: article.CreatedAt,

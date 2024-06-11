@@ -27,6 +27,7 @@ func (summaries ArticleSummaries) ToSummariesModel() []*model.ArticleSummary {
 type ArticleSummary struct {
 	ID        string    `db:"id"`
 	Title     string    `db:"title"`
+	TagIDs    []string  `db:"tag_ids"`
 	CreatedAt time.Time `db:"created_at"`
 	UpdatedAt time.Time `db:"updated_at"`
 }

@@ -12,6 +12,7 @@ type Article struct {
 	Title     string
 	Body      string
 	Writer    string
+	Tags      []*ArticleTag
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
@@ -37,6 +38,7 @@ type ArticleSummary struct {
 	ID        string
 	Title     string
 	Writer    string
+	Tags      []*ArticleTag
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
