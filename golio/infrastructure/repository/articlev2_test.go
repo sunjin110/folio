@@ -67,7 +67,7 @@ func Test_articleV2_ChangeBodyByAI_Real(t *testing.T) {
 	})
 }
 
-// go test -v -count=1 -timeout 30s -run ^Test_articleV2_GenerateBodyByAI_Real$ github.com/sunjin110/folio/golio/infrastructure/repository
+// go test -v -count=1 -timeout 60s -run ^Test_articleV2_GenerateBodyByAI_Real$ github.com/sunjin110/folio/golio/infrastructure/repository
 func Test_articleV2_GenerateBodyByAI_Real(t *testing.T) {
 	SkipConvey("Test_articleV2_GenerateBodyByAI_Real", t, func() {
 
@@ -86,8 +86,9 @@ func Test_articleV2_GenerateBodyByAI_Real(t *testing.T) {
 
 		articleV2Repo := repository.NewArticleV2(context.Background(), nil, client, googleCustomSearchRepo, htmlContentRepo)
 
-		// result, err := articleV2Repo.GenerateBodyByAI(ctx, "please summarize a news about the Apple")
-		result, err := articleV2Repo.GenerateBodyByAI(ctx, "今日の東京の天気を教えてください")
+		result, err := articleV2Repo.GenerateBodyByAI(ctx, "please write a news about the Apple. you have to use image url ![xxx](image_url)")
+		// result, err := articleV2Repo.GenerateBodyByAI(ctx, "日本について説明する記事をMarkdownで書いてください、あなたは必ずイメージ画像を文中のURLから取得して利用する必要があります")
+
 		So(err, ShouldBeNil)
 		fmt.Println("result is ", result)
 	})
