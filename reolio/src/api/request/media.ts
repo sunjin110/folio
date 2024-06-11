@@ -1,4 +1,3 @@
-
 export interface CreateMediumInput {
-    file_name: string;
-};
+  file_name: string;
+}

@@ -1,7 +1,7 @@
 export const useImageNew = () => {
-    const imageNewHandler = async () => {};
+  const imageNewHandler = async () => {};
 
-    return {
-        imageNewHandler,
-    };
+  return {
+    imageNewHandler,
+  };
 };

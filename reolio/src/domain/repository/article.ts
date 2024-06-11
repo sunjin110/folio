@@ -1,12 +1,16 @@
 import { ArticleSummary } from "../model/article";
 
 export interface ArticleRepository {
-    FindSummaries(offset?: number, limit?: number, searchTitleText?: string): Promise<GetArticleSummariesOutput>
-    AsistantBodyByAI(articleID: string, prompt: string): Promise<string>;
-    GenerateArticleByAI(prompt: string): Promise<string>; // 記事ID
+  FindSummaries(
+    offset?: number,
+    limit?: number,
+    searchTitleText?: string,
+  ): Promise<GetArticleSummariesOutput>;
+  AsistantBodyByAI(articleID: string, prompt: string): Promise<string>;
+  GenerateArticleByAI(prompt: string): Promise<string>; // 記事ID
 }
 
 export interface GetArticleSummariesOutput {
-    totalCount: number;
-    summaries: ArticleSummary[];
+  totalCount: number;
+  summaries: ArticleSummary[];
 }

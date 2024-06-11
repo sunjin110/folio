@@ -14,4 +14,4 @@ export interface GetArticleByIdOutput {
 export interface CreateArticleOutput {
   type: "success";
   id: string;
-};
+}

@@ -11,7 +11,6 @@ interface CreateArticleProps {
 }
 
 export default function CreateArticle(props: CreateArticleProps) {
-
   const { articleUsecase } = props;
 
   const [title, setTitle] = useState("");
@@ -71,19 +70,21 @@ export default function CreateArticle(props: CreateArticleProps) {
       }
       toast({
         title: "internal error",
-        description: `${err}`
-      })
+        description: `${err}`,
+      });
     }
   };
 
-  return <CreateArticleTemplate 
-    aiPrompt={aiPrompt}
-    setAiPrompt={setAiPrompt}
-    title={title}  
-    setTitle={setTitle}
-    body={body}
-    setBody={setBody}
-    handlePost={handlePost}
-    handleGenerateAI={handleGenerateAI}
-  />
+  return (
+    <CreateArticleTemplate
+      aiPrompt={aiPrompt}
+      setAiPrompt={setAiPrompt}
+      title={title}
+      setTitle={setTitle}
+      body={body}
+      setBody={setBody}
+      handlePost={handlePost}
+      handleGenerateAI={handleGenerateAI}
+    />
+  );
 }

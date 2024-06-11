@@ -23,7 +23,9 @@ export default function Login() {
           <CardContent>
             <div className="grid gap-4">
               <a
-                href={process.env.REACT_APP_GOLIO_BASE_URL + "/auth/google-oauth"}
+                href={
+                  process.env.REACT_APP_GOLIO_BASE_URL + "/auth/google-oauth"
+                }
               >
                 <Button type="submit" className="w-full">
                   <div className="mr-4">

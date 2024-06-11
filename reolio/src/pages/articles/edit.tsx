@@ -16,7 +16,6 @@ export interface ArticleEditProps {
 }
 
 export default function EditArticle(props: ArticleEditProps) {
-
   const { articleUsecase } = props;
 
   const { articleId } = useParams();
@@ -48,8 +47,6 @@ export default function EditArticle(props: ArticleEditProps) {
     }
   }, [articleId, navigate, toast]);
 
-  
-
   const handleEdit = useCallback(async () => {
     try {
       if (!articleId) {
@@ -59,14 +56,14 @@ export default function EditArticle(props: ArticleEditProps) {
 
       if (!title) {
         toast({
-          title: 'タイトルを入力してください',
+          title: "タイトルを入力してください",
         });
         return;
       }
 
       if (!body) {
         toast({
-          title: '本文を入力してください'
+          title: "本文を入力してください",
         });
         return;
       }
@@ -107,26 +104,31 @@ export default function EditArticle(props: ArticleEditProps) {
     });
 
     try {
-      const generatedBody = await articleUsecase.AsistantBodyByAI(articleId, prompt);
-      setBody(`${generatedBody}\n\n---\n\n # article before change\n\n${beforeBody}`);
+      const generatedBody = await articleUsecase.AsistantBodyByAI(
+        articleId,
+        prompt,
+      );
+      setBody(
+        `${generatedBody}\n\n---\n\n # article before change\n\n${beforeBody}`,
+      );
     } catch (err) {
       if (err instanceof AuthError) {
         toast({
-          title: 'Please login again',
+          title: "Please login again",
           description: err.message,
         });
         navigate("/login");
         return;
       } else if (err instanceof InternalError) {
         toast({
-          title: 'Error',
+          title: "Error",
           description: err.message,
         });
         return;
       }
       toast({
-        title: 'Error',
-        description: `${err}`
+        title: "Error",
+        description: `${err}`,
       });
       console.error(err);
     }
@@ -139,18 +141,18 @@ export default function EditArticle(props: ArticleEditProps) {
 
   useEffect(() => {
     const handleSaveShortcut = (event: KeyboardEvent) => {
-      if ((event.metaKey || event.ctrlKey) && event.key === 's') {
+      if ((event.metaKey || event.ctrlKey) && event.key === "s") {
         event.preventDefault();
         handleEdit();
       }
-    }
+    };
 
-    window.addEventListener('keydown', handleSaveShortcut);
+    window.addEventListener("keydown", handleSaveShortcut);
 
     return () => {
       // コンポーネントがアンマウントされるときにリスナーをクリーンアップ
-      window.removeEventListener('keydown', handleSaveShortcut);
-    }
+      window.removeEventListener("keydown", handleSaveShortcut);
+    };
   }, [handleEdit]);
 
   return (
@@ -171,9 +173,21 @@ export default function EditArticle(props: ArticleEditProps) {
           <div className="flex pb-4">
             <div className="w-1/2">
               <Label>AI: </Label>
-              <Input type="text" placeholder="Prompt" className="p-2" value={prompt} onChange={(event) => setPrompt(event.target.value)} />
+              <Input
+                type="text"
+                placeholder="Prompt"
+                className="p-2"
+                value={prompt}
+                onChange={(event) => setPrompt(event.target.value)}
+              />
             </div>
-            <Button type="submit" className="flex-none" onClick={handleGenerateBody}>Generate!</Button>
+            <Button
+              type="submit"
+              className="flex-none"
+              onClick={handleGenerateBody}
+            >
+              Generate!
+            </Button>
           </div>
           <div className="flex flex-col flex-grow">
             <Label htmlFor="body">Body</Label>
