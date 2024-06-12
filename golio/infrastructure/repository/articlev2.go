@@ -11,17 +11,22 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/sunjin110/folio/golio/domain/model"
 	"github.com/sunjin110/folio/golio/domain/repository"
+	"github.com/sunjin110/folio/golio/infrastructure/repository/conv"
 	"github.com/sunjin110/folio/golio/infrastructure/repository/dto/postgres_dto"
 	"github.com/sunjin110/folio/golio/infrastructure/repository/query/postgresql"
+	"github.com/sunjin110/folio/golio/utils"
+	"golang.org/x/sync/errgroup"
 )
 
 type articleV2 struct {
-	db *sqlx.DB
+	db             *sqlx.DB
+	articleTagRepo repository.ArticleTag
 }
 
-func NewArticleV2(ctx context.Context, db *sqlx.DB) repository.Article {
+func NewArticleV2(ctx context.Context, db *sqlx.DB, articleTagRepo repository.ArticleTag) repository.Article {
 	return &articleV2{
-		db: db,
+		db:             db,
+		articleTagRepo: articleTagRepo,
 	}
 }
 
@@ -102,28 +107,56 @@ func (a *articleV2) FindSummary(ctx context.Context, sortType repository.SortTyp
 		return nil, fmt.Errorf("failed get select article_summaries. sql: %s, err: %w", sql, err)
 	}
 
-	return summaries.ToSummariesModel(), nil
+	tags, err := a.articleTagRepo.FindByIDs(ctx, summaries.GetTagIDs())
+	if err != nil {
+		return nil, fmt.Errorf("failed get article tags. err: %w", err)
+	}
+
+	tagMap := utils.SliceToMap(tags, func(v *model.ArticleTag) string {
+		return v.ID
+	})
+	return summaries.ToSummariesModel(tagMap), nil
 }
 
 func (a *articleV2) Get(ctx context.Context, id string) (*model.Article, error) {
+	eg, ctx := errgroup.WithContext(ctx)
+
 	body := &postgres_dto.ArticleBody{}
-	if err := a.db.GetContext(ctx, body, "select * from article_bodies where id = $1", id); err != nil {
-		return nil, fmt.Errorf("failed get article_bodies. err: %w", err)
-	}
+	eg.Go(func() error {
+		if err := a.db.GetContext(ctx, body, "select * from article_bodies where id = $1", id); err != nil {
+			return fmt.Errorf("failed get article_bodies. err: %w", err)
+		}
+		return nil
+	})
 
 	summary := &postgres_dto.ArticleSummary{}
-	if err := a.db.GetContext(ctx, summary, "select * from article_summaries where id = $1", id); err != nil {
-		return nil, fmt.Errorf("failed get article_summaries. err: %w", err)
-	}
+	tagMap := map[string]*model.ArticleTag{}
+	eg.Go(func() error {
+		if err := a.db.GetContext(ctx, summary, "select * from article_summaries where id = $1", id); err != nil {
+			return fmt.Errorf("failed get article_summaries. err: %w", err)
+		}
 
-	return &model.Article{
-		ID:        summary.ID,
-		Title:     summary.Title,
-		Body:      body.Body,
-		Writer:    "",
-		CreatedAt: summary.CreatedAt,
-		UpdatedAt: summary.UpdatedAt,
-	}, nil
+		if len(summary.TagIDs) == 0 {
+			return nil
+		}
+
+		tags, err := a.articleTagRepo.FindByIDs(ctx, summary.TagIDs)
+		if err != nil {
+			return nil
+		}
+
+		m := map[string]*model.ArticleTag{}
+		for _, tag := range tags {
+			m[tag.ID] = tag
+		}
+		tagMap = m
+		return nil
+	})
+
+	if err := eg.Wait(); err != nil {
+		return nil, fmt.Errorf("failed get article. err: %w", err)
+	}
+	return conv.NewArticle(summary, body, tagMap), nil
 }
 
 func (a *articleV2) Insert(ctx context.Context, article *model.Article) error {
