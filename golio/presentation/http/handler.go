@@ -67,6 +67,7 @@ func (g *golioAPIServicer) ArticlesGet(ctx context.Context, offset int32, limit 
 	output, err := g.articleUsecase.FindSummaries(ctx, offset, limit, titleSearchText)
 	if err != nil {
 		slog.ErrorContext(ctx, "failed articleUsecase.FindSummaries", "offset", offset, "limit", limit, "err", err)
+		return openapi.Response(http.StatusInternalServerError, "internal"), nil
 	}
 	return openapi.Response(http.StatusOK, conv.ToArticlesGet(output.Articles, output.TotalCount)), nil
 }
