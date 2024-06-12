@@ -25,12 +25,14 @@ type FindArticleSummariesOutput struct {
 }
 
 type article struct {
-	articleRepo repository.Article
+	articleRepo   repository.Article
+	articleAIRepo repository.ArticleAI
 }
 
-func NewArticle(articleRepo repository.Article) Article {
+func NewArticle(articleRepo repository.Article, articleAIRepo repository.ArticleAI) Article {
 	return &article{
-		articleRepo: articleRepo,
+		articleRepo:   articleRepo,
+		articleAIRepo: articleAIRepo,
 	}
 }
 
@@ -93,7 +95,7 @@ func (a *article) AssistantBodyByAI(ctx context.Context, id string, orderToAI st
 		return nil, fmt.Errorf("failed articleRepo.Get. err: %w", err)
 	}
 
-	generatedArticle, err := a.articleRepo.ChangeBodyByAI(ctx, article, orderToAI)
+	generatedArticle, err := a.articleAIRepo.ChangeBodyByAI(ctx, article, orderToAI)
 	if err != nil {
 		return nil, fmt.Errorf("failed articleRepo.ChangeBodyByAI. err: %w", err)
 	}
@@ -102,7 +104,7 @@ func (a *article) AssistantBodyByAI(ctx context.Context, id string, orderToAI st
 }
 
 func (a *article) GenerateArticleByAI(ctx context.Context, prompt string) (*model.Article, error) {
-	body, err := a.articleRepo.GenerateBodyByAI(ctx, prompt)
+	body, err := a.articleAIRepo.GenerateBodyByAI(ctx, prompt)
 	if err != nil {
 		return nil, fmt.Errorf("fialed articleRepo.GenerateBodyByAI. err: %w", err)
 	}

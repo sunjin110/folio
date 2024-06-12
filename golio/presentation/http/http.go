@@ -40,7 +40,9 @@ func Router(ctx context.Context, cfg *httpconf.Config) (http.Handler, error) {
 
 	htmlContentRepo := repository.NewHtmlContent()
 
-	articleRepo := repository.NewArticleV2(ctx, db, chatGPTClient, googleCustomSearchRepo, htmlContentRepo)
+	articleAIRepo := repository.NewArticleAI(chatGPTClient, googleCustomSearchRepo, htmlContentRepo)
+
+	articleRepo := repository.NewArticleV2(ctx, db)
 
 	awsCfg, err := config.LoadDefaultConfig(ctx)
 	if err != nil {
@@ -63,7 +65,7 @@ func Router(ctx context.Context, cfg *httpconf.Config) (http.Handler, error) {
 	sessionV2Repo := repository.NewSessionV2(dynamodb.NewClient[dynamodto.UserSessionV2](dynamoInnerClient), cfg.SessionDynamoDB.TableName)
 
 	authUsecase := usecase.NewAuth(googleOAuth2Repo, sessionV2Repo)
-	articleUsecase := usecase.NewArticle(articleRepo)
+	articleUsecase := usecase.NewArticle(articleRepo, articleAIRepo)
 	mediaUsecase := usecase.NewMedia(mediaRepo)
 
 	translateRepo := repository.NewTranslate(awsTranslateClient)

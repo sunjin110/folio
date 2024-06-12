@@ -67,7 +67,9 @@ func GetHandler(ctx context.Context) (lambdaHandlerFunc func(ctx context.Context
 
 	htmlContentRepo := repository.NewHtmlContent()
 
-	articleRepo := repository.NewArticleV2(ctx, db, chatGPTClient, googleCustomSearchRepo, htmlContentRepo)
+	articleAIRepo := repository.NewArticleAI(chatGPTClient, googleCustomSearchRepo, htmlContentRepo)
+
+	articleRepo := repository.NewArticleV2(ctx, db)
 
 	mediaRepo := repository.NewMedia(db, cfg.MediaS3.BucketName, s3.NewS3Client(awsCfg))
 
@@ -75,7 +77,7 @@ func GetHandler(ctx context.Context) (lambdaHandlerFunc func(ctx context.Context
 	sessionV2Repo := repository.NewSessionV2(dynamodb.NewClient[dynamodto.UserSessionV2](dynamoInnerClient), cfg.SessionDynamoDB.TableName)
 
 	authUsecase := usecase.NewAuth(googleOAuth2Repo, sessionV2Repo)
-	articleUsecase := usecase.NewArticle(articleRepo)
+	articleUsecase := usecase.NewArticle(articleRepo, articleAIRepo)
 	mediaUsecase := usecase.NewMedia(mediaRepo)
 
 	translateRepo := repository.NewTranslate(awsTranslateClient)
