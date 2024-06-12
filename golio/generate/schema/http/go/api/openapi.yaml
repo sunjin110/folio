@@ -408,6 +408,118 @@ paths:
       summary: 翻訳
       tags:
       - golio
+  /articles/tags:
+    get:
+      deprecated: false
+      description: ""
+      parameters:
+      - description: ""
+        explode: true
+        in: query
+        name: search_text
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: ""
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: ""
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_articles_tags_get_200_response'
+          description: Success
+      security: []
+      summary: 記事タグ一覧取得
+      tags:
+      - golio
+    post:
+      deprecated: false
+      description: ""
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            example:
+              name: タグの名前
+            schema:
+              $ref: '#/components/schemas/_articles_tags_post_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                properties: {}
+                type: object
+          description: Success
+      security: []
+      summary: 記事タグの作成
+      tags:
+      - golio
+  /articles/tags/{tag_id}:
+    delete:
+      deprecated: false
+      description: ""
+      parameters:
+      - description: ""
+        explode: false
+        in: path
+        name: tag_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                properties: {}
+                type: object
+          description: Success
+      security: []
+      summary: 記事タグの削除
+      tags:
+      - golio
+    put:
+      deprecated: false
+      description: ""
+      parameters:
+      - description: ""
+        explode: false
+        in: path
+        name: tag_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                properties: {}
+                type: object
+          description: Success
+      security: []
+      summary: 記事タグの更新
+      tags:
+      - golio
 components:
   schemas:
     language_code:
@@ -489,11 +601,16 @@ components:
       - vi
       - cy
       type: string
-    _articles_get_200_response_articles_inner:
+    article:
       example:
         created_at: created_at
         id: id
         title: title
+        tags:
+        - name: name
+          id: id
+        - name: name
+          id: id
       properties:
         id:
           type: string
@@ -501,6 +618,28 @@ components:
           type: string
         created_at:
           type: string
+        tags:
+          items:
+            $ref: '#/components/schemas/article_tag'
+          type: array
+      required:
+      - created_at
+      - id
+      - tags
+      - title
+      type: object
+    article_tag:
+      example:
+        name: name
+        id: id
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      required:
+      - id
+      - name
       type: object
     _articles_get_200_response:
       example:
@@ -509,13 +648,23 @@ components:
         - created_at: created_at
           id: id
           title: title
+          tags:
+          - name: name
+            id: id
+          - name: name
+            id: id
         - created_at: created_at
           id: id
           title: title
+          tags:
+          - name: name
+            id: id
+          - name: name
+            id: id
       properties:
         articles:
           items:
-            $ref: '#/components/schemas/_articles_get_200_response_articles_inner'
+            $ref: '#/components/schemas/article'
           type: array
         total:
           type: integer
@@ -562,6 +711,11 @@ components:
         id: id
         title: title
         body: body
+        tags:
+        - name: name
+          id: id
+        - name: name
+          id: id
       properties:
         id:
           type: string
@@ -574,10 +728,15 @@ components:
           type: string
         user_id:
           type: string
+        tags:
+          items:
+            $ref: '#/components/schemas/article_tag'
+          type: array
       required:
       - body
       - created_at
       - id
+      - tags
       - title
       - user_id
       type: object
@@ -737,5 +896,28 @@ components:
           type: string
       required:
       - translated_text
+      type: object
+    _articles_tags_get_200_response:
+      example:
+        tags:
+        - name: name
+          id: id
+        - name: name
+          id: id
+      properties:
+        tags:
+          items:
+            $ref: '#/components/schemas/article_tag'
+          nullable: true
+          type: array
+      required:
+      - tags
+      type: object
+    _articles_tags_post_request:
+      properties:
+        name:
+          type: string
+      required:
+      - name
       type: object
   securitySchemes: {}

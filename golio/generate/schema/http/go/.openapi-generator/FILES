@@ -12,10 +12,11 @@ openapi/model__articles__article_id__get_200_response.go
 openapi/model__articles_ai_post_200_response.go
 openapi/model__articles_ai_post_request.go
 openapi/model__articles_get_200_response.go
-openapi/model__articles_get_200_response_articles_inner.go
 openapi/model__articles_get_400_response.go
 openapi/model__articles_post_200_response.go
 openapi/model__articles_post_request.go
+openapi/model__articles_tags_get_200_response.go
+openapi/model__articles_tags_post_request.go
 openapi/model__hello_get_200_response.go
 openapi/model__media__medium_id__get_200_response.go
 openapi/model__media_get_200_response.go
@@ -24,5 +25,7 @@ openapi/model__media_post_200_response.go
 openapi/model__media_post_request.go
 openapi/model__translation_post_200_response.go
 openapi/model__translation_post_request.go
+openapi/model_article.go
+openapi/model_article_tag.go
 openapi/model_language_code.go
 openapi/routers.go
