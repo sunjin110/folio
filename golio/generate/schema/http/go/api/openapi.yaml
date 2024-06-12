@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.1.0
 info:
   description: ""
   title: My Project
@@ -463,9 +463,13 @@ paths:
         "200":
           content:
             application/json:
+              examples:
+                "1":
+                  summary: Success
+                  value:
+                    id: tag_id
               schema:
-                properties: {}
-                type: object
+                $ref: '#/components/schemas/insert_article_tag_response'
           description: Success
       security: []
       summary: 記事タグの作成
@@ -489,8 +493,7 @@ paths:
           content:
             application/json:
               schema:
-                properties: {}
-                type: object
+                $ref: '#/components/schemas/delete_article_tag_response'
           description: Success
       security: []
       summary: 記事タグの削除
@@ -508,13 +511,19 @@ paths:
         schema:
           type: string
         style: simple
+      requestBody:
+        content:
+          application/json:
+            example:
+              name: new_tag_name
+            schema:
+              $ref: '#/components/schemas/_articles_tags__tag_id__put_request'
       responses:
         "200":
           content:
             application/json:
               schema:
-                properties: {}
-                type: object
+                $ref: '#/components/schemas/update_article_tag_response'
           description: Success
       security: []
       summary: 記事タグの更新
@@ -522,6 +531,30 @@ paths:
       - golio
 components:
   schemas:
+    delete_article_tag_response:
+      example:
+        id: id
+      properties:
+        id:
+          type: string
+      required:
+      - id
+    update_article_tag_response:
+      example:
+        id: id
+      properties:
+        id:
+          type: string
+      required:
+      - id
+    insert_article_tag_response:
+      example:
+        id: id
+      properties:
+        id:
+          type: string
+      required:
+      - id
     language_code:
       enum:
       - auto
@@ -627,7 +660,6 @@ components:
       - id
       - tags
       - title
-      type: object
     article_tag:
       example:
         name: name
@@ -640,7 +672,6 @@ components:
       required:
       - id
       - name
-      type: object
     _articles_get_200_response:
       example:
         total: 0
@@ -671,7 +702,6 @@ components:
       required:
       - articles
       - total
-      type: object
     _articles_get_400_response:
       example:
         code: 6
@@ -684,7 +714,6 @@ components:
       required:
       - code
       - message
-      type: object
     _articles_post_request:
       properties:
         title:
@@ -694,7 +723,6 @@ components:
       required:
       - body
       - title
-      type: object
     _articles_post_200_response:
       example:
         id: id
@@ -703,7 +731,6 @@ components:
           type: string
       required:
       - id
-      type: object
     _articles__article_id__get_200_response:
       example:
         user_id: user_id
@@ -739,7 +766,6 @@ components:
       - tags
       - title
       - user_id
-      type: object
     _articles__article_id__ai_put_request:
       properties:
         message:
@@ -747,7 +773,6 @@ components:
           type: string
       required:
       - message
-      type: object
     _articles__article_id__ai_put_200_response:
       example:
         generated_body: generated_body
@@ -756,7 +781,6 @@ components:
           type: string
       required:
       - generated_body
-      type: object
     _articles_ai_post_request:
       properties:
         prompt:
@@ -764,7 +788,6 @@ components:
           type: string
       required:
       - prompt
-      type: object
     _articles_ai_post_200_response:
       example:
         article_id: article_id
@@ -773,7 +796,6 @@ components:
           type: string
       required:
       - article_id
-      type: object
     _hello_get_200_response:
       example:
         hello: hello
@@ -782,7 +804,6 @@ components:
           type: string
       required:
       - hello
-      type: object
     _media_get_200_response_media_inner:
       example:
         updated_at: 2000-01-23T04:56:07.000+00:00
@@ -810,7 +831,6 @@ components:
       - file_type
       - id
       - updated_at
-      type: object
     _media_get_200_response:
       example:
         total_count: 0
@@ -835,14 +855,12 @@ components:
       required:
       - media
       - total_count
-      type: object
     _media_post_request:
       properties:
         file_name:
           type: string
       required:
       - file_name
-      type: object
     _media_post_200_response:
       example:
         upload_presigned_url: upload_presigned_url
@@ -851,7 +869,6 @@ components:
           type: string
       required:
       - upload_presigned_url
-      type: object
     _media__medium_id__get_200_response:
       example:
         file_type: file_type
@@ -872,7 +889,6 @@ components:
       - file_type
       - medium_id
       - thumbnail_url
-      type: object
     _translation_post_request:
       properties:
         source_language_code:
@@ -886,7 +902,6 @@ components:
       - source_language_code
       - target_language_code
       - text
-      type: object
     _translation_post_200_response:
       example:
         translated_text: translated_text
@@ -896,7 +911,6 @@ components:
           type: string
       required:
       - translated_text
-      type: object
     _articles_tags_get_200_response:
       example:
         tags:
@@ -908,16 +922,20 @@ components:
         tags:
           items:
             $ref: '#/components/schemas/article_tag'
-          nullable: true
           type: array
       required:
       - tags
-      type: object
     _articles_tags_post_request:
       properties:
         name:
           type: string
       required:
       - name
-      type: object
+    _articles_tags__tag_id__put_request:
+      properties:
+        name:
+          type: string
+      required:
+      - 01J07SJQZHDHD50P4TDET04P8W
+      - name
   securitySchemes: {}

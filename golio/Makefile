@@ -25,7 +25,7 @@ image/lambda/test:
 
 gen-code:
 	@docker run --rm \
-  		-v ${PWD}:/local openapitools/openapi-generator-cli generate \
+  		-v ${PWD}:/local openapitools/openapi-generator-cli:v7.6.0 generate \
   		-i /local/schema/http/swagger.json \
   		-g go-server \
 		--additional-properties=onlyInterfaces=true,outputAsLibrary=true,sourceFolder=openapi \

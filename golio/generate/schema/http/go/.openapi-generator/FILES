@@ -15,6 +15,7 @@ openapi/model__articles_get_200_response.go
 openapi/model__articles_get_400_response.go
 openapi/model__articles_post_200_response.go
 openapi/model__articles_post_request.go
+openapi/model__articles_tags__tag_id__put_request.go
 openapi/model__articles_tags_get_200_response.go
 openapi/model__articles_tags_post_request.go
 openapi/model__hello_get_200_response.go
@@ -27,5 +28,8 @@ openapi/model__translation_post_200_response.go
 openapi/model__translation_post_request.go
 openapi/model_article.go
 openapi/model_article_tag.go
+openapi/model_delete_article_tag_response.go
+openapi/model_insert_article_tag_response.go
 openapi/model_language_code.go
+openapi/model_update_article_tag_response.go
 openapi/routers.go
