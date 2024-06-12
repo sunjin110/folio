@@ -10,35 +10,25 @@
 package openapi
 
 
-import (
-	"time"
-)
 
 
-
-type ArticlesArticleIdGet200Response struct {
+type Article struct {
 
 	Id string `json:"id"`
 
 	Title string `json:"title"`
 
-	Body string `json:"body"`
-
-	CreatedAt time.Time `json:"created_at"`
-
-	UserId string `json:"user_id"`
+	CreatedAt string `json:"created_at"`
 
 	Tags []ArticleTag `json:"tags"`
 }
 
-// AssertArticlesArticleIdGet200ResponseRequired checks if the required fields are not zero-ed
-func AssertArticlesArticleIdGet200ResponseRequired(obj ArticlesArticleIdGet200Response) error {
+// AssertArticleRequired checks if the required fields are not zero-ed
+func AssertArticleRequired(obj Article) error {
 	elements := map[string]interface{}{
 		"id": obj.Id,
 		"title": obj.Title,
-		"body": obj.Body,
 		"created_at": obj.CreatedAt,
-		"user_id": obj.UserId,
 		"tags": obj.Tags,
 	}
 	for name, el := range elements {
@@ -55,7 +45,7 @@ func AssertArticlesArticleIdGet200ResponseRequired(obj ArticlesArticleIdGet200Re
 	return nil
 }
 
-// AssertArticlesArticleIdGet200ResponseConstraints checks if the values respects the defined constraints
-func AssertArticlesArticleIdGet200ResponseConstraints(obj ArticlesArticleIdGet200Response) error {
+// AssertArticleConstraints checks if the values respects the defined constraints
+func AssertArticleConstraints(obj Article) error {
 	return nil
 }

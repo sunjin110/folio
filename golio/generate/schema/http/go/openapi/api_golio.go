@@ -80,6 +80,26 @@ func (c *GolioAPIController) Routes() Routes {
 			"/articles",
 			c.ArticlesPost,
 		},
+		"ArticlesTagsGet": Route{
+			strings.ToUpper("Get"),
+			"/articles/tags",
+			c.ArticlesTagsGet,
+		},
+		"ArticlesTagsPost": Route{
+			strings.ToUpper("Post"),
+			"/articles/tags",
+			c.ArticlesTagsPost,
+		},
+		"ArticlesTagsTagIdDelete": Route{
+			strings.ToUpper("Delete"),
+			"/articles/tags/{tag_id}",
+			c.ArticlesTagsTagIdDelete,
+		},
+		"ArticlesTagsTagIdPut": Route{
+			strings.ToUpper("Put"),
+			"/articles/tags/{tag_id}",
+			c.ArticlesTagsTagIdPut,
+		},
 		"HelloGet": Route{
 			strings.ToUpper("Get"),
 			"/hello",
@@ -294,6 +314,121 @@ func (c *GolioAPIController) ArticlesPost(w http.ResponseWriter, r *http.Request
 		return
 	}
 	result, err := c.service.ArticlesPost(r.Context(), articlesPostRequestParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, w)
+}
+
+// ArticlesTagsGet - 記事タグ一覧取得
+func (c *GolioAPIController) ArticlesTagsGet(w http.ResponseWriter, r *http.Request) {
+	query, err := parseQuery(r.URL.RawQuery)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	var searchTextParam string
+	if query.Has("search_text") {
+		param := query.Get("search_text")
+
+		searchTextParam = param
+	} else {
+	}
+	var offsetParam int32
+	if query.Has("offset") {
+		param, err := parseNumericParameter[int32](
+			query.Get("offset"),
+			WithParse[int32](parseInt32),
+		)
+		if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+		}
+
+		offsetParam = param
+	} else {
+	}
+	var limitParam int32
+	if query.Has("limit") {
+		param, err := parseNumericParameter[int32](
+			query.Get("limit"),
+			WithParse[int32](parseInt32),
+		)
+		if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+		}
+
+		limitParam = param
+	} else {
+	}
+	result, err := c.service.ArticlesTagsGet(r.Context(), searchTextParam, offsetParam, limitParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, w)
+}
+
+// ArticlesTagsPost - 記事タグの作成
+func (c *GolioAPIController) ArticlesTagsPost(w http.ResponseWriter, r *http.Request) {
+	articlesTagsPostRequestParam := ArticlesTagsPostRequest{}
+	d := json.NewDecoder(r.Body)
+	d.DisallowUnknownFields()
+	if err := d.Decode(&articlesTagsPostRequestParam); err != nil && !errors.Is(err, io.EOF) {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	if err := AssertArticlesTagsPostRequestRequired(articlesTagsPostRequestParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	if err := AssertArticlesTagsPostRequestConstraints(articlesTagsPostRequestParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	result, err := c.service.ArticlesTagsPost(r.Context(), articlesTagsPostRequestParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, w)
+}
+
+// ArticlesTagsTagIdDelete - 記事タグの削除
+func (c *GolioAPIController) ArticlesTagsTagIdDelete(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	tagIdParam := params["tag_id"]
+	if tagIdParam == "" {
+		c.errorHandler(w, r, &RequiredError{"tag_id"}, nil)
+		return
+	}
+	result, err := c.service.ArticlesTagsTagIdDelete(r.Context(), tagIdParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, w)
+}
+
+// ArticlesTagsTagIdPut - 記事タグの更新
+func (c *GolioAPIController) ArticlesTagsTagIdPut(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	tagIdParam := params["tag_id"]
+	if tagIdParam == "" {
+		c.errorHandler(w, r, &RequiredError{"tag_id"}, nil)
+		return
+	}
+	result, err := c.service.ArticlesTagsTagIdPut(r.Context(), tagIdParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

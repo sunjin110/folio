@@ -14,7 +14,7 @@ package openapi
 
 type ArticlesGet200Response struct {
 
-	Articles []ArticlesGet200ResponseArticlesInner `json:"articles"`
+	Articles []Article `json:"articles"`
 
 	Total int32 `json:"total"`
 }
@@ -32,7 +32,7 @@ func AssertArticlesGet200ResponseRequired(obj ArticlesGet200Response) error {
 	}
 
 	for _, el := range obj.Articles {
-		if err := AssertArticlesGet200ResponseArticlesInnerRequired(el); err != nil {
+		if err := AssertArticleRequired(el); err != nil {
 			return err
 		}
 	}

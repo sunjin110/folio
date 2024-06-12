@@ -48,6 +48,7 @@ func (g *golioAPIServicer) ArticlesArticleIdGet(ctx context.Context, articleID s
 		Body:      article.Body,
 		CreatedAt: article.CreatedAt,
 		UserId:    "todo",
+		Tags:      conv.ToArticleTags(article.Tags),
 	}), nil
 }
 
@@ -178,4 +179,20 @@ func (g *golioAPIServicer) TranslationPost(ctx context.Context, req openapi.Tran
 	return openapi.Response(http.StatusOK, openapi.TranslationPost200Response{
 		TranslatedText: translatedText,
 	}), nil
+}
+
+func (g *golioAPIServicer) ArticlesTagsGet(ctx context.Context, searchText string, offset int32, limit int32) (openapi.ImplResponse, error) {
+	panic("unimplemented")
+}
+
+func (g *golioAPIServicer) ArticlesTagsPost(ctx context.Context, req openapi.ArticlesTagsPostRequest) (openapi.ImplResponse, error) {
+	panic("unimplemented")
+}
+
+func (g *golioAPIServicer) ArticlesTagsTagIdDelete(ctx context.Context, tagID string) (openapi.ImplResponse, error) {
+	panic("unimplemented")
+}
+
+func (g *golioAPIServicer) ArticlesTagsTagIdPut(ctx context.Context, tagID string) (openapi.ImplResponse, error) {
+	panic("unimplemented")
 }

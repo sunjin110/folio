@@ -9,23 +9,24 @@ import (
 
 func ToArticlesGet(articles []*model.ArticleSummary, totalCount int32) openapi.ArticlesGet200Response {
 	return openapi.ArticlesGet200Response{
-		Articles: toArticlesGet200ResponseArticlesInners(articles),
+		Articles: toArticles(articles),
 		Total:    totalCount,
 	}
 }
 
-func toArticlesGet200ResponseArticlesInners(articles []*model.ArticleSummary) []openapi.ArticlesGet200ResponseArticlesInner {
-	inners := make([]openapi.ArticlesGet200ResponseArticlesInner, 0, len(articles))
+func toArticles(articles []*model.ArticleSummary) []openapi.Article {
+	inners := make([]openapi.Article, 0, len(articles))
 	for _, article := range articles {
-		inners = append(inners, toArticlesGet200ResponseArticlesInner(article))
+		inners = append(inners, toArticle(article))
 	}
 	return inners
 }
 
-func toArticlesGet200ResponseArticlesInner(article *model.ArticleSummary) openapi.ArticlesGet200ResponseArticlesInner {
-	return openapi.ArticlesGet200ResponseArticlesInner{
+func toArticle(article *model.ArticleSummary) openapi.Article {
+	return openapi.Article{
 		Id:        article.ID,
 		Title:     article.Title,
 		CreatedAt: article.CreatedAt.Format(time.RFC3339),
+		Tags:      ToArticleTags(article.Tags),
 	}
 }
