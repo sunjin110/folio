@@ -3,6 +3,7 @@ package postgres_dto
 import (
 	"time"
 
+	"github.com/lib/pq"
 	"github.com/sunjin110/folio/golio/domain/model"
 )
 
@@ -38,11 +39,11 @@ func (summaries ArticleSummaries) GetTagIDs() []string {
 }
 
 type ArticleSummary struct {
-	ID        string    `db:"id"`
-	Title     string    `db:"title"`
-	TagIDs    []string  `db:"tag_ids"`
-	CreatedAt time.Time `db:"created_at"`
-	UpdatedAt time.Time `db:"updated_at"`
+	ID        string         `db:"id"`
+	Title     string         `db:"title"`
+	TagIDs    pq.StringArray `db:"tag_ids"`
+	CreatedAt time.Time      `db:"created_at"`
+	UpdatedAt time.Time      `db:"updated_at"`
 }
 
 func (summary *ArticleSummary) toSummaryModel(tagMap map[string]*model.ArticleTag) *model.ArticleSummary {
