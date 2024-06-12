@@ -25,9 +25,9 @@ func Test_articleV2_ChangeBodyByAI_Real(t *testing.T) {
 
 		googleCustomSearchRepo := repository.NewGoogleCustomSearch(customSearchClient)
 
-		articleV2Repo := repository.NewArticleV2(context.Background(), nil, client, googleCustomSearchRepo, nil)
+		articleAIRepo := repository.NewArticleAI(client, googleCustomSearchRepo, nil)
 
-		_, err = articleV2Repo.ChangeBodyByAI(ctx, &model.Article{
+		_, err = articleAIRepo.ChangeBodyByAI(ctx, &model.Article{
 			Body: `
 ## phrase
 
@@ -84,10 +84,9 @@ func Test_articleV2_GenerateBodyByAI_Real(t *testing.T) {
 
 		htmlContentRepo := repository.NewHtmlContent()
 
-		articleV2Repo := repository.NewArticleV2(context.Background(), nil, client, googleCustomSearchRepo, htmlContentRepo)
+		articleAIRepo := repository.NewArticleAI(client, googleCustomSearchRepo, htmlContentRepo)
 
-		result, err := articleV2Repo.GenerateBodyByAI(ctx, "please write a news about the Apple. you have to use image url ![xxx](image_url)")
-		// result, err := articleV2Repo.GenerateBodyByAI(ctx, "日本について説明する記事をMarkdownで書いてください、あなたは必ずイメージ画像を文中のURLから取得して利用する必要があります")
+		result, err := articleAIRepo.GenerateBodyByAI(ctx, "please write a news about the Apple. you have to use image url ![xxx](image_url)")
 
 		So(err, ShouldBeNil)
 		fmt.Println("result is ", result)
