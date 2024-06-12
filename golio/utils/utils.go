@@ -29,3 +29,12 @@ func ProjectRoot() string {
 func ToPointer[T any](t T) *T {
 	return &t
 }
+
+func SliceToMap[K comparable, V any](slice []V, getKey func(v V) K) map[K]V {
+	m := map[K]V{}
+	for _, v := range slice {
+		k := getKey(v)
+		m[k] = v
+	}
+	return m
+}

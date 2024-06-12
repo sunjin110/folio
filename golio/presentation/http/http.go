@@ -41,8 +41,8 @@ func Router(ctx context.Context, cfg *httpconf.Config) (http.Handler, error) {
 	htmlContentRepo := repository.NewHtmlContent()
 
 	articleAIRepo := repository.NewArticleAI(chatGPTClient, googleCustomSearchRepo, htmlContentRepo)
-
-	articleRepo := repository.NewArticleV2(ctx, db)
+	articleTagRepo := repository.NewArticleTag(db)
+	articleRepo := repository.NewArticleV2(ctx, db, articleTagRepo)
 
 	awsCfg, err := config.LoadDefaultConfig(ctx)
 	if err != nil {
