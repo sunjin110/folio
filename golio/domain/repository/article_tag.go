@@ -12,6 +12,7 @@ type ArticleTag interface {
 	Update(ctx context.Context, tag *model.ArticleTag) error
 	Delete(ctx context.Context, id string) error
 	Find(ctx context.Context, sortType SortType, paging *Paging, search *ArticleTagSearch) ([]*model.ArticleTag, error)
+	FindByIDs(ctx context.Context, ids []string) ([]*model.ArticleTag, error)
 	CountTotal(ctx context.Context, search *ArticleTagSearch) (int32, error)
 }
 

@@ -17,8 +17,10 @@ type articleTag struct {
 	db *sqlx.DB
 }
 
-func NewArticleTag() repository.ArticleTag {
-	return &articleTag{}
+func NewArticleTag(db *sqlx.DB) repository.ArticleTag {
+	return &articleTag{
+		db: db,
+	}
 }
 
 func (a *articleTag) Delete(ctx context.Context, id string) error {
@@ -56,6 +58,23 @@ func (a *articleTag) Find(ctx context.Context, sortType repository.SortType, pag
 	return tags.ToModels(), nil
 }
 
+func (a *articleTag) FindByIDs(ctx context.Context, ids []string) ([]*model.ArticleTag, error) {
+	if len(ids) == 0 {
+		return []*model.ArticleTag{}, nil
+	}
+
+	sb := sqlbuilder.NewStruct(&postgres_dto.ArticleTag{}).SelectFrom(postgres.ArticleTagDB)
+	sb.Where(sb.In("id", postgres.ToInterfaces(ids)...))
+	sql, args := sb.BuildWithFlavor(sqlbuilder.PostgreSQL)
+
+	tags := postgres_dto.ArticleTags{}
+
+	if err := a.db.SelectContext(ctx, &tags, sql, args...); err != nil {
+		return nil, fmt.Errorf("failed find by ids article tags. err: %w", err)
+	}
+	return tags.ToModels(), nil
+}
+
 func (a *articleTag) Get(ctx context.Context, id string) (*model.ArticleTag, error) {
 	sb := sqlbuilder.NewStruct(&postgres_dto.ArticleTag{}).SelectFrom(postgres.ArticleTagDB)
 	sql, args := sb.Where(sb.Equal("id", id)).BuildWithFlavor(sqlbuilder.PostgreSQL)
@@ -65,10 +84,7 @@ func (a *articleTag) Get(ctx context.Context, id string) (*model.ArticleTag, err
 		return nil, fmt.Errorf("failed get article tags. id: %s, err: %s", id, err)
 	}
 
-	return &model.ArticleTag{
-		ID:   id,
-		Name: articleTag.Name,
-	}, nil
+	return articleTag.ToModel(), nil
 }
 
 func (a *articleTag) Insert(ctx context.Context, tag *model.ArticleTag) error {
