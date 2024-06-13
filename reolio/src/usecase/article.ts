@@ -9,6 +9,13 @@ export interface ArticleUsecase {
   ): Promise<FindArticleSummariesOutput>;
   AsistantBodyByAI(articleID: string, prompt: string): Promise<string>; // body
   GenerateArtixleByAI(prompt: string): Promise<string>; // articleID
+  InsertArticle(title: string, body: string, tagIds: string[]): Promise<string>;
+  UpdateArticle(
+    articleID: string,
+    title: string,
+    body: string,
+    tagIds: string[],
+  ): Promise<string>;
 }
 
 export interface FindArticleSummariesOutput {
@@ -27,6 +34,22 @@ class article implements ArticleUsecase {
 
   constructor(articleRepo: ArticleRepository) {
     this.articleRepo = articleRepo;
+  }
+  async InsertArticle(
+    title: string,
+    body: string,
+    tagIds: string[],
+  ): Promise<string> {
+    return await this.articleRepo.InsertArticle(title, body, tagIds);
+  }
+
+  async UpdateArticle(
+    articleID: string,
+    title: string,
+    body: string,
+    tagIds: string[],
+  ): Promise<string> {
+    return await this.articleRepo.UpdateArticle(articleID, title, body, tagIds);
   }
 
   async AsistantBodyByAI(articleID: string, prompt: string): Promise<string> {

@@ -1,7 +1,6 @@
-import { createArticle } from "@/api/api";
 import CreateArticleTemplate from "@/components/templates/articles/create";
 import { useToast } from "@/components/ui/use-toast";
-import { AuthError } from "@/error/error";
+import { handleError } from "@/error/pageErrorHandle";
 import { ArticleUsecase } from "@/usecase/article";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -23,22 +22,18 @@ export default function CreateArticle(props: CreateArticleProps) {
 
   const handlePost = async () => {
     try {
-      const output = await createArticle(title, body === undefined ? "" : body);
-      if (output.type === "error") {
-        toast({
-          title: "ログインし直してください",
-          description: output.message,
-        });
-        navigate("/login");
-        return;
-      }
-      toast({
-        title: "Success",
-        description: "posted your article!",
-      });
-      navigate(`/articles/edit/${output.id}`);
+      const articleId = await articleUsecase.InsertArticle(
+        title,
+        body === undefined ? "" : body,
+        [],
+      ); // TODO tagIDs
+      navigate(`/articles/edit/${articleId}`);
     } catch (err) {
-      console.error("failed create article", err);
+      const resp = handleError(err);
+      toast(resp.toast);
+      if (resp.navigationPath) {
+        navigate(resp.navigationPath);
+      }
     }
   };
 
@@ -59,19 +54,11 @@ export default function CreateArticle(props: CreateArticleProps) {
       navigate(`/articles/${output}`);
       return;
     } catch (err) {
-      if (err instanceof AuthError) {
-        console.error(err);
-        toast({
-          title: "please login again",
-          description: err.message,
-        });
-        navigate("/login");
-        return;
+      const resp = handleError(err);
+      toast(resp.toast);
+      if (resp.navigationPath) {
+        navigate(resp.navigationPath);
       }
-      toast({
-        title: "internal error",
-        description: `${err}`,
-      });
     }
   };
 

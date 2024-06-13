@@ -7,12 +7,13 @@ import (
 
 	"github.com/sunjin110/folio/golio/domain/model"
 	"github.com/sunjin110/folio/golio/domain/repository"
+	"github.com/sunjin110/folio/golio/usecase/input"
 )
 
 type Article interface {
 	Get(ctx context.Context, id string) (*model.Article, error)
-	Insert(ctx context.Context, article *model.Article) (*model.Article, error)
-	Update(ctx context.Context, article *model.Article) error
+	Insert(ctx context.Context, input *input.ArticleInsert) (*model.Article, error)
+	Update(ctx context.Context, input *input.ArticleUpdate) error
 	Delete(ctx context.Context, id string) error
 	FindSummaries(ctx context.Context, offset int32, limit int32, titleSearchText *string, tags []string) (*FindArticleSummariesOutput, error)
 	AssistantBodyByAI(ctx context.Context, id string, orderToAI string) (*model.Article, error)
@@ -81,14 +82,39 @@ func (a *article) Get(ctx context.Context, id string) (*model.Article, error) {
 	return article, nil
 }
 
-func (a *article) Insert(ctx context.Context, article *model.Article) (*model.Article, error) {
+func (a *article) Insert(ctx context.Context, input *input.ArticleInsert) (*model.Article, error) {
+	tags, err := a.articleTagRepo.FindByIDs(ctx, input.TagIDs)
+	if err != nil {
+		return nil, fmt.Errorf("failed articleTagRepo.FindByIDs. err: %w", err)
+	}
+	article := model.NewArticle(input.Title, input.Body, "", tags, time.Now())
 	if err := a.articleRepo.Insert(ctx, article); err != nil {
 		return nil, fmt.Errorf("failed articleRepo.Insert: %w", err)
 	}
 	return article, nil
 }
 
-func (a *article) Update(ctx context.Context, article *model.Article) error {
+func (a *article) Update(ctx context.Context, input *input.ArticleUpdate) error {
+	tags, err := a.articleTagRepo.FindByIDs(ctx, input.TagIDs)
+	if err != nil {
+		return fmt.Errorf("failed articleTagRepo.FindByIDs. err: %w", err)
+	}
+
+	beforeArticle, err := a.articleRepo.Get(ctx, input.ID)
+	if err != nil {
+		return fmt.Errorf("failed get article. err: %w", err)
+	}
+
+	article := &model.Article{
+		ID:        input.ID,
+		Title:     input.Title,
+		Body:      input.Body,
+		Writer:    "",
+		Tags:      tags,
+		CreatedAt: beforeArticle.CreatedAt,
+		UpdatedAt: beforeArticle.UpdatedAt,
+	}
+
 	if err := a.articleRepo.Update(ctx, article); err != nil {
 		return fmt.Errorf("failed articleRepo.Update: %w", err)
 	}
@@ -115,7 +141,7 @@ func (a *article) GenerateArticleByAI(ctx context.Context, prompt string) (*mode
 		return nil, fmt.Errorf("fialed articleRepo.GenerateBodyByAI. err: %w", err)
 	}
 
-	article := model.NewArticle(prompt, body, "", time.Now())
+	article := model.NewArticle(prompt, body, "", nil, time.Now())
 
 	if err := a.articleRepo.Insert(ctx, article); err != nil {
 		return nil, fmt.Errorf("failed articleRepo.Insert. err: %w", err)

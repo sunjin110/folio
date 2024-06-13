@@ -739,8 +739,13 @@ components:
           type: string
         body:
           type: string
+        tag_ids:
+          items:
+            type: string
+          type: array
       required:
       - body
+      - tag_ids
       - title
       type: object
     _articles_post_200_response:

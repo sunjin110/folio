@@ -90,4 +90,47 @@ class article implements ArticleRepository {
     }
     return resp.articleId;
   }
+
+  async InsertArticle(
+    title: string,
+    body: string,
+    tagIds: string[],
+  ): Promise<string> {
+    let articleId = "";
+    try {
+      const resp = await this.golioApi.articlesPost({
+        articlesPostRequest: {
+          title: title,
+          body: body,
+          tagIds: tagIds,
+        },
+      });
+
+      articleId = resp.id;
+    } catch (err) {
+      handleError(err, "failed insert article");
+    }
+    return articleId;
+  }
+
+  async UpdateArticle(
+    articleId: string,
+    title: string,
+    body: string,
+    tagIds: string[],
+  ): Promise<string> {
+    try {
+      await this.golioApi.articlesArticleIdPut({
+        articleId: articleId,
+        articlesPostRequest: {
+          title: title,
+          body: body,
+          tagIds: tagIds,
+        },
+      });
+    } catch (err) {
+      handleError(err, "failed update article");
+    }
+    return articleId;
+  }
 }

@@ -17,7 +17,7 @@ type Article struct {
 	UpdatedAt time.Time
 }
 
-func NewArticle(title string, body string, writer string, createdAt time.Time) *Article {
+func NewArticle(title string, body string, writer string, tags []*ArticleTag, createdAt time.Time) *Article {
 	uu, err := uuid.NewRandom()
 	if err != nil {
 		// ほぼ発生しない

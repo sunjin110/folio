@@ -16,46 +16,55 @@ import { mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface ArticlesPost200Response
+ * @interface ArticleTag
  */
-export interface ArticlesPost200Response {
+export interface ArticleTag {
     /**
      * 
      * @type {string}
-     * @memberof ArticlesPost200Response
+     * @memberof ArticleTag
      */
     id: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ArticleTag
+     */
+    name: string;
 }
 
 /**
- * Check if a given object implements the ArticlesPost200Response interface.
+ * Check if a given object implements the ArticleTag interface.
  */
-export function instanceOfArticlesPost200Response(value: object): boolean {
+export function instanceOfArticleTag(value: object): boolean {
     if (!('id' in value)) return false;
+    if (!('name' in value)) return false;
     return true;
 }
 
-export function ArticlesPost200ResponseFromJSON(json: any): ArticlesPost200Response {
-    return ArticlesPost200ResponseFromJSONTyped(json, false);
+export function ArticleTagFromJSON(json: any): ArticleTag {
+    return ArticleTagFromJSONTyped(json, false);
 }
 
-export function ArticlesPost200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ArticlesPost200Response {
+export function ArticleTagFromJSONTyped(json: any, ignoreDiscriminator: boolean): ArticleTag {
     if (json == null) {
         return json;
     }
     return {
         
         'id': json['id'],
+        'name': json['name'],
     };
 }
 
-export function ArticlesPost200ResponseToJSON(value?: ArticlesPost200Response | null): any {
+export function ArticleTagToJSON(value?: ArticleTag | null): any {
     if (value == null) {
         return value;
     }
     return {
         
         'id': value['id'],
+        'name': value['name'],
     };
 }
 
