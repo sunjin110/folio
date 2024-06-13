@@ -182,17 +182,53 @@ func (g *golioAPIServicer) TranslationPost(ctx context.Context, req openapi.Tran
 }
 
 func (g *golioAPIServicer) ArticlesTagsGet(ctx context.Context, searchText string, offset int32, limit int32) (openapi.ImplResponse, error) {
-	panic("unimplemented")
+	var nameSearchText *string
+	if searchText != "" {
+		nameSearchText = &searchText
+	}
+
+	tags, err := g.articleUsecase.FindTags(ctx, offset, limit, nameSearchText)
+	if err != nil {
+		slog.ErrorContext(ctx, "failed find tags", "err", err)
+		return openapi.Response(http.StatusInternalServerError, "internal"), nil
+	}
+
+	return openapi.Response(http.StatusOK, openapi.ArticlesTagsGet200Response{
+		Tags: conv.ToArticleTags(tags),
+	}), nil
 }
 
 func (g *golioAPIServicer) ArticlesTagsPost(ctx context.Context, req openapi.ArticlesTagsPostRequest) (openapi.ImplResponse, error) {
-	panic("unimplemented")
+	articleTag := model.NewArticleTag(req.Name, time.Now())
+	if err := g.articleUsecase.InsertTag(ctx, articleTag); err != nil {
+		slog.ErrorContext(ctx, "failed insert tag", "err", err)
+		return openapi.Response(http.StatusInternalServerError, "internal"), nil
+	}
+	return openapi.Response(http.StatusOK, openapi.InsertArticleTagResponse{
+		Id: articleTag.ID,
+	}), nil
 }
 
 func (g *golioAPIServicer) ArticlesTagsTagIdDelete(ctx context.Context, tagID string) (openapi.ImplResponse, error) {
-	panic("unimplemented")
+	if err := g.articleUsecase.DeleteTag(ctx, tagID); err != nil {
+		slog.ErrorContext(ctx, "failed delete tag", "err", err)
+		return openapi.Response(http.StatusInternalServerError, "internal"), nil
+	}
+	return openapi.Response(http.StatusOK, openapi.DeleteArticleTagResponse{
+		Id: tagID,
+	}), nil
 }
 
-func (g *golioAPIServicer) ArticlesTagsTagIdPut(ctx context.Context, tagID string) (openapi.ImplResponse, error) {
-	panic("unimplemented")
+func (g *golioAPIServicer) ArticlesTagsTagIdPut(ctx context.Context, tagID string, req openapi.ArticlesTagsTagIdPutRequest) (openapi.ImplResponse, error) {
+	if err := g.articleUsecase.UpdateTag(ctx, &model.ArticleTag{
+		ID:          tagID,
+		Name:        req.Name,
+		UpdatedTime: time.Now(),
+	}); err != nil {
+		slog.ErrorContext(ctx, "failed article tag update", "err", err)
+		return openapi.Response(http.StatusInternalServerError, "internal"), nil
+	}
+	return openapi.Response(http.StatusOK, openapi.UpdateArticleTagResponse{
+		Id: tagID,
+	}), nil
 }

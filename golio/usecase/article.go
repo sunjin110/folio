@@ -17,6 +17,10 @@ type Article interface {
 	FindSummaries(ctx context.Context, offset int32, limit int32, titleSearchText *string) (*FindArticleSummariesOutput, error)
 	AssistantBodyByAI(ctx context.Context, id string, orderToAI string) (*model.Article, error)
 	GenerateArticleByAI(ctx context.Context, prompt string) (*model.Article, error)
+	FindTags(ctx context.Context, offset int32, limit int32, nameSearchText *string) ([]*model.ArticleTag, error)
+	InsertTag(ctx context.Context, tag *model.ArticleTag) error
+	UpdateTag(ctx context.Context, tag *model.ArticleTag) error
+	DeleteTag(ctx context.Context, tagID string) error
 }
 
 type FindArticleSummariesOutput struct {
@@ -25,14 +29,16 @@ type FindArticleSummariesOutput struct {
 }
 
 type article struct {
-	articleRepo   repository.Article
-	articleAIRepo repository.ArticleAI
+	articleRepo    repository.Article
+	articleAIRepo  repository.ArticleAI
+	articleTagRepo repository.ArticleTag
 }
 
-func NewArticle(articleRepo repository.Article, articleAIRepo repository.ArticleAI) Article {
+func NewArticle(articleRepo repository.Article, articleAIRepo repository.ArticleAI, articleTagRepo repository.ArticleTag) Article {
 	return &article{
-		articleRepo:   articleRepo,
-		articleAIRepo: articleAIRepo,
+		articleRepo:    articleRepo,
+		articleAIRepo:  articleAIRepo,
+		articleTagRepo: articleTagRepo,
 	}
 }
 
@@ -115,4 +121,38 @@ func (a *article) GenerateArticleByAI(ctx context.Context, prompt string) (*mode
 		return nil, fmt.Errorf("failed articleRepo.Insert. err: %w", err)
 	}
 	return article, nil
+}
+
+func (a *article) FindTags(ctx context.Context, offset int32, limit int32, nameSearchText *string) ([]*model.ArticleTag, error) {
+	tags, err := a.articleTagRepo.Find(ctx, repository.SortTypeAsc, &repository.Paging{
+		Offset: int(offset),
+		Limit:  int(limit),
+	}, &repository.ArticleTagSearch{
+		Name: nameSearchText,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed articleTagRepo.Find. err: %w", err)
+	}
+	return tags, nil
+}
+
+func (a *article) InsertTag(ctx context.Context, tag *model.ArticleTag) error {
+	if err := a.articleTagRepo.Insert(ctx, tag); err != nil {
+		return fmt.Errorf("failed articleTagRepo.Insert. err: %w", err)
+	}
+	return nil
+}
+
+func (a *article) UpdateTag(ctx context.Context, tag *model.ArticleTag) error {
+	if err := a.articleTagRepo.Update(ctx, tag); err != nil {
+		return fmt.Errorf("failed articleTagRepo.Update. err: %w", err)
+	}
+	return nil
+}
+
+func (a *article) DeleteTag(ctx context.Context, tagID string) error {
+	if err := a.articleTagRepo.Delete(ctx, tagID); err != nil {
+		return fmt.Errorf("failed articleTagRepo.Delete. err: %w", err)
+	}
+	return nil
 }

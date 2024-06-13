@@ -13,15 +13,15 @@ package openapi
 
 
 
-type HelloGet200Response struct {
+type InsertArticleTagResponse struct {
 
-	Hello string `json:"hello"`
+	Id string `json:"id"`
 }
 
-// AssertHelloGet200ResponseRequired checks if the required fields are not zero-ed
-func AssertHelloGet200ResponseRequired(obj HelloGet200Response) error {
+// AssertInsertArticleTagResponseRequired checks if the required fields are not zero-ed
+func AssertInsertArticleTagResponseRequired(obj InsertArticleTagResponse) error {
 	elements := map[string]interface{}{
-		"hello": obj.Hello,
+		"id": obj.Id,
 	}
 	for name, el := range elements {
 		if isZero := IsZeroValue(el); isZero {
@@ -32,7 +32,7 @@ func AssertHelloGet200ResponseRequired(obj HelloGet200Response) error {
 	return nil
 }
 
-// AssertHelloGet200ResponseConstraints checks if the values respects the defined constraints
-func AssertHelloGet200ResponseConstraints(obj HelloGet200Response) error {
+// AssertInsertArticleTagResponseConstraints checks if the values respects the defined constraints
+func AssertInsertArticleTagResponseConstraints(obj InsertArticleTagResponse) error {
 	return nil
 }

@@ -77,7 +77,7 @@ func GetHandler(ctx context.Context) (lambdaHandlerFunc func(ctx context.Context
 	sessionV2Repo := repository.NewSessionV2(dynamodb.NewClient[dynamodto.UserSessionV2](dynamoInnerClient), cfg.SessionDynamoDB.TableName)
 
 	authUsecase := usecase.NewAuth(googleOAuth2Repo, sessionV2Repo)
-	articleUsecase := usecase.NewArticle(articleRepo, articleAIRepo)
+	articleUsecase := usecase.NewArticle(articleRepo, articleAIRepo, articleTagRepo)
 	mediaUsecase := usecase.NewMedia(mediaRepo)
 
 	translateRepo := repository.NewTranslate(awsTranslateClient)
