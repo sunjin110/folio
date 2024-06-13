@@ -49,7 +49,7 @@ type GolioAPIServicer interface {
 	ArticlesArticleIdAiPut(context.Context, string, ArticlesArticleIdAiPutRequest) (ImplResponse, error)
 	ArticlesArticleIdGet(context.Context, string) (ImplResponse, error)
 	ArticlesArticleIdPut(context.Context, string, ArticlesPostRequest) (ImplResponse, error)
-	ArticlesGet(context.Context, int32, int32, string) (ImplResponse, error)
+	ArticlesGet(context.Context, int32, int32, string, []string) (ImplResponse, error)
 	ArticlesPost(context.Context, ArticlesPostRequest) (ImplResponse, error)
 	ArticlesTagsGet(context.Context, string, int32, int32) (ImplResponse, error)
 	ArticlesTagsPost(context.Context, ArticlesTagsPostRequest) (ImplResponse, error)

@@ -19,3 +19,7 @@ for import in "${NEW_IMPORTS[@]}"; do
     $import" $FILE
     fi
 done
+
+# 不要なreflectパッケージの参照を削除
+sed -i '' '/"reflect"/d' "generate/schema/http/go/openapi/api_golio.go"
+sed -i '' '/"reflect"/d' "generate/schema/http/go/openapi/api.go"

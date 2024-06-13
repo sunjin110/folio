@@ -14,7 +14,7 @@ type Article interface {
 	Insert(ctx context.Context, article *model.Article) (*model.Article, error)
 	Update(ctx context.Context, article *model.Article) error
 	Delete(ctx context.Context, id string) error
-	FindSummaries(ctx context.Context, offset int32, limit int32, titleSearchText *string) (*FindArticleSummariesOutput, error)
+	FindSummaries(ctx context.Context, offset int32, limit int32, titleSearchText *string, tags []string) (*FindArticleSummariesOutput, error)
 	AssistantBodyByAI(ctx context.Context, id string, orderToAI string) (*model.Article, error)
 	GenerateArticleByAI(ctx context.Context, prompt string) (*model.Article, error)
 	FindTags(ctx context.Context, offset int32, limit int32, nameSearchText *string) ([]*model.ArticleTag, error)
@@ -49,11 +49,11 @@ func (a *article) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-func (a *article) FindSummaries(ctx context.Context, offset int32, limit int32, titleSearchText *string) (*FindArticleSummariesOutput, error) {
+func (a *article) FindSummaries(ctx context.Context, offset int32, limit int32, titleSearchText *string, tags []string) (*FindArticleSummariesOutput, error) {
 	search := &repository.ArticleSearch{
 		Title: titleSearchText,
+		Tags:  tags,
 	}
-
 	summaries, err := a.articleRepo.FindSummary(ctx, repository.SortTypeDesc, &repository.Paging{
 		Offset: int(offset),
 		Limit:  int(limit),

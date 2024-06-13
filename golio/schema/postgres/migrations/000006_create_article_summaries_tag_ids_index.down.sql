@@ -1,0 +1,1 @@
+drop index idx_tag_ids_article_summaries;

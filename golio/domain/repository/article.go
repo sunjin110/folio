@@ -17,4 +17,5 @@ type Article interface {
 
 type ArticleSearch struct {
 	Title *string
+	Tags  []string // AND検索
 }
