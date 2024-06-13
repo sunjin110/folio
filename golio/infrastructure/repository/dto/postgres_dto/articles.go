@@ -28,7 +28,9 @@ func (summaries ArticleSummaries) ToSummariesModel(tagMap map[string]*model.Arti
 func (summaries ArticleSummaries) GetTagIDs() []string {
 	tagMap := map[string]struct{}{}
 	for _, summary := range summaries {
-		tagMap[summary.ID] = struct{}{}
+		for _, tag := range summary.TagIDs {
+			tagMap[tag] = struct{}{}
+		}
 	}
 
 	tags := make([]string, 0, len(tagMap))

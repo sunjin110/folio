@@ -3,6 +3,7 @@ module github.com/sunjin110/folio/golio
 go 1.22.2
 
 require (
+	github.com/DATA-DOG/go-sqlmock v1.5.2
 	github.com/aws/aws-lambda-go v1.47.0
 	github.com/aws/aws-sdk-go-v2 v1.27.2
 	github.com/aws/aws-sdk-go-v2/config v1.27.18
@@ -19,10 +20,12 @@ require (
 	github.com/huandu/go-sqlbuilder v1.27.3
 	github.com/jmoiron/sqlx v1.4.0
 	github.com/joho/godotenv v1.5.1
+	github.com/lib/pq v1.10.9
 	github.com/pkg/errors v0.9.1
 	github.com/rs/cors v1.11.0
 	github.com/sashabaranov/go-openai v1.24.1
 	github.com/smartystreets/goconvey v1.8.1
+	go.uber.org/mock v0.4.0
 	golang.org/x/net v0.23.0
 	golang.org/x/sync v0.7.0
 	golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2
@@ -60,7 +63,6 @@ require (
 	github.com/huandu/xstrings v1.4.0 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/jtolds/gls v4.20.0+incompatible // indirect
-	github.com/lib/pq v1.10.9 // indirect
 	github.com/smarty/assertions v1.15.0 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	go.uber.org/atomic v1.7.0 // indirect

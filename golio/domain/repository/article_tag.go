@@ -6,6 +6,7 @@ import (
 	"github.com/sunjin110/folio/golio/domain/model"
 )
 
+//go:generate mockgen -source ./article_tag.go -destination ./mock_repo/article_tag.go -package mock_repo
 type ArticleTag interface {
 	Get(ctx context.Context, id string) (*model.ArticleTag, error)
 	Insert(ctx context.Context, tag *model.ArticleTag) error

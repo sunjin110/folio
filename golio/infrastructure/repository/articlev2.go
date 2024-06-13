@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"strings"
 
 	_ "embed"
 
@@ -89,9 +90,19 @@ func (a *articleV2) FindSummary(ctx context.Context, sortType repository.SortTyp
 	sb := sqlbuilder.NewSelectBuilder()
 	sb.Select("*").From("article_summaries")
 
-	if search != nil && search.Title != nil {
-		// TODO indexが利用できないため将来的にPGroongaを利用する
-		sb.Where(sb.Like("title", "%"+*search.Title+"%"))
+	if search != nil {
+		if search.Title != nil {
+			// TODO indexが利用できないため将来的にPGroongaを利用する
+			sb.Where(sb.Like("title", "%"+*search.Title+"%"))
+		}
+
+		if len(search.Tags) > 0 {
+			args := make([]string, 0, len(search.Tags))
+			for _, tag := range search.Tags {
+				args = append(args, sb.Cond.Args.Add(tag))
+			}
+			sb.Where(fmt.Sprintf("tag_ids @> array[%s]", strings.Join(args, ",")))
+		}
 	}
 
 	sb.Limit(paging.Limit).Offset(paging.Offset).OrderBy("created_at")

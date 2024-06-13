@@ -1,0 +1,1 @@
+create index idx_tag_ids_article_summaries on article_summaries using gin (tag_ids);

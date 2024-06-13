@@ -15,10 +15,8 @@ package openapi
 
 type TranslationPostRequest struct {
 
-	// 元の言語
 	SourceLanguageCode LanguageCode `json:"source_language_code"`
 
-	// 元の言語
 	TargetLanguageCode LanguageCode `json:"target_language_code"`
 
 	// 翻訳するテキスト

@@ -52,7 +52,7 @@ func (g *golioAPIServicer) ArticlesArticleIdGet(ctx context.Context, articleID s
 	}), nil
 }
 
-func (g *golioAPIServicer) ArticlesGet(ctx context.Context, offset int32, limit int32, titleSearchTextQueryParam string) (openapi.ImplResponse, error) {
+func (g *golioAPIServicer) ArticlesGet(ctx context.Context, offset int32, limit int32, titleSearchTextQueryParam string, tags []string) (openapi.ImplResponse, error) {
 	if limit <= 0 {
 		limit = 10
 	}
@@ -65,7 +65,7 @@ func (g *golioAPIServicer) ArticlesGet(ctx context.Context, offset int32, limit 
 		titleSearchText = &titleSearchTextQueryParam
 	}
 
-	output, err := g.articleUsecase.FindSummaries(ctx, offset, limit, titleSearchText)
+	output, err := g.articleUsecase.FindSummaries(ctx, offset, limit, titleSearchText, tags)
 	if err != nil {
 		slog.ErrorContext(ctx, "failed articleUsecase.FindSummaries", "offset", offset, "limit", limit, "err", err)
 		return openapi.Response(http.StatusInternalServerError, "internal"), nil
