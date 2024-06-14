@@ -16,30 +16,30 @@ import { mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface ArticlesPost200Response
+ * @interface DeleteArticleTagResponse
  */
-export interface ArticlesPost200Response {
+export interface DeleteArticleTagResponse {
     /**
      * 
      * @type {string}
-     * @memberof ArticlesPost200Response
+     * @memberof DeleteArticleTagResponse
      */
     id: string;
 }
 
 /**
- * Check if a given object implements the ArticlesPost200Response interface.
+ * Check if a given object implements the DeleteArticleTagResponse interface.
  */
-export function instanceOfArticlesPost200Response(value: object): boolean {
+export function instanceOfDeleteArticleTagResponse(value: object): boolean {
     if (!('id' in value)) return false;
     return true;
 }
 
-export function ArticlesPost200ResponseFromJSON(json: any): ArticlesPost200Response {
-    return ArticlesPost200ResponseFromJSONTyped(json, false);
+export function DeleteArticleTagResponseFromJSON(json: any): DeleteArticleTagResponse {
+    return DeleteArticleTagResponseFromJSONTyped(json, false);
 }
 
-export function ArticlesPost200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ArticlesPost200Response {
+export function DeleteArticleTagResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): DeleteArticleTagResponse {
     if (json == null) {
         return json;
     }
@@ -49,7 +49,7 @@ export function ArticlesPost200ResponseFromJSONTyped(json: any, ignoreDiscrimina
     };
 }
 
-export function ArticlesPost200ResponseToJSON(value?: ArticlesPost200Response | null): any {
+export function DeleteArticleTagResponseToJSON(value?: DeleteArticleTagResponse | null): any {
     if (value == null) {
         return value;
     }

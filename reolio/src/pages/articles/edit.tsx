@@ -1,4 +1,4 @@
-import { getArticleById, updateArticle } from "@/api/api";
+import { getArticleById } from "@/api/api";
 import { Navigation } from "@/components/organisms/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,6 +10,7 @@ import MDEditor from "@uiw/react-md-editor";
 import { getRandomEmoji } from "@/domain/service/joke";
 import { ArticleUsecase } from "@/usecase/article";
 import { AuthError, InternalError } from "@/error/error";
+import { handleError } from "@/error/pageErrorHandle";
 
 export interface ArticleEditProps {
   articleUsecase: ArticleUsecase;
@@ -68,28 +69,26 @@ export default function EditArticle(props: ArticleEditProps) {
         return;
       }
 
-      const output = await updateArticle(
+      await articleUsecase.UpdateArticle(
         articleId,
         title,
         body === undefined ? "" : body,
+        [],
       );
-      if (output.type === "error") {
-        toast({
-          title: "ログインし直してください",
-          description: output.message,
-        });
-        navigate("/login");
-        return;
-      }
+
       const emoji = getRandomEmoji();
       toast({
         title: `${emoji} Success ${emoji}`,
         description: "updated your article!",
       });
     } catch (err) {
-      console.error("failed cedit article", err);
+      const resp = handleError(err);
+      toast(resp.toast);
+      if (resp.navigationPath) {
+        navigate(resp.navigationPath);
+      }
     }
-  }, [articleId, title, body, toast, navigate]);
+  }, [articleId, title, body, toast, navigate, articleUsecase]);
 
   const handleGenerateBody = useCallback(async () => {
     if (!articleId) {

@@ -23,65 +23,51 @@ import {
 /**
  * 
  * @export
- * @interface ArticlesArticleIdGet200Response
+ * @interface Article
  */
-export interface ArticlesArticleIdGet200Response {
+export interface Article {
     /**
      * 
      * @type {string}
-     * @memberof ArticlesArticleIdGet200Response
+     * @memberof Article
      */
     id: string;
     /**
      * 
      * @type {string}
-     * @memberof ArticlesArticleIdGet200Response
+     * @memberof Article
      */
     title: string;
     /**
      * 
      * @type {string}
-     * @memberof ArticlesArticleIdGet200Response
+     * @memberof Article
      */
-    body: string;
-    /**
-     * 
-     * @type {Date}
-     * @memberof ArticlesArticleIdGet200Response
-     */
-    createdAt: Date;
-    /**
-     * 
-     * @type {string}
-     * @memberof ArticlesArticleIdGet200Response
-     */
-    userId: string;
+    createdAt: string;
     /**
      * 
      * @type {Array<ArticleTag>}
-     * @memberof ArticlesArticleIdGet200Response
+     * @memberof Article
      */
     tags: Array<ArticleTag>;
 }
 
 /**
- * Check if a given object implements the ArticlesArticleIdGet200Response interface.
+ * Check if a given object implements the Article interface.
  */
-export function instanceOfArticlesArticleIdGet200Response(value: object): boolean {
+export function instanceOfArticle(value: object): boolean {
     if (!('id' in value)) return false;
     if (!('title' in value)) return false;
-    if (!('body' in value)) return false;
     if (!('createdAt' in value)) return false;
-    if (!('userId' in value)) return false;
     if (!('tags' in value)) return false;
     return true;
 }
 
-export function ArticlesArticleIdGet200ResponseFromJSON(json: any): ArticlesArticleIdGet200Response {
-    return ArticlesArticleIdGet200ResponseFromJSONTyped(json, false);
+export function ArticleFromJSON(json: any): Article {
+    return ArticleFromJSONTyped(json, false);
 }
 
-export function ArticlesArticleIdGet200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ArticlesArticleIdGet200Response {
+export function ArticleFromJSONTyped(json: any, ignoreDiscriminator: boolean): Article {
     if (json == null) {
         return json;
     }
@@ -89,14 +75,12 @@ export function ArticlesArticleIdGet200ResponseFromJSONTyped(json: any, ignoreDi
         
         'id': json['id'],
         'title': json['title'],
-        'body': json['body'],
-        'createdAt': (new Date(json['created_at'])),
-        'userId': json['user_id'],
+        'createdAt': json['created_at'],
         'tags': ((json['tags'] as Array<any>).map(ArticleTagFromJSON)),
     };
 }
 
-export function ArticlesArticleIdGet200ResponseToJSON(value?: ArticlesArticleIdGet200Response | null): any {
+export function ArticleToJSON(value?: Article | null): any {
     if (value == null) {
         return value;
     }
@@ -104,9 +88,7 @@ export function ArticlesArticleIdGet200ResponseToJSON(value?: ArticlesArticleIdG
         
         'id': value['id'],
         'title': value['title'],
-        'body': value['body'],
-        'created_at': ((value['createdAt']).toISOString()),
-        'user_id': value['userId'],
+        'created_at': value['createdAt'],
         'tags': ((value['tags'] as Array<any>).map(ArticleTagToJSON)),
     };
 }

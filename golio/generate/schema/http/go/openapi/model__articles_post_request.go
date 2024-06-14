@@ -18,6 +18,8 @@ type ArticlesPostRequest struct {
 	Title string `json:"title"`
 
 	Body string `json:"body"`
+
+	TagIds []string `json:"tag_ids"`
 }
 
 // AssertArticlesPostRequestRequired checks if the required fields are not zero-ed
@@ -25,6 +27,7 @@ func AssertArticlesPostRequestRequired(obj ArticlesPostRequest) error {
 	elements := map[string]interface{}{
 		"title": obj.Title,
 		"body": obj.Body,
+		"tag_ids": obj.TagIds,
 	}
 	for name, el := range elements {
 		if isZero := IsZeroValue(el); isZero {

@@ -11,6 +11,7 @@ import (
 	"github.com/sunjin110/folio/golio/generate/schema/http/go/openapi"
 	"github.com/sunjin110/folio/golio/presentation/http/conv"
 	"github.com/sunjin110/folio/golio/usecase"
+	"github.com/sunjin110/folio/golio/usecase/input"
 )
 
 type golioAPIServicer struct {
@@ -74,7 +75,11 @@ func (g *golioAPIServicer) ArticlesGet(ctx context.Context, offset int32, limit 
 }
 
 func (g *golioAPIServicer) ArticlesPost(ctx context.Context, req openapi.ArticlesPostRequest) (openapi.ImplResponse, error) {
-	inserted, err := g.articleUsecase.Insert(ctx, model.NewArticle(req.Title, req.Body, "", time.Now()))
+	inserted, err := g.articleUsecase.Insert(ctx, &input.ArticleInsert{
+		Title:  req.Title,
+		Body:   req.Body,
+		TagIDs: req.TagIds,
+	})
 	if err != nil {
 		slog.ErrorContext(ctx, "failed article insert", "err", err)
 		return openapi.Response(http.StatusInternalServerError, "internal"), nil
@@ -85,11 +90,11 @@ func (g *golioAPIServicer) ArticlesPost(ctx context.Context, req openapi.Article
 }
 
 func (g *golioAPIServicer) ArticlesArticleIdPut(ctx context.Context, articleID string, req openapi.ArticlesPostRequest) (openapi.ImplResponse, error) {
-	if err := g.articleUsecase.Update(ctx, &model.Article{
-		ID:        articleID,
-		Title:     req.Title,
-		Body:      req.Body,
-		UpdatedAt: time.Now(),
+	if err := g.articleUsecase.Update(ctx, &input.ArticleUpdate{
+		ID:     articleID,
+		Title:  req.Title,
+		Body:   req.Body,
+		TagIDs: req.TagIds,
 	}); err != nil {
 		slog.ErrorContext(ctx, "failed article update", "err", err, "articleID", articleID, "req", req)
 		return openapi.Response(http.StatusInternalServerError, "internal"), nil

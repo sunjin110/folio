@@ -54,6 +54,12 @@ services:
     image: amazon/aws-cli
     depends_on:
       - s3
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 3s
+        max_attempts: 0
+        window: 120s
     environment:
       - AWS_ACCESS_KEY_ID=test
       - AWS_SECRET_ACCESS_KEY=test
