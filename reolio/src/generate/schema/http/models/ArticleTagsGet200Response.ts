@@ -23,73 +23,50 @@ import {
 /**
  *
  * @export
- * @interface Article
+ * @interface ArticleTagsGet200Response
  */
-export interface Article {
-  /**
-   *
-   * @type {string}
-   * @memberof Article
-   */
-  id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Article
-   */
-  title: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Article
-   */
-  createdAt: string;
+export interface ArticleTagsGet200Response {
   /**
    *
    * @type {Array<ArticleTag>}
-   * @memberof Article
+   * @memberof ArticleTagsGet200Response
    */
   tags: Array<ArticleTag>;
 }
 
 /**
- * Check if a given object implements the Article interface.
+ * Check if a given object implements the ArticleTagsGet200Response interface.
  */
-export function instanceOfArticle(value: object): boolean {
-  if (!("id" in value)) return false;
-  if (!("title" in value)) return false;
-  if (!("createdAt" in value)) return false;
+export function instanceOfArticleTagsGet200Response(value: object): boolean {
   if (!("tags" in value)) return false;
   return true;
 }
 
-export function ArticleFromJSON(json: any): Article {
-  return ArticleFromJSONTyped(json, false);
+export function ArticleTagsGet200ResponseFromJSON(
+  json: any,
+): ArticleTagsGet200Response {
+  return ArticleTagsGet200ResponseFromJSONTyped(json, false);
 }
 
-export function ArticleFromJSONTyped(
+export function ArticleTagsGet200ResponseFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean,
-): Article {
+): ArticleTagsGet200Response {
   if (json == null) {
     return json;
   }
   return {
-    id: json["id"],
-    title: json["title"],
-    createdAt: json["created_at"],
     tags: (json["tags"] as Array<any>).map(ArticleTagFromJSON),
   };
 }
 
-export function ArticleToJSON(value?: Article | null): any {
+export function ArticleTagsGet200ResponseToJSON(
+  value?: ArticleTagsGet200Response | null,
+): any {
   if (value == null) {
     return value;
   }
   return {
-    id: value["id"],
-    title: value["title"],
-    created_at: value["createdAt"],
     tags: (value["tags"] as Array<any>).map(ArticleTagToJSON),
   };
 }

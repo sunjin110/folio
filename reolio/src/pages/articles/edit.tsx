@@ -1,4 +1,3 @@
-import { getArticleById } from "@/api/api";
 import { Navigation } from "@/components/organisms/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,6 +10,12 @@ import { getRandomEmoji } from "@/domain/service/joke";
 import { ArticleUsecase } from "@/usecase/article";
 import { AuthError, InternalError } from "@/error/error";
 import { handleError } from "@/error/pageErrorHandle";
+import {
+  ArticleTagEdit,
+  ArticleTagEditProps,
+} from "@/components/organisms/articleTagEdit";
+import { ArticleTag } from "@/domain/model/article";
+import { useDelayState } from "@/hooks/useDelayState";
 
 export interface ArticleEditProps {
   articleUsecase: ArticleUsecase;
@@ -28,25 +33,57 @@ export default function EditArticle(props: ArticleEditProps) {
 
   const [prompt, setPrompt] = useState<string>("");
 
+  const [candidateTagMap, setCandidateTagMap] = useState<
+    Map<string, ArticleTag>
+  >(new Map());
+
+  const [selectedTagMap, setSelectedTagMap] = useState<Map<string, ArticleTag>>(
+    new Map(),
+  );
+  const [selectedNewTagNameMap, setSelectedNewTagNameMap] = useState<
+    Map<string, boolean>
+  >(new Map());
+
+  const [tagSearchText, setTagSearchText] = useState("");
+
+  const [deplayTagSearchText] = useDelayState(tagSearchText, 700);
+
+  const articleTagEditProps: ArticleTagEditProps = {
+    candidateTagMap,
+    searchText: tagSearchText,
+    setSearchText: setTagSearchText,
+    selectedTagMap,
+    setSelectedTagMap,
+    selectedNewTagNameMap,
+    setSelectedNewTagNameMap,
+  };
+
   useEffect(() => {
     const fetch = async (id: string) => {
       try {
-        const output = await getArticleById(id);
-        if (output.type === "error") {
-          toast({ title: "please login", description: output.message });
-          navigate("/login");
-          return;
-        }
-        setTitle(output.article.title);
-        setBody(output.article.body);
+        const article = await articleUsecase.Get(id);
+        setTitle(article.title);
+        setBody(article.body);
+        setSelectedTagMap((prevMap) => {
+          const newMap = new Map(prevMap);
+          for (let tag of article.tags) {
+            newMap.set(tag.id, tag);
+          }
+          return newMap;
+        });
       } catch (err) {
-        console.error("Error fetching article", err);
+        const resp = handleError(err);
+        toast(resp.toast);
+        if (resp.navigationPath) {
+          navigate(resp.navigationPath);
+        }
       }
     };
+
     if (articleId) {
       fetch(articleId);
     }
-  }, [articleId, navigate, toast]);
+  }, [articleId, navigate, toast, articleUsecase]);
 
   const handleEdit = useCallback(async () => {
     try {
@@ -69,11 +106,39 @@ export default function EditArticle(props: ArticleEditProps) {
         return;
       }
 
+      // 先に存在しないtagを追加する
+      const tagIDs: string[] = [];
+      try {
+        const itr = selectedNewTagNameMap.entries();
+        while (true) {
+          const e = itr.next();
+          if (e.done) {
+            break;
+          }
+          const [tagName, isSelected] = e.value;
+          if (!isSelected) {
+            continue;
+          }
+          const tagID = await articleUsecase.InsertTag(tagName);
+          tagIDs.push(tagID);
+        }
+      } catch (err) {
+        const resp = handleError(err);
+        toast(resp.toast);
+        if (resp.navigationPath) {
+          navigate(resp.navigationPath);
+        }
+      }
+
+      Array.from(selectedTagMap).forEach((keyValue) => {
+        tagIDs.push(keyValue[1].id);
+      });
+
       await articleUsecase.UpdateArticle(
         articleId,
         title,
         body === undefined ? "" : body,
-        [],
+        tagIDs,
       );
 
       const emoji = getRandomEmoji();
@@ -88,7 +153,16 @@ export default function EditArticle(props: ArticleEditProps) {
         navigate(resp.navigationPath);
       }
     }
-  }, [articleId, title, body, toast, navigate, articleUsecase]);
+  }, [
+    articleId,
+    title,
+    body,
+    toast,
+    navigate,
+    articleUsecase,
+    selectedNewTagNameMap,
+    selectedTagMap,
+  ]);
 
   const handleGenerateBody = useCallback(async () => {
     if (!articleId) {
@@ -154,6 +228,39 @@ export default function EditArticle(props: ArticleEditProps) {
     };
   }, [handleEdit]);
 
+  useEffect(() => {
+    if (!deplayTagSearchText) {
+      setCandidateTagMap(new Map());
+      return;
+    }
+
+    const fetch = async (tagSearchText: string) => {
+      try {
+        const articleTags = await articleUsecase.FindTags(tagSearchText, 0, 10);
+
+        const newCandidateTagMap = new Map<string, ArticleTag>();
+        for (let articleTag of articleTags) {
+          newCandidateTagMap.set(articleTag.id, articleTag);
+        }
+        setCandidateTagMap(newCandidateTagMap);
+      } catch (err) {
+        const resp = handleError(err);
+        toast(resp.toast);
+        if (resp.navigationPath) {
+          navigate(resp.navigationPath);
+        }
+      }
+    };
+
+    fetch(deplayTagSearchText);
+  }, [
+    deplayTagSearchText,
+    toast,
+    navigate,
+    articleUsecase,
+    setCandidateTagMap,
+  ]);
+
   return (
     <Navigation title="Articles" sidebarPosition="articles">
       <div className="flex flex-col h-full p-2">
@@ -187,6 +294,20 @@ export default function EditArticle(props: ArticleEditProps) {
             >
               Generate!
             </Button>
+          </div>
+          <div className="pb-2">
+            <Label htmlFor="">Tags</Label>
+            <ArticleTagEdit
+              candidateTagMap={articleTagEditProps.candidateTagMap}
+              searchText={articleTagEditProps.searchText}
+              setSearchText={articleTagEditProps.setSearchText}
+              selectedTagMap={articleTagEditProps.selectedTagMap}
+              setSelectedTagMap={articleTagEditProps.setSelectedTagMap}
+              selectedNewTagNameMap={articleTagEditProps.selectedNewTagNameMap}
+              setSelectedNewTagNameMap={
+                articleTagEditProps.setSelectedNewTagNameMap
+              }
+            />
           </div>
           <div className="flex flex-col flex-grow">
             <Label htmlFor="body">Body</Label>

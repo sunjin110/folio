@@ -1,4 +1,4 @@
-import { ArticleSummary } from "../model/article";
+import { Article, ArticleSummary } from "../model/article";
 
 export interface ArticleRepository {
   FindSummaries(
@@ -6,6 +6,7 @@ export interface ArticleRepository {
     limit?: number,
     searchTitleText?: string,
   ): Promise<GetArticleSummariesOutput>;
+  Get(id: string): Promise<Article>;
   AsistantBodyByAI(articleID: string, prompt: string): Promise<string>;
   GenerateArticleByAI(prompt: string): Promise<string>; // 記事ID
 

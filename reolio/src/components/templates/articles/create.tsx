@@ -1,10 +1,15 @@
+import {
+  ArticleTagEdit,
+  ArticleTagEditProps,
+} from "@/components/organisms/articleTagEdit";
 import { Navigation } from "@/components/organisms/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import MDEditor from "@uiw/react-md-editor";
-import { BrainCircuit, Link } from "lucide-react";
+import { BrainCircuit } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
+import { Link } from "react-router-dom";
 
 interface CreateArticleProps {
   aiPrompt: string;
@@ -14,8 +19,8 @@ interface CreateArticleProps {
   body: string | undefined;
   setBody: Dispatch<SetStateAction<string | undefined>>;
   handlePost: () => Promise<void>;
-
   handleGenerateAI: () => Promise<void>;
+  articleTagEditProps: ArticleTagEditProps;
 }
 
 export default function CreateArticleTemplate(props: CreateArticleProps) {
@@ -28,6 +33,7 @@ export default function CreateArticleTemplate(props: CreateArticleProps) {
     aiPrompt,
     setAiPrompt,
     handleGenerateAI,
+    articleTagEditProps,
   } = props;
 
   return (
@@ -63,6 +69,20 @@ export default function CreateArticleTemplate(props: CreateArticleProps) {
               required
               value={title}
               onChange={(event) => setTitle(event.target.value)}
+            />
+          </div>
+          <div className="pb-2">
+            <Label htmlFor="">Tags</Label>
+            <ArticleTagEdit
+              candidateTagMap={articleTagEditProps.candidateTagMap}
+              searchText={articleTagEditProps.searchText}
+              setSearchText={articleTagEditProps.setSearchText}
+              selectedTagMap={articleTagEditProps.selectedTagMap}
+              setSelectedTagMap={articleTagEditProps.setSelectedTagMap}
+              selectedNewTagNameMap={articleTagEditProps.selectedNewTagNameMap}
+              setSelectedNewTagNameMap={
+                articleTagEditProps.setSelectedNewTagNameMap
+              }
             />
           </div>
           <div className="flex flex-col flex-grow">

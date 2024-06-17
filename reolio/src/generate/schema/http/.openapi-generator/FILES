@@ -3,6 +3,9 @@ apis/index.ts
 index.ts
 models/Article.ts
 models/ArticleTag.ts
+models/ArticleTagsGet200Response.ts
+models/ArticleTagsPostRequest.ts
+models/ArticleTagsTagIdPutRequest.ts
 models/ArticlesAiPost200Response.ts
 models/ArticlesAiPostRequest.ts
 models/ArticlesArticleIdAiPut200Response.ts
@@ -12,9 +15,6 @@ models/ArticlesGet200Response.ts
 models/ArticlesGet400Response.ts
 models/ArticlesPost200Response.ts
 models/ArticlesPostRequest.ts
-models/ArticlesTagsGet200Response.ts
-models/ArticlesTagsPostRequest.ts
-models/ArticlesTagsTagIdPutRequest.ts
 models/DeleteArticleTagResponse.ts
 models/HelloGet200Response.ts
 models/InsertArticleTagResponse.ts
