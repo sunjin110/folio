@@ -6,6 +6,9 @@ openapi/error.go
 openapi/helpers.go
 openapi/impl.go
 openapi/logger.go
+openapi/model__article_tags__tag_id__put_request.go
+openapi/model__article_tags_get_200_response.go
+openapi/model__article_tags_post_request.go
 openapi/model__articles__article_id__ai_put_200_response.go
 openapi/model__articles__article_id__ai_put_request.go
 openapi/model__articles__article_id__get_200_response.go
@@ -15,9 +18,6 @@ openapi/model__articles_get_200_response.go
 openapi/model__articles_get_400_response.go
 openapi/model__articles_post_200_response.go
 openapi/model__articles_post_request.go
-openapi/model__articles_tags__tag_id__put_request.go
-openapi/model__articles_tags_get_200_response.go
-openapi/model__articles_tags_post_request.go
 openapi/model__hello_get_200_response.go
 openapi/model__media__medium_id__get_200_response.go
 openapi/model__media_get_200_response.go

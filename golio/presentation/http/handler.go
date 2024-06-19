@@ -14,6 +14,8 @@ import (
 	"github.com/sunjin110/folio/golio/usecase/input"
 )
 
+type EmptyResponse struct{}
+
 type golioAPIServicer struct {
 	articleUsecase usecase.Article
 	mediaUsecase   usecase.Media
@@ -99,7 +101,7 @@ func (g *golioAPIServicer) ArticlesArticleIdPut(ctx context.Context, articleID s
 		slog.ErrorContext(ctx, "failed article update", "err", err, "articleID", articleID, "req", req)
 		return openapi.Response(http.StatusInternalServerError, "internal"), nil
 	}
-	return openapi.Response(http.StatusOK, nil), nil
+	return openapi.Response(http.StatusOK, EmptyResponse{}), nil
 }
 
 func (g *golioAPIServicer) ArticlesArticleIdAiPut(ctx context.Context, articleID string, req openapi.ArticlesArticleIdAiPutRequest) (openapi.ImplResponse, error) {
@@ -186,7 +188,7 @@ func (g *golioAPIServicer) TranslationPost(ctx context.Context, req openapi.Tran
 	}), nil
 }
 
-func (g *golioAPIServicer) ArticlesTagsGet(ctx context.Context, searchText string, offset int32, limit int32) (openapi.ImplResponse, error) {
+func (g *golioAPIServicer) ArticleTagsGet(ctx context.Context, searchText string, offset int32, limit int32) (openapi.ImplResponse, error) {
 	var nameSearchText *string
 	if searchText != "" {
 		nameSearchText = &searchText
@@ -198,12 +200,12 @@ func (g *golioAPIServicer) ArticlesTagsGet(ctx context.Context, searchText strin
 		return openapi.Response(http.StatusInternalServerError, "internal"), nil
 	}
 
-	return openapi.Response(http.StatusOK, openapi.ArticlesTagsGet200Response{
+	return openapi.Response(http.StatusOK, openapi.ArticleTagsGet200Response{
 		Tags: conv.ToArticleTags(tags),
 	}), nil
 }
 
-func (g *golioAPIServicer) ArticlesTagsPost(ctx context.Context, req openapi.ArticlesTagsPostRequest) (openapi.ImplResponse, error) {
+func (g *golioAPIServicer) ArticleTagsPost(ctx context.Context, req openapi.ArticleTagsPostRequest) (openapi.ImplResponse, error) {
 	articleTag := model.NewArticleTag(req.Name, time.Now())
 	if err := g.articleUsecase.InsertTag(ctx, articleTag); err != nil {
 		slog.ErrorContext(ctx, "failed insert tag", "err", err)
@@ -214,7 +216,7 @@ func (g *golioAPIServicer) ArticlesTagsPost(ctx context.Context, req openapi.Art
 	}), nil
 }
 
-func (g *golioAPIServicer) ArticlesTagsTagIdDelete(ctx context.Context, tagID string) (openapi.ImplResponse, error) {
+func (g *golioAPIServicer) ArticleTagsTagIdDelete(ctx context.Context, tagID string) (openapi.ImplResponse, error) {
 	if err := g.articleUsecase.DeleteTag(ctx, tagID); err != nil {
 		slog.ErrorContext(ctx, "failed delete tag", "err", err)
 		return openapi.Response(http.StatusInternalServerError, "internal"), nil
@@ -224,7 +226,7 @@ func (g *golioAPIServicer) ArticlesTagsTagIdDelete(ctx context.Context, tagID st
 	}), nil
 }
 
-func (g *golioAPIServicer) ArticlesTagsTagIdPut(ctx context.Context, tagID string, req openapi.ArticlesTagsTagIdPutRequest) (openapi.ImplResponse, error) {
+func (g *golioAPIServicer) ArticleTagsTagIdPut(ctx context.Context, tagID string, req openapi.ArticleTagsTagIdPutRequest) (openapi.ImplResponse, error) {
 	if err := g.articleUsecase.UpdateTag(ctx, &model.ArticleTag{
 		ID:          tagID,
 		Name:        req.Name,

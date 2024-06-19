@@ -16,50 +16,50 @@ import { mapValues } from "../runtime";
 /**
  *
  * @export
- * @interface InsertArticleTagResponse
+ * @interface ArticleTagsPostRequest
  */
-export interface InsertArticleTagResponse {
+export interface ArticleTagsPostRequest {
   /**
    *
    * @type {string}
-   * @memberof InsertArticleTagResponse
+   * @memberof ArticleTagsPostRequest
    */
-  id: string;
+  name: string;
 }
 
 /**
- * Check if a given object implements the InsertArticleTagResponse interface.
+ * Check if a given object implements the ArticleTagsPostRequest interface.
  */
-export function instanceOfInsertArticleTagResponse(value: object): boolean {
-  if (!("id" in value)) return false;
+export function instanceOfArticleTagsPostRequest(value: object): boolean {
+  if (!("name" in value)) return false;
   return true;
 }
 
-export function InsertArticleTagResponseFromJSON(
+export function ArticleTagsPostRequestFromJSON(
   json: any,
-): InsertArticleTagResponse {
-  return InsertArticleTagResponseFromJSONTyped(json, false);
+): ArticleTagsPostRequest {
+  return ArticleTagsPostRequestFromJSONTyped(json, false);
 }
 
-export function InsertArticleTagResponseFromJSONTyped(
+export function ArticleTagsPostRequestFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean,
-): InsertArticleTagResponse {
+): ArticleTagsPostRequest {
   if (json == null) {
     return json;
   }
   return {
-    id: json["id"],
+    name: json["name"],
   };
 }
 
-export function InsertArticleTagResponseToJSON(
-  value?: InsertArticleTagResponse | null,
+export function ArticleTagsPostRequestToJSON(
+  value?: ArticleTagsPostRequest | null,
 ): any {
   if (value == null) {
     return value;
   }
   return {
-    id: value["id"],
+    name: value["name"],
   };
 }

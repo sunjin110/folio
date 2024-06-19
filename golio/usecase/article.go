@@ -87,6 +87,7 @@ func (a *article) Insert(ctx context.Context, input *input.ArticleInsert) (*mode
 	if err != nil {
 		return nil, fmt.Errorf("failed articleTagRepo.FindByIDs. err: %w", err)
 	}
+
 	article := model.NewArticle(input.Title, input.Body, "", tags, time.Now())
 	if err := a.articleRepo.Insert(ctx, article); err != nil {
 		return nil, fmt.Errorf("failed articleRepo.Insert: %w", err)

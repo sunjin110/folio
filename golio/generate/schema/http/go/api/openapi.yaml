@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   description: ""
-  title: My Project
+  title: folio
   version: 1.0.0
 servers:
 - url: /
@@ -120,6 +120,7 @@ paths:
         name: article_id
         required: true
         schema:
+          format: uuid
           type: string
         style: simple
       responses:
@@ -420,7 +421,7 @@ paths:
       summary: 翻訳
       tags:
       - golio
-  /articles/tags:
+  /article_tags:
     get:
       deprecated: false
       description: ""
@@ -454,7 +455,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/_articles_tags_get_200_response'
+                $ref: '#/components/schemas/_article_tags_get_200_response'
           description: Success
       security: []
       summary: 記事タグ一覧取得
@@ -470,7 +471,7 @@ paths:
             example:
               name: タグの名前
             schema:
-              $ref: '#/components/schemas/_articles_tags_post_request'
+              $ref: '#/components/schemas/_article_tags_post_request'
       responses:
         "200":
           content:
@@ -487,7 +488,7 @@ paths:
       summary: 記事タグの作成
       tags:
       - golio
-  /articles/tags/{tag_id}:
+  /article_tags/{tag_id}:
     delete:
       deprecated: false
       description: ""
@@ -529,7 +530,7 @@ paths:
             example:
               name: new_tag_name
             schema:
-              $ref: '#/components/schemas/_articles_tags__tag_id__put_request'
+              $ref: '#/components/schemas/_article_tags__tag_id__put_request'
       responses:
         "200":
           content:
@@ -950,7 +951,7 @@ components:
       required:
       - translated_text
       type: object
-    _articles_tags_get_200_response:
+    _article_tags_get_200_response:
       example:
         tags:
         - name: name
@@ -965,14 +966,14 @@ components:
       required:
       - tags
       type: object
-    _articles_tags_post_request:
+    _article_tags_post_request:
       properties:
         name:
           type: string
       required:
       - name
       type: object
-    _articles_tags__tag_id__put_request:
+    _article_tags__tag_id__put_request:
       properties:
         name:
           type: string

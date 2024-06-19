@@ -17,6 +17,14 @@ type Article struct {
 	UpdatedAt time.Time
 }
 
+func (article *Article) GetTagIDs() []string {
+	tagIDs := make([]string, 0, len(article.Tags))
+	for _, tag := range article.Tags {
+		tagIDs = append(tagIDs, tag.ID)
+	}
+	return tagIDs
+}
+
 func NewArticle(title string, body string, writer string, tags []*ArticleTag, createdAt time.Time) *Article {
 	uu, err := uuid.NewRandom()
 	if err != nil {
@@ -27,6 +35,7 @@ func NewArticle(title string, body string, writer string, tags []*ArticleTag, cr
 		ID:        uu.String(),
 		Title:     title,
 		Body:      body,
+		Tags:      tags,
 		Writer:    writer,
 		CreatedAt: createdAt,
 		UpdatedAt: createdAt,

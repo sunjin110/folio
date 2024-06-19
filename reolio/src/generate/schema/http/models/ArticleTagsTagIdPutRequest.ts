@@ -16,55 +16,50 @@ import { mapValues } from "../runtime";
 /**
  *
  * @export
- * @interface ArticleTag
+ * @interface ArticleTagsTagIdPutRequest
  */
-export interface ArticleTag {
+export interface ArticleTagsTagIdPutRequest {
   /**
    *
    * @type {string}
-   * @memberof ArticleTag
-   */
-  id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof ArticleTag
+   * @memberof ArticleTagsTagIdPutRequest
    */
   name: string;
 }
 
 /**
- * Check if a given object implements the ArticleTag interface.
+ * Check if a given object implements the ArticleTagsTagIdPutRequest interface.
  */
-export function instanceOfArticleTag(value: object): boolean {
-  if (!("id" in value)) return false;
+export function instanceOfArticleTagsTagIdPutRequest(value: object): boolean {
   if (!("name" in value)) return false;
   return true;
 }
 
-export function ArticleTagFromJSON(json: any): ArticleTag {
-  return ArticleTagFromJSONTyped(json, false);
+export function ArticleTagsTagIdPutRequestFromJSON(
+  json: any,
+): ArticleTagsTagIdPutRequest {
+  return ArticleTagsTagIdPutRequestFromJSONTyped(json, false);
 }
 
-export function ArticleTagFromJSONTyped(
+export function ArticleTagsTagIdPutRequestFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean,
-): ArticleTag {
+): ArticleTagsTagIdPutRequest {
   if (json == null) {
     return json;
   }
   return {
-    id: json["id"],
     name: json["name"],
   };
 }
 
-export function ArticleTagToJSON(value?: ArticleTag | null): any {
+export function ArticleTagsTagIdPutRequestToJSON(
+  value?: ArticleTagsTagIdPutRequest | null,
+): any {
   if (value == null) {
     return value;
   }
   return {
-    id: value["id"],
     name: value["name"],
   };
 }

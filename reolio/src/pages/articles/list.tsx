@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { DataTable } from "@/components/data-table";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArticleSummary } from "@/domain/model/article";
+import { ArticleSummary, ArticleTag } from "@/domain/model/article";
 import { formatDateFromRFC } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
 import { ArticleUsecase } from "@/usecase/article";
 import { AuthError, InternalError } from "@/error/error";
+import { Badge } from "@/components/ui/badge";
 
 const columns: ColumnDef<ArticleSummary>[] = [
   {
@@ -27,6 +28,28 @@ const columns: ColumnDef<ArticleSummary>[] = [
   {
     accessorKey: "title",
     header: "Title",
+  },
+  {
+    accessorKey: "tags",
+    header: "Tag",
+    cell: ({ row }) => {
+      const tags: ArticleTag[] | undefined = row.getValue("tags");
+      if (!tags) {
+        return <div></div>;
+      }
+
+      return (
+        <div>
+          {tags.map((tag) => {
+            return (
+              <Badge id={tag.id} variant="secondary">
+                {tag.name}
+              </Badge>
+            );
+          })}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "created_at",

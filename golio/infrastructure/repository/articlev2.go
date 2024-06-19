@@ -10,6 +10,7 @@ import (
 
 	"github.com/huandu/go-sqlbuilder"
 	"github.com/jmoiron/sqlx"
+	"github.com/lib/pq"
 	"github.com/sunjin110/folio/golio/domain/model"
 	"github.com/sunjin110/folio/golio/domain/repository"
 	"github.com/sunjin110/folio/golio/infrastructure/repository/conv"
@@ -206,6 +207,7 @@ func (a *articleV2) upsert(ctx context.Context, article *model.Article) (err err
 	if _, err := tx.NamedExecContext(ctx, postgresql.UpsertArticleSummary, &postgres_dto.ArticleSummary{
 		ID:        article.ID,
 		Title:     article.Title,
+		TagIDs:    pq.StringArray(article.GetTagIDs()),
 		CreatedAt: article.CreatedAt,
 		UpdatedAt: article.UpdatedAt,
 	}); err != nil {

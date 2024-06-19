@@ -21,6 +21,7 @@ import { NewArticleUsecase } from "./usecase/article";
 import Modal from "react-modal";
 import { TranslateModalPage } from "./pages/modals/translateModalPage";
 import { NewTranslationRepository } from "./infrastructure/repository/translation";
+import { NewArticleTagRepository } from "./infrastructure/repository/article_tag";
 
 // https://github.com/reactjs/react-modal?tab=readme-ov-file
 Modal.setAppElement("#root");
@@ -35,9 +36,10 @@ const App: React.FC = () => {
 
   const mediaRepo = NewMediaRepository(golioApi);
   const articleRepo = NewArticleRepository(golioApi);
+  const articleTagRepo = NewArticleTagRepository(golioApi);
   const translationRepo = NewTranslationRepository(golioApi);
   const mediaUsecase = NewMediaUsecase(mediaRepo);
-  const articleUsecase = NewArticleUsecase(articleRepo);
+  const articleUsecase = NewArticleUsecase(articleRepo, articleTagRepo);
 
   return (
     <TooltipProvider>

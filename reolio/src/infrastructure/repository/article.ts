@@ -1,4 +1,4 @@
-import { ArticleSummary } from "@/domain/model/article";
+import { Article, ArticleSummary, ArticleTag } from "@/domain/model/article";
 import {
   ArticleRepository,
   GetArticleSummariesOutput,
@@ -8,7 +8,7 @@ import {
   ArticlesGet200Response,
   GolioApi,
 } from "@/generate/schema/http";
-import { handleError } from "./error";
+import { handleError, wrapError } from "./error";
 
 export function NewArticleRepository(golioApi: GolioApi): ArticleRepository {
   return new article(golioApi);
@@ -19,6 +19,28 @@ class article implements ArticleRepository {
 
   constructor(golioApi: GolioApi) {
     this.golioApi = golioApi;
+  }
+
+  async Get(id: string): Promise<Article> {
+    try {
+      const resp = await this.golioApi.articlesArticleIdGet({
+        articleId: id,
+      });
+      return {
+        id: resp.id,
+        title: resp.title,
+        body: resp.body,
+        tags: resp.tags.map((tag) => {
+          return {
+            id: tag.id,
+            name: tag.name,
+          };
+        }),
+        created_at: resp.createdAt.toISOString(),
+      };
+    } catch (err) {
+      throw wrapError(err, "failed get article");
+    }
   }
 
   async AsistantBodyByAI(articleID: string, prompt: string): Promise<string> {
@@ -61,9 +83,15 @@ class article implements ArticleRepository {
 
     let summaries: ArticleSummary[] = [];
     for (let article of resp.articles) {
+      const tags: ArticleTag[] = article.tags.map((tag) => ({
+        id: tag.id,
+        name: tag.name,
+      }));
+
       summaries.push({
         id: article.id ?? "",
         title: article.title ?? "",
+        tags: tags,
         created_at: article.createdAt ?? "",
         updated_at: "todo",
       });
