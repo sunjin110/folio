@@ -8,10 +8,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { Navigation } from "@/components/organisms/navigation";
 import { Input } from "@/components/ui/input";
-import { Label } from "@radix-ui/react-label";
 import { ArticleUsecase } from "@/usecase/article";
 import { AuthError, InternalError } from "@/error/error";
 import { Badge } from "@/components/ui/badge";
+import { ArticleTagSearch } from "@/components/organisms/articleTagSearch";
+import { useDelayState } from "@/hooks/useDelayState";
+import { handleError } from "@/error/pageErrorHandle";
 
 const columns: ColumnDef<ArticleSummary>[] = [
   {
@@ -86,19 +88,31 @@ export default function Articles(props: ArticlesProps) {
   const [searchTitleText, setSearchTitleText] = useState("");
   const [viewSearchTitleText, setViewSearchTitleText] = useState("");
 
+  // tag
+  const [tagSearchText, setTagSearchText] = useState("");
+  const [selectedTagMap, setSelectedTagMap] = useState<Map<string, ArticleTag>>(
+    new Map(),
+  );
+  const [candidateTags, setCandidateTags] = useState<ArticleTag[]>([]);
+  const [delayTagSearchText] = useDelayState(tagSearchText, 700);
+
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  const fetch = useCallback(
+  const fetchArticles = useCallback(
     async (searchTitleText: string) => {
       const offset = pageIndex * pageSize;
       const limit = pageSize;
 
+      const tagIDs: string[] = Array.from(selectedTagMap).map(
+        ([tagID]) => tagID,
+      );
       try {
         const resp = await articleUsecase.FindSummaries(
           offset,
           limit,
           searchTitleText,
+          tagIDs,
         );
         setData(resp.summaries);
         setPageCount(Math.ceil(resp.totalCount / pageSize));
@@ -126,12 +140,41 @@ export default function Articles(props: ArticlesProps) {
         console.error(err);
       }
     },
-    [articleUsecase, navigate, pageIndex, pageSize, toast],
+    [articleUsecase, navigate, pageIndex, pageSize, toast, selectedTagMap],
   );
 
   useEffect(() => {
-    fetch(searchTitleText);
-  }, [pageIndex, pageSize, navigate, toast, fetch, searchTitleText]);
+    fetchArticles(searchTitleText);
+  }, [
+    pageIndex,
+    pageSize,
+    navigate,
+    toast,
+    fetchArticles,
+    searchTitleText,
+    selectedTagMap,
+  ]);
+
+  useEffect(() => {
+    if (!delayTagSearchText) {
+      setCandidateTags([]);
+      return;
+    }
+
+    const fetch = async (tagSearchText: string) => {
+      try {
+        const articleTags = await articleUsecase.FindTags(tagSearchText, 0, 10);
+        setCandidateTags(articleTags);
+      } catch (err) {
+        const resp = handleError(err);
+        toast(resp.toast);
+        if (resp.navigationPath) {
+          navigate(resp.navigationPath);
+        }
+      }
+    };
+    fetch(delayTagSearchText);
+  }, [delayTagSearchText, articleUsecase, navigate, toast]);
 
   const handleSearchTitleKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
@@ -145,24 +188,37 @@ export default function Articles(props: ArticlesProps) {
   };
 
   return (
-    <Navigation title="Articles" sidebarPosition="articles">
-      <div className="container mx-auto py-10">
-        <Link to={`/articles/create`}>
-          <Button>Create Article</Button>
-        </Link>
-
+    <Navigation
+      title="Articles"
+      sidebarPosition="articles"
+      headerContent={
+        <div className="grid justify-items-end">
+          <Link to={`/articles/create`}>
+            <Button>Create Article</Button>
+          </Link>
+        </div>
+      }
+    >
+      <div className="container mx-auto py-3">
         <div className="pb-2 pt-2">
-          <Label id="search_title_text_label" htmlFor="search_title_text">
-            Search Title: {searchTitleText}
-          </Label>
           <Input
             id="search_title_text"
             type="text"
-            placeholder="Title"
+            placeholder="Search Title"
             onKeyDown={handleSearchTitleKeyDown}
             value={viewSearchTitleText}
             onChange={(event) => setViewSearchTitleText(event.target.value)}
           ></Input>
+        </div>
+        <div className="pb-2 pt-2">
+          <ArticleTagSearch
+            className=""
+            searchText={tagSearchText}
+            setSearchText={setTagSearchText}
+            candidateTags={candidateTags}
+            selectedTagMap={selectedTagMap}
+            setSelectedTagMap={setSelectedTagMap}
+          />
         </div>
 
         <DataTable

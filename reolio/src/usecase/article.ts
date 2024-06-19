@@ -7,6 +7,7 @@ export interface ArticleUsecase {
     offset?: number,
     limit?: number,
     searchTitleText?: string,
+    tagIDs?: string[],
   ): Promise<FindArticleSummariesOutput>;
   Get(id: string): Promise<Article>;
   AsistantBodyByAI(articleID: string, prompt: string): Promise<string>; // body
@@ -83,11 +84,13 @@ class article implements ArticleUsecase {
     offset?: number,
     limit?: number,
     searchTitleText?: string,
+    tagIDs?: string[],
   ): Promise<FindArticleSummariesOutput> {
     const output = await this.articleRepo.FindSummaries(
       offset,
       limit,
       searchTitleText,
+      tagIDs,
     );
     return output;
   }
