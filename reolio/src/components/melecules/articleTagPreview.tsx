@@ -4,7 +4,7 @@ import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { CircleX } from "lucide-react";
 
-export interface ArticleTagPreview {
+export interface ArticleTagPreviewProps {
   className?: string;
   selectedTagMap: Map<string, ArticleTag>;
   setSelectedTagMap: Dispatch<SetStateAction<Map<string, ArticleTag>>>;
@@ -12,7 +12,7 @@ export interface ArticleTagPreview {
   setSelectedNewTagNameMap: Dispatch<SetStateAction<Map<string, boolean>>>;
 }
 
-export function ArticleTagPreview(props: ArticleTagPreview) {
+export function ArticleTagPreview(props: ArticleTagPreviewProps) {
   const {
     className,
     selectedTagMap,
