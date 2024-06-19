@@ -65,17 +65,26 @@ class article implements ArticleRepository {
     offset?: number,
     limit?: number,
     searchTitleText?: string,
+    tagIDs?: string[],
   ): Promise<GetArticleSummariesOutput> {
     let resp: ArticlesGet200Response = {
       articles: [],
       total: 0,
     };
 
+    // get parameterは,で渡さないとダメっぽいのでそれに従う
+    const tagIDstr = tagIDs?.join(",");
+    let tags: string[] | undefined;
+    if (tagIDstr) {
+      tags = [tagIDstr];
+    }
+
     try {
       resp = await this.golioApi.articlesGet({
         offset: offset,
         limit: limit,
         searchTitleText: searchTitleText,
+        tags: tags,
       });
     } catch (err) {
       handleError(err, "failed list articles");

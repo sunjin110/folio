@@ -8,8 +8,8 @@ export interface ArticleTagPreviewProps {
   className?: string;
   selectedTagMap: Map<string, ArticleTag>;
   setSelectedTagMap: Dispatch<SetStateAction<Map<string, ArticleTag>>>;
-  selectedNewTagNameMap: Map<string, boolean>;
-  setSelectedNewTagNameMap: Dispatch<SetStateAction<Map<string, boolean>>>;
+  selectedNewTagNameMap?: Map<string, boolean>;
+  setSelectedNewTagNameMap?: Dispatch<SetStateAction<Map<string, boolean>>>;
 }
 
 export function ArticleTagPreview(props: ArticleTagPreviewProps) {
@@ -30,6 +30,10 @@ export function ArticleTagPreview(props: ArticleTagPreviewProps) {
   };
 
   const pressedDeleteNewTagName = (tagName: string) => {
+    if (!setSelectedNewTagNameMap) {
+      return;
+    }
+
     setSelectedNewTagNameMap((prevMap) => {
       const newMap = new Map(prevMap);
       newMap.delete(tagName);

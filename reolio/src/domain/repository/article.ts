@@ -5,6 +5,7 @@ export interface ArticleRepository {
     offset?: number,
     limit?: number,
     searchTitleText?: string,
+    tagIDs?: string[],
   ): Promise<GetArticleSummariesOutput>;
   Get(id: string): Promise<Article>;
   AsistantBodyByAI(articleID: string, prompt: string): Promise<string>;

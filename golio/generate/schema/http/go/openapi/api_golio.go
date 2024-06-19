@@ -11,7 +11,9 @@
 package openapi
 
 import (
-    "io";    "errors";	"encoding/json"
+	"encoding/json"
+	"errors"
+	"io"
 	"net/http"
 	"strings"
 

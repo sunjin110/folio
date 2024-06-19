@@ -184,7 +184,7 @@ export function Navigation(props: NavigationProps) {
       <div className="flex flex-col">
         <header className="sticky top-0 z-10 flex h-[57px] items-center gap-1 border-b bg-background px-4">
           <h1 className="text-xl font-semibold">{title}</h1>
-          <div>{headerContent && headerContent}</div>
+          <div className="flex-grow">{headerContent && headerContent}</div>
         </header>
         <main className="grid flex-1 gap-4 overflow-auto p-4 md:grid-cols-1 lg:grid-cols-1">
           {children}
