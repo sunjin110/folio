@@ -20,6 +20,7 @@ type Config struct {
 	MediaS3               S3Config          `envPrefix:"MEDIA_S3_"`
 	ChatGPT               ChatGPTConfig     `envPrefix:"CHAT_GPT_"`
 	GoogleCustomSearchKey string            `env:"GOOGLE_CUSTOM_SEARCH_KEY"`
+	WordsAPI              WordsAPIConfig    `envPrefix:"WORDS_API_"`
 }
 
 type Server struct {
@@ -63,6 +64,11 @@ type S3Config struct {
 
 type ChatGPTConfig struct {
 	APIKey string `env:"API_KEY"`
+}
+
+type WordsAPIConfig struct {
+	RapidAPIKey  string `env:"RAPID_API_KEY"`
+	RapidAPIHost string `env:"RAPID_API_HOST"`
 }
 
 func NewConfig() (*Config, error) {

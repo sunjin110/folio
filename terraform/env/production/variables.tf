@@ -34,6 +34,16 @@ variable "google_custom_search_key" {
   sensitive = true
 }
 
+variable "words_api_rapid_api_key" {
+  type      = string
+  sensitive = true
+}
+
+variable "words_api_rapid_api_host" {
+  type      = string
+  sensitive = true
+}
+
 # TODO これはapiのcustom domainを決めたタイミングでどうにかする
 # variable "google_oauth_redirect_uri" {
 #   type = string
