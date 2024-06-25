@@ -1,4 +1,22 @@
 services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.local
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /app/
+        - action: rebuild
+          path: .
+    ports:
+      - 127.0.0.1:3001:3001
+    depends_on:
+      db:
+        condition: service_healthy
+      dynamo:
+        condition: service_healthy
   db:
     image: postgres:16.2
     ports:
