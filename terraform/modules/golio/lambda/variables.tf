@@ -48,6 +48,9 @@ variable "environment" {
 
     CHAT_GPT_API_KEY : string,
     GOOGLE_CUSTOM_SEARCH_KEY : string,
+
+    WORDS_API_RAPID_API_KEY : string,
+    WORDS_API_RAPID_API_HOST : string,
   })
 }
 

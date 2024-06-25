@@ -47,6 +47,9 @@ module "lambda" {
     CHAT_GPT_API_KEY : var.chat_gpt.api_key
 
     GOOGLE_CUSTOM_SEARCH_KEY : var.google_custom_search_key,
+
+    WORDS_API_RAPID_API_KEY : var.words_api.rapid_api_key,
+    WORDS_API_RAPID_API_HOST : var.words_api.rapid_api_host,
   }
 
   network = module.network.network

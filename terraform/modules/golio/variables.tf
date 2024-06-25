@@ -58,3 +58,10 @@ variable "chat_gpt" {
 variable "google_custom_search_key" {
   type = string
 }
+
+variable "words_api" {
+  type = object({
+    rapid_api_key : string,
+    rapid_api_host : string,
+  })
+}

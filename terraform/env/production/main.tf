@@ -74,6 +74,11 @@ module "golio" {
   }
 
   google_custom_search_key = var.google_custom_search_key
+
+  words_api = {
+    rapid_api_key  = var.words_api_rapid_api_key
+    rapid_api_host = var.words_api_rapid_api_host
+  }
 }
 
 module "reolio" {
