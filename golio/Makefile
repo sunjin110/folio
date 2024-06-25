@@ -3,7 +3,7 @@ run:
 
 up:
 	docker compose build
-	docker compose up -d
+	docker compose up --watch
 
 down:
 	docker compose down
