@@ -26,7 +26,7 @@ image/lambda/test:
 gen-code:
 	@docker run --rm \
   		-v ${PWD}:/local openapitools/openapi-generator-cli:v7.6.0 generate \
-  		-i /local/schema/http/swagger.json \
+  		-i /local/schema/http/folio.openapi.json \
   		-g go-server \
 		--additional-properties=onlyInterfaces=true,outputAsLibrary=true,sourceFolder=openapi \
 		--git-repo-id kraken/ogp/generate/schema/go \

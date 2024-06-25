@@ -2,14 +2,32 @@ package dto
 
 import "github.com/sunjin110/folio/golio/domain/model"
 
-type EnglishDictionaryResponse struct {
-	Word          string                   `json:"word"`
-	Results       EnglishDictionaryResults `json:"results"`
-	Pronunciation map[string]string        `json:"pronunciation"`
-	Frequency     float64                  `json:"frequency"`
+type WordDetail struct {
+	Word          string                   `json:"word" xml:"word"`
+	Results       EnglishDictionaryResults `json:"results" xml:"results"`
+	Pronunciation map[string]string        `json:"pronunciation" xml:"-"` // xml unsupport map
+	Frequency     float64                  `json:"frequency" xml:"frequency"`
 }
 
-func (resp *EnglishDictionaryResponse) ToWordDetailModel() *model.WordDetail {
+func NewWordDetailFromModel(m *model.WordDetail) *WordDetail {
+	if m == nil {
+		return nil
+	}
+
+	results := make([]*EnglishDictionaryResult, 0, len(m.Definitions))
+	for _, def := range m.Definitions {
+		results = append(results, NewEnglishDictionaryResultFromModel(def))
+	}
+
+	return &WordDetail{
+		Word:          m.Word,
+		Results:       results,
+		Pronunciation: m.PronunciationMap,
+		Frequency:     m.Frequency,
+	}
+}
+
+func (resp *WordDetail) ToWordDetailModel() *model.WordDetail {
 	if resp == nil {
 		return nil
 	}
@@ -35,12 +53,26 @@ func (results EnglishDictionaryResults) ToWordDefinitionModels() []*model.WordDe
 }
 
 type EnglishDictionaryResult struct {
-	Definition   string   `json:"definition"`
-	PartOfSpeech string   `json:"partOfSpeech"`
-	SimilarTo    []string `json:"similarTo"`
-	Antonyms     []string `json:"antonyms"`
-	Synonyms     []string `json:"synonyms"`
-	Examples     []string `json:"examples"`
+	Definition   string   `json:"definition" xml:"definition"`
+	PartOfSpeech string   `json:"partOfSpeech" xml:"partOfSpeech"`
+	SimilarTo    []string `json:"similarTo" xml:"similarTo"`
+	Antonyms     []string `json:"antonyms" xml:"antonyms"`
+	Synonyms     []string `json:"synonyms" xml:"synonyms"`
+	Examples     []string `json:"examples" xml:"examples"`
+}
+
+func NewEnglishDictionaryResultFromModel(m *model.WordDefinition) *EnglishDictionaryResult {
+	if m == nil {
+		return nil
+	}
+	return &EnglishDictionaryResult{
+		Definition:   m.Definition,
+		PartOfSpeech: m.PartOfSpeech,
+		SimilarTo:    nil, // TODO
+		Antonyms:     m.Antonyms,
+		Synonyms:     m.Synonyms,
+		Examples:     m.Examples,
+	}
 }
 
 func (result *EnglishDictionaryResult) ToWordDefinitionModel() *model.WordDefinition {

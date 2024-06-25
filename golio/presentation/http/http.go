@@ -63,14 +63,15 @@ func Router(ctx context.Context, cfg *httpconf.Config) (http.Handler, error) {
 
 	dynamoInnerClient := dynamodb.NewInnerClient(awsCfg)
 	sessionV2Repo := repository.NewSessionV2(dynamodb.NewClient[dynamodto.UserSessionV2](dynamoInnerClient), cfg.SessionDynamoDB.TableName)
+	translateRepo := repository.NewTranslate(awsTranslateClient)
+	englishDictionaryRepo := repository.NewEnglishDictionary(cfg.WordsAPI.RapidAPIKey, cfg.WordsAPI.RapidAPIHost)
 
 	authUsecase := usecase.NewAuth(googleOAuth2Repo, sessionV2Repo)
 	articleUsecase := usecase.NewArticle(articleRepo, articleAIRepo, articleTagRepo)
 	mediaUsecase := usecase.NewMedia(mediaRepo)
+	englishDictionaryUsecase := usecase.NewEnglishDictionary(translateRepo, englishDictionaryRepo)
 
-	translateRepo := repository.NewTranslate(awsTranslateClient)
-
-	golioAPIController := openapi.NewGolioAPIController(NewGolioAPIServicer(articleUsecase, mediaUsecase, translateRepo))
+	golioAPIController := openapi.NewGolioAPIController(NewGolioAPIServicer(articleUsecase, mediaUsecase, translateRepo, englishDictionaryUsecase))
 
 	googleOAuthController := NewGoogleOAuthController(authUsecase, cfg.GoogleOAuth.CallbackRedirectURI)
 	r := openapi.NewRouter(golioAPIController)
