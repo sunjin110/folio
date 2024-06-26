@@ -11,6 +11,7 @@ import {
   SquareUser,
   Triangle,
   Images,
+  BookA,
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Link } from "react-router-dom";
@@ -19,7 +20,12 @@ export interface NavigationProps {
   title?: string;
   children: string | JSX.Element | JSX.Element[];
   headerContent?: string | JSX.Element | JSX.Element[];
-  sidebarPosition: "" | "messages" | "articles" | "media";
+  sidebarPosition:
+    | ""
+    | "messages"
+    | "articles"
+    | "media"
+    | "english_dictionary";
 }
 
 export function Navigation(props: NavigationProps) {
@@ -68,6 +74,23 @@ export function Navigation(props: NavigationProps) {
             </TooltipTrigger>
             <TooltipContent side="right" sideOffset={5}>
               Articles
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link to={"/english_dictionary"}>
+                <Button
+                  variant={"ghost"}
+                  size={"icon"}
+                  className={`rounded-lg ${sidebarPosition === "english_dictionary" ? "bg-muted" : ""}`}
+                  aria-label="EnglishDictionary"
+                >
+                  <BookA className="size-5" />
+                </Button>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent side="right" sideOffset={5}>
+              EnglishDictionary
             </TooltipContent>
           </Tooltip>
           <Tooltip>

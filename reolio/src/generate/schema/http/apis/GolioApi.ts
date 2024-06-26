@@ -27,6 +27,7 @@ import type {
   ArticlesPost200Response,
   ArticlesPostRequest,
   DeleteArticleTagResponse,
+  EnglishDictionaryWordGet200Response,
   HelloGet200Response,
   InsertArticleTagResponse,
   MediaGet200Response,
@@ -64,6 +65,8 @@ import {
   ArticlesPostRequestToJSON,
   DeleteArticleTagResponseFromJSON,
   DeleteArticleTagResponseToJSON,
+  EnglishDictionaryWordGet200ResponseFromJSON,
+  EnglishDictionaryWordGet200ResponseToJSON,
   HelloGet200ResponseFromJSON,
   HelloGet200ResponseToJSON,
   InsertArticleTagResponseFromJSON,
@@ -130,6 +133,10 @@ export interface ArticlesGetRequest {
 
 export interface ArticlesPostOperationRequest {
   articlesPostRequest?: ArticlesPostRequest;
+}
+
+export interface EnglishDictionaryWordGetRequest {
+  word: string;
 }
 
 export interface MediaGetRequest {
@@ -678,6 +685,58 @@ export class GolioApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<ArticlesPost200Response> {
     const response = await this.articlesPostRaw(
+      requestParameters,
+      initOverrides,
+    );
+    return await response.value();
+  }
+
+  /**
+   *
+   * 英単語を辞書で引く
+   */
+  async englishDictionaryWordGetRaw(
+    requestParameters: EnglishDictionaryWordGetRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<EnglishDictionaryWordGet200Response>> {
+    if (requestParameters["word"] == null) {
+      throw new runtime.RequiredError(
+        "word",
+        'Required parameter "word" was null or undefined when calling englishDictionaryWordGet().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    const response = await this.request(
+      {
+        path: `/english_dictionary/{word}`.replace(
+          `{${"word"}}`,
+          encodeURIComponent(String(requestParameters["word"])),
+        ),
+        method: "GET",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides,
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      EnglishDictionaryWordGet200ResponseFromJSON(jsonValue),
+    );
+  }
+
+  /**
+   *
+   * 英単語を辞書で引く
+   */
+  async englishDictionaryWordGet(
+    requestParameters: EnglishDictionaryWordGetRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<EnglishDictionaryWordGet200Response> {
+    const response = await this.englishDictionaryWordGetRaw(
       requestParameters,
       initOverrides,
     );
