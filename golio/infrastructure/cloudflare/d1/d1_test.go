@@ -20,12 +20,14 @@ type ArticleBody struct {
 
 // go test -v -count=1 -timeout 30s -run ^Test_db_Query$ github.com/sunjin110/folio/golio/infrastructure/cloudflare/d1
 func Test_db_Query(t *testing.T) {
-	SkipConvey("Test_db_Query", t, func() {
+	Convey("Test_db_Query", t, func() {
 		client := d1.NewClient("")
 
-		db := d1.NewDB[ArticleBody](client, "", "")
+		db := d1.NewDB(client, "36c0ecf2ee9a36a0e0ca24b80b10112d", "d1402245-0e4b-4abc-ac5e-d8b75b61d92b")
 
-		bodies, err := db.List(context.Background(), "select * from article_bodies;", nil)
+		bodies := []ArticleBody{}
+
+		err := db.Query(context.Background(), "select * from article_bodies;", nil, &bodies)
 		So(err, ShouldBeNil)
 
 		bodiesJSON, _ := json.Marshal(bodies)
