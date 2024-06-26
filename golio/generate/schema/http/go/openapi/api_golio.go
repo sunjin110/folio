@@ -11,9 +11,7 @@
 package openapi
 
 import (
-	"encoding/json"
-	"errors"
-	"io"
+    "io";    "errors";	"encoding/json"
 	"net/http"
 	"strings"
 
@@ -102,6 +100,11 @@ func (c *GolioAPIController) Routes() Routes {
 			strings.ToUpper("Post"),
 			"/articles",
 			c.ArticlesPost,
+		},
+		"EnglishDictionaryWordGet": Route{
+			strings.ToUpper("Get"),
+			"/english_dictionary/{word}",
+			c.EnglishDictionaryWordGet,
 		},
 		"HelloGet": Route{
 			strings.ToUpper("Get"),
@@ -451,6 +454,24 @@ func (c *GolioAPIController) ArticlesPost(w http.ResponseWriter, r *http.Request
 		return
 	}
 	result, err := c.service.ArticlesPost(r.Context(), articlesPostRequestParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	_ = EncodeJSONResponse(result.Body, &result.Code, w)
+}
+
+// EnglishDictionaryWordGet - 英単語を辞書で引く
+func (c *GolioAPIController) EnglishDictionaryWordGet(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	wordParam := params["word"]
+	if wordParam == "" {
+		c.errorHandler(w, r, &RequiredError{"word"}, nil)
+		return
+	}
+	result, err := c.service.EnglishDictionaryWordGet(r.Context(), wordParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

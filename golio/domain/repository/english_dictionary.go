@@ -7,5 +7,7 @@ import (
 )
 
 type EnglishDictionary interface {
+	// GetDetail
+	// Error: ErrNotFound
 	GetDetail(ctx context.Context, englishWord string) (*model.WordDetail, error)
 }

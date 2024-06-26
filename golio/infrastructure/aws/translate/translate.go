@@ -9,6 +9,7 @@ import (
 
 type Client interface {
 	TranslateText(ctx context.Context, input *translate.TranslateTextInput) (*translate.TranslateTextOutput, error)
+	TranslateDocument(ctx context.Context, input *translate.TranslateDocumentInput) (*translate.TranslateDocumentOutput, error)
 }
 
 type client struct {
@@ -23,4 +24,8 @@ func NewAWSTranslate(cfg aws.Config) Client {
 
 func (c *client) TranslateText(ctx context.Context, input *translate.TranslateTextInput) (*translate.TranslateTextOutput, error) {
 	return c.client.TranslateText(ctx, input)
+}
+
+func (c *client) TranslateDocument(ctx context.Context, input *translate.TranslateDocumentInput) (*translate.TranslateDocumentOutput, error) {
+	return c.client.TranslateDocument(ctx, input)
 }

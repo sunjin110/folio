@@ -52,7 +52,15 @@ func (e *englishDictionary) GetDetail(ctx context.Context, englishWord string) (
 		return nil, fmt.Errorf("failed io.ReadALL. err: %w", err)
 	}
 
-	respDTO := &dto.EnglishDictionaryResponse{}
+	if res.StatusCode != http.StatusOK {
+		switch res.StatusCode {
+		case http.StatusNotFound:
+			return nil, repository.ErrNotFound
+		}
+		return nil, fmt.Errorf("failed request. statusCode: %d, body: %s", res.StatusCode, string(body))
+	}
+
+	respDTO := &dto.WordDetail{}
 	if err := json.Unmarshal(body, respDTO); err != nil {
 		return nil, fmt.Errorf("failed json.Unmarshal. body: %s, err: %w", string(body), err)
 	}

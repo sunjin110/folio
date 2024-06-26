@@ -76,13 +76,15 @@ func GetHandler(ctx context.Context) (lambdaHandlerFunc func(ctx context.Context
 	dynamoInnerClient := dynamodb.NewInnerClient(awsCfg)
 	sessionV2Repo := repository.NewSessionV2(dynamodb.NewClient[dynamodto.UserSessionV2](dynamoInnerClient), cfg.SessionDynamoDB.TableName)
 
+	translateRepo := repository.NewTranslate(awsTranslateClient)
+	englishDictionaryRepo := repository.NewEnglishDictionary(cfg.WordsAPI.RapidAPIKey, cfg.WordsAPI.RapidAPIHost)
+
 	authUsecase := usecase.NewAuth(googleOAuth2Repo, sessionV2Repo)
 	articleUsecase := usecase.NewArticle(articleRepo, articleAIRepo, articleTagRepo)
 	mediaUsecase := usecase.NewMedia(mediaRepo)
+	englishDictionaryUsecase := usecase.NewEnglishDictionary(translateRepo, englishDictionaryRepo)
 
-	translateRepo := repository.NewTranslate(awsTranslateClient)
-
-	golioAPIController := openapi.NewGolioAPIController(golio_http.NewGolioAPIServicer(articleUsecase, mediaUsecase, translateRepo))
+	golioAPIController := openapi.NewGolioAPIController(golio_http.NewGolioAPIServicer(articleUsecase, mediaUsecase, translateRepo, englishDictionaryUsecase))
 
 	googleOAuthController := golio_http.NewGoogleOAuthController(authUsecase, cfg.GoogleOAuth.CallbackRedirectURI)
 	r := openapi.NewRouter(golioAPIController)

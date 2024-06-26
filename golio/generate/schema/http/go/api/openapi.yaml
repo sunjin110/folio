@@ -542,8 +542,110 @@ paths:
       summary: 記事タグの更新
       tags:
       - golio
+  /english_dictionary/{word}:
+    get:
+      deprecated: false
+      description: ""
+      parameters:
+      - description: ""
+        explode: false
+        in: path
+        name: word
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_english_dictionary__word__get_200_response'
+          description: Success
+      security: []
+      summary: 英単語を辞書で引く
+      tags:
+      - golio
 components:
   schemas:
+    word_detail:
+      example:
+        word: word
+        definitions:
+        - examples:
+          - examples
+          - examples
+          synonyms:
+          - synonyms
+          - synonyms
+          part_of_speech: part_of_speech
+          antonyms:
+          - antonyms
+          - antonyms
+          definition: definition
+        - examples:
+          - examples
+          - examples
+          synonyms:
+          - synonyms
+          - synonyms
+          part_of_speech: part_of_speech
+          antonyms:
+          - antonyms
+          - antonyms
+          definition: definition
+        frequency: 0.8008281904610115
+      properties:
+        word:
+          type: string
+        definitions:
+          items:
+            $ref: '#/components/schemas/word_definition'
+          type: array
+        frequency:
+          type: number
+      required:
+      - definitions
+      - frequency
+      - word
+      type: object
+    word_definition:
+      example:
+        examples:
+        - examples
+        - examples
+        synonyms:
+        - synonyms
+        - synonyms
+        part_of_speech: part_of_speech
+        antonyms:
+        - antonyms
+        - antonyms
+        definition: definition
+      properties:
+        definition:
+          type: string
+        part_of_speech:
+          type: string
+        synonyms:
+          items:
+            type: string
+          type: array
+        antonyms:
+          items:
+            type: string
+          type: array
+        examples:
+          items:
+            type: string
+          type: array
+      required:
+      - antonyms
+      - definition
+      - examples
+      - part_of_speech
+      - synonyms
+      type: object
     delete_article_tag_response:
       example:
         id: id
@@ -980,5 +1082,68 @@ components:
       required:
       - 01J07SJQZHDHD50P4TDET04P8W
       - name
+      type: object
+    _english_dictionary__word__get_200_response:
+      example:
+        origin:
+          word: word
+          definitions:
+          - examples:
+            - examples
+            - examples
+            synonyms:
+            - synonyms
+            - synonyms
+            part_of_speech: part_of_speech
+            antonyms:
+            - antonyms
+            - antonyms
+            definition: definition
+          - examples:
+            - examples
+            - examples
+            synonyms:
+            - synonyms
+            - synonyms
+            part_of_speech: part_of_speech
+            antonyms:
+            - antonyms
+            - antonyms
+            definition: definition
+          frequency: 0.8008281904610115
+        translated:
+          word: word
+          definitions:
+          - examples:
+            - examples
+            - examples
+            synonyms:
+            - synonyms
+            - synonyms
+            part_of_speech: part_of_speech
+            antonyms:
+            - antonyms
+            - antonyms
+            definition: definition
+          - examples:
+            - examples
+            - examples
+            synonyms:
+            - synonyms
+            - synonyms
+            part_of_speech: part_of_speech
+            antonyms:
+            - antonyms
+            - antonyms
+            definition: definition
+          frequency: 0.8008281904610115
+      properties:
+        origin:
+          $ref: '#/components/schemas/word_detail'
+        translated:
+          $ref: '#/components/schemas/word_detail'
+      required:
+      - origin
+      - translated
       type: object
   securitySchemes: {}

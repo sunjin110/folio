@@ -2,6 +2,7 @@ package http
 
 import (
 	"context"
+	"errors"
 	"log/slog"
 	"net/http"
 	"time"
@@ -17,16 +18,19 @@ import (
 type EmptyResponse struct{}
 
 type golioAPIServicer struct {
-	articleUsecase usecase.Article
-	mediaUsecase   usecase.Media
-	translateRepo  repository.Translate
+	articleUsecase           usecase.Article
+	mediaUsecase             usecase.Media
+	translateRepo            repository.Translate
+	englishDictionaryUsecase usecase.EnglishDictionary
 }
 
-func NewGolioAPIServicer(articleUsecase usecase.Article, mediaUsecase usecase.Media, translateRepo repository.Translate) openapi.GolioAPIServicer {
+func NewGolioAPIServicer(articleUsecase usecase.Article, mediaUsecase usecase.Media,
+	translateRepo repository.Translate, englishDictionaryUsecase usecase.EnglishDictionary) openapi.GolioAPIServicer {
 	return &golioAPIServicer{
-		articleUsecase: articleUsecase,
-		mediaUsecase:   mediaUsecase,
-		translateRepo:  translateRepo,
+		articleUsecase:           articleUsecase,
+		mediaUsecase:             mediaUsecase,
+		translateRepo:            translateRepo,
+		englishDictionaryUsecase: englishDictionaryUsecase,
 	}
 }
 
@@ -237,5 +241,24 @@ func (g *golioAPIServicer) ArticleTagsTagIdPut(ctx context.Context, tagID string
 	}
 	return openapi.Response(http.StatusOK, openapi.UpdateArticleTagResponse{
 		Id: tagID,
+	}), nil
+}
+
+func (g *golioAPIServicer) EnglishDictionaryWordGet(ctx context.Context, word string) (openapi.ImplResponse, error) {
+
+	// Japanに今は固定
+	wordDetailWithTranslation, err := g.englishDictionaryUsecase.GetWordDetailWithTranslation(ctx, word, model.JapaneseLanguageCode)
+	if err != nil {
+		if errors.Is(err, usecase.ErrNotFound) {
+			slog.InfoContext(ctx, "not found word", "word", word, "err", err)
+			return openapi.Response(http.StatusNotFound, "not found"), nil
+		}
+		slog.ErrorContext(ctx, "failed englishDictionaryUsecase.GetWordDetailWithTranslation", "err", err)
+		return openapi.Response(http.StatusInternalServerError, "internal error"), nil
+	}
+
+	return openapi.Response(http.StatusOK, openapi.EnglishDictionaryWordGet200Response{
+		Origin:     conv.ToWordDetail(wordDetailWithTranslation.Origin),
+		Translated: conv.ToWordDetail(wordDetailWithTranslation.Translated),
 	}), nil
 }
