@@ -71,6 +71,10 @@ type WordsAPIConfig struct {
 	RapidAPIHost string `env:"RAPID_API_HOST"`
 }
 
+type D1Config struct {
+	APIKey string `env:"API_KEY"`
+}
+
 func NewConfig() (*Config, error) {
 	envFilePath := filepath.Join(utils.ProjectRoot(), ".env")
 	_ = godotenv.Load(envFilePath)
