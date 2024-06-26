@@ -18,7 +18,8 @@ func NewClient(apiKey string) *cloudflare.Client {
 }
 
 type DB[T any] interface {
-	Query(ctx context.Context, sql string, params []string) ([]T, error)
+	Query(ctx context.Context, sql string, params []string) ([]interface{}, error)
+	List(ctx context.Context, sql string, params []string) ([]T, error)
 }
 
 type db[T any] struct {
@@ -35,7 +36,7 @@ func NewDB[T any](client *cloudflare.Client, accountID string, dbID string) DB[T
 	}
 }
 
-func (db *db[T]) Query(ctx context.Context, sql string, params []string) ([]T, error) {
+func (db *db[T]) List(ctx context.Context, sql string, params []string) ([]T, error) {
 	res, err := db.client.D1.Database.Query(ctx, db.dbID, d1.DatabaseQueryParams{
 		AccountID: cloudflare.String(db.accountID),
 		Sql:       cloudflare.String(sql),
@@ -63,4 +64,24 @@ func (db *db[T]) Query(ctx context.Context, sql string, params []string) ([]T, e
 		return nil, fmt.Errorf("failed json.Unmarshal. err: %w", err)
 	}
 	return list, nil
+}
+
+func (db *db[T]) Query(ctx context.Context, sql string, params []string) ([]interface{}, error) {
+	res, err := db.client.D1.Database.Query(ctx, db.dbID, d1.DatabaseQueryParams{
+		AccountID: cloudflare.String(db.accountID),
+		Sql:       cloudflare.String(sql),
+		Params:    cloudflare.F(params),
+	})
+
+	if err != nil {
+		return nil, fmt.Errorf("failed cloudflare d1 query. sql: %s, params: %+v, err: %w", sql, params, err)
+	}
+
+	results := *res
+	result := results[0]
+
+	if !result.Success {
+		return nil, fmt.Errorf("failed request. sql: %s, params: %+v, raw: %s", sql, params, result.JSON.RawJSON())
+	}
+	return result.Results, nil
 }

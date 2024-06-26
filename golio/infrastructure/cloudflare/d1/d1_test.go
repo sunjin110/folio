@@ -25,7 +25,7 @@ func Test_db_Query(t *testing.T) {
 
 		db := d1.NewDB[ArticleBody](client, "", "")
 
-		bodies, err := db.Query(context.Background(), "select * from article_bodies;", nil)
+		bodies, err := db.List(context.Background(), "select * from article_bodies;", nil)
 		So(err, ShouldBeNil)
 
 		bodiesJSON, _ := json.Marshal(bodies)
