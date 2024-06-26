@@ -16,6 +16,7 @@ models/ArticlesGet400Response.ts
 models/ArticlesPost200Response.ts
 models/ArticlesPostRequest.ts
 models/DeleteArticleTagResponse.ts
+models/EnglishDictionaryWordGet200Response.ts
 models/HelloGet200Response.ts
 models/InsertArticleTagResponse.ts
 models/LanguageCode.ts
@@ -27,5 +28,7 @@ models/MediaPostRequest.ts
 models/TranslationPost200Response.ts
 models/TranslationPostRequest.ts
 models/UpdateArticleTagResponse.ts
+models/WordDefinition.ts
+models/WordDetail.ts
 models/index.ts
 runtime.ts

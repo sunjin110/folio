@@ -55,7 +55,7 @@ func (t *translate) TranslateWordDetail(ctx context.Context, wordDetail *model.W
 		TerminologyNames:   []string{},
 	})
 	if err != nil {
-		return nil, fmt.Errorf("failed TranslateDocument")
+		return nil, fmt.Errorf("failed TranslateDocument. err: %w", err)
 	}
 
 	translated := &dto.WordDetail{}

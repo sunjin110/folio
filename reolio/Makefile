@@ -5,6 +5,6 @@
 gen-code:
 	@docker run --rm \
   		-v ${PWD}/../:/local openapitools/openapi-generator-cli generate \
-  		-i /local/golio/schema/http/swagger.json \
+  		-i /local/golio/schema/http/folio.openapi.json \
   		-g typescript-fetch \
   		-o /local/reolio/src/generate/schema/http
