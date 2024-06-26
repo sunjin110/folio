@@ -124,7 +124,8 @@ resource "aws_iam_policy" "lambda_aws_translate_policy" {
           "translate:StartTextTranslationJob",
           "translate:DescribeTextTranslationJob",
           "translate:StopTextTranslationJob",
-          "translate:DeleteTextTranslationJob"
+          "translate:DeleteTextTranslationJob",
+          "translate:TranslateDocument",
         ],
         "Resource" : "*"
       }
