@@ -11,8 +11,8 @@ resource "aws_lambda_function" "this" {
     variables = var.environment
   }
 
-  vpc_config {
-    subnet_ids         = var.network.private_subnet_ids
-    security_group_ids = [aws_security_group.this.id]
-  }
+  # vpc_config {
+  #   subnet_ids         = var.network.private_subnet_ids
+  #   security_group_ids = [aws_security_group.this.id]
+  # }
 }
