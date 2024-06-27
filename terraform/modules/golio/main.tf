@@ -38,7 +38,7 @@ module "lambda" {
 
     CORS_ALLOWED_ORIGINS : var.reolio.base_url
 
-    POSTGRES_DATASOURCE : module.rds.datasource,
+    POSTGRES_DATASOURCE : module.neon.datasource,
     MEDIA_S3_REGION : var.aws.region,
     MEDIA_S3_BUCKET_NAME : local.media_s3_name,
 
