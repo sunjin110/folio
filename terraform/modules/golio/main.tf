@@ -52,8 +52,8 @@ module "lambda" {
     WORDS_API_RAPID_API_HOST : var.words_api.rapid_api_host,
   }
 
-  network = module.network.network
-  prefix  = var.prefix
+  # network = module.network.network
+  prefix = var.prefix
 }
 
 module "api_gateway" {
@@ -96,12 +96,12 @@ module "domain" {
 }
 
 
-module "network" {
-  source     = "./network"
-  cidr_block = var.cidr_block
-  prefix     = var.prefix
-  aws        = var.aws
-}
+# module "network" {
+#   source     = "./network"
+#   cidr_block = var.cidr_block
+#   prefix     = var.prefix
+#   aws        = var.aws
+# }
 
 
 # module "rds" {
@@ -123,13 +123,13 @@ module "dynamodb" {
   prefix = var.prefix
 }
 
-module "aws_translate" {
-  source             = "./aws_translate"
-  prefix             = var.prefix
-  aws                = var.aws
-  network            = module.network.network
-  security_group_ids = [module.lambda.lambda.security_group_id]
-}
+# module "aws_translate" {
+#   source             = "./aws_translate"
+#   prefix             = var.prefix
+#   aws                = var.aws
+#   # network            = module.network.network
+#   security_group_ids = [module.lambda.lambda.security_group_id]
+# }
 
 module "google_project_service" {
   source = "./google_project_service"
