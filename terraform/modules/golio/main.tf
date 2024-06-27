@@ -104,11 +104,11 @@ module "network" {
 }
 
 
-module "rds" {
-  source  = "./rds2"
-  network = module.network.network
-  prefix  = var.prefix
-}
+# module "rds" {
+#   source  = "./rds2"
+#   network = module.network.network
+#   prefix  = var.prefix
+# }
 
 module "media_s3" {
   source = "./s3"
