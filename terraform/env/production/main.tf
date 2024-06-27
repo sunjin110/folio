@@ -9,6 +9,11 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.0.1"
     }
+
+    neon = {
+      source  = "kislerdm/neon"
+      version = ">= 0.5.0"
+    }
   }
   backend "s3" {
     bucket         = "production-folio-terraform-state"
@@ -18,6 +23,10 @@ terraform {
     encrypt        = true
     profile        = "folio-terraform"
   }
+}
+
+provider "neon" {
+  api_key = var.neon_api_key
 }
 
 locals {
