@@ -143,3 +143,8 @@ module "google_service_account" {
     module.google_project_service
   ]
 }
+
+module "neon" {
+  source = "./neon"
+  prefix = var.prefix
+}

@@ -44,6 +44,11 @@ variable "words_api_rapid_api_host" {
   sensitive = true
 }
 
+variable "neon_api_key" {
+  type = string
+}
+
+
 # TODO これはapiのcustom domainを決めたタイミングでどうにかする
 # variable "google_oauth_redirect_uri" {
 #   type = string

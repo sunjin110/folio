@@ -5,8 +5,15 @@ terraform {
       source  = "cloudflare/cloudflare"
       version = "~> 4"
     }
+    #  neon = {
+    #   source = "kislerdm/neon"
+    # }
   }
 }
+
+# provider "neon" {
+#   api_key = var.neon_api_key
+# }
 
 provider "cloudflare" {
   api_key = var.cloudflare_api_key
