@@ -1,7 +1,8 @@
 locals {
   lambda_name                 = "${var.prefix}-golio-lambda"
   media_s3_name               = "${var.prefix}-golio-media"
-  dynamodb_user_sessions_name = "${var.prefix}_user_sessions"
+  dynamodb_user_sessions_name = "${var.prefix}_user_sessions_v2"
+  dynamodb_users_name         = "${var.prefix}_users"
 }
 
 module "ecr" {
@@ -43,6 +44,7 @@ module "lambda" {
     MEDIA_S3_BUCKET_NAME : local.media_s3_name,
 
     SESSION_DYNAMODB_TABLE_NAME : local.dynamodb_user_sessions_name,
+    USER_DYNAMODB_TABLE_NAME : local.dynamodb_users_name,
 
     CHAT_GPT_API_KEY : var.chat_gpt.api_key
 

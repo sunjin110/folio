@@ -13,6 +13,7 @@ import (
 type Config struct {
 	GoogleOAuth           GoogleOAuthConfig `envPrefix:"GOOGLE_OAUTH_"`
 	SessionDynamoDB       DynamoDBConfig    `envPrefix:"SESSION_DYNAMODB_"`
+	UserDynamoDB          DynamoDBConfig    `envPrefix:"USER_DYNAMODB_"`
 	CORS                  CORSConfig        `envPrefix:"CORS_"`
 	PostgresDB            PostgresConfig    `envPrefix:"POSTGRES_"`
 	AWS                   AWSConfig         `envPrefix:"AWS_"`

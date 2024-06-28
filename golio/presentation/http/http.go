@@ -62,11 +62,13 @@ func Router(ctx context.Context, cfg *httpconf.Config) (http.Handler, error) {
 	mediaRepo := repository.NewMedia(db, cfg.MediaS3.BucketName, s3Client)
 
 	dynamoInnerClient := dynamodb.NewInnerClient(awsCfg)
-	sessionV2Repo := repository.NewSessionV2(dynamodb.NewClient[dynamodto.UserSessionV2](dynamoInnerClient), cfg.SessionDynamoDB.TableName)
+	sessionV3Repo := repository.NewSessionV3(dynamodb.NewClient[dynamodto.UserSessionV3](dynamoInnerClient), cfg.SessionDynamoDB.TableName)
 	translateRepo := repository.NewTranslate(awsTranslateClient)
 	englishDictionaryRepo := repository.NewEnglishDictionary(cfg.WordsAPI.RapidAPIKey, cfg.WordsAPI.RapidAPIHost)
 
-	authUsecase := usecase.NewAuth(googleOAuth2Repo, sessionV2Repo)
+	userRepo := repository.NewUser(dynamodb.NewClient[dynamodto.User](dynamoInnerClient), cfg.UserDynamoDB.TableName)
+
+	authUsecase := usecase.NewAuth(googleOAuth2Repo, userRepo, sessionV3Repo)
 	articleUsecase := usecase.NewArticle(articleRepo, articleAIRepo, articleTagRepo)
 	mediaUsecase := usecase.NewMedia(mediaRepo)
 	englishDictionaryUsecase := usecase.NewEnglishDictionary(translateRepo, englishDictionaryRepo)
@@ -87,7 +89,7 @@ func Router(ctx context.Context, cfg *httpconf.Config) (http.Handler, error) {
 		HandlerFunc(googleOAuthController.Callback)
 
 	// middleware
-	r.Use(AuthMW(authUsecase))
+	r.Use(AuthMW(authUsecase, userRepo))
 
 	// CORSミドルウェアの設定
 	// すべてのオリジンからのアクセスを許可する設定
