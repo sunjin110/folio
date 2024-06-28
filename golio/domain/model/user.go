@@ -2,6 +2,14 @@ package model
 
 import "time"
 
+type User struct {
+	Email        string
+	RefreshToken string
+	FirstName    string
+	LastName     string
+	DisplayName  string
+}
+
 type UserSession struct {
 	Email       string
 	FirstName   string
