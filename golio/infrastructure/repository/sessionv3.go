@@ -24,7 +24,7 @@ func NewSessionV3(dynamodbClient dynamodb.Client[dynamodto.UserSessionV3], table
 }
 
 func (s *sessionV3) DeleteByEmail(ctx context.Context, email string) error {
-	panic("unimplemented")
+	panic("TODO")
 }
 
 func (s *sessionV3) Get(ctx context.Context, accessToken string) (*model.UserSessionV3, error) {
