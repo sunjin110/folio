@@ -31,12 +31,14 @@ type StartSessionOutput struct {
 type auth struct {
 	googleOAuth2  repository.GoogleOAuth2
 	sessionV2Repo repository.SessionV2
+	userRepo      repository.User
 }
 
-func NewAuth(googleOAuth2 repository.GoogleOAuth2, sessionRepoV2 repository.SessionV2) Auth {
+func NewAuth(googleOAuth2 repository.GoogleOAuth2, sessionRepoV2 repository.SessionV2, userRepo repository.User) Auth {
 	return &auth{
 		googleOAuth2:  googleOAuth2,
 		sessionV2Repo: sessionRepoV2,
+		userRepo:      userRepo,
 	}
 }
 
