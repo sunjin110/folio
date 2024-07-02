@@ -66,7 +66,9 @@ func Router(ctx context.Context, cfg *httpconf.Config) (http.Handler, error) {
 	translateRepo := repository.NewTranslate(awsTranslateClient)
 	englishDictionaryRepo := repository.NewEnglishDictionary(cfg.WordsAPI.RapidAPIKey, cfg.WordsAPI.RapidAPIHost)
 
-	authUsecase := usecase.NewAuth(googleOAuth2Repo, sessionV2Repo)
+	userRepo := repository.NewUser(dynamodb.NewClient[dynamodto.User](dynamoInnerClient), cfg.UserDynamoDB.TableName)
+
+	authUsecase := usecase.NewAuth(googleOAuth2Repo, sessionV2Repo, userRepo)
 	articleUsecase := usecase.NewArticle(articleRepo, articleAIRepo, articleTagRepo)
 	mediaUsecase := usecase.NewMedia(mediaRepo)
 	englishDictionaryUsecase := usecase.NewEnglishDictionary(translateRepo, englishDictionaryRepo)
