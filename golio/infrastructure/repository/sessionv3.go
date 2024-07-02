@@ -49,5 +49,13 @@ func (s *sessionV3) Get(ctx context.Context, accessToken string) (*model.UserSes
 }
 
 func (s *sessionV3) Upsert(ctx context.Context, userSession *model.UserSessionV3) error {
-	panic("unimplemented")
+	if userSession == nil {
+		return fmt.Errorf("failed Upsert. userSession is nil")
+	}
+
+	dto := dynamodto.NewUserSessionV3(userSession)
+	if err := s.dynamodbClient.Add(ctx, s.tableName, *dto); err != nil {
+		return fmt.Errorf("failed add userSession. err: ")
+	}
+	return nil
 }
