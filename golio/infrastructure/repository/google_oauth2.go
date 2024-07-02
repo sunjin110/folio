@@ -148,7 +148,7 @@ func (o *googleOauth2) GetTokenFromRefreshToken(ctx context.Context, refreshToke
 	return output.ToToken(refreshToken), nil
 }
 
-func (o *googleOauth2) GetUserSession(ctx context.Context, token string) (*model.UserSession, error) {
+func (o *googleOauth2) GetUser(ctx context.Context, token string) (*model.GoogleOAuthUser, error) {
 	u, err := url.Parse(personGetURI)
 	if err != nil {
 		return nil, fmt.Errorf("failed url.Parse: %w", err)
@@ -182,7 +182,7 @@ func (o *googleOauth2) GetUserSession(ctx context.Context, token string) (*model
 		return nil, fmt.Errorf("failed json.Unmarshal. body: %s, err: %w", string(body), err)
 	}
 	primaryName := person.GetPrimaryName()
-	return &model.UserSession{
+	return &model.GoogleOAuthUser{
 		Email:       person.GetPrimaryEmailAddress().Value,
 		FirstName:   primaryName.GivenName,
 		LastName:    primaryName.FamilyName,

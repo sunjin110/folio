@@ -51,6 +51,8 @@ variable "environment" {
 
     WORDS_API_RAPID_API_KEY : string,
     WORDS_API_RAPID_API_HOST : string,
+
+    USER_DYNAMODB_TABLE_NAME : string,
   })
 }
 

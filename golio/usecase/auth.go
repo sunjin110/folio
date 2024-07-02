@@ -17,10 +17,9 @@ type Auth interface {
 	StartSessionFromGoogleOAuthCode(ctx context.Context, code string) (*StartSessionOutput, error)
 
 	// GetSessionInfoFromToken Session情報をtokenから取得する
-	GetSessionInfoFromToken(ctx context.Context, token string) (*model.UserSessionV2, error)
+	GetSessionInfoFromToken(ctx context.Context, token string) (*model.UserSessionV3, error)
 
-	// RefreshSessionFromRefreshToken Session情報をrefreshTokenを利用して綺麗にする
-	RefreshSessionFromRefreshToken(ctx context.Context, userSession *model.UserSessionV2) (*model.UserSessionV2, error)
+	RefreshSession(ctx context.Context, refreshToken string, email string) (*model.UserSessionV3, error)
 }
 
 type StartSessionOutput struct {
@@ -30,13 +29,15 @@ type StartSessionOutput struct {
 
 type auth struct {
 	googleOAuth2  repository.GoogleOAuth2
-	sessionV2Repo repository.SessionV2
+	userRepo      repository.User
+	sessionV3Repo repository.SessionV3
 }
 
-func NewAuth(googleOAuth2 repository.GoogleOAuth2, sessionRepoV2 repository.SessionV2) Auth {
+func NewAuth(googleOAuth2 repository.GoogleOAuth2, userRepo repository.User, sessionRepoV3 repository.SessionV3) Auth {
 	return &auth{
 		googleOAuth2:  googleOAuth2,
-		sessionV2Repo: sessionRepoV2,
+		userRepo:      userRepo,
+		sessionV3Repo: sessionRepoV3,
 	}
 }
 
@@ -54,58 +55,64 @@ func (a *auth) StartSessionFromGoogleOAuthCode(ctx context.Context, code string)
 		return nil, fmt.Errorf("failed googleOAuth2.GetTokenFromCode: %w", err)
 	}
 
-	userSession, err := a.googleOAuth2.GetUserSession(ctx, token.AccessToken)
+	googleOAuthUser, err := a.googleOAuth2.GetUser(ctx, token.AccessToken)
 	if err != nil {
 		return nil, fmt.Errorf("failed googleOAuth2.GetUserSession: %w", err)
 	}
 
-	if err := a.sessionV2Repo.Upsert(ctx, &model.UserSessionV2{
-		Email:                 userSession.Email,
-		FirstName:             userSession.FirstName,
-		LastName:              userSession.LastName,
-		DisplayName:           userSession.DisplayName,
+	if err := a.userRepo.Upsert(ctx, &model.User{
+		Email:        googleOAuthUser.Email,
+		RefreshToken: token.RefreshToken,
+		FirstName:    googleOAuthUser.FirstName,
+		LastName:     googleOAuthUser.LastName,
+		DisplayName:  googleOAuthUser.DisplayName,
+	}); err != nil {
+		return nil, fmt.Errorf("failed userRepo.Upsert. err: %w", err)
+	}
+
+	if err := a.sessionV3Repo.Upsert(ctx, &model.UserSessionV3{
 		AccessToken:           token.AccessToken,
-		RefreshToken:          token.RefreshToken,
+		Email:                 googleOAuthUser.Email,
 		AccessTokenExpireTime: token.ExpireTime,
 	}); err != nil {
-		return nil, fmt.Errorf("failed sessionV2Repo.Upsert. err: %w", err)
+		return nil, fmt.Errorf("failed sessionV3Repo.Upsert. err: %w", err)
 	}
 
 	return &StartSessionOutput{
 		AccessToken: token.AccessToken,
-		Email:       userSession.Email,
+		Email:       googleOAuthUser.Email,
 	}, nil
 }
 
-func (a *auth) GetSessionInfoFromToken(ctx context.Context, token string) (*model.UserSessionV2, error) {
-	userSessionV2, err := a.sessionV2Repo.GetByAccessToken(ctx, token)
+func (a *auth) GetSessionInfoFromToken(ctx context.Context, token string) (*model.UserSessionV3, error) {
+	userSession, err := a.sessionV3Repo.Get(ctx, token)
 	if err != nil {
 		if errors.Is(err, repository.ErrNotFound) {
 			return nil, ErrNotFound
 		}
-		return nil, fmt.Errorf("failed get sessionV2. err: %w", err)
+		return nil, fmt.Errorf("failed get userSessionV3. err: %w", err)
 	}
-	return userSessionV2, nil
+
+	return userSession, nil
 }
 
-func (a *auth) RefreshSessionFromRefreshToken(ctx context.Context, userSession *model.UserSessionV2) (*model.UserSessionV2, error) {
-	token, err := a.googleOAuth2.GetTokenFromRefreshToken(ctx, userSession.RefreshToken)
+func (a *auth) RefreshSession(ctx context.Context, refreshToken string, email string) (*model.UserSessionV3, error) {
+	token, err := a.googleOAuth2.GetTokenFromRefreshToken(ctx, refreshToken)
 	if err != nil {
 		return nil, fmt.Errorf("failed get token from refresh token. err: %w", err)
 	}
 
-	refreshedUserSession := &model.UserSessionV2{
-		Email:                 userSession.Email,
-		FirstName:             userSession.FirstName,
-		LastName:              userSession.LastName,
-		DisplayName:           userSession.DisplayName,
+	if err := a.sessionV3Repo.Upsert(ctx, &model.UserSessionV3{
 		AccessToken:           token.AccessToken,
-		RefreshToken:          userSession.RefreshToken,
+		Email:                 email,
 		AccessTokenExpireTime: token.ExpireTime,
+	}); err != nil {
+		return nil, fmt.Errorf("failed upsert user session. err: %w", err)
 	}
 
-	if err := a.sessionV2Repo.Upsert(ctx, refreshedUserSession); err != nil {
-		return nil, fmt.Errorf("failed sessionV2Repo.Upsert. err: %w", err)
-	}
-	return refreshedUserSession, nil
+	return &model.UserSessionV3{
+		AccessToken:           token.AccessToken,
+		Email:                 email,
+		AccessTokenExpireTime: token.ExpireTime,
+	}, nil
 }
