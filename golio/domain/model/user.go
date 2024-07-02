@@ -26,3 +26,9 @@ type UserSessionV2 struct {
 	RefreshToken          string
 	AccessTokenExpireTime time.Time
 }
+
+type UserSessionV3 struct {
+	AccessToken string
+	Email       string
+	ExpireTime  time.Time
+}
