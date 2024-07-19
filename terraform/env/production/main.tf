@@ -41,6 +41,7 @@ locals {
   reolio_base_url = "https://folio.sunjin.info"
   golio_domain    = "folio-api.sunjin.info"
   tfstate_name    = "production-folio-terraform-state"
+  env             = "production"
 }
 
 module "golio" {
@@ -58,7 +59,7 @@ module "golio" {
     zone_id    = var.cloudflare_zone_id
   }
 
-  prefix = "production"
+  prefix = local.env
   google_oauth = {
     client_id             = var.google_oauth_client_id
     client_secret         = var.google_oauth_secret_id
@@ -102,6 +103,12 @@ module "reolio" {
     project_name      = "reolio"
     subdomain_name    = "folio"
   }
+}
+
+module "rusthumb" {
+  source = "../../modules/rusthumb"
+  prefix = local.env
+  aws    = local.aws
 }
 
 module "tfstate" {
