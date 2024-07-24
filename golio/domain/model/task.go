@@ -11,6 +11,7 @@ const (
 
 type Tasks []*Task
 
+// Task 仕事のタスクです
 type Task struct {
 	ID        string
 	Title     string
