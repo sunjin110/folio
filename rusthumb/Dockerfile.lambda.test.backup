@@ -1,0 +1,64 @@
+ARG RUST_VERSION=1.80.0
+FROM arm64v8/rust:${RUST_VERSION} AS build
+WORKDIR /src
+
+RUN apt-get update && \
+    apt-get install -y libclang-dev pkg-config \
+    libavcodec-dev libavformat-dev libavutil-dev libswscale-dev \
+     libavutil-dev  libavfilter-dev libavdevice-dev
+     
+RUN apt-get install -y  python3 python3-pip
+
+RUN python3 --version
+RUN pip3 -V
+
+RUN pip3 install cargo-lambda --break-system-packages
+
+
+# Build the application.
+# Leverage a cache mount to /usr/local/cargo/registry/
+# for downloaded dependencies, a cache mount to /usr/local/cargo/git/db
+# for git repository dependencies, and a cache mount to /app/target/ for
+# compiled dependencies which will speed up subsequent builds.
+# Leverage a bind mount to the src directory to avoid having to copy the
+# source code into the container. Once built, copy the executable to an
+# output directory before the cache mounted /app/target is unmounted.
+RUN --mount=type=bind,source=src,target=src \
+    --mount=type=bind,source=Cargo.toml,target=Cargo.toml \
+    --mount=type=bind,source=Cargo.lock,target=Cargo.lock \
+    --mount=type=cache,target=/app/target/ \
+    --mount=type=cache,target=/usr/local/cargo/git/db \
+    --mount=type=cache,target=/usr/local/cargo/registry/ \
+    # https://github.com/awslabs/aws-lambda-rust-runtime/issues/874#issuecomment-2223823884
+cargo lambda build --locked --release --target aarch64-unknown-linux-gnu.2.26
+
+RUN cp ./target/lambda/lambda/bootstrap /bin/lambda
+
+# AWS Lambda RIE のダウンロードと設定
+RUN curl -Lo /aws-lambda-rie https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie-arm64 && \
+    chmod +x /aws-lambda-rie
+
+# 最終イメージ
+# FROM gcr.io/distroless/static-debian12:latest
+# COPY --from=build /bin/lambda /lambda
+# COPY --from=build /aws-lambda-rie /aws-lambda-rie
+# USER nonroot
+
+# # ENTRYPOINT と CMD の設定
+# ENTRYPOINT ["/aws-lambda-rie"]
+# CMD ["/lambda"]
+
+# https://dev.classmethod.jp/articles/rust-app-container-on-lambda-function/
+# このimageでしかできない、他のもっと軽いruntimeで今後できることを祈る
+FROM public.ecr.aws/lambda/provided:al2
+COPY --from=build /bin/lambda ${LAMBDA_RUNTIME_DIR}/bootstrap
+
+# /var/runtimeらしい
+RUN echo "LAMBDA_RUNTIME_DIR is ${LAMBDA_RUNTIME_DIR}" 
+COPY --from=build /aws-lambda-rie /aws-lambda-rie
+
+
+# ハンドラ名は利用しない?
+# https://github.com/awslabs/aws-lambda-rust-runtime/issues/467
+ENTRYPOINT ["/aws-lambda-rie"]
+CMD ["/var/runtime/bootstrap"]
