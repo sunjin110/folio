@@ -1,7 +1,6 @@
 use aws_lambda_events::s3::S3Event;
 use aws_sdk_s3::Client;
-use lambda_runtime::{run, service_fn,  Error, LambdaEvent};
-use log::info;
+use lambda_runtime::{run, service_fn, Error, LambdaEvent};
 
 
 pub async fn serve() -> Result<(), Error> {
@@ -15,7 +14,6 @@ pub async fn serve() -> Result<(), Error> {
 }
 
 async fn function_handler(_s3_client: &Client, evt: LambdaEvent<S3Event>) -> Result<(), Error> {
-    info!("bucket name is {:?}", evt.payload.records[0].s3.bucket.name);
-    info!("bucket path is {:?}", evt.payload.records[0].s3.object.key);
+    println!("bucket name is {:?}", evt.payload.records[0].s3.bucket.name);
     Ok(())
 }
