@@ -65,15 +65,16 @@ func Router(ctx context.Context, cfg *httpconf.Config) (http.Handler, error) {
 	sessionV3Repo := repository.NewSessionV3(dynamodb.NewClient[dynamodto.UserSessionV3](dynamoInnerClient), cfg.SessionDynamoDB.TableName)
 	translateRepo := repository.NewTranslate(awsTranslateClient)
 	englishDictionaryRepo := repository.NewEnglishDictionary(cfg.WordsAPI.RapidAPIKey, cfg.WordsAPI.RapidAPIHost)
-
 	userRepo := repository.NewUser(dynamodb.NewClient[dynamodto.User](dynamoInnerClient), cfg.UserDynamoDB.TableName)
+	taskRepo := repository.NewTask(db)
 
 	authUsecase := usecase.NewAuth(googleOAuth2Repo, userRepo, sessionV3Repo)
 	articleUsecase := usecase.NewArticle(articleRepo, articleAIRepo, articleTagRepo)
 	mediaUsecase := usecase.NewMedia(mediaRepo)
 	englishDictionaryUsecase := usecase.NewEnglishDictionary(translateRepo, englishDictionaryRepo)
+	taskUsecase := usecase.NewTask(taskRepo)
 
-	golioAPIController := openapi.NewGolioAPIController(NewGolioAPIServicer(articleUsecase, mediaUsecase, translateRepo, englishDictionaryUsecase))
+	golioAPIController := openapi.NewGolioAPIController(NewGolioAPIServicer(articleUsecase, mediaUsecase, translateRepo, englishDictionaryUsecase, taskUsecase))
 
 	googleOAuthController := NewGoogleOAuthController(authUsecase, cfg.GoogleOAuth.CallbackRedirectURI)
 	r := openapi.NewRouter(golioAPIController)

@@ -101,6 +101,16 @@ func (c *GolioAPIController) Routes() Routes {
 			"/articles",
 			c.ArticlesPost,
 		},
+		"EnglishDictionaryWordBookmarkDelete": Route{
+			strings.ToUpper("Delete"),
+			"/english_dictionary/{word}/bookmark",
+			c.EnglishDictionaryWordBookmarkDelete,
+		},
+		"EnglishDictionaryWordBookmarkPut": Route{
+			strings.ToUpper("Put"),
+			"/english_dictionary/{word}/bookmark",
+			c.EnglishDictionaryWordBookmarkPut,
+		},
 		"EnglishDictionaryWordGet": Route{
 			strings.ToUpper("Get"),
 			"/english_dictionary/{word}",
@@ -130,6 +140,21 @@ func (c *GolioAPIController) Routes() Routes {
 			strings.ToUpper("Post"),
 			"/media",
 			c.MediaPost,
+		},
+		"TasksIdGet": Route{
+			strings.ToUpper("Get"),
+			"/tasks/{id}",
+			c.TasksIdGet,
+		},
+		"TasksIdPut": Route{
+			strings.ToUpper("Put"),
+			"/tasks/{id}",
+			c.TasksIdPut,
+		},
+		"TasksPost": Route{
+			strings.ToUpper("Post"),
+			"/tasks",
+			c.TasksPost,
 		},
 		"TranslationPost": Route{
 			strings.ToUpper("Post"),
@@ -463,6 +488,56 @@ func (c *GolioAPIController) ArticlesPost(w http.ResponseWriter, r *http.Request
 	_ = EncodeJSONResponse(result.Body, &result.Code, w)
 }
 
+// EnglishDictionaryWordBookmarkDelete - 辞書で引いた単語ブックマークを削除
+func (c *GolioAPIController) EnglishDictionaryWordBookmarkDelete(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	wordParam := params["word"]
+	if wordParam == "" {
+		c.errorHandler(w, r, &RequiredError{"word"}, nil)
+		return
+	}
+	bodyParam := map[string]interface{}{}
+	d := json.NewDecoder(r.Body)
+	d.DisallowUnknownFields()
+	if err := d.Decode(&bodyParam); err != nil && !errors.Is(err, io.EOF) {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	result, err := c.service.EnglishDictionaryWordBookmarkDelete(r.Context(), wordParam, bodyParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	_ = EncodeJSONResponse(result.Body, &result.Code, w)
+}
+
+// EnglishDictionaryWordBookmarkPut - 辞書で引いた単語ブックマークを作成
+func (c *GolioAPIController) EnglishDictionaryWordBookmarkPut(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	wordParam := params["word"]
+	if wordParam == "" {
+		c.errorHandler(w, r, &RequiredError{"word"}, nil)
+		return
+	}
+	bodyParam := map[string]interface{}{}
+	d := json.NewDecoder(r.Body)
+	d.DisallowUnknownFields()
+	if err := d.Decode(&bodyParam); err != nil && !errors.Is(err, io.EOF) {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	result, err := c.service.EnglishDictionaryWordBookmarkPut(r.Context(), wordParam, bodyParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	_ = EncodeJSONResponse(result.Body, &result.Code, w)
+}
+
 // EnglishDictionaryWordGet - 英単語を辞書で引く
 func (c *GolioAPIController) EnglishDictionaryWordGet(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
@@ -592,6 +667,91 @@ func (c *GolioAPIController) MediaPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	result, err := c.service.MediaPost(r.Context(), mediaPostRequestParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	_ = EncodeJSONResponse(result.Body, &result.Code, w)
+}
+
+// TasksIdGet - タスク詳細取得
+func (c *GolioAPIController) TasksIdGet(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	idParam := params["id"]
+	if idParam == "" {
+		c.errorHandler(w, r, &RequiredError{"id"}, nil)
+		return
+	}
+	bodyParam := map[string]interface{}{}
+	d := json.NewDecoder(r.Body)
+	d.DisallowUnknownFields()
+	if err := d.Decode(&bodyParam); err != nil && !errors.Is(err, io.EOF) {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	result, err := c.service.TasksIdGet(r.Context(), idParam, bodyParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	_ = EncodeJSONResponse(result.Body, &result.Code, w)
+}
+
+// TasksIdPut - タスク編集
+func (c *GolioAPIController) TasksIdPut(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	idParam := params["id"]
+	if idParam == "" {
+		c.errorHandler(w, r, &RequiredError{"id"}, nil)
+		return
+	}
+	tasksPostRequestParam := TasksPostRequest{}
+	d := json.NewDecoder(r.Body)
+	d.DisallowUnknownFields()
+	if err := d.Decode(&tasksPostRequestParam); err != nil && !errors.Is(err, io.EOF) {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	if err := AssertTasksPostRequestRequired(tasksPostRequestParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	if err := AssertTasksPostRequestConstraints(tasksPostRequestParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	result, err := c.service.TasksIdPut(r.Context(), idParam, tasksPostRequestParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	_ = EncodeJSONResponse(result.Body, &result.Code, w)
+}
+
+// TasksPost - タスク作成
+func (c *GolioAPIController) TasksPost(w http.ResponseWriter, r *http.Request) {
+	tasksPostRequestParam := TasksPostRequest{}
+	d := json.NewDecoder(r.Body)
+	d.DisallowUnknownFields()
+	if err := d.Decode(&tasksPostRequestParam); err != nil && !errors.Is(err, io.EOF) {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	if err := AssertTasksPostRequestRequired(tasksPostRequestParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	if err := AssertTasksPostRequestConstraints(tasksPostRequestParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	result, err := c.service.TasksPost(r.Context(), tasksPostRequestParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

@@ -22,15 +22,17 @@ type golioAPIServicer struct {
 	mediaUsecase             usecase.Media
 	translateRepo            repository.Translate
 	englishDictionaryUsecase usecase.EnglishDictionary
+	taskUsecase              usecase.Task
 }
 
 func NewGolioAPIServicer(articleUsecase usecase.Article, mediaUsecase usecase.Media,
-	translateRepo repository.Translate, englishDictionaryUsecase usecase.EnglishDictionary) openapi.GolioAPIServicer {
+	translateRepo repository.Translate, englishDictionaryUsecase usecase.EnglishDictionary, taskUsecase usecase.Task) openapi.GolioAPIServicer {
 	return &golioAPIServicer{
 		articleUsecase:           articleUsecase,
 		mediaUsecase:             mediaUsecase,
 		translateRepo:            translateRepo,
 		englishDictionaryUsecase: englishDictionaryUsecase,
+		taskUsecase:              taskUsecase,
 	}
 }
 
@@ -260,5 +262,68 @@ func (g *golioAPIServicer) EnglishDictionaryWordGet(ctx context.Context, word st
 	return openapi.Response(http.StatusOK, openapi.EnglishDictionaryWordGet200Response{
 		Origin:     conv.ToWordDetail(wordDetailWithTranslation.Origin),
 		Translated: conv.ToWordDetail(wordDetailWithTranslation.Translated),
+	}), nil
+}
+
+func (g *golioAPIServicer) EnglishDictionaryWordBookmarkDelete(context.Context, string, map[string]interface{}) (openapi.ImplResponse, error) {
+	panic("unimplemented")
+}
+
+func (g *golioAPIServicer) EnglishDictionaryWordBookmarkPut(context.Context, string, map[string]interface{}) (openapi.ImplResponse, error) {
+	panic("unimplemented")
+}
+
+func (g *golioAPIServicer) TasksIdGet(ctx context.Context, id string, _ map[string]interface{}) (openapi.ImplResponse, error) {
+	task, err := g.taskUsecase.Get(ctx, id)
+	if err != nil {
+		slog.ErrorContext(ctx, "failed taskUsecase.Get", "err", err, "id", id)
+		return openapi.Response(http.StatusInternalServerError, "internal error"), nil
+	}
+	return openapi.Response(http.StatusOK, openapi.TasksIdGet200Response{
+		Id:        id,
+		Title:     task.Title,
+		Detail:    task.Detail,
+		StartTime: task.StartTime,
+		DueTime:   task.DueTime,
+		CreatedAt: task.CratedAt,
+		UpdatedAt: task.UpdatedAt,
+	}), nil
+}
+
+func (g *golioAPIServicer) TasksIdPut(ctx context.Context, id string, req openapi.TasksPostRequest) (openapi.ImplResponse, error) {
+	task := &model.Task{
+		ID:        id,
+		Title:     req.Title,
+		Detail:    req.Detail,
+		Status:    0,
+		StartTime: req.StartTime,
+		DueTime:   req.DueTime,
+		CratedAt:  time.Now(),
+		UpdatedAt: time.Now(),
+	}
+
+	if err := g.taskUsecase.Update(ctx, task); err != nil {
+		slog.ErrorContext(ctx, "failed taskUsecase.Update", "err", err, "id", id, "req", req)
+		return openapi.Response(http.StatusInternalServerError, "internal error"), nil
+	}
+
+	return openapi.Response(http.StatusOK, openapi.TasksPostResponse{
+		ID: task.ID,
+	}), nil
+}
+
+func (g *golioAPIServicer) TasksPost(ctx context.Context, req openapi.TasksPostRequest) (openapi.ImplResponse, error) {
+	task, err := model.NewTask(req.Title, req.Detail, req.StartTime, req.DueTime, time.Now())
+	if err != nil {
+		slog.ErrorContext(ctx, "failed model.NewTask", "err", err)
+		return openapi.Response(http.StatusInternalServerError, "internal error"), nil
+	}
+	if err := g.taskUsecase.Insert(ctx, task); err != nil {
+		slog.ErrorContext(ctx, "failed taskUsecase.Insert", "err", err)
+		return openapi.Response(http.StatusInternalServerError, "internal error"), nil
+	}
+
+	return openapi.Response(http.StatusOK, openapi.TasksPostResponse{
+		ID: task.ID,
 	}), nil
 }

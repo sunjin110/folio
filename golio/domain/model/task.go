@@ -1,6 +1,11 @@
 package model
 
-import "time"
+import (
+	"fmt"
+	"time"
+
+	"github.com/google/uuid"
+)
 
 type TaskStatus int
 
@@ -21,4 +26,22 @@ type Task struct {
 	DueTime   *time.Time
 	CratedAt  time.Time
 	UpdatedAt time.Time
+}
+
+func NewTask(title string, detail string, startTime *time.Time, dueTime *time.Time, now time.Time) (*Task, error) {
+	u, err := uuid.NewRandom()
+	if err != nil {
+		return nil, fmt.Errorf("failed uuid.NewRandom. err: %w", err)
+	}
+
+	return &Task{
+		ID:        u.String(),
+		Title:     title,
+		Detail:    detail,
+		Status:    TaskStatusTodo,
+		StartTime: startTime,
+		DueTime:   dueTime,
+		CratedAt:  now,
+		UpdatedAt: now,
+	}, nil
 }
