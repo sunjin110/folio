@@ -1,0 +1,597 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BAC5BE2D2C5774E500E1A175 /* IolioApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5BE2C2C5774E500E1A175 /* IolioApp.swift */; };
+		BAC5BE2F2C5774E500E1A175 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5BE2E2C5774E500E1A175 /* ContentView.swift */; };
+		BAC5BE312C5774E500E1A175 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5BE302C5774E500E1A175 /* Item.swift */; };
+		BAC5BE332C5774E600E1A175 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BAC5BE322C5774E600E1A175 /* Assets.xcassets */; };
+		BAC5BE362C5774E600E1A175 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BAC5BE352C5774E600E1A175 /* Preview Assets.xcassets */; };
+		BAC5BE402C5774E600E1A175 /* IolioTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5BE3F2C5774E600E1A175 /* IolioTests.swift */; };
+		BAC5BE4A2C5774E600E1A175 /* IolioUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5BE492C5774E600E1A175 /* IolioUITests.swift */; };
+		BAC5BE4C2C5774E600E1A175 /* IolioUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5BE4B2C5774E600E1A175 /* IolioUITestsLaunchTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BAC5BE3C2C5774E600E1A175 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BAC5BE212C5774E500E1A175 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BAC5BE282C5774E500E1A175;
+			remoteInfo = Iolio;
+		};
+		BAC5BE462C5774E600E1A175 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BAC5BE212C5774E500E1A175 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BAC5BE282C5774E500E1A175;
+			remoteInfo = Iolio;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		BAC5BE292C5774E500E1A175 /* Iolio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Iolio.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BAC5BE2C2C5774E500E1A175 /* IolioApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IolioApp.swift; sourceTree = "<group>"; };
+		BAC5BE2E2C5774E500E1A175 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		BAC5BE302C5774E500E1A175 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		BAC5BE322C5774E600E1A175 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BAC5BE352C5774E600E1A175 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		BAC5BE3B2C5774E600E1A175 /* IolioTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IolioTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BAC5BE3F2C5774E600E1A175 /* IolioTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IolioTests.swift; sourceTree = "<group>"; };
+		BAC5BE452C5774E600E1A175 /* IolioUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IolioUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BAC5BE492C5774E600E1A175 /* IolioUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IolioUITests.swift; sourceTree = "<group>"; };
+		BAC5BE4B2C5774E600E1A175 /* IolioUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IolioUITestsLaunchTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BAC5BE262C5774E500E1A175 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BAC5BE382C5774E600E1A175 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BAC5BE422C5774E600E1A175 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BAC5BE202C5774E500E1A175 = {
+			isa = PBXGroup;
+			children = (
+				BAC5BE2B2C5774E500E1A175 /* Iolio */,
+				BAC5BE3E2C5774E600E1A175 /* IolioTests */,
+				BAC5BE482C5774E600E1A175 /* IolioUITests */,
+				BAC5BE2A2C5774E500E1A175 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BAC5BE2A2C5774E500E1A175 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BAC5BE292C5774E500E1A175 /* Iolio.app */,
+				BAC5BE3B2C5774E600E1A175 /* IolioTests.xctest */,
+				BAC5BE452C5774E600E1A175 /* IolioUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BAC5BE2B2C5774E500E1A175 /* Iolio */ = {
+			isa = PBXGroup;
+			children = (
+				BAC5BE2C2C5774E500E1A175 /* IolioApp.swift */,
+				BAC5BE2E2C5774E500E1A175 /* ContentView.swift */,
+				BAC5BE302C5774E500E1A175 /* Item.swift */,
+				BAC5BE322C5774E600E1A175 /* Assets.xcassets */,
+				BAC5BE342C5774E600E1A175 /* Preview Content */,
+			);
+			path = Iolio;
+			sourceTree = "<group>";
+		};
+		BAC5BE342C5774E600E1A175 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				BAC5BE352C5774E600E1A175 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		BAC5BE3E2C5774E600E1A175 /* IolioTests */ = {
+			isa = PBXGroup;
+			children = (
+				BAC5BE3F2C5774E600E1A175 /* IolioTests.swift */,
+			);
+			path = IolioTests;
+			sourceTree = "<group>";
+		};
+		BAC5BE482C5774E600E1A175 /* IolioUITests */ = {
+			isa = PBXGroup;
+			children = (
+				BAC5BE492C5774E600E1A175 /* IolioUITests.swift */,
+				BAC5BE4B2C5774E600E1A175 /* IolioUITestsLaunchTests.swift */,
+			);
+			path = IolioUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BAC5BE282C5774E500E1A175 /* Iolio */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BAC5BE4F2C5774E600E1A175 /* Build configuration list for PBXNativeTarget "Iolio" */;
+			buildPhases = (
+				BAC5BE252C5774E500E1A175 /* Sources */,
+				BAC5BE262C5774E500E1A175 /* Frameworks */,
+				BAC5BE272C5774E500E1A175 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Iolio;
+			productName = Iolio;
+			productReference = BAC5BE292C5774E500E1A175 /* Iolio.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BAC5BE3A2C5774E600E1A175 /* IolioTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BAC5BE522C5774E600E1A175 /* Build configuration list for PBXNativeTarget "IolioTests" */;
+			buildPhases = (
+				BAC5BE372C5774E600E1A175 /* Sources */,
+				BAC5BE382C5774E600E1A175 /* Frameworks */,
+				BAC5BE392C5774E600E1A175 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BAC5BE3D2C5774E600E1A175 /* PBXTargetDependency */,
+			);
+			name = IolioTests;
+			productName = IolioTests;
+			productReference = BAC5BE3B2C5774E600E1A175 /* IolioTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		BAC5BE442C5774E600E1A175 /* IolioUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BAC5BE552C5774E600E1A175 /* Build configuration list for PBXNativeTarget "IolioUITests" */;
+			buildPhases = (
+				BAC5BE412C5774E600E1A175 /* Sources */,
+				BAC5BE422C5774E600E1A175 /* Frameworks */,
+				BAC5BE432C5774E600E1A175 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BAC5BE472C5774E600E1A175 /* PBXTargetDependency */,
+			);
+			name = IolioUITests;
+			productName = IolioUITests;
+			productReference = BAC5BE452C5774E600E1A175 /* IolioUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BAC5BE212C5774E500E1A175 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 1540;
+				TargetAttributes = {
+					BAC5BE282C5774E500E1A175 = {
+						CreatedOnToolsVersion = 15.4;
+					};
+					BAC5BE3A2C5774E600E1A175 = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = BAC5BE282C5774E500E1A175;
+					};
+					BAC5BE442C5774E600E1A175 = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = BAC5BE282C5774E500E1A175;
+					};
+				};
+			};
+			buildConfigurationList = BAC5BE242C5774E500E1A175 /* Build configuration list for PBXProject "Iolio" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BAC5BE202C5774E500E1A175;
+			productRefGroup = BAC5BE2A2C5774E500E1A175 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BAC5BE282C5774E500E1A175 /* Iolio */,
+				BAC5BE3A2C5774E600E1A175 /* IolioTests */,
+				BAC5BE442C5774E600E1A175 /* IolioUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BAC5BE272C5774E500E1A175 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BAC5BE362C5774E600E1A175 /* Preview Assets.xcassets in Resources */,
+				BAC5BE332C5774E600E1A175 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BAC5BE392C5774E600E1A175 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BAC5BE432C5774E600E1A175 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BAC5BE252C5774E500E1A175 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BAC5BE2F2C5774E500E1A175 /* ContentView.swift in Sources */,
+				BAC5BE312C5774E500E1A175 /* Item.swift in Sources */,
+				BAC5BE2D2C5774E500E1A175 /* IolioApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BAC5BE372C5774E600E1A175 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BAC5BE402C5774E600E1A175 /* IolioTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BAC5BE412C5774E600E1A175 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BAC5BE4A2C5774E600E1A175 /* IolioUITests.swift in Sources */,
+				BAC5BE4C2C5774E600E1A175 /* IolioUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BAC5BE3D2C5774E600E1A175 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BAC5BE282C5774E500E1A175 /* Iolio */;
+			targetProxy = BAC5BE3C2C5774E600E1A175 /* PBXContainerItemProxy */;
+		};
+		BAC5BE472C5774E600E1A175 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BAC5BE282C5774E500E1A175 /* Iolio */;
+			targetProxy = BAC5BE462C5774E600E1A175 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		BAC5BE4D2C5774E600E1A175 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		BAC5BE4E2C5774E600E1A175 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BAC5BE502C5774E600E1A175 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Iolio/Preview Content\"";
+				DEVELOPMENT_TEAM = DNK8T65US7;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = info.sunjin.Iolio;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BAC5BE512C5774E600E1A175 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Iolio/Preview Content\"";
+				DEVELOPMENT_TEAM = DNK8T65US7;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = info.sunjin.Iolio;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		BAC5BE532C5774E600E1A175 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DNK8T65US7;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = info.sunjin.IolioTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Iolio.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Iolio";
+			};
+			name = Debug;
+		};
+		BAC5BE542C5774E600E1A175 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DNK8T65US7;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = info.sunjin.IolioTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Iolio.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Iolio";
+			};
+			name = Release;
+		};
+		BAC5BE562C5774E600E1A175 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DNK8T65US7;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = info.sunjin.IolioUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Iolio;
+			};
+			name = Debug;
+		};
+		BAC5BE572C5774E600E1A175 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DNK8T65US7;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = info.sunjin.IolioUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Iolio;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BAC5BE242C5774E500E1A175 /* Build configuration list for PBXProject "Iolio" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BAC5BE4D2C5774E600E1A175 /* Debug */,
+				BAC5BE4E2C5774E600E1A175 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BAC5BE4F2C5774E600E1A175 /* Build configuration list for PBXNativeTarget "Iolio" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BAC5BE502C5774E600E1A175 /* Debug */,
+				BAC5BE512C5774E600E1A175 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BAC5BE522C5774E600E1A175 /* Build configuration list for PBXNativeTarget "IolioTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BAC5BE532C5774E600E1A175 /* Debug */,
+				BAC5BE542C5774E600E1A175 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BAC5BE552C5774E600E1A175 /* Build configuration list for PBXNativeTarget "IolioUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BAC5BE562C5774E600E1A175 /* Debug */,
+				BAC5BE572C5774E600E1A175 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BAC5BE212C5774E500E1A175 /* Project object */;
+}
