@@ -18,7 +18,7 @@ type task struct {
 	db *sqlx.DB
 }
 
-func NewTag(db *sqlx.DB) repository.Task {
+func NewTask(db *sqlx.DB) repository.Task {
 	return &task{
 		db: db,
 	}

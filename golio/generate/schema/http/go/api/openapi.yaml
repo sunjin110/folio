@@ -14,7 +14,7 @@ paths:
       description: ""
       parameters:
       - description: ""
-        example: "0"
+        example: 0
         explode: true
         in: query
         name: offset
@@ -23,7 +23,7 @@ paths:
           type: integer
         style: form
       - description: ""
-        example: "10"
+        example: 10
         explode: true
         in: query
         name: limit
@@ -566,8 +566,185 @@ paths:
       summary: 英単語を辞書で引く
       tags:
       - golio
+  /english_dictionary/{word}/bookmark:
+    delete:
+      deprecated: false
+      description: ""
+      parameters:
+      - description: ""
+        explode: false
+        in: path
+        name: word
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties: {}
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                properties: {}
+                type: object
+          description: Success
+      security: []
+      summary: 辞書で引いた単語ブックマークを削除
+      tags:
+      - golio
+    put:
+      deprecated: false
+      description: ""
+      parameters:
+      - description: ""
+        explode: false
+        in: path
+        name: word
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties: {}
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                properties: {}
+                type: object
+          description: Success
+      security: []
+      summary: 辞書で引いた単語ブックマークを作成
+      tags:
+      - golio
+  /tasks:
+    post:
+      deprecated: false
+      description: ""
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_tasks_post_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_articles_post_200_response'
+          description: Success
+      security: []
+      summary: タスク作成
+      tags:
+      - golio
+  /tasks/{id}:
+    get:
+      deprecated: false
+      description: ""
+      parameters:
+      - description: ""
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties: {}
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_tasks__id__get_200_response'
+          description: Success
+      security: []
+      summary: タスク詳細取得
+      tags:
+      - golio
+    put:
+      deprecated: false
+      description: ""
+      parameters:
+      - description: ""
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_tasks_post_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_articles_post_200_response'
+          description: Success
+      security: []
+      summary: タスク編集
+      tags:
+      - golio
 components:
   schemas:
+    word_definition:
+      example:
+        examples:
+        - examples
+        - examples
+        synonyms:
+        - synonyms
+        - synonyms
+        part_of_speech: part_of_speech
+        antonyms:
+        - antonyms
+        - antonyms
+        definition: definition
+      properties:
+        definition:
+          type: string
+        part_of_speech:
+          type: string
+        synonyms:
+          items:
+            type: string
+          type: array
+        antonyms:
+          items:
+            type: string
+          type: array
+        examples:
+          items:
+            type: string
+          type: array
+      required:
+      - antonyms
+      - definition
+      - examples
+      - part_of_speech
+      - synonyms
+      type: object
     word_detail:
       example:
         word: word
@@ -608,43 +785,6 @@ components:
       - definitions
       - frequency
       - word
-      type: object
-    word_definition:
-      example:
-        examples:
-        - examples
-        - examples
-        synonyms:
-        - synonyms
-        - synonyms
-        part_of_speech: part_of_speech
-        antonyms:
-        - antonyms
-        - antonyms
-        definition: definition
-      properties:
-        definition:
-          type: string
-        part_of_speech:
-          type: string
-        synonyms:
-          items:
-            type: string
-          type: array
-        antonyms:
-          items:
-            type: string
-          type: array
-        examples:
-          items:
-            type: string
-          type: array
-      required:
-      - antonyms
-      - definition
-      - examples
-      - part_of_speech
-      - synonyms
       type: object
     delete_article_tag_response:
       example:
@@ -1145,5 +1285,60 @@ components:
       required:
       - origin
       - translated
+      type: object
+    _tasks_post_request:
+      properties:
+        title:
+          type: string
+        detail:
+          type: string
+        start_time:
+          format: date-time
+          nullable: true
+          type: string
+        due_time:
+          format: date-time
+          nullable: true
+          type: string
+      required:
+      - detail
+      - title
+      type: object
+    _tasks__id__get_200_response:
+      example:
+        start_time: 2000-01-23T04:56:07.000+00:00
+        due_time: 2000-01-23T04:56:07.000+00:00
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        created_at: 2000-01-23T04:56:07.000+00:00
+        id: id
+        detail: detail
+        title: title
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        detail:
+          type: string
+        start_time:
+          format: date-time
+          nullable: true
+          type: string
+        due_time:
+          format: date-time
+          nullable: true
+          type: string
+        created_at:
+          format: date-time
+          type: string
+        updated_at:
+          format: date-time
+          type: string
+      required:
+      - created_at
+      - detail
+      - id
+      - title
+      - updated_at
       type: object
   securitySchemes: {}
