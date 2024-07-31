@@ -1,16 +1,19 @@
-//
-//  IolioApp.swift
-//  Iolio
-//
-//  Created by 尹舜真 on 2024/07/29.
-//
-
 import SwiftUI
 import SwiftData
+import OpenAPIRuntime
+import OpenAPIURLSession
+import Foundation
 
 @main
 struct IolioApp: App {
     var sharedModelContainer: ModelContainer = {
+        
+        let serverURL = Foundation.URL(string: "http://localhost:3000")!
+        
+        let golioClient: APIProtocol = Client(serverURL: serverURL, transport: URLSessionTransport())
+        let articleRepo = InfraRepo.Article(client: golioClient)
+        let articleApplication = Application.ArticleApplicationImpl(articleRepo: articleRepo)
+        
         let schema = Schema([
             Item.self,
         ])
