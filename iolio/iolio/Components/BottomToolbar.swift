@@ -1,11 +1,42 @@
 import SwiftUI
 
-struct BottomToolbar: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+struct BottomToolbar: ToolbarContent {
+    var body: some ToolbarContent {
+        ToolbarItem(placement: .bottomBar) {
+          HStack {
+              Spacer()
+              Button("Home", action: {
+                  // TODO
+              })
+              Spacer()
+              Button("Article", action: {
+                  // TODO
+              })
+              Spacer()
+              Button("Media", action: {
+                  // TODO
+              })
+              Spacer()
+              Button("Setting", action: {
+                  // TODO
+              })
+              Spacer()
+          }
+      }
     }
 }
 
 #Preview {
-    BottomToolbar()
+    
+    struct PreviewBottomToolbar: View {
+        var body: some View {
+            NavigationView {
+                Text("test").toolbar{
+                    BottomToolbar()
+                }
+            }
+        }
+    }
+    
+    return PreviewBottomToolbar()
 }

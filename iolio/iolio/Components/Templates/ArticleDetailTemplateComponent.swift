@@ -3,15 +3,20 @@ import SwiftUI
 struct ArticleDetailTemplateComponent: View {
     var article: DomainModel.Article?
     var body: some View {
-        Group {
-            if self.article == nil {
-                Text("not found article")
-            } else {
-                VStack(alignment: .leading, content: {
-                    Text("title: \(self.article!.title)")
-                    Text("body: \(self.article!.body)")
-                    Text("created_at: \(self.article!.createdAt)")
-                })
+        
+        NavigationView {
+            Group {
+                if self.article == nil {
+                    Text("not found article")
+                } else {
+                    VStack(alignment: .leading, content: {
+                        Text("title: \(self.article!.title)")
+                        Text("body: \(self.article!.body)")
+                        Text("created_at: \(self.article!.createdAt)")
+                    })
+                }
+            }.toolbar {
+                BottomToolbar()
             }
         }
     }
