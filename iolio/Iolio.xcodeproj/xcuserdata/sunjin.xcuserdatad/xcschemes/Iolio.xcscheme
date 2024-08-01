@@ -16,7 +16,7 @@
                BlueprintIdentifier = "BAC5BE282C5774E500E1A175"
                BuildableName = "Iolio.app"
                BlueprintName = "Iolio"
-               ReferencedContainer = "container:Iolio.xcodeproj">
+               ReferencedContainer = "container:iolio.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,7 +45,7 @@
             BlueprintIdentifier = "BAC5BE282C5774E500E1A175"
             BuildableName = "Iolio.app"
             BlueprintName = "Iolio"
-            ReferencedContainer = "container:Iolio.xcodeproj">
+            ReferencedContainer = "container:iolio.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>

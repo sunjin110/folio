@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:">
+      location = "self:/Users/sunjin/develop/folio/iolio/Iolio.xcodeproj">
    </FileRef>
 </Workspace>

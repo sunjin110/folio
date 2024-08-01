@@ -15,6 +15,7 @@
 		BA3C9D812C59C10300887EDE /* InfraRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3C9D802C59C10300887EDE /* InfraRepo.swift */; };
 		BA3C9D832C59C13500887EDE /* ArticleRepoImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3C9D822C59C13500887EDE /* ArticleRepoImpl.swift */; };
 		BA565A572C5A296500629512 /* ArticleApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA565A562C5A296500629512 /* ArticleApplication.swift */; };
+		BA5B97352C5B651600D874A8 /* BottomToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5B97342C5B651600D874A8 /* BottomToolbar.swift */; };
 		BA78DEF02C59E65E00BE2280 /* OpenAPIRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = BA78DEEF2C59E65E00BE2280 /* OpenAPIRuntime */; };
 		BA78DEF32C59F1E100BE2280 /* OpenAPIURLSession in Frameworks */ = {isa = PBXBuildFile; productRef = BA78DEF22C59F1E100BE2280 /* OpenAPIURLSession */; };
 		BA78DEF62C5A11F700BE2280 /* ArticleTagDomainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA78DEF52C5A11F700BE2280 /* ArticleTagDomainModel.swift */; };
@@ -81,6 +82,7 @@
 		BA3C9D802C59C10300887EDE /* InfraRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfraRepo.swift; sourceTree = "<group>"; };
 		BA3C9D822C59C13500887EDE /* ArticleRepoImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleRepoImpl.swift; sourceTree = "<group>"; };
 		BA565A562C5A296500629512 /* ArticleApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleApplication.swift; sourceTree = "<group>"; };
+		BA5B97342C5B651600D874A8 /* BottomToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BottomToolbar.swift; path = iolio/Components/BottomToolbar.swift; sourceTree = SOURCE_ROOT; };
 		BA78DEF52C5A11F700BE2280 /* ArticleTagDomainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleTagDomainModel.swift; sourceTree = "<group>"; };
 		BA78DEF82C5A20AE00BE2280 /* Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		BA78DEFA2C5A20EE00BE2280 /* ArticleApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleApplication.swift; sourceTree = "<group>"; };
@@ -240,6 +242,7 @@
 		BA78DF002C5A236100BE2280 /* Organisms */ = {
 			isa = PBXGroup;
 			children = (
+				BA5B97342C5B651600D874A8 /* BottomToolbar.swift */,
 			);
 			path = Organisms;
 			sourceTree = "<group>";
@@ -520,6 +523,7 @@
 				BA78DEFB2C5A20EE00BE2280 /* ArticleApplication.swift in Sources */,
 				BACDF3742C5B30180000818F /* ArticleDetailTemplateComponent.swift in Sources */,
 				BA3C9D772C59BA2B00887EDE /* DomainModel.swift in Sources */,
+				BA5B97352C5B651600D874A8 /* BottomToolbar.swift in Sources */,
 				BA3C9D792C59BA9900887EDE /* ArticleDomainModel.swift in Sources */,
 				BA3C9D7B2C59BBAB00887EDE /* DomainRepo.swift in Sources */,
 				BA3C9D812C59C10300887EDE /* InfraRepo.swift in Sources */,
