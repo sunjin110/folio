@@ -1,14 +1,7 @@
-//
-//  ContentView.swift
-//  Iolio
-//
-//  Created by 尹舜真 on 2024/07/29.
-//
-
 import SwiftUI
 import SwiftData
 
-struct ContentView: View {
+struct ContentView: SwiftUI.View {
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Item]
 

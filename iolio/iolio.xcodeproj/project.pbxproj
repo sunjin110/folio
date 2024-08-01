@@ -7,6 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BA33A49C2C5B1B5A00F23034 /* ArticleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA33A49B2C5B1B5A00F23034 /* ArticleDetailView.swift */; };
+		BA3C9D772C59BA2B00887EDE /* DomainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3C9D762C59BA2B00887EDE /* DomainModel.swift */; };
+		BA3C9D792C59BA9900887EDE /* ArticleDomainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3C9D782C59BA9900887EDE /* ArticleDomainModel.swift */; };
+		BA3C9D7B2C59BBAB00887EDE /* DomainRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3C9D7A2C59BBAB00887EDE /* DomainRepo.swift */; };
+		BA3C9D7D2C59BBC500887EDE /* ArticleRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3C9D7C2C59BBC500887EDE /* ArticleRepo.swift */; };
+		BA3C9D812C59C10300887EDE /* InfraRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3C9D802C59C10300887EDE /* InfraRepo.swift */; };
+		BA3C9D832C59C13500887EDE /* ArticleRepoImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3C9D822C59C13500887EDE /* ArticleRepoImpl.swift */; };
+		BA565A572C5A296500629512 /* ArticleApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA565A562C5A296500629512 /* ArticleApplication.swift */; };
+		BA78DEF02C59E65E00BE2280 /* OpenAPIRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = BA78DEEF2C59E65E00BE2280 /* OpenAPIRuntime */; };
+		BA78DEF32C59F1E100BE2280 /* OpenAPIURLSession in Frameworks */ = {isa = PBXBuildFile; productRef = BA78DEF22C59F1E100BE2280 /* OpenAPIURLSession */; };
+		BA78DEF62C5A11F700BE2280 /* ArticleTagDomainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA78DEF52C5A11F700BE2280 /* ArticleTagDomainModel.swift */; };
+		BA78DEF92C5A20AE00BE2280 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA78DEF82C5A20AE00BE2280 /* Application.swift */; };
+		BA78DEFB2C5A20EE00BE2280 /* ArticleApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA78DEFA2C5A20EE00BE2280 /* ArticleApplication.swift */; };
+		BA78DF062C5A288200BE2280 /* Spyable in Frameworks */ = {isa = PBXBuildFile; productRef = BA78DF052C5A288200BE2280 /* Spyable */; };
 		BAC5BE2D2C5774E500E1A175 /* IolioApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5BE2C2C5774E500E1A175 /* IolioApp.swift */; };
 		BAC5BE2F2C5774E500E1A175 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5BE2E2C5774E500E1A175 /* ContentView.swift */; };
 		BAC5BE312C5774E500E1A175 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5BE302C5774E500E1A175 /* Item.swift */; };
@@ -15,9 +29,19 @@
 		BAC5BE402C5774E600E1A175 /* IolioTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5BE3F2C5774E600E1A175 /* IolioTests.swift */; };
 		BAC5BE4A2C5774E600E1A175 /* IolioUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5BE492C5774E600E1A175 /* IolioUITests.swift */; };
 		BAC5BE4C2C5774E600E1A175 /* IolioUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5BE4B2C5774E600E1A175 /* IolioUITestsLaunchTests.swift */; };
+		BACDF3742C5B30180000818F /* ArticleDetailTemplateComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACDF3732C5B30180000818F /* ArticleDetailTemplateComponent.swift */; };
+		BAF83ECB2C59E54700AC2FCA /* openapi.json in Resources */ = {isa = PBXBuildFile; fileRef = BAF83ECA2C59E54700AC2FCA /* openapi.json */; };
+		BAF83ECD2C59E55800AC2FCA /* openapi-generator-config.yaml in Resources */ = {isa = PBXBuildFile; fileRef = BAF83ECC2C59E55800AC2FCA /* openapi-generator-config.yaml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		BA0C05012C59E0A500A4B751 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BAC5BE212C5774E500E1A175 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BAC5BE282C5774E500E1A175;
+			remoteInfo = Iolio;
+		};
 		BAC5BE3C2C5774E600E1A175 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BAC5BE212C5774E500E1A175 /* Project object */;
@@ -34,7 +58,32 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		BA0C050A2C59E0A500A4B751 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		BA0C04FD2C59E0A500A4B751 /* IolioApiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IolioApiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA33A49B2C5B1B5A00F23034 /* ArticleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleDetailView.swift; sourceTree = "<group>"; };
+		BA3C9D762C59BA2B00887EDE /* DomainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainModel.swift; sourceTree = "<group>"; };
+		BA3C9D782C59BA9900887EDE /* ArticleDomainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleDomainModel.swift; sourceTree = "<group>"; };
+		BA3C9D7A2C59BBAB00887EDE /* DomainRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainRepo.swift; sourceTree = "<group>"; };
+		BA3C9D7C2C59BBC500887EDE /* ArticleRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleRepo.swift; sourceTree = "<group>"; };
+		BA3C9D802C59C10300887EDE /* InfraRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfraRepo.swift; sourceTree = "<group>"; };
+		BA3C9D822C59C13500887EDE /* ArticleRepoImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleRepoImpl.swift; sourceTree = "<group>"; };
+		BA565A562C5A296500629512 /* ArticleApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleApplication.swift; sourceTree = "<group>"; };
+		BA78DEF52C5A11F700BE2280 /* ArticleTagDomainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleTagDomainModel.swift; sourceTree = "<group>"; };
+		BA78DEF82C5A20AE00BE2280 /* Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
+		BA78DEFA2C5A20EE00BE2280 /* ArticleApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleApplication.swift; sourceTree = "<group>"; };
 		BAC5BE292C5774E500E1A175 /* Iolio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Iolio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAC5BE2C2C5774E500E1A175 /* IolioApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IolioApp.swift; sourceTree = "<group>"; };
 		BAC5BE2E2C5774E500E1A175 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -46,13 +95,26 @@
 		BAC5BE452C5774E600E1A175 /* IolioUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IolioUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAC5BE492C5774E600E1A175 /* IolioUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IolioUITests.swift; sourceTree = "<group>"; };
 		BAC5BE4B2C5774E600E1A175 /* IolioUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IolioUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		BACDF3732C5B30180000818F /* ArticleDetailTemplateComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleDetailTemplateComponent.swift; sourceTree = "<group>"; };
+		BAF83ECA2C59E54700AC2FCA /* openapi.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = openapi.json; sourceTree = "<group>"; };
+		BAF83ECC2C59E55800AC2FCA /* openapi-generator-config.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = "openapi-generator-config.yaml"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		BA0C04FA2C59E0A500A4B751 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BAC5BE262C5774E500E1A175 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA78DF062C5A288200BE2280 /* Spyable in Frameworks */,
+				BA78DEF32C59F1E100BE2280 /* OpenAPIURLSession in Frameworks */,
+				BA78DEF02C59E65E00BE2280 /* OpenAPIRuntime in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,13 +135,141 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BA33A49A2C5B1B3E00F23034 /* Article */ = {
+			isa = PBXGroup;
+			children = (
+				BA33A49B2C5B1B5A00F23034 /* ArticleDetailView.swift */,
+			);
+			path = Article;
+			sourceTree = "<group>";
+		};
+		BA3C9D702C59B9B700887EDE /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				BA3C9D722C59B9D500887EDE /* Repository */,
+				BA3C9D712C59B9CF00887EDE /* DomainModel */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		BA3C9D712C59B9CF00887EDE /* DomainModel */ = {
+			isa = PBXGroup;
+			children = (
+				BA3C9D762C59BA2B00887EDE /* DomainModel.swift */,
+				BA3C9D782C59BA9900887EDE /* ArticleDomainModel.swift */,
+				BA78DEF52C5A11F700BE2280 /* ArticleTagDomainModel.swift */,
+			);
+			path = DomainModel;
+			sourceTree = "<group>";
+		};
+		BA3C9D722C59B9D500887EDE /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				BA3C9D7A2C59BBAB00887EDE /* DomainRepo.swift */,
+				BA3C9D7C2C59BBC500887EDE /* ArticleRepo.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		BA3C9D742C59B9EC00887EDE /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				BA3C9D752C59B9F500887EDE /* Repository */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		BA3C9D752C59B9F500887EDE /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				BA3C9D802C59C10300887EDE /* InfraRepo.swift */,
+				BA3C9D822C59C13500887EDE /* ArticleRepoImpl.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		BA565A552C5A292800629512 /* ApplicationTests */ = {
+			isa = PBXGroup;
+			children = (
+				BA565A562C5A296500629512 /* ArticleApplication.swift */,
+			);
+			path = ApplicationTests;
+			sourceTree = "<group>";
+		};
+		BA78DEEE2C59E65E00BE2280 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BA78DEF72C5A200000BE2280 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				BA78DEF82C5A20AE00BE2280 /* Application.swift */,
+				BA78DEFA2C5A20EE00BE2280 /* ArticleApplication.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		BA78DEFD2C5A233E00BE2280 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				BA78DEFE2C5A235200BE2280 /* Atoms */,
+				BA78DEFF2C5A235700BE2280 /* Melecules */,
+				BA78DF002C5A236100BE2280 /* Organisms */,
+				BA78DF012C5A236C00BE2280 /* Templates */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		BA78DEFE2C5A235200BE2280 /* Atoms */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Atoms;
+			sourceTree = "<group>";
+		};
+		BA78DEFF2C5A235700BE2280 /* Melecules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Melecules;
+			sourceTree = "<group>";
+		};
+		BA78DF002C5A236100BE2280 /* Organisms */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Organisms;
+			sourceTree = "<group>";
+		};
+		BA78DF012C5A236C00BE2280 /* Templates */ = {
+			isa = PBXGroup;
+			children = (
+				BACDF3732C5B30180000818F /* ArticleDetailTemplateComponent.swift */,
+			);
+			path = Templates;
+			sourceTree = "<group>";
+		};
+		BA78DF032C5A242F00BE2280 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BA33A49A2C5B1B3E00F23034 /* Article */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		BAC5BE202C5774E500E1A175 = {
 			isa = PBXGroup;
 			children = (
+				BAF83ECC2C59E55800AC2FCA /* openapi-generator-config.yaml */,
+				BAF83ECA2C59E54700AC2FCA /* openapi.json */,
 				BAC5BE2B2C5774E500E1A175 /* Iolio */,
 				BAC5BE3E2C5774E600E1A175 /* IolioTests */,
 				BAC5BE482C5774E600E1A175 /* IolioUITests */,
 				BAC5BE2A2C5774E500E1A175 /* Products */,
+				BA78DEEE2C59E65E00BE2280 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -89,6 +279,7 @@
 				BAC5BE292C5774E500E1A175 /* Iolio.app */,
 				BAC5BE3B2C5774E600E1A175 /* IolioTests.xctest */,
 				BAC5BE452C5774E600E1A175 /* IolioUITests.xctest */,
+				BA0C04FD2C59E0A500A4B751 /* IolioApiTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -96,6 +287,11 @@
 		BAC5BE2B2C5774E500E1A175 /* Iolio */ = {
 			isa = PBXGroup;
 			children = (
+				BA78DF032C5A242F00BE2280 /* View */,
+				BA78DEFD2C5A233E00BE2280 /* Components */,
+				BA78DEF72C5A200000BE2280 /* Application */,
+				BA3C9D742C59B9EC00887EDE /* Infrastructure */,
+				BA3C9D702C59B9B700887EDE /* Domain */,
 				BAC5BE2C2C5774E500E1A175 /* IolioApp.swift */,
 				BAC5BE2E2C5774E500E1A175 /* ContentView.swift */,
 				BAC5BE302C5774E500E1A175 /* Item.swift */,
@@ -116,6 +312,7 @@
 		BAC5BE3E2C5774E600E1A175 /* IolioTests */ = {
 			isa = PBXGroup;
 			children = (
+				BA565A552C5A292800629512 /* ApplicationTests */,
 				BAC5BE3F2C5774E600E1A175 /* IolioTests.swift */,
 			);
 			path = IolioTests;
@@ -133,6 +330,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		BA0C04FC2C59E0A500A4B751 /* IolioApiTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BA0C050F2C59E0A500A4B751 /* Build configuration list for PBXNativeTarget "IolioApiTests" */;
+			buildPhases = (
+				BA0C04F92C59E0A500A4B751 /* Sources */,
+				BA0C04FA2C59E0A500A4B751 /* Frameworks */,
+				BA0C04FB2C59E0A500A4B751 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BA0C05022C59E0A500A4B751 /* PBXTargetDependency */,
+			);
+			name = IolioApiTests;
+			productName = IolioApiTests;
+			productReference = BA0C04FD2C59E0A500A4B751 /* IolioApiTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		BAC5BE282C5774E500E1A175 /* Iolio */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = BAC5BE4F2C5774E600E1A175 /* Build configuration list for PBXNativeTarget "Iolio" */;
@@ -140,12 +355,19 @@
 				BAC5BE252C5774E500E1A175 /* Sources */,
 				BAC5BE262C5774E500E1A175 /* Frameworks */,
 				BAC5BE272C5774E500E1A175 /* Resources */,
+				BA0C050A2C59E0A500A4B751 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				BA78DEEC2C59E62F00BE2280 /* PBXTargetDependency */,
 			);
 			name = Iolio;
+			packageProductDependencies = (
+				BA78DEEF2C59E65E00BE2280 /* OpenAPIRuntime */,
+				BA78DEF22C59F1E100BE2280 /* OpenAPIURLSession */,
+				BA78DF052C5A288200BE2280 /* Spyable */,
+			);
 			productName = Iolio;
 			productReference = BAC5BE292C5774E500E1A175 /* Iolio.app */;
 			productType = "com.apple.product-type.application";
@@ -196,6 +418,10 @@
 				LastSwiftUpdateCheck = 1540;
 				LastUpgradeCheck = 1540;
 				TargetAttributes = {
+					BA0C04FC2C59E0A500A4B751 = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = BAC5BE282C5774E500E1A175;
+					};
 					BAC5BE282C5774E500E1A175 = {
 						CreatedOnToolsVersion = 15.4;
 					};
@@ -218,6 +444,12 @@
 				Base,
 			);
 			mainGroup = BAC5BE202C5774E500E1A175;
+			packageReferences = (
+				BA3C9D842C59D20A00887EDE /* XCRemoteSwiftPackageReference "swift-openapi-generator" */,
+				BAF83EBC2C59E3AE00AC2FCA /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */,
+				BAF83EBF2C59E3C100AC2FCA /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */,
+				BA78DF042C5A288200BE2280 /* XCRemoteSwiftPackageReference "swift-spyable" */,
+			);
 			productRefGroup = BAC5BE2A2C5774E500E1A175 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -225,15 +457,25 @@
 				BAC5BE282C5774E500E1A175 /* Iolio */,
 				BAC5BE3A2C5774E600E1A175 /* IolioTests */,
 				BAC5BE442C5774E600E1A175 /* IolioUITests */,
+				BA0C04FC2C59E0A500A4B751 /* IolioApiTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		BA0C04FB2C59E0A500A4B751 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BAC5BE272C5774E500E1A175 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BAF83ECB2C59E54700AC2FCA /* openapi.json in Resources */,
+				BAF83ECD2C59E55800AC2FCA /* openapi-generator-config.yaml in Resources */,
 				BAC5BE362C5774E600E1A175 /* Preview Assets.xcassets in Resources */,
 				BAC5BE332C5774E600E1A175 /* Assets.xcassets in Resources */,
 			);
@@ -256,13 +498,31 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		BA0C04F92C59E0A500A4B751 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BAC5BE252C5774E500E1A175 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA78DEF92C5A20AE00BE2280 /* Application.swift in Sources */,
+				BA33A49C2C5B1B5A00F23034 /* ArticleDetailView.swift in Sources */,
+				BA3C9D7D2C59BBC500887EDE /* ArticleRepo.swift in Sources */,
+				BA78DEF62C5A11F700BE2280 /* ArticleTagDomainModel.swift in Sources */,
 				BAC5BE2F2C5774E500E1A175 /* ContentView.swift in Sources */,
 				BAC5BE312C5774E500E1A175 /* Item.swift in Sources */,
+				BA3C9D832C59C13500887EDE /* ArticleRepoImpl.swift in Sources */,
 				BAC5BE2D2C5774E500E1A175 /* IolioApp.swift in Sources */,
+				BA78DEFB2C5A20EE00BE2280 /* ArticleApplication.swift in Sources */,
+				BACDF3742C5B30180000818F /* ArticleDetailTemplateComponent.swift in Sources */,
+				BA3C9D772C59BA2B00887EDE /* DomainModel.swift in Sources */,
+				BA3C9D792C59BA9900887EDE /* ArticleDomainModel.swift in Sources */,
+				BA3C9D7B2C59BBAB00887EDE /* DomainRepo.swift in Sources */,
+				BA3C9D812C59C10300887EDE /* InfraRepo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,6 +531,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BAC5BE402C5774E600E1A175 /* IolioTests.swift in Sources */,
+				BA565A572C5A296500629512 /* ArticleApplication.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,6 +547,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		BA0C05022C59E0A500A4B751 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BAC5BE282C5774E500E1A175 /* Iolio */;
+			targetProxy = BA0C05012C59E0A500A4B751 /* PBXContainerItemProxy */;
+		};
+		BA78DEEC2C59E62F00BE2280 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = BA78DEEB2C59E62F00BE2280 /* OpenAPIGenerator */;
+		};
 		BAC5BE3D2C5774E600E1A175 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = BAC5BE282C5774E500E1A175 /* Iolio */;
@@ -299,6 +569,42 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		BA0C05102C59E0A500A4B751 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DNK8T65US7;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = info.sunjin.IolioApiTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Iolio.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Iolio";
+			};
+			name = Debug;
+		};
+		BA0C05112C59E0A500A4B751 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DNK8T65US7;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = info.sunjin.IolioApiTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Iolio.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Iolio";
+			};
+			name = Release;
+		};
 		BAC5BE4D2C5774E600E1A175 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -555,6 +861,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		BA0C050F2C59E0A500A4B751 /* Build configuration list for PBXNativeTarget "IolioApiTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA0C05102C59E0A500A4B751 /* Debug */,
+				BA0C05112C59E0A500A4B751 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		BAC5BE242C5774E500E1A175 /* Build configuration list for PBXProject "Iolio" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -592,6 +907,64 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BA3C9D842C59D20A00887EDE /* XCRemoteSwiftPackageReference "swift-openapi-generator" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-openapi-generator";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.0;
+			};
+		};
+		BA78DF042C5A288200BE2280 /* XCRemoteSwiftPackageReference "swift-spyable" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Matejkob/swift-spyable";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.6.0;
+			};
+		};
+		BAF83EBC2C59E3AE00AC2FCA /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-openapi-urlsession";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.2;
+			};
+		};
+		BAF83EBF2C59E3C100AC2FCA /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-openapi-runtime";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BA78DEEB2C59E62F00BE2280 /* OpenAPIGenerator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BA3C9D842C59D20A00887EDE /* XCRemoteSwiftPackageReference "swift-openapi-generator" */;
+			productName = "plugin:OpenAPIGenerator";
+		};
+		BA78DEEF2C59E65E00BE2280 /* OpenAPIRuntime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BAF83EBF2C59E3C100AC2FCA /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */;
+			productName = OpenAPIRuntime;
+		};
+		BA78DEF22C59F1E100BE2280 /* OpenAPIURLSession */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BAF83EBC2C59E3AE00AC2FCA /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */;
+			productName = OpenAPIURLSession;
+		};
+		BA78DF052C5A288200BE2280 /* Spyable */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BA78DF042C5A288200BE2280 /* XCRemoteSwiftPackageReference "swift-spyable" */;
+			productName = Spyable;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BAC5BE212C5774E500E1A175 /* Project object */;
 }
