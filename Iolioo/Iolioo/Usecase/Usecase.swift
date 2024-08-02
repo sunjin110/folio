@@ -5,7 +5,7 @@ extension Usecase {
         enum ErrorKind {
             case internalError
         }
-        
+
         let message: String
         let innerError: Error?
         let kind: ErrorKind

@@ -1,7 +1,7 @@
 import Foundation
 
-public extension DomainModel {
-    struct Article {
+extension DomainModel {
+    public struct Article {
         var id: String
         var title: String
         var body: String
@@ -10,8 +10,8 @@ public extension DomainModel {
         var createdAt: Date
         var updatedAt: Date
     }
-    
-    struct ArticleSummary {
+
+    public struct ArticleSummary {
         var id: String
         var title: String
         var tags: [ArticleTag]

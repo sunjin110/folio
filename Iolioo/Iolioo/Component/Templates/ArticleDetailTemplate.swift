@@ -7,17 +7,23 @@ struct ArticleDetailTemplate: View {
             if self.article == nil {
                 Text("not found article")
             } else {
-                VStack(alignment: .leading, content: {
-                    Text("title: \(self.article!.title)")
-                    Text("body: \(self.article!.body)")
-                    Text("created_at: \(self.article!.createdAt)")
-                })
+                VStack(
+                    alignment: .leading,
+                    content: {
+                        Text("title: \(self.article!.title)")
+                        Text("body: \(self.article!.body)")
+                        Text("created_at: \(self.article!.createdAt)")
+                    })
             }
         }
     }
 }
 
 #Preview {
-    let article = DomainModel.Article(id: "id", title: "title", body: "body", writer: "writer", tags: [], createdAt: Date.now, updatedAt: Date.now)
-    return ArticleDetailTemplate(article: article)
+    let article = DomainModel.Article(
+        id: "id", title: "title", body: "body", writer: "writer", tags: [], createdAt: Date.now,
+        updatedAt: Date.now)
+    return NavigationStack {
+        ArticleDetailTemplate(article: article)
+    }
 }

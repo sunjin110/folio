@@ -1,3 +1,3 @@
 #if DEBUG
-public enum Testdata {}
+    public enum Testdata {}
 #endif
