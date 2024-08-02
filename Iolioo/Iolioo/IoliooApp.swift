@@ -1,12 +1,12 @@
-import SwiftUI
-import SwiftData
 import OpenAPIURLSession
+import SwiftData
+import SwiftUI
 
 @main
 struct IoliooApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            Item.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -19,11 +19,12 @@ struct IoliooApp: App {
 
     var body: some Scene {
         let serverURL = Foundation.URL(string: "http://localhost:3000")!
-        let golioClient: APIProtocol = Client(serverURL: serverURL, transport: URLSessionTransport())
+        let golioClient: APIProtocol = Client(
+            serverURL: serverURL, transport: URLSessionTransport())
         let articleRepo = InfraRepo.Article(client: golioClient)
-        
+
         let articleUsecase = Usecase.ArticleUsecaseImpl(articleRepo: articleRepo)
-        
+
         WindowGroup {
             MainView(articleUsecase: articleUsecase)
         }

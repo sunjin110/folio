@@ -14,7 +14,9 @@ struct FlowLayout: Layout {
         return result.bounds
     }
 
-    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout Void) {
+    func placeSubviews(
+        in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout Void
+    ) {
         let result = FlowResult(
             in: proposal.replacingUnspecifiedDimensions().width,
             subviews: subviews,
@@ -24,11 +26,15 @@ struct FlowLayout: Layout {
         for row in result.rows {
             let rowXOffset = (bounds.width - row.frame.width) * alignment.horizontal.percent
             for index in row.range {
-                let xPos = rowXOffset + row.frame.minX + row.xOffsets[index - row.range.lowerBound] + bounds.minX
-                let rowYAlignment = (row.frame.height - subviews[index].sizeThatFits(.unspecified).height) *
-                alignment.vertical.percent
+                let xPos =
+                    rowXOffset + row.frame.minX + row.xOffsets[index - row.range.lowerBound]
+                    + bounds.minX
+                let rowYAlignment =
+                    (row.frame.height - subviews[index].sizeThatFits(.unspecified).height)
+                    * alignment.vertical.percent
                 let yPos = row.frame.minY + rowYAlignment + bounds.minY
-                subviews[index].place(at: CGPoint(x: xPos, y: yPos), anchor: .topLeading, proposal: .unspecified)
+                subviews[index].place(
+                    at: CGPoint(x: xPos, y: yPos), anchor: .topLeading, proposal: .unspecified)
             }
         }
     }
@@ -43,15 +49,20 @@ struct FlowLayout: Layout {
             var frame: CGRect
         }
 
-        init(in maxPossibleWidth: Double, subviews: Subviews, alignment: Alignment, spacing: CGFloat?) {
+        init(
+            in maxPossibleWidth: Double, subviews: Subviews, alignment: Alignment, spacing: CGFloat?
+        ) {
             var itemsInRow = 0
-            var remainingWidth = maxPossibleWidth.isFinite ? maxPossibleWidth : .greatestFiniteMagnitude
+            var remainingWidth =
+                maxPossibleWidth.isFinite ? maxPossibleWidth : .greatestFiniteMagnitude
             var rowMinY = 0.0
             var rowHeight = 0.0
             var xOffsets: [Double] = []
             for (index, subview) in zip(subviews.indices, subviews) {
                 let idealSize = subview.sizeThatFits(.unspecified)
-                if index != 0 && widthInRow(index: index, idealWidth: idealSize.width) > remainingWidth {
+                if index != 0
+                    && widthInRow(index: index, idealWidth: idealSize.width) > remainingWidth
+                {
                     finalizeRow(index: max(index - 1, 0), idealSize: idealSize)
                 }
                 addToRow(index: index, idealSize: idealSize)
@@ -63,7 +74,9 @@ struct FlowLayout: Layout {
 
             func spacingBefore(index: Int) -> Double {
                 guard itemsInRow > 0 else { return 0 }
-                return spacing ?? subviews[index - 1].spacing.distance(to: subviews[index].spacing, along: .horizontal)
+                return spacing
+                    ?? subviews[index - 1].spacing.distance(
+                        to: subviews[index].spacing, along: .horizontal)
             }
 
             func widthInRow(index: Int, idealWidth: Double) -> Double {
@@ -83,13 +96,14 @@ struct FlowLayout: Layout {
                 let rowWidth = maxPossibleWidth - remainingWidth
                 rows.append(
                     Row(
-                        range: index - max(itemsInRow - 1, 0) ..< index + 1,
+                        range: index - max(itemsInRow - 1, 0)..<index + 1,
                         xOffsets: xOffsets,
                         frame: CGRect(x: 0, y: rowMinY, width: rowWidth, height: rowHeight)
                     )
                 )
                 bounds.width = max(bounds.width, rowWidth)
-                let ySpacing = spacing ?? ViewSpacing().distance(to: ViewSpacing(), along: .vertical)
+                let ySpacing =
+                    spacing ?? ViewSpacing().distance(to: ViewSpacing(), along: .vertical)
                 bounds.height += rowHeight + (rows.count > 1 ? ySpacing : 0)
                 rowMinY += rowHeight + ySpacing
                 itemsInRow = 0
@@ -101,8 +115,8 @@ struct FlowLayout: Layout {
     }
 }
 
-private extension HorizontalAlignment {
-    var percent: Double {
+extension HorizontalAlignment {
+    fileprivate var percent: Double {
         switch self {
         case .leading: return 0
         case .trailing: return 1
@@ -111,8 +125,8 @@ private extension HorizontalAlignment {
     }
 }
 
-private extension VerticalAlignment {
-    var percent: Double {
+extension VerticalAlignment {
+    fileprivate var percent: Double {
         switch self {
         case .top: return 0
         case .bottom: return 1
@@ -121,18 +135,20 @@ private extension VerticalAlignment {
     }
 }
 
-
 #Preview {
-    let tags = ["Swift", "iOS開発", "SwiftUI", "UIKit", "WWDC", "Python", "JavaScript", "PHP", "Ruby", "Flutter", "Dart", "Android", "iPhone"]
-    
+    let tags = [
+        "Swift", "iOS開発", "SwiftUI", "UIKit", "WWDC", "Python", "JavaScript", "PHP", "Ruby",
+        "Flutter", "Dart", "Android", "iPhone",
+    ]
+
     return FlowLayout(alignment: .center, spacing: 7) {
-                ForEach(tags, id: \.self) { tag in
-                    Text(tag)
-                        .padding(.vertical, 5)
-                        .padding(.horizontal, 12)
-                        .background(Color(.systemGroupedBackground))
-                        .cornerRadius(15)
-                }
-            }
+        ForEach(tags, id: \.self) { tag in
+            Text(tag)
+                .padding(.vertical, 5)
+                .padding(.horizontal, 12)
+                .background(Color(.systemGroupedBackground))
+                .cornerRadius(15)
+        }
+    }
     .padding(20)
 }

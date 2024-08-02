@@ -1,12 +1,12 @@
 import SwiftUI
 
 struct MainView: View {
-    
+
     @State
     var tabSelection = 1
-    
+
     var articleUsecase: Usecase.ArticleUsecase
-    
+
     var body: some View {
         TabView(selection: $tabSelection) {
             HomeView().tabItem {
@@ -26,7 +26,11 @@ struct MainView: View {
 }
 
 #Preview {
-    var articleUsecase = Usecase.ArticleUsecaseMock(getResult: .success(DomainModel.Article(id: "id", title: "title", body: "body", writer: "writer", tags: [], createdAt: Date.now, updatedAt: Date.now)))
+    var articleUsecase = Usecase.ArticleUsecaseMock(
+        getResult: .success(
+            DomainModel.Article(
+                id: "id", title: "title", body: "body", writer: "writer", tags: [],
+                createdAt: Date.now, updatedAt: Date.now)))
     articleUsecase.findResult = .success(Testdata.GetArticleSummaries())
     return MainView(articleUsecase: articleUsecase)
 }
