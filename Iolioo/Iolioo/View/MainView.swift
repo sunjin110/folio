@@ -9,7 +9,7 @@ struct MainView: View {
 
     var body: some View {
         TabView(selection: $tabSelection) {
-            HomeView().tabItem {
+            HomeView(articleUsecase: articleUsecase).tabItem {
                 Label("Home", systemImage: "house")
             }.tag(1)
             ArticleListView(articleUsecase: articleUsecase, summaries: []).tabItem {

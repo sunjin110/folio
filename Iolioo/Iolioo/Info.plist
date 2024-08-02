@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleURLSchemes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.682633467318-s437ctl57js68erstf44bl0gobeau1i0</string>
+			</array>
+		</dict>
+	</array>
+	<key>GIDServerClientID</key>
+	<string>682633467318-4bbegde4577vrsk3im7lbjlsk8gt35fo.apps.googleusercontent.com</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>BUNDLE_ID</key>
+			<string>info.sunjin.Iolioo</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.682633467318-s437ctl57js68erstf44bl0gobeau1i0</string>
+			</array>
+			<key>GIDClientID</key>
+			<string>682633467318-s437ctl57js68erstf44bl0gobeau1i0.apps.googleusercontent.com</string>
+			<key>GIDServerClientID</key>
+			<string>682633467318-vvlia00uaag3jplkls0uj1md371k54as.apps.googleusercontent.com</string>
+			<key>PLIST_VERSION</key>
+			<string>1</string>
+			<key>REVERSED_CLIENT_ID</key>
+			<string>com.googleusercontent.apps.682633467318-s437ctl57js68erstf44bl0gobeau1i0</string>
+		</dict>
+	</array>
+	<key>GIDClientID</key>
+	<string>682633467318-s437ctl57js68erstf44bl0gobeau1i0.apps.googleusercontent.com</string>
+</dict>
+</plist>
