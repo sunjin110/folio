@@ -1,0 +1,889 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BA1331D52C5C7791000EBB4E /* ArticleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1331D42C5C7791000EBB4E /* ArticleListView.swift */; };
+		BA1331DC2C5C838E000EBB4E /* Testdata.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1331DB2C5C838E000EBB4E /* Testdata.swift */; };
+		BA1331DE2C5C83AF000EBB4E /* ArticleTestdata.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1331DD2C5C83AF000EBB4E /* ArticleTestdata.swift */; };
+		BA782C882C5BB630007628EC /* ArticleListTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA782C872C5BB630007628EC /* ArticleListTemplate.swift */; };
+		BA782C972C5BB6E0007628EC /* ArticleCardViewMolecules.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA782C962C5BB6E0007628EC /* ArticleCardViewMolecules.swift */; };
+		BA782CA12C5BBF72007628EC /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA782CA02C5BBF72007628EC /* FlowLayout.swift */; };
+		BA782CA42C5C648B007628EC /* ArticleCardsViewOrganisms.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA782CA32C5C648B007628EC /* ArticleCardsViewOrganisms.swift */; };
+		BAC5D8E02C5B865400DE9BE9 /* IoliooApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D8DF2C5B865400DE9BE9 /* IoliooApp.swift */; };
+		BAC5D8E22C5B865400DE9BE9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D8E12C5B865400DE9BE9 /* ContentView.swift */; };
+		BAC5D8E42C5B865400DE9BE9 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D8E32C5B865400DE9BE9 /* Item.swift */; };
+		BAC5D8E62C5B865400DE9BE9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BAC5D8E52C5B865400DE9BE9 /* Assets.xcassets */; };
+		BAC5D8E92C5B865400DE9BE9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BAC5D8E82C5B865400DE9BE9 /* Preview Assets.xcassets */; };
+		BAC5D8F32C5B865400DE9BE9 /* IoliooTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D8F22C5B865400DE9BE9 /* IoliooTests.swift */; };
+		BAC5D8FD2C5B865400DE9BE9 /* IoliooUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D8FC2C5B865400DE9BE9 /* IoliooUITests.swift */; };
+		BAC5D8FF2C5B865400DE9BE9 /* IoliooUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D8FE2C5B865400DE9BE9 /* IoliooUITestsLaunchTests.swift */; };
+		BAC5D90C2C5B866700DE9BE9 /* TestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D90B2C5B866700DE9BE9 /* TestProtocol.swift */; };
+		BAC5D90F2C5B867700DE9BE9 /* Spyable in Frameworks */ = {isa = PBXBuildFile; productRef = BAC5D90E2C5B867700DE9BE9 /* Spyable */; };
+		BAC5D9122C5B887000DE9BE9 /* OpenAPIURLSession in Frameworks */ = {isa = PBXBuildFile; productRef = BAC5D9112C5B887000DE9BE9 /* OpenAPIURLSession */; };
+		BAC5D9152C5B887900DE9BE9 /* OpenAPIRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = BAC5D9142C5B887900DE9BE9 /* OpenAPIRuntime */; };
+		BAC5D9192C5B8D9C00DE9BE9 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D9182C5B8D9C00DE9BE9 /* MainView.swift */; };
+		BAC5D91B2C5B8DB100DE9BE9 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D91A2C5B8DB100DE9BE9 /* HomeView.swift */; };
+		BAC5D91D2C5B8DC000DE9BE9 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D91C2C5B8DC000DE9BE9 /* SettingView.swift */; };
+		BAC5D91F2C5B8DD500DE9BE9 /* MediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D91E2C5B8DD500DE9BE9 /* MediaView.swift */; };
+		BAC5D9222C5B8DEF00DE9BE9 /* ArticleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D9212C5B8DEF00DE9BE9 /* ArticleDetailView.swift */; };
+		BAC5D92D2C5B911600DE9BE9 /* openapi-generator-config.yml in Resources */ = {isa = PBXBuildFile; fileRef = BAC5D92C2C5B911600DE9BE9 /* openapi-generator-config.yml */; };
+		BAC5D9302C5B91A400DE9BE9 /* openapi.json in Resources */ = {isa = PBXBuildFile; fileRef = BAC5D92F2C5B91A400DE9BE9 /* openapi.json */; };
+		BAC5D9362C5B91E700DE9BE9 /* DomainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D9352C5B91E700DE9BE9 /* DomainModel.swift */; };
+		BAC5D9382C5B91F900DE9BE9 /* ArticleDomainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D9372C5B91F900DE9BE9 /* ArticleDomainModel.swift */; };
+		BAC5D93A2C5B920900DE9BE9 /* ArticleTagDomainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D9392C5B920900DE9BE9 /* ArticleTagDomainModel.swift */; };
+		BAC5D93E2C5B922E00DE9BE9 /* DomainRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D93D2C5B922E00DE9BE9 /* DomainRepo.swift */; };
+		BAC5D9402C5B923C00DE9BE9 /* ArticleRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D93F2C5B923C00DE9BE9 /* ArticleRepo.swift */; };
+		BAC5D9432C5B926300DE9BE9 /* InfraRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D9422C5B926300DE9BE9 /* InfraRepo.swift */; };
+		BAC5D9452C5B927800DE9BE9 /* ArticleInfraRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D9442C5B927800DE9BE9 /* ArticleInfraRepo.swift */; };
+		BAC5D9492C5B92C800DE9BE9 /* Usecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D9482C5B92C800DE9BE9 /* Usecase.swift */; };
+		BAC5D94B2C5B92E200DE9BE9 /* ArticleUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D94A2C5B92E200DE9BE9 /* ArticleUsecase.swift */; };
+		BAC5D94F2C5B936500DE9BE9 /* ArticleDetailTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D94E2C5B936500DE9BE9 /* ArticleDetailTemplate.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BAC5D8EF2C5B865400DE9BE9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BAC5D8D42C5B865400DE9BE9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BAC5D8DB2C5B865400DE9BE9;
+			remoteInfo = Iolioo;
+		};
+		BAC5D8F92C5B865400DE9BE9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BAC5D8D42C5B865400DE9BE9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BAC5D8DB2C5B865400DE9BE9;
+			remoteInfo = Iolioo;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		BA1331D42C5C7791000EBB4E /* ArticleListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleListView.swift; sourceTree = "<group>"; };
+		BA1331DB2C5C838E000EBB4E /* Testdata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Testdata.swift; sourceTree = "<group>"; };
+		BA1331DD2C5C83AF000EBB4E /* ArticleTestdata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleTestdata.swift; sourceTree = "<group>"; };
+		BA782C872C5BB630007628EC /* ArticleListTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleListTemplate.swift; sourceTree = "<group>"; };
+		BA782C962C5BB6E0007628EC /* ArticleCardViewMolecules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCardViewMolecules.swift; sourceTree = "<group>"; };
+		BA782CA02C5BBF72007628EC /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
+		BA782CA32C5C648B007628EC /* ArticleCardsViewOrganisms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCardsViewOrganisms.swift; sourceTree = "<group>"; };
+		BAC5D8DC2C5B865400DE9BE9 /* Iolioo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Iolioo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BAC5D8DF2C5B865400DE9BE9 /* IoliooApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IoliooApp.swift; sourceTree = "<group>"; };
+		BAC5D8E12C5B865400DE9BE9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		BAC5D8E32C5B865400DE9BE9 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		BAC5D8E52C5B865400DE9BE9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BAC5D8E82C5B865400DE9BE9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		BAC5D8EE2C5B865400DE9BE9 /* IoliooTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IoliooTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BAC5D8F22C5B865400DE9BE9 /* IoliooTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IoliooTests.swift; sourceTree = "<group>"; };
+		BAC5D8F82C5B865400DE9BE9 /* IoliooUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IoliooUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BAC5D8FC2C5B865400DE9BE9 /* IoliooUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IoliooUITests.swift; sourceTree = "<group>"; };
+		BAC5D8FE2C5B865400DE9BE9 /* IoliooUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IoliooUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		BAC5D90B2C5B866700DE9BE9 /* TestProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestProtocol.swift; sourceTree = "<group>"; };
+		BAC5D9182C5B8D9C00DE9BE9 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		BAC5D91A2C5B8DB100DE9BE9 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		BAC5D91C2C5B8DC000DE9BE9 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
+		BAC5D91E2C5B8DD500DE9BE9 /* MediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaView.swift; sourceTree = "<group>"; };
+		BAC5D9212C5B8DEF00DE9BE9 /* ArticleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleDetailView.swift; sourceTree = "<group>"; };
+		BAC5D92C2C5B911600DE9BE9 /* openapi-generator-config.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = "openapi-generator-config.yml"; sourceTree = "<group>"; };
+		BAC5D92F2C5B91A400DE9BE9 /* openapi.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = openapi.json; sourceTree = "<group>"; };
+		BAC5D9352C5B91E700DE9BE9 /* DomainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainModel.swift; sourceTree = "<group>"; };
+		BAC5D9372C5B91F900DE9BE9 /* ArticleDomainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleDomainModel.swift; sourceTree = "<group>"; };
+		BAC5D9392C5B920900DE9BE9 /* ArticleTagDomainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleTagDomainModel.swift; sourceTree = "<group>"; };
+		BAC5D93D2C5B922E00DE9BE9 /* DomainRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainRepo.swift; sourceTree = "<group>"; };
+		BAC5D93F2C5B923C00DE9BE9 /* ArticleRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleRepo.swift; sourceTree = "<group>"; };
+		BAC5D9422C5B926300DE9BE9 /* InfraRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfraRepo.swift; sourceTree = "<group>"; };
+		BAC5D9442C5B927800DE9BE9 /* ArticleInfraRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleInfraRepo.swift; sourceTree = "<group>"; };
+		BAC5D9482C5B92C800DE9BE9 /* Usecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Usecase.swift; sourceTree = "<group>"; };
+		BAC5D94A2C5B92E200DE9BE9 /* ArticleUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleUsecase.swift; sourceTree = "<group>"; };
+		BAC5D94E2C5B936500DE9BE9 /* ArticleDetailTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleDetailTemplate.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BAC5D8D92C5B865400DE9BE9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BAC5D9122C5B887000DE9BE9 /* OpenAPIURLSession in Frameworks */,
+				BAC5D9152C5B887900DE9BE9 /* OpenAPIRuntime in Frameworks */,
+				BAC5D90F2C5B867700DE9BE9 /* Spyable in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BAC5D8EB2C5B865400DE9BE9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BAC5D8F52C5B865400DE9BE9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BA1331D82C5C8374000EBB4E /* Testdata */ = {
+			isa = PBXGroup;
+			children = (
+				BA1331DB2C5C838E000EBB4E /* Testdata.swift */,
+				BA1331DD2C5C83AF000EBB4E /* ArticleTestdata.swift */,
+			);
+			path = Testdata;
+			sourceTree = "<group>";
+		};
+		BA782C8B2C5BB683007628EC /* Atoms */ = {
+			isa = PBXGroup;
+			children = (
+				BA782CA02C5BBF72007628EC /* FlowLayout.swift */,
+			);
+			path = Atoms;
+			sourceTree = "<group>";
+		};
+		BA782C8E2C5BB6A5007628EC /* Molecules */ = {
+			isa = PBXGroup;
+			children = (
+				BA782C962C5BB6E0007628EC /* ArticleCardViewMolecules.swift */,
+			);
+			path = Molecules;
+			sourceTree = "<group>";
+		};
+		BA782C912C5BB6B0007628EC /* Organisms */ = {
+			isa = PBXGroup;
+			children = (
+				BA782CA32C5C648B007628EC /* ArticleCardsViewOrganisms.swift */,
+			);
+			path = Organisms;
+			sourceTree = "<group>";
+		};
+		BAC5D8D32C5B865400DE9BE9 = {
+			isa = PBXGroup;
+			children = (
+				BAC5D92F2C5B91A400DE9BE9 /* openapi.json */,
+				BAC5D92C2C5B911600DE9BE9 /* openapi-generator-config.yml */,
+				BAC5D8DE2C5B865400DE9BE9 /* Iolioo */,
+				BAC5D8F12C5B865400DE9BE9 /* IoliooTests */,
+				BAC5D8FB2C5B865400DE9BE9 /* IoliooUITests */,
+				BAC5D8DD2C5B865400DE9BE9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BAC5D8DD2C5B865400DE9BE9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BAC5D8DC2C5B865400DE9BE9 /* Iolioo.app */,
+				BAC5D8EE2C5B865400DE9BE9 /* IoliooTests.xctest */,
+				BAC5D8F82C5B865400DE9BE9 /* IoliooUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BAC5D8DE2C5B865400DE9BE9 /* Iolioo */ = {
+			isa = PBXGroup;
+			children = (
+				BA1331D82C5C8374000EBB4E /* Testdata */,
+				BAC5D9172C5B8D8900DE9BE9 /* View */,
+				BAC5D9462C5B92A400DE9BE9 /* Component */,
+				BAC5D9472C5B92AB00DE9BE9 /* Usecase */,
+				BAC5D9332C5B91CD00DE9BE9 /* Domain */,
+				BAC5D9312C5B91BE00DE9BE9 /* Infrastructure */,
+				BAC5D8DF2C5B865400DE9BE9 /* IoliooApp.swift */,
+				BAC5D8E12C5B865400DE9BE9 /* ContentView.swift */,
+				BAC5D8E32C5B865400DE9BE9 /* Item.swift */,
+				BAC5D8E52C5B865400DE9BE9 /* Assets.xcassets */,
+				BAC5D8E72C5B865400DE9BE9 /* Preview Content */,
+				BAC5D90B2C5B866700DE9BE9 /* TestProtocol.swift */,
+			);
+			path = Iolioo;
+			sourceTree = "<group>";
+		};
+		BAC5D8E72C5B865400DE9BE9 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				BAC5D8E82C5B865400DE9BE9 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		BAC5D8F12C5B865400DE9BE9 /* IoliooTests */ = {
+			isa = PBXGroup;
+			children = (
+				BAC5D8F22C5B865400DE9BE9 /* IoliooTests.swift */,
+			);
+			path = IoliooTests;
+			sourceTree = "<group>";
+		};
+		BAC5D8FB2C5B865400DE9BE9 /* IoliooUITests */ = {
+			isa = PBXGroup;
+			children = (
+				BAC5D8FC2C5B865400DE9BE9 /* IoliooUITests.swift */,
+				BAC5D8FE2C5B865400DE9BE9 /* IoliooUITestsLaunchTests.swift */,
+			);
+			path = IoliooUITests;
+			sourceTree = "<group>";
+		};
+		BAC5D9172C5B8D8900DE9BE9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BAC5D9182C5B8D9C00DE9BE9 /* MainView.swift */,
+				BAC5D91A2C5B8DB100DE9BE9 /* HomeView.swift */,
+				BAC5D91C2C5B8DC000DE9BE9 /* SettingView.swift */,
+				BAC5D91E2C5B8DD500DE9BE9 /* MediaView.swift */,
+				BAC5D9202C5B8DDE00DE9BE9 /* Article */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		BAC5D9202C5B8DDE00DE9BE9 /* Article */ = {
+			isa = PBXGroup;
+			children = (
+				BAC5D9212C5B8DEF00DE9BE9 /* ArticleDetailView.swift */,
+				BA1331D42C5C7791000EBB4E /* ArticleListView.swift */,
+			);
+			path = Article;
+			sourceTree = "<group>";
+		};
+		BAC5D9312C5B91BE00DE9BE9 /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				BAC5D9412C5B925800DE9BE9 /* InfraRepo */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		BAC5D9332C5B91CD00DE9BE9 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				BAC5D93B2C5B921B00DE9BE9 /* DomainRepo */,
+				BAC5D9342C5B91DB00DE9BE9 /* DomainModel */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		BAC5D9342C5B91DB00DE9BE9 /* DomainModel */ = {
+			isa = PBXGroup;
+			children = (
+				BAC5D9352C5B91E700DE9BE9 /* DomainModel.swift */,
+				BAC5D9372C5B91F900DE9BE9 /* ArticleDomainModel.swift */,
+				BAC5D9392C5B920900DE9BE9 /* ArticleTagDomainModel.swift */,
+			);
+			path = DomainModel;
+			sourceTree = "<group>";
+		};
+		BAC5D93B2C5B921B00DE9BE9 /* DomainRepo */ = {
+			isa = PBXGroup;
+			children = (
+				BAC5D93D2C5B922E00DE9BE9 /* DomainRepo.swift */,
+				BAC5D93F2C5B923C00DE9BE9 /* ArticleRepo.swift */,
+			);
+			path = DomainRepo;
+			sourceTree = "<group>";
+		};
+		BAC5D9412C5B925800DE9BE9 /* InfraRepo */ = {
+			isa = PBXGroup;
+			children = (
+				BAC5D9422C5B926300DE9BE9 /* InfraRepo.swift */,
+				BAC5D9442C5B927800DE9BE9 /* ArticleInfraRepo.swift */,
+			);
+			path = InfraRepo;
+			sourceTree = "<group>";
+		};
+		BAC5D9462C5B92A400DE9BE9 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				BA782C8B2C5BB683007628EC /* Atoms */,
+				BA782C8E2C5BB6A5007628EC /* Molecules */,
+				BA782C912C5BB6B0007628EC /* Organisms */,
+				BAC5D94C2C5B934900DE9BE9 /* Templates */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		BAC5D9472C5B92AB00DE9BE9 /* Usecase */ = {
+			isa = PBXGroup;
+			children = (
+				BAC5D9482C5B92C800DE9BE9 /* Usecase.swift */,
+				BAC5D94A2C5B92E200DE9BE9 /* ArticleUsecase.swift */,
+			);
+			path = Usecase;
+			sourceTree = "<group>";
+		};
+		BAC5D94C2C5B934900DE9BE9 /* Templates */ = {
+			isa = PBXGroup;
+			children = (
+				BAC5D94E2C5B936500DE9BE9 /* ArticleDetailTemplate.swift */,
+				BA782C872C5BB630007628EC /* ArticleListTemplate.swift */,
+			);
+			path = Templates;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BAC5D8DB2C5B865400DE9BE9 /* Iolioo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BAC5D9022C5B865400DE9BE9 /* Build configuration list for PBXNativeTarget "Iolioo" */;
+			buildPhases = (
+				BAC5D8D82C5B865400DE9BE9 /* Sources */,
+				BAC5D8D92C5B865400DE9BE9 /* Frameworks */,
+				BAC5D8DA2C5B865400DE9BE9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BAC5D9252C5B8E2A00DE9BE9 /* PBXTargetDependency */,
+			);
+			name = Iolioo;
+			packageProductDependencies = (
+				BAC5D90E2C5B867700DE9BE9 /* Spyable */,
+				BAC5D9112C5B887000DE9BE9 /* OpenAPIURLSession */,
+				BAC5D9142C5B887900DE9BE9 /* OpenAPIRuntime */,
+			);
+			productName = Iolioo;
+			productReference = BAC5D8DC2C5B865400DE9BE9 /* Iolioo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BAC5D8ED2C5B865400DE9BE9 /* IoliooTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BAC5D9052C5B865400DE9BE9 /* Build configuration list for PBXNativeTarget "IoliooTests" */;
+			buildPhases = (
+				BAC5D8EA2C5B865400DE9BE9 /* Sources */,
+				BAC5D8EB2C5B865400DE9BE9 /* Frameworks */,
+				BAC5D8EC2C5B865400DE9BE9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BAC5D8F02C5B865400DE9BE9 /* PBXTargetDependency */,
+			);
+			name = IoliooTests;
+			productName = IoliooTests;
+			productReference = BAC5D8EE2C5B865400DE9BE9 /* IoliooTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		BAC5D8F72C5B865400DE9BE9 /* IoliooUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BAC5D9082C5B865400DE9BE9 /* Build configuration list for PBXNativeTarget "IoliooUITests" */;
+			buildPhases = (
+				BAC5D8F42C5B865400DE9BE9 /* Sources */,
+				BAC5D8F52C5B865400DE9BE9 /* Frameworks */,
+				BAC5D8F62C5B865400DE9BE9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BAC5D8FA2C5B865400DE9BE9 /* PBXTargetDependency */,
+			);
+			name = IoliooUITests;
+			productName = IoliooUITests;
+			productReference = BAC5D8F82C5B865400DE9BE9 /* IoliooUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BAC5D8D42C5B865400DE9BE9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 1540;
+				TargetAttributes = {
+					BAC5D8DB2C5B865400DE9BE9 = {
+						CreatedOnToolsVersion = 15.4;
+					};
+					BAC5D8ED2C5B865400DE9BE9 = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = BAC5D8DB2C5B865400DE9BE9;
+					};
+					BAC5D8F72C5B865400DE9BE9 = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = BAC5D8DB2C5B865400DE9BE9;
+					};
+				};
+			};
+			buildConfigurationList = BAC5D8D72C5B865400DE9BE9 /* Build configuration list for PBXProject "Iolioo" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BAC5D8D32C5B865400DE9BE9;
+			packageReferences = (
+				BAC5D90D2C5B867700DE9BE9 /* XCRemoteSwiftPackageReference "swift-spyable" */,
+				BAC5D9102C5B887000DE9BE9 /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */,
+				BAC5D9132C5B887900DE9BE9 /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */,
+				BAC5D9162C5B888300DE9BE9 /* XCRemoteSwiftPackageReference "swift-openapi-generator" */,
+			);
+			productRefGroup = BAC5D8DD2C5B865400DE9BE9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BAC5D8DB2C5B865400DE9BE9 /* Iolioo */,
+				BAC5D8ED2C5B865400DE9BE9 /* IoliooTests */,
+				BAC5D8F72C5B865400DE9BE9 /* IoliooUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BAC5D8DA2C5B865400DE9BE9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BAC5D9302C5B91A400DE9BE9 /* openapi.json in Resources */,
+				BAC5D8E92C5B865400DE9BE9 /* Preview Assets.xcassets in Resources */,
+				BAC5D8E62C5B865400DE9BE9 /* Assets.xcassets in Resources */,
+				BAC5D92D2C5B911600DE9BE9 /* openapi-generator-config.yml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BAC5D8EC2C5B865400DE9BE9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BAC5D8F62C5B865400DE9BE9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BAC5D8D82C5B865400DE9BE9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BAC5D8E22C5B865400DE9BE9 /* ContentView.swift in Sources */,
+				BAC5D8E42C5B865400DE9BE9 /* Item.swift in Sources */,
+				BAC5D9382C5B91F900DE9BE9 /* ArticleDomainModel.swift in Sources */,
+				BA782C972C5BB6E0007628EC /* ArticleCardViewMolecules.swift in Sources */,
+				BAC5D9432C5B926300DE9BE9 /* InfraRepo.swift in Sources */,
+				BAC5D93A2C5B920900DE9BE9 /* ArticleTagDomainModel.swift in Sources */,
+				BAC5D9492C5B92C800DE9BE9 /* Usecase.swift in Sources */,
+				BAC5D8E02C5B865400DE9BE9 /* IoliooApp.swift in Sources */,
+				BAC5D91B2C5B8DB100DE9BE9 /* HomeView.swift in Sources */,
+				BAC5D94B2C5B92E200DE9BE9 /* ArticleUsecase.swift in Sources */,
+				BAC5D94F2C5B936500DE9BE9 /* ArticleDetailTemplate.swift in Sources */,
+				BA1331DC2C5C838E000EBB4E /* Testdata.swift in Sources */,
+				BA782CA12C5BBF72007628EC /* FlowLayout.swift in Sources */,
+				BAC5D9402C5B923C00DE9BE9 /* ArticleRepo.swift in Sources */,
+				BAC5D91D2C5B8DC000DE9BE9 /* SettingView.swift in Sources */,
+				BA782C882C5BB630007628EC /* ArticleListTemplate.swift in Sources */,
+				BAC5D93E2C5B922E00DE9BE9 /* DomainRepo.swift in Sources */,
+				BAC5D91F2C5B8DD500DE9BE9 /* MediaView.swift in Sources */,
+				BAC5D9452C5B927800DE9BE9 /* ArticleInfraRepo.swift in Sources */,
+				BAC5D9222C5B8DEF00DE9BE9 /* ArticleDetailView.swift in Sources */,
+				BA1331DE2C5C83AF000EBB4E /* ArticleTestdata.swift in Sources */,
+				BA1331D52C5C7791000EBB4E /* ArticleListView.swift in Sources */,
+				BAC5D9362C5B91E700DE9BE9 /* DomainModel.swift in Sources */,
+				BAC5D9192C5B8D9C00DE9BE9 /* MainView.swift in Sources */,
+				BAC5D90C2C5B866700DE9BE9 /* TestProtocol.swift in Sources */,
+				BA782CA42C5C648B007628EC /* ArticleCardsViewOrganisms.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BAC5D8EA2C5B865400DE9BE9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BAC5D8F32C5B865400DE9BE9 /* IoliooTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BAC5D8F42C5B865400DE9BE9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BAC5D8FD2C5B865400DE9BE9 /* IoliooUITests.swift in Sources */,
+				BAC5D8FF2C5B865400DE9BE9 /* IoliooUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BAC5D8F02C5B865400DE9BE9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BAC5D8DB2C5B865400DE9BE9 /* Iolioo */;
+			targetProxy = BAC5D8EF2C5B865400DE9BE9 /* PBXContainerItemProxy */;
+		};
+		BAC5D8FA2C5B865400DE9BE9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BAC5D8DB2C5B865400DE9BE9 /* Iolioo */;
+			targetProxy = BAC5D8F92C5B865400DE9BE9 /* PBXContainerItemProxy */;
+		};
+		BAC5D9252C5B8E2A00DE9BE9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = BAC5D9242C5B8E2A00DE9BE9 /* OpenAPIGenerator */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		BAC5D9002C5B865400DE9BE9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		BAC5D9012C5B865400DE9BE9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BAC5D9032C5B865400DE9BE9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Iolioo/Preview Content\"";
+				DEVELOPMENT_TEAM = DNK8T65US7;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = info.sunjin.Iolioo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BAC5D9042C5B865400DE9BE9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Iolioo/Preview Content\"";
+				DEVELOPMENT_TEAM = DNK8T65US7;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = info.sunjin.Iolioo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		BAC5D9062C5B865400DE9BE9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DNK8T65US7;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = info.sunjin.IoliooTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Iolioo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Iolioo";
+			};
+			name = Debug;
+		};
+		BAC5D9072C5B865400DE9BE9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DNK8T65US7;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = info.sunjin.IoliooTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Iolioo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Iolioo";
+			};
+			name = Release;
+		};
+		BAC5D9092C5B865400DE9BE9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DNK8T65US7;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = info.sunjin.IoliooUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Iolioo;
+			};
+			name = Debug;
+		};
+		BAC5D90A2C5B865400DE9BE9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DNK8T65US7;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = info.sunjin.IoliooUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Iolioo;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BAC5D8D72C5B865400DE9BE9 /* Build configuration list for PBXProject "Iolioo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BAC5D9002C5B865400DE9BE9 /* Debug */,
+				BAC5D9012C5B865400DE9BE9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BAC5D9022C5B865400DE9BE9 /* Build configuration list for PBXNativeTarget "Iolioo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BAC5D9032C5B865400DE9BE9 /* Debug */,
+				BAC5D9042C5B865400DE9BE9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BAC5D9052C5B865400DE9BE9 /* Build configuration list for PBXNativeTarget "IoliooTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BAC5D9062C5B865400DE9BE9 /* Debug */,
+				BAC5D9072C5B865400DE9BE9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BAC5D9082C5B865400DE9BE9 /* Build configuration list for PBXNativeTarget "IoliooUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BAC5D9092C5B865400DE9BE9 /* Debug */,
+				BAC5D90A2C5B865400DE9BE9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BAC5D90D2C5B867700DE9BE9 /* XCRemoteSwiftPackageReference "swift-spyable" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Matejkob/swift-spyable";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.6.0;
+			};
+		};
+		BAC5D9102C5B887000DE9BE9 /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-openapi-urlsession";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.2;
+			};
+		};
+		BAC5D9132C5B887900DE9BE9 /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-openapi-runtime";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.0;
+			};
+		};
+		BAC5D9162C5B888300DE9BE9 /* XCRemoteSwiftPackageReference "swift-openapi-generator" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-openapi-generator";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BAC5D90E2C5B867700DE9BE9 /* Spyable */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BAC5D90D2C5B867700DE9BE9 /* XCRemoteSwiftPackageReference "swift-spyable" */;
+			productName = Spyable;
+		};
+		BAC5D9112C5B887000DE9BE9 /* OpenAPIURLSession */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BAC5D9102C5B887000DE9BE9 /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */;
+			productName = OpenAPIURLSession;
+		};
+		BAC5D9142C5B887900DE9BE9 /* OpenAPIRuntime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BAC5D9132C5B887900DE9BE9 /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */;
+			productName = OpenAPIRuntime;
+		};
+		BAC5D9242C5B8E2A00DE9BE9 /* OpenAPIGenerator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BAC5D9162C5B888300DE9BE9 /* XCRemoteSwiftPackageReference "swift-openapi-generator" */;
+			productName = "plugin:OpenAPIGenerator";
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = BAC5D8D42C5B865400DE9BE9 /* Project object */;
+}
