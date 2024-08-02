@@ -1,20 +1,12 @@
 import SwiftUI
 import GoogleSignIn
-import GoogleSignInSwift
 
-struct HomeView: View {
-    
-    var articleUsecase: Usecase.ArticleUsecase
-    
+struct LoginView: View {
     var body: some View {
-        VStack {
-            Text("Home").font(.title)
-            Button("Google Signin", action: handleSignInButton)
-            Button("Google SignOut", action: handleSignOutButton)
-        }
+        LoginTemplate(googleSignInOnTap: handleGoogleSignInOnTap)
     }
     
-    func handleSignInButton() {
+    func handleGoogleSignInOnTap() {
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                  let rootViewController = windowScene.windows.first(where: { $0.isKeyWindow })?.rootViewController else {
                print("RootViewController not found.")
@@ -52,17 +44,12 @@ struct HomeView: View {
         }
     }
     
-    func tokenSignIn(idToken: String) {
-        // TODO golioに通信するところ、これはrepository層だね
-    }
-    
-    func handleSignOutButton() {
+    func handleGoogleSignOutOnTap() {
         print("pressed sign out")
         GIDSignIn.sharedInstance.signOut()
     }
 }
 
 #Preview {
-    let articleUsecase = Usecase.ArticleUsecaseMock()
-    return HomeView(articleUsecase: articleUsecase)
+    LoginView()
 }

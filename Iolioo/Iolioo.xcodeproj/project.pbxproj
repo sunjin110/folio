@@ -10,10 +10,14 @@
 		BA1331D52C5C7791000EBB4E /* ArticleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1331D42C5C7791000EBB4E /* ArticleListView.swift */; };
 		BA1331DC2C5C838E000EBB4E /* Testdata.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1331DB2C5C838E000EBB4E /* Testdata.swift */; };
 		BA1331DE2C5C83AF000EBB4E /* ArticleTestdata.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1331DD2C5C83AF000EBB4E /* ArticleTestdata.swift */; };
+		BA1331E62C5CAEE7000EBB4E /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = BA1331E52C5CAEE7000EBB4E /* GoogleSignIn */; };
+		BA1331E82C5CAEE7000EBB4E /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BA1331E72C5CAEE7000EBB4E /* GoogleSignInSwift */; };
 		BA782C882C5BB630007628EC /* ArticleListTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA782C872C5BB630007628EC /* ArticleListTemplate.swift */; };
 		BA782C972C5BB6E0007628EC /* ArticleCardViewMolecules.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA782C962C5BB6E0007628EC /* ArticleCardViewMolecules.swift */; };
 		BA782CA12C5BBF72007628EC /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA782CA02C5BBF72007628EC /* FlowLayout.swift */; };
 		BA782CA42C5C648B007628EC /* ArticleCardsViewOrganisms.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA782CA32C5C648B007628EC /* ArticleCardsViewOrganisms.swift */; };
+		BAB594FC2C5CD44B001E95C3 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB594FB2C5CD44B001E95C3 /* LoginView.swift */; };
+		BAB595002C5CD4B9001E95C3 /* LoginTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB594FF2C5CD4B9001E95C3 /* LoginTemplate.swift */; };
 		BAC5D8E02C5B865400DE9BE9 /* IoliooApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D8DF2C5B865400DE9BE9 /* IoliooApp.swift */; };
 		BAC5D8E22C5B865400DE9BE9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D8E12C5B865400DE9BE9 /* ContentView.swift */; };
 		BAC5D8E42C5B865400DE9BE9 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D8E32C5B865400DE9BE9 /* Item.swift */; };
@@ -66,10 +70,13 @@
 		BA1331D42C5C7791000EBB4E /* ArticleListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleListView.swift; sourceTree = "<group>"; };
 		BA1331DB2C5C838E000EBB4E /* Testdata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Testdata.swift; sourceTree = "<group>"; };
 		BA1331DD2C5C83AF000EBB4E /* ArticleTestdata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleTestdata.swift; sourceTree = "<group>"; };
+		BA1331EA2C5CB011000EBB4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BA782C872C5BB630007628EC /* ArticleListTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleListTemplate.swift; sourceTree = "<group>"; };
 		BA782C962C5BB6E0007628EC /* ArticleCardViewMolecules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCardViewMolecules.swift; sourceTree = "<group>"; };
 		BA782CA02C5BBF72007628EC /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
 		BA782CA32C5C648B007628EC /* ArticleCardsViewOrganisms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCardsViewOrganisms.swift; sourceTree = "<group>"; };
+		BAB594FB2C5CD44B001E95C3 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		BAB594FF2C5CD4B9001E95C3 /* LoginTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTemplate.swift; sourceTree = "<group>"; };
 		BAC5D8DC2C5B865400DE9BE9 /* Iolioo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Iolioo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAC5D8DF2C5B865400DE9BE9 /* IoliooApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IoliooApp.swift; sourceTree = "<group>"; };
 		BAC5D8E12C5B865400DE9BE9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -106,7 +113,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA1331E82C5CAEE7000EBB4E /* GoogleSignInSwift in Frameworks */,
 				BAC5D9122C5B887000DE9BE9 /* OpenAPIURLSession in Frameworks */,
+				BA1331E62C5CAEE7000EBB4E /* GoogleSignIn in Frameworks */,
 				BAC5D9152C5B887900DE9BE9 /* OpenAPIRuntime in Frameworks */,
 				BAC5D90F2C5B867700DE9BE9 /* Spyable in Frameworks */,
 			);
@@ -187,6 +196,7 @@
 		BAC5D8DE2C5B865400DE9BE9 /* Iolioo */ = {
 			isa = PBXGroup;
 			children = (
+				BA1331EA2C5CB011000EBB4E /* Info.plist */,
 				BA1331D82C5C8374000EBB4E /* Testdata */,
 				BAC5D9172C5B8D8900DE9BE9 /* View */,
 				BAC5D9462C5B92A400DE9BE9 /* Component */,
@@ -231,6 +241,7 @@
 		BAC5D9172C5B8D8900DE9BE9 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				BAB594FB2C5CD44B001E95C3 /* LoginView.swift */,
 				BAC5D9182C5B8D9C00DE9BE9 /* MainView.swift */,
 				BAC5D91A2C5B8DB100DE9BE9 /* HomeView.swift */,
 				BAC5D91C2C5B8DC000DE9BE9 /* SettingView.swift */,
@@ -319,6 +330,7 @@
 			children = (
 				BAC5D94E2C5B936500DE9BE9 /* ArticleDetailTemplate.swift */,
 				BA782C872C5BB630007628EC /* ArticleListTemplate.swift */,
+				BAB594FF2C5CD4B9001E95C3 /* LoginTemplate.swift */,
 			);
 			path = Templates;
 			sourceTree = "<group>";
@@ -344,6 +356,8 @@
 				BAC5D90E2C5B867700DE9BE9 /* Spyable */,
 				BAC5D9112C5B887000DE9BE9 /* OpenAPIURLSession */,
 				BAC5D9142C5B887900DE9BE9 /* OpenAPIRuntime */,
+				BA1331E52C5CAEE7000EBB4E /* GoogleSignIn */,
+				BA1331E72C5CAEE7000EBB4E /* GoogleSignInSwift */,
 			);
 			productName = Iolioo;
 			productReference = BAC5D8DC2C5B865400DE9BE9 /* Iolioo.app */;
@@ -422,6 +436,7 @@
 				BAC5D9102C5B887000DE9BE9 /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */,
 				BAC5D9132C5B887900DE9BE9 /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */,
 				BAC5D9162C5B888300DE9BE9 /* XCRemoteSwiftPackageReference "swift-openapi-generator" */,
+				BA1331E42C5CAEE7000EBB4E /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			productRefGroup = BAC5D8DD2C5B865400DE9BE9 /* Products */;
 			projectDirPath = "";
@@ -478,6 +493,7 @@
 				BAC5D91B2C5B8DB100DE9BE9 /* HomeView.swift in Sources */,
 				BAC5D94B2C5B92E200DE9BE9 /* ArticleUsecase.swift in Sources */,
 				BAC5D94F2C5B936500DE9BE9 /* ArticleDetailTemplate.swift in Sources */,
+				BAB595002C5CD4B9001E95C3 /* LoginTemplate.swift in Sources */,
 				BA1331DC2C5C838E000EBB4E /* Testdata.swift in Sources */,
 				BA782CA12C5BBF72007628EC /* FlowLayout.swift in Sources */,
 				BAC5D9402C5B923C00DE9BE9 /* ArticleRepo.swift in Sources */,
@@ -488,6 +504,7 @@
 				BAC5D9452C5B927800DE9BE9 /* ArticleInfraRepo.swift in Sources */,
 				BAC5D9222C5B8DEF00DE9BE9 /* ArticleDetailView.swift in Sources */,
 				BA1331DE2C5C83AF000EBB4E /* ArticleTestdata.swift in Sources */,
+				BAB594FC2C5CD44B001E95C3 /* LoginView.swift in Sources */,
 				BA1331D52C5C7791000EBB4E /* ArticleListView.swift in Sources */,
 				BAC5D9362C5B91E700DE9BE9 /* DomainModel.swift in Sources */,
 				BAC5D9192C5B8D9C00DE9BE9 /* MainView.swift in Sources */,
@@ -663,6 +680,7 @@
 				DEVELOPMENT_TEAM = DNK8T65US7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Iolioo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -692,6 +710,7 @@
 				DEVELOPMENT_TEAM = DNK8T65US7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Iolioo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -828,6 +847,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		BA1331E42C5CAEE7000EBB4E /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.1.0;
+			};
+		};
 		BAC5D90D2C5B867700DE9BE9 /* XCRemoteSwiftPackageReference "swift-spyable" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Matejkob/swift-spyable";
@@ -863,6 +890,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		BA1331E52C5CAEE7000EBB4E /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BA1331E42C5CAEE7000EBB4E /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		BA1331E72C5CAEE7000EBB4E /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BA1331E42C5CAEE7000EBB4E /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
 		BAC5D90E2C5B867700DE9BE9 /* Spyable */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BAC5D90D2C5B867700DE9BE9 /* XCRemoteSwiftPackageReference "swift-spyable" */;
