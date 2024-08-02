@@ -22,7 +22,10 @@ import (
 )
 
 func Router(ctx context.Context, cfg *httpconf.Config) (http.Handler, error) {
-	googleOAuth2Repo := repository.NewGoogleOAuth2(ctx, cfg.GoogleOAuth.ClientID, cfg.GoogleOAuth.ClientSecret, cfg.GoogleOAuth.RedirectURI)
+	googleOAuth2Repo, err := repository.NewGoogleOAuth2(ctx, cfg.GoogleOAuth.ClientID, cfg.GoogleOAuth.ClientSecret, cfg.GoogleOAuth.RedirectURI)
+	if err != nil {
+		return nil, fmt.Errorf("failed repository.NewGoogleOAuth2. err: %w", err)
+	}
 
 	db, err := postgres.OpenDB(cfg.PostgresDB.Datasource)
 	if err != nil {
@@ -88,6 +91,11 @@ func Router(ctx context.Context, cfg *httpconf.Config) (http.Handler, error) {
 		Path("/auth/google-oauth/callback").
 		Name("google-oauth/callback").
 		HandlerFunc(googleOAuthController.Callback)
+
+	r.Methods(http.MethodGet).
+		Path("/auth/google-oauth/verify-token-and-start-session").
+		Name("google-oauth/verify-token-and-start-session").
+		HandlerFunc(googleOAuthController.VerifyTokenAndStartSession)
 
 	// middleware
 	r.Use(AuthMW(authUsecase, userRepo))

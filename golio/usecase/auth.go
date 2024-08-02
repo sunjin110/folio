@@ -20,6 +20,8 @@ type Auth interface {
 	GetSessionInfoFromToken(ctx context.Context, token string) (*model.UserSessionV3, error)
 
 	RefreshSession(ctx context.Context, refreshToken string, email string) (*model.UserSessionV3, error)
+
+	VerifyTokenAndStartSession(ctx context.Context, token string, accessToken string, refreshToken string) (*StartSessionOutput, error)
 }
 
 type StartSessionOutput struct {
@@ -115,4 +117,44 @@ func (a *auth) RefreshSession(ctx context.Context, refreshToken string, email st
 		Email:                 email,
 		AccessTokenExpireTime: token.ExpireTime,
 	}, nil
+}
+
+func (a *auth) VerifyTokenAndStartSession(ctx context.Context, token string, accessToken string, refreshToken string) (*StartSessionOutput, error) {
+
+	ok, exipireTime, err := a.googleOAuth2.VerifyToken(ctx, token, &accessToken)
+	if err != nil {
+		return nil, fmt.Errorf("failed googleOAuth2.VerifyToken. err: %w", err)
+	}
+	if !ok {
+		return nil, ErrPermissionDenied
+	}
+
+	googleOAuthUser, err := a.googleOAuth2.GetUser(ctx, accessToken)
+	if err != nil {
+		return nil, fmt.Errorf("failed googleOAuth2.GetUserSession. err: %w", err)
+	}
+
+	if err := a.userRepo.Upsert(ctx, &model.User{
+		Email:        googleOAuthUser.Email,
+		RefreshToken: refreshToken,
+		FirstName:    googleOAuthUser.FirstName,
+		LastName:     googleOAuthUser.LastName,
+		DisplayName:  googleOAuthUser.DisplayName,
+	}); err != nil {
+		return nil, fmt.Errorf("failed userRepo.Upsert. err: %w", err)
+	}
+
+	if err := a.sessionV3Repo.Upsert(ctx, &model.UserSessionV3{
+		AccessToken:           accessToken,
+		Email:                 googleOAuthUser.Email,
+		AccessTokenExpireTime: exipireTime,
+	}); err != nil {
+		return nil, fmt.Errorf("failed sessionV3Repo.Upsert. err: %w", err)
+	}
+
+	return &StartSessionOutput{
+		AccessToken: accessToken,
+		Email:       googleOAuthUser.Email,
+	}, nil
+
 }

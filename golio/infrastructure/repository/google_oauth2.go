@@ -8,11 +8,13 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 
 	"github.com/sunjin110/folio/golio/domain/model"
 	"github.com/sunjin110/folio/golio/domain/repository"
 	"github.com/sunjin110/folio/golio/infrastructure/repository/dto"
 	"github.com/sunjin110/folio/golio/infrastructure/repository/dto/gdto"
+	"google.golang.org/api/oauth2/v2"
 )
 
 const (
@@ -30,17 +32,24 @@ const (
 )
 
 type googleOauth2 struct {
-	clientID     string
-	clientSecret string
-	redirectURI  string
+	clientID      string
+	clientSecret  string
+	redirectURI   string
+	oauth2Service *oauth2.Service
 }
 
-func NewGoogleOAuth2(ctx context.Context, clientID string, clientSecret string, redirectURI string) repository.GoogleOAuth2 {
-	return &googleOauth2{
-		clientID:     clientID,
-		clientSecret: clientSecret,
-		redirectURI:  redirectURI,
+func NewGoogleOAuth2(ctx context.Context, clientID string, clientSecret string, redirectURI string) (repository.GoogleOAuth2, error) {
+	oauth2Service, err := oauth2.NewService(context.Background())
+	if err != nil {
+		return nil, fmt.Errorf("fialed oauth2.NewService. err: %w", err)
 	}
+
+	return &googleOauth2{
+		clientID:      clientID,
+		clientSecret:  clientSecret,
+		redirectURI:   redirectURI,
+		oauth2Service: oauth2Service,
+	}, nil
 }
 
 // GenerateAuthorizationURL Clientが叩くべき認証のURLを作成する
@@ -188,4 +197,20 @@ func (o *googleOauth2) GetUser(ctx context.Context, token string) (*model.Google
 		LastName:    primaryName.FamilyName,
 		DisplayName: primaryName.DisplayName,
 	}, nil
+}
+
+func (o *googleOauth2) VerifyToken(ctx context.Context, token string, accessToken *string) (bool, time.Time, error) {
+	call := o.oauth2Service.Tokeninfo()
+	call.Context(ctx)
+	call.IdToken(token)
+	if accessToken != nil {
+		call.AccessToken(*accessToken)
+	}
+
+	tokeninfo, err := call.Do()
+	if err != nil {
+		return false, time.Time{}, fmt.Errorf("failed call tokeninfo. err: %w", err)
+	}
+
+	return true, time.Now().Add(time.Duration(tokeninfo.ExpiresIn) * time.Second), nil
 }
