@@ -120,7 +120,7 @@ func (t *task) upsert(ctx context.Context, task *model.Task) error {
 	defer func() {
 		if err != nil {
 			if err := tx.Rollback(); err != nil {
-				slog.ErrorContext(ctx, "fialed task upsert rollback", "err", err)
+				slog.ErrorContext(ctx, "failed task upsert rollback", "err", err)
 			}
 		}
 	}()

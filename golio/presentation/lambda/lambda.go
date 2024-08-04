@@ -44,7 +44,7 @@ func GetHandler(ctx context.Context) (lambdaHandlerFunc func(ctx context.Context
 	cfg := lambdaConfig
 	googleOAuth2Repo, err := repository.NewGoogleOAuth2(ctx, cfg.GoogleOAuth.ClientID, cfg.GoogleOAuth.ClientSecret, cfg.GoogleOAuth.RedirectURI)
 	if err != nil {
-		return nil, fmt.Errorf("fialed repository.NewGoogleOAuth2. err: %w", err)
+		return nil, fmt.Errorf("failed repository.NewGoogleOAuth2. err: %w", err)
 	}
 
 	db, err := postgres.OpenDB(cfg.PostgresDB.Datasource)

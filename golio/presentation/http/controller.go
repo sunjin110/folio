@@ -51,7 +51,7 @@ func (c *googleOAuthController) Callback(w http.ResponseWriter, r *http.Request)
 
 	output, err := c.authUsecase.StartSessionFromGoogleOAuthCode(ctx, code)
 	if err != nil {
-		slog.ErrorContext(ctx, "fialed authUsecase.StartSessionFromGoogleOAuthCode", "err", err)
+		slog.ErrorContext(ctx, "failed authUsecase.StartSessionFromGoogleOAuthCode", "err", err)
 		http.Error(w, "internal server error", http.StatusInternalServerError)
 		return
 	}

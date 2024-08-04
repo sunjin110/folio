@@ -41,7 +41,7 @@ type googleOauth2 struct {
 func NewGoogleOAuth2(ctx context.Context, clientID string, clientSecret string, redirectURI string) (repository.GoogleOAuth2, error) {
 	oauth2Service, err := oauth2.NewService(context.Background())
 	if err != nil {
-		return nil, fmt.Errorf("fialed oauth2.NewService. err: %w", err)
+		return nil, fmt.Errorf("failed oauth2.NewService. err: %w", err)
 	}
 
 	return &googleOauth2{
