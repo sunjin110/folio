@@ -139,7 +139,7 @@ func (a *article) AssistantBodyByAI(ctx context.Context, id string, orderToAI st
 func (a *article) GenerateArticleByAI(ctx context.Context, prompt string) (*model.Article, error) {
 	body, err := a.articleAIRepo.GenerateBodyByAI(ctx, prompt)
 	if err != nil {
-		return nil, fmt.Errorf("fialed articleRepo.GenerateBodyByAI. err: %w", err)
+		return nil, fmt.Errorf("failed articleRepo.GenerateBodyByAI. err: %w", err)
 	}
 
 	article := model.NewArticle(prompt, body, "", nil, time.Now())

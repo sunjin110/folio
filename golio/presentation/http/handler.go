@@ -156,7 +156,7 @@ func (g *golioAPIServicer) MediaMediumIdDelete(ctx context.Context, mediumID str
 func (g *golioAPIServicer) MediaMediumIdGet(ctx context.Context, mediumID string) (openapi.ImplResponse, error) {
 	medium, err := g.mediaUsecase.Get(ctx, mediumID)
 	if err != nil {
-		slog.ErrorContext(ctx, "fialed get medium", "err", err, "mediumID", mediumID)
+		slog.ErrorContext(ctx, "failed get medium", "err", err, "mediumID", mediumID)
 		return openapi.Response(http.StatusInternalServerError, "internal"), nil
 	}
 

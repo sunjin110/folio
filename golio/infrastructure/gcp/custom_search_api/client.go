@@ -54,7 +54,7 @@ func (c *client) Search(ctx context.Context, input *SearchInput) (*SearchOutput,
 
 	search, err := call.Do()
 	if err != nil {
-		return nil, fmt.Errorf("fialed search. err: %w", err)
+		return nil, fmt.Errorf("failed search. err: %w", err)
 	}
 
 	return &SearchOutput{

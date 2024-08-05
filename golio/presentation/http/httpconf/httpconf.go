@@ -77,7 +77,7 @@ func NewConfig() (*Config, error) {
 	_ = godotenv.Load(envFilePath)
 	cfg := &Config{}
 	if err := env.Parse(cfg); err != nil {
-		return nil, fmt.Errorf("fialed to parse basic config: %w", err)
+		return nil, fmt.Errorf("failed to parse basic config: %w", err)
 	}
 	return cfg, nil
 }

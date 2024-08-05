@@ -42,7 +42,10 @@ func Setup() error {
 
 func GetHandler(ctx context.Context) (lambdaHandlerFunc func(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error), err error) {
 	cfg := lambdaConfig
-	googleOAuth2Repo := repository.NewGoogleOAuth2(ctx, cfg.GoogleOAuth.ClientID, cfg.GoogleOAuth.ClientSecret, cfg.GoogleOAuth.RedirectURI)
+	googleOAuth2Repo, err := repository.NewGoogleOAuth2(ctx, cfg.GoogleOAuth.ClientID, cfg.GoogleOAuth.ClientSecret, cfg.GoogleOAuth.RedirectURI)
+	if err != nil {
+		return nil, fmt.Errorf("failed repository.NewGoogleOAuth2. err: %w", err)
+	}
 
 	db, err := postgres.OpenDB(cfg.PostgresDB.Datasource)
 	if err != nil {
@@ -101,6 +104,11 @@ func GetHandler(ctx context.Context) (lambdaHandlerFunc func(ctx context.Context
 		Path("/auth/google-oauth/callback").
 		Name("google-oauth/callback").
 		HandlerFunc(googleOAuthController.Callback)
+
+	r.Methods(http.MethodGet).
+		Path("/auth/google-oauth/verify-token-and-start-session").
+		Name("google-oauth/verify-token-and-start-session").
+		HandlerFunc(googleOAuthController.VerifyTokenAndStartSession)
 
 	// middleware
 	r.Use(golio_http.AuthMW(authUsecase, userRepo))
