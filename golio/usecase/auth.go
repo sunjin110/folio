@@ -121,7 +121,7 @@ func (a *auth) RefreshSession(ctx context.Context, refreshToken string, email st
 
 func (a *auth) VerifyTokenAndStartSession(ctx context.Context, token string, accessToken string, refreshToken string) (*StartSessionOutput, error) {
 
-	ok, exipireTime, err := a.googleOAuth2.VerifyToken(ctx, token, &accessToken)
+	ok, exipireTime, err := a.googleOAuth2.VerifyToken(ctx, token)
 	if err != nil {
 		return nil, fmt.Errorf("failed googleOAuth2.VerifyToken. err: %w", err)
 	}

@@ -14,7 +14,6 @@ import (
 	"github.com/sunjin110/folio/golio/domain/repository"
 	"github.com/sunjin110/folio/golio/infrastructure/repository/dto"
 	"github.com/sunjin110/folio/golio/infrastructure/repository/dto/gdto"
-	"google.golang.org/api/oauth2/v2"
 )
 
 const (
@@ -27,28 +26,25 @@ const (
 	// tokenGetURI トークンを発行するendpointです
 	tokenGetURI = "https://oauth2.googleapis.com/token"
 
+	// tokeninfoURI トークン情報を取得するendpointです
+	// https://cloud.google.com/docs/authentication/token-types?hl=ja#id-contents
+	tokeninfoURI = "https://oauth2.googleapis.com/tokeninfo"
+
 	// personGetURI ユーザーの情報を取得するendpoint
 	personGetURI = "https://people.googleapis.com/v1/people/me"
 )
 
 type googleOauth2 struct {
-	clientID      string
-	clientSecret  string
-	redirectURI   string
-	oauth2Service *oauth2.Service
+	clientID     string
+	clientSecret string
+	redirectURI  string
 }
 
 func NewGoogleOAuth2(ctx context.Context, clientID string, clientSecret string, redirectURI string) (repository.GoogleOAuth2, error) {
-	oauth2Service, err := oauth2.NewService(context.Background())
-	if err != nil {
-		return nil, fmt.Errorf("failed oauth2.NewService. err: %w", err)
-	}
-
 	return &googleOauth2{
-		clientID:      clientID,
-		clientSecret:  clientSecret,
-		redirectURI:   redirectURI,
-		oauth2Service: oauth2Service,
+		clientID:     clientID,
+		clientSecret: clientSecret,
+		redirectURI:  redirectURI,
 	}, nil
 }
 
@@ -199,18 +195,47 @@ func (o *googleOauth2) GetUser(ctx context.Context, token string) (*model.Google
 	}, nil
 }
 
-func (o *googleOauth2) VerifyToken(ctx context.Context, token string, accessToken *string) (bool, time.Time, error) {
-	call := o.oauth2Service.Tokeninfo()
-	call.Context(ctx)
-	call.IdToken(token)
-	if accessToken != nil {
-		call.AccessToken(*accessToken)
-	}
+func (o *googleOauth2) VerifyToken(ctx context.Context, token string) (bool, time.Time, error) {
 
-	tokeninfo, err := call.Do()
+	u, err := url.Parse(tokeninfoURI)
 	if err != nil {
-		return false, time.Time{}, fmt.Errorf("failed call tokeninfo. err: %w", err)
+		return false, time.Time{}, fmt.Errorf("failed url.Parse. err: %w", err)
 	}
 
-	return true, time.Now().Add(time.Duration(tokeninfo.ExpiresIn) * time.Second), nil
+	q := u.Query()
+	q.Set("id_token", token)
+	u.RawQuery = q.Encode()
+
+	client := &http.Client{}
+	req, err := http.NewRequest(http.MethodGet, u.String(), nil)
+	if err != nil {
+		return false, time.Time{}, fmt.Errorf("failed http.NewRequest. err: %w", err)
+	}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		return false, time.Time{}, fmt.Errorf("failed client.Do. err: %w", err)
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	defer resp.Body.Close()
+	if err != nil {
+		return false, time.Time{}, fmt.Errorf("failed read body. err: %w", err)
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return false, time.Time{}, fmt.Errorf("failed request GetTokenInfo. statusCode: %d, body: %s", resp.StatusCode, string(body))
+	}
+
+	tokeninfo := &dto.TokenInfo{}
+	if err := json.Unmarshal(body, tokeninfo); err != nil {
+		return false, time.Time{}, fmt.Errorf("failed json.Unmarshal. body: %s, err: %w", string(body), err)
+	}
+
+	expireTime, err := tokeninfo.GetExpireTime()
+	if err != nil {
+		return false, time.Time{}, fmt.Errorf("failed GetExpireTime. err: %w", err)
+	}
+
+	return true, expireTime, nil
 }

@@ -1,6 +1,8 @@
 package dto
 
 import (
+	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/sunjin110/folio/golio/domain/model"
@@ -58,4 +60,22 @@ func (o *OutputRefreshGoogleToken) ToToken(refreshToken string) *model.Token {
 		RefreshToken: refreshToken,
 		ExpireTime:   time.Now().Add(time.Duration(o.ExpireIn) * time.Second),
 	}
+}
+
+// Tokeninfoの内容 https://cloud.google.com/docs/authentication/token-types?hl=ja#id-contents
+type TokenInfo struct {
+	Iss string `json:"iss"`
+	Azp string `json:"azp"`
+	Aud string `json:"aud"`
+	Sub string `json:"sub"`
+	Iat string `json:"iat"`
+	Exp string `json:"exp"` // Tokenが無くなる日
+}
+
+func (tokeninfo *TokenInfo) GetExpireTime() (time.Time, error) {
+	expEpoch, err := strconv.Atoi(tokeninfo.Exp)
+	if err != nil {
+		return time.Time{}, fmt.Errorf("failed atoi exp. exp: %s, err: %w", tokeninfo.Exp, err)
+	}
+	return time.Unix(int64(expEpoch), 0), nil
 }
