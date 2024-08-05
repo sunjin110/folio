@@ -111,5 +111,15 @@ func (c *googleOAuthController) VerifyTokenAndStartSession(w http.ResponseWriter
 		return
 	}
 
+	http.SetCookie(w, &http.Cookie{
+		Name:     "access_token",
+		Value:    accessToken,
+		HttpOnly: true,
+		Secure:   true,
+		Path:     "/",
+		// SameSite: http.SameSiteLaxMode,
+		SameSite: http.SameSiteNoneMode,
+	})
+
 	w.WriteHeader(http.StatusOK)
 }
