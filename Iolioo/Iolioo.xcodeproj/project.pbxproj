@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BA081DBF2C609B5A0083A75C /* AuthRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA081DBE2C609B5A0083A75C /* AuthRepo.swift */; };
+		BA081DC12C609BFB0083A75C /* AuthInfraRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA081DC02C609BFB0083A75C /* AuthInfraRepo.swift */; };
 		BA1331D52C5C7791000EBB4E /* ArticleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1331D42C5C7791000EBB4E /* ArticleListView.swift */; };
 		BA1331DC2C5C838E000EBB4E /* Testdata.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1331DB2C5C838E000EBB4E /* Testdata.swift */; };
 		BA1331DE2C5C83AF000EBB4E /* ArticleTestdata.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1331DD2C5C83AF000EBB4E /* ArticleTestdata.swift */; };
@@ -67,6 +69,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BA081DBE2C609B5A0083A75C /* AuthRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepo.swift; sourceTree = "<group>"; };
+		BA081DC02C609BFB0083A75C /* AuthInfraRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInfraRepo.swift; sourceTree = "<group>"; };
 		BA1331D42C5C7791000EBB4E /* ArticleListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleListView.swift; sourceTree = "<group>"; };
 		BA1331DB2C5C838E000EBB4E /* Testdata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Testdata.swift; sourceTree = "<group>"; };
 		BA1331DD2C5C83AF000EBB4E /* ArticleTestdata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleTestdata.swift; sourceTree = "<group>"; };
@@ -292,6 +296,7 @@
 			children = (
 				BAC5D93D2C5B922E00DE9BE9 /* DomainRepo.swift */,
 				BAC5D93F2C5B923C00DE9BE9 /* ArticleRepo.swift */,
+				BA081DBE2C609B5A0083A75C /* AuthRepo.swift */,
 			);
 			path = DomainRepo;
 			sourceTree = "<group>";
@@ -301,6 +306,7 @@
 			children = (
 				BAC5D9422C5B926300DE9BE9 /* InfraRepo.swift */,
 				BAC5D9442C5B927800DE9BE9 /* ArticleInfraRepo.swift */,
+				BA081DC02C609BFB0083A75C /* AuthInfraRepo.swift */,
 			);
 			path = InfraRepo;
 			sourceTree = "<group>";
@@ -502,7 +508,9 @@
 				BAC5D93E2C5B922E00DE9BE9 /* DomainRepo.swift in Sources */,
 				BAC5D91F2C5B8DD500DE9BE9 /* MediaView.swift in Sources */,
 				BAC5D9452C5B927800DE9BE9 /* ArticleInfraRepo.swift in Sources */,
+				BA081DBF2C609B5A0083A75C /* AuthRepo.swift in Sources */,
 				BAC5D9222C5B8DEF00DE9BE9 /* ArticleDetailView.swift in Sources */,
+				BA081DC12C609BFB0083A75C /* AuthInfraRepo.swift in Sources */,
 				BA1331DE2C5C83AF000EBB4E /* ArticleTestdata.swift in Sources */,
 				BAB594FC2C5CD44B001E95C3 /* LoginView.swift in Sources */,
 				BA1331D52C5C7791000EBB4E /* ArticleListView.swift in Sources */,
