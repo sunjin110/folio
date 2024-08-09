@@ -5,46 +5,29 @@ import GoogleSignIn
 
 @main
 struct IoliooApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+    let authUsecase: Usecase.AuthUsecase
+    let articleUsecase: Usecase.ArticleUsecase
+    
+    internal init() {
+        let appConf = AppConfiguration.shared
 
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
-
-    var body: some Scene {
-        let serverURL = Foundation.URL(string: "http://localhost:3000")!
+        print("appConf is \(appConf)")
+        
+        let serverURL = Foundation.URL(string: appConf.golioApiUrl)!
         let golioClient: APIProtocol = Client(
             serverURL: serverURL, transport: URLSessionTransport())
         let articleRepo = InfraRepo.Article(client: golioClient)
-        let authRepo = InfraRepo.Auth(baseUrl: "http://localhost:3000")
-
+        let authRepo = InfraRepo.Auth(baseUrl: appConf.golioApiUrl)
         let articleUsecase = Usecase.ArticleUsecaseImpl(articleRepo: articleRepo)
         let authUsecase = Usecase.AuthUsecaseImpl(authRepo: authRepo)
+        
+        self.authUsecase = authUsecase
+        self.articleUsecase = articleUsecase
+    }
 
+    var body: some Scene {
         WindowGroup {
             MainView(articleUsecase: articleUsecase, authUsecase: authUsecase)
-//            .onOpenURL { url in
-//                GIDSignIn.sharedInstance.handle(url)
-//            }
-//            .onAppear {
-//                GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
-//                    if error != nil {
-//                        print("failed restorePreviousSignIn. err: \(error.debugDescription)")
-//                    }
-//                    
-//                    print("==== restorePreviousSignInを通りました. user is \(user?.userID ?? "")")
-//                    print("tokenid is \(user?.accessToken.tokenString ?? "nothing")")
-//                }
-//            }
         }
-        .modelContainer(sharedModelContainer)
     }
 }
-

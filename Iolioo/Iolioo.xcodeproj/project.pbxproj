@@ -14,6 +14,7 @@
 		BA1331DE2C5C83AF000EBB4E /* ArticleTestdata.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1331DD2C5C83AF000EBB4E /* ArticleTestdata.swift */; };
 		BA1331E62C5CAEE7000EBB4E /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = BA1331E52C5CAEE7000EBB4E /* GoogleSignIn */; };
 		BA1331E82C5CAEE7000EBB4E /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BA1331E72C5CAEE7000EBB4E /* GoogleSignInSwift */; };
+		BA6925442C65E9E50061EFCD /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6925432C65E9E50061EFCD /* Configuration.swift */; };
 		BA782C882C5BB630007628EC /* ArticleListTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA782C872C5BB630007628EC /* ArticleListTemplate.swift */; };
 		BA782C972C5BB6E0007628EC /* ArticleCardViewMolecules.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA782C962C5BB6E0007628EC /* ArticleCardViewMolecules.swift */; };
 		BA782CA12C5BBF72007628EC /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA782CA02C5BBF72007628EC /* FlowLayout.swift */; };
@@ -77,6 +78,7 @@
 		BA1331DB2C5C838E000EBB4E /* Testdata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Testdata.swift; sourceTree = "<group>"; };
 		BA1331DD2C5C83AF000EBB4E /* ArticleTestdata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleTestdata.swift; sourceTree = "<group>"; };
 		BA1331EA2C5CB011000EBB4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		BA6925432C65E9E50061EFCD /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		BA782C872C5BB630007628EC /* ArticleListTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleListTemplate.swift; sourceTree = "<group>"; };
 		BA782C962C5BB6E0007628EC /* ArticleCardViewMolecules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCardViewMolecules.swift; sourceTree = "<group>"; };
 		BA782CA02C5BBF72007628EC /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 				BAC5D8E52C5B865400DE9BE9 /* Assets.xcassets */,
 				BAC5D8E72C5B865400DE9BE9 /* Preview Content */,
 				BAC5D90B2C5B866700DE9BE9 /* TestProtocol.swift */,
+				BA6925432C65E9E50061EFCD /* Configuration.swift */,
 			);
 			path = Iolioo;
 			sourceTree = "<group>";
@@ -515,6 +518,7 @@
 				BAC5D93E2C5B922E00DE9BE9 /* DomainRepo.swift in Sources */,
 				BAC5D91F2C5B8DD500DE9BE9 /* MediaView.swift in Sources */,
 				BAC5D9452C5B927800DE9BE9 /* ArticleInfraRepo.swift in Sources */,
+				BA6925442C65E9E50061EFCD /* Configuration.swift in Sources */,
 				BA081DBF2C609B5A0083A75C /* AuthRepo.swift in Sources */,
 				BAC5D9222C5B8DEF00DE9BE9 /* ArticleDetailView.swift in Sources */,
 				BA081DC12C609BFB0083A75C /* AuthInfraRepo.swift in Sources */,
@@ -696,6 +700,7 @@
 				DEVELOPMENT_TEAM = DNK8T65US7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				GOLIO_API_URL = "https://folio-api.sunjin.info";
 				INFOPLIST_FILE = Iolioo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -726,6 +731,7 @@
 				DEVELOPMENT_TEAM = DNK8T65US7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				GOLIO_API_URL = "https://folio-api.sunjin.info";
 				INFOPLIST_FILE = Iolioo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
