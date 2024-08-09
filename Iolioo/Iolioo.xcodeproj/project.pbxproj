@@ -18,6 +18,8 @@
 		BA782C972C5BB6E0007628EC /* ArticleCardViewMolecules.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA782C962C5BB6E0007628EC /* ArticleCardViewMolecules.swift */; };
 		BA782CA12C5BBF72007628EC /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA782CA02C5BBF72007628EC /* FlowLayout.swift */; };
 		BA782CA42C5C648B007628EC /* ArticleCardsViewOrganisms.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA782CA32C5C648B007628EC /* ArticleCardsViewOrganisms.swift */; };
+		BA8AD9ED2C6450A400DFB69D /* AuthUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8AD9EC2C6450A400DFB69D /* AuthUsecase.swift */; };
+		BA8AD9EF2C64562200DFB69D /* SettingTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8AD9EE2C64562200DFB69D /* SettingTemplate.swift */; };
 		BAB594FC2C5CD44B001E95C3 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB594FB2C5CD44B001E95C3 /* LoginView.swift */; };
 		BAB595002C5CD4B9001E95C3 /* LoginTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB594FF2C5CD4B9001E95C3 /* LoginTemplate.swift */; };
 		BAC5D8E02C5B865400DE9BE9 /* IoliooApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D8DF2C5B865400DE9BE9 /* IoliooApp.swift */; };
@@ -79,6 +81,8 @@
 		BA782C962C5BB6E0007628EC /* ArticleCardViewMolecules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCardViewMolecules.swift; sourceTree = "<group>"; };
 		BA782CA02C5BBF72007628EC /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
 		BA782CA32C5C648B007628EC /* ArticleCardsViewOrganisms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCardsViewOrganisms.swift; sourceTree = "<group>"; };
+		BA8AD9EC2C6450A400DFB69D /* AuthUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUsecase.swift; sourceTree = "<group>"; };
+		BA8AD9EE2C64562200DFB69D /* SettingTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTemplate.swift; sourceTree = "<group>"; };
 		BAB594FB2C5CD44B001E95C3 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		BAB594FF2C5CD4B9001E95C3 /* LoginTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTemplate.swift; sourceTree = "<group>"; };
 		BAC5D8DC2C5B865400DE9BE9 /* Iolioo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Iolioo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -327,6 +331,7 @@
 			children = (
 				BAC5D9482C5B92C800DE9BE9 /* Usecase.swift */,
 				BAC5D94A2C5B92E200DE9BE9 /* ArticleUsecase.swift */,
+				BA8AD9EC2C6450A400DFB69D /* AuthUsecase.swift */,
 			);
 			path = Usecase;
 			sourceTree = "<group>";
@@ -337,6 +342,7 @@
 				BAC5D94E2C5B936500DE9BE9 /* ArticleDetailTemplate.swift */,
 				BA782C872C5BB630007628EC /* ArticleListTemplate.swift */,
 				BAB594FF2C5CD4B9001E95C3 /* LoginTemplate.swift */,
+				BA8AD9EE2C64562200DFB69D /* SettingTemplate.swift */,
 			);
 			path = Templates;
 			sourceTree = "<group>";
@@ -498,6 +504,7 @@
 				BAC5D8E02C5B865400DE9BE9 /* IoliooApp.swift in Sources */,
 				BAC5D91B2C5B8DB100DE9BE9 /* HomeView.swift in Sources */,
 				BAC5D94B2C5B92E200DE9BE9 /* ArticleUsecase.swift in Sources */,
+				BA8AD9EF2C64562200DFB69D /* SettingTemplate.swift in Sources */,
 				BAC5D94F2C5B936500DE9BE9 /* ArticleDetailTemplate.swift in Sources */,
 				BAB595002C5CD4B9001E95C3 /* LoginTemplate.swift in Sources */,
 				BA1331DC2C5C838E000EBB4E /* Testdata.swift in Sources */,
@@ -511,6 +518,7 @@
 				BA081DBF2C609B5A0083A75C /* AuthRepo.swift in Sources */,
 				BAC5D9222C5B8DEF00DE9BE9 /* ArticleDetailView.swift in Sources */,
 				BA081DC12C609BFB0083A75C /* AuthInfraRepo.swift in Sources */,
+				BA8AD9ED2C6450A400DFB69D /* AuthUsecase.swift in Sources */,
 				BA1331DE2C5C83AF000EBB4E /* ArticleTestdata.swift in Sources */,
 				BAB594FC2C5CD44B001E95C3 /* LoginView.swift in Sources */,
 				BA1331D52C5C7791000EBB4E /* ArticleListView.swift in Sources */,

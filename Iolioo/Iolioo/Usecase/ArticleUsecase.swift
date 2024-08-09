@@ -8,7 +8,7 @@ extension Usecase {
 }
 
 extension Usecase {
-    public class ArticleUsecaseImpl: ArticleUsecase {
+    class ArticleUsecaseImpl: ArticleUsecase {
 
         var articleRepo: DomainRepo.Article
 
@@ -47,7 +47,7 @@ extension Usecase {
 
 #if DEBUG
     extension Usecase {
-        public struct ArticleUsecaseMock: ArticleUsecase {
+        struct ArticleUsecaseMock: ArticleUsecase {
             var getResult: Result<DomainModel.Article, Usecase.UsecaseError>?
             var findResult: Result<[DomainModel.ArticleSummary], Usecase.UsecaseError>?
 

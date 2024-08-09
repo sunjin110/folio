@@ -13,7 +13,8 @@ struct LoginTemplate: View {
                 Text("Google SignIn")
             })
             Spacer()
-        }
+        }.frame(maxWidth: .infinity, maxHeight: .infinity)
+//        .ignoresSafeArea(.all)
     }
 }
 

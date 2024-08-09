@@ -2,6 +2,11 @@ import SwiftUI
 import GoogleSignIn
 
 struct LoginView: View {
+    
+    var authUsecase: Usecase.AuthUsecase
+    
+    @Binding var showLogin: Bool
+    
     var body: some View {
         LoginTemplate(googleSignInOnTap: handleGoogleSignInOnTap)
     }
@@ -36,9 +41,13 @@ struct LoginView: View {
                 print("access token is \(user.accessToken.tokenString)")
                 print("refresh token is \(user.refreshToken.tokenString)")
                 
+//                self.authUsecase.verifyTokenAndStartSession(idToken: <#T##String#>, accessToken: <#T##String#>, refreshToken: <#T##String#>)
+                
                 // TODO golioにid tokenを検証するやつを作る
                 // https://developers.google.com/identity/sign-in/ios/backend-auth?hl=ja
                 
+                
+                showLogin = false
             }
             
         }
@@ -51,5 +60,7 @@ struct LoginView: View {
 }
 
 #Preview {
-    LoginView()
+    let authUsecase = Usecase.AuthUsecaseMock()
+    @State var showLogin: Bool = false
+    return LoginView(authUsecase: authUsecase, showLogin: $showLogin)
 }

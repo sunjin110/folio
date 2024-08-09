@@ -1,11 +1,22 @@
 import SwiftUI
 
 struct SettingView: View {
+    var authUsecase: Usecase.AuthUsecase
+    @Binding var showLogin: Bool
+    
     var body: some View {
-        Text("Setting!!")
+        SettingTemplate(loginOnTap: self.loginOnTap)
+    }
+    
+    private func loginOnTap() {
+        withAnimation {
+            showLogin.toggle()
+        }
     }
 }
 
 #Preview {
-    SettingView()
+    let authUsecase = Usecase.AuthUsecaseMock()
+    @State var showLogin: Bool = false
+    return SettingView(authUsecase: authUsecase, showLogin: $showLogin)
 }

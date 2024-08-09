@@ -16,7 +16,7 @@ extension InfraRepo {
                 return .failure(.init(message: "failed make compoents. baseUrl: \(baseUrl), path: \(verifyTokenAndStartSessionApiPath)", innerError: nil, kind: .internalError))
             }
             
-            let queryItems = [
+            components.queryItems = [
               URLQueryItem(name: "id_token", value: idToken),
               URLQueryItem(name: "access_token", value: accessToken),
               URLQueryItem(name: "refresh_token", value: refreshToken)
