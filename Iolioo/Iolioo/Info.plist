@@ -36,5 +36,10 @@
 	</array>
 	<key>GIDClientID</key>
 	<string>682633467318-s437ctl57js68erstf44bl0gobeau1i0.apps.googleusercontent.com</string>
+	<key>AppConfig</key>
+	<dict>
+		<key>GolioApiUrl</key>
+		<string>${GOLIO_API_URL}</string>
+	</dict>
 </dict>
 </plist>
