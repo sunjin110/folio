@@ -38,6 +38,7 @@ struct MainView: View {
             GIDSignIn.sharedInstance.handle(url)
         }
         .onAppear {
+            // 起動時ログイン処理
             GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
                 if error != nil {
                     print("failed restorePreviousSignIn. err: \(error.debugDescription)")
@@ -49,8 +50,22 @@ struct MainView: View {
                     showLogin.toggle()
                     return
                 }
-                print("==== restorePreviousSignInを通りました. user is \(user.userID ?? "user id not found")")
-                print("tokenid is \(user.accessToken.tokenString)")
+                
+                guard let idToken = user.idToken else {
+                    showLogin.toggle()
+                    return
+                }
+                
+                Task {
+                    let result = await self.authUsecase.verifyTokenAndStartSession(idToken: idToken.tokenString, accessToken: user.accessToken.tokenString, refreshToken: user.refreshToken.tokenString)
+                    
+                    switch result {
+                    case .success(_):
+                        return
+                    case .failure(let err):
+                        print("failed authUsecase.verifyTokenAndStartSession. err: \(err)")
+                    }
+                }
             }
         }
     }

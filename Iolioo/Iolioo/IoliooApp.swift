@@ -2,6 +2,7 @@ import OpenAPIURLSession
 import SwiftData
 import SwiftUI
 import GoogleSignIn
+import OpenAPIRuntime
 
 @main
 struct IoliooApp: App {
@@ -10,12 +11,14 @@ struct IoliooApp: App {
     
     internal init() {
         let appConf = AppConfiguration.shared
-
-        print("appConf is \(appConf)")
+        
+        // default date transcoder doen't support milli sec
+        let openApiConfig = OpenAPIRuntime.Configuration(dateTranscoder: OpenAPIRuntime.ISO8601DateTranscoder.iso8601WithFractionalSeconds)
         
         let serverURL = Foundation.URL(string: appConf.golioApiUrl)!
         let golioClient: APIProtocol = Client(
-            serverURL: serverURL, transport: URLSessionTransport())
+            serverURL: serverURL, configuration: openApiConfig, transport: URLSessionTransport())
+        
         let articleRepo = InfraRepo.Article(client: golioClient)
         let authRepo = InfraRepo.Auth(baseUrl: appConf.golioApiUrl)
         let articleUsecase = Usecase.ArticleUsecaseImpl(articleRepo: articleRepo)
