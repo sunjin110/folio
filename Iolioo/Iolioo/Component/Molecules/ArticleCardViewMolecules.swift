@@ -1,8 +1,6 @@
 import Foundation
 import SwiftUI
 
-// ref
-// https://developer.apple.com/tutorials/app-dev-training/creating-a-card-view
 struct ArticleCardViewMolecules: View {
     let id = UUID()
     let summary: DomainModel.ArticleSummary
@@ -31,8 +29,7 @@ struct ArticleCardViewMolecules: View {
                 .font(.caption)
             }
         )
-        .padding()
-
+        .padding(.vertical)
     }
 }
 
