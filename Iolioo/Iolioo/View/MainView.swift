@@ -6,6 +6,12 @@ struct MainView: View {
     @State
     var tabSelection = 1
     
+    @Environment(\.colorScheme) var colorSchema
+    
+    var backgroundColor: Color {
+        colorSchema == .dark ? .black : .white
+    }
+    
     @State
     private var showLogin = false
 
@@ -29,7 +35,7 @@ struct MainView: View {
         }.overlay(
             Group {
                 if showLogin {
-                    LoginView(authUsecase: authUsecase, showLogin: $showLogin).background(.white)
+                    LoginView(authUsecase: authUsecase, showLogin: $showLogin).background(backgroundColor)
                 }
             }
         )
@@ -80,5 +86,5 @@ struct MainView: View {
     articleUsecase.findResult = .success(Testdata.GetArticleSummaries())
     
     let authUsecase = Usecase.AuthUsecaseMock()
-    return MainView(articleUsecase: articleUsecase, authUsecase: authUsecase)
+    return MainView(articleUsecase: articleUsecase, authUsecase: authUsecase).preferredColorScheme(.dark)
 }
