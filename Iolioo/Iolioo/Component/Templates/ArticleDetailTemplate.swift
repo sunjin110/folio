@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ArticleDetailTemplate: View {
-    var article: DomainModel.Article?
+    @Binding var article: DomainModel.Article?
     var body: some View {
         Group {
             if self.article == nil {
@@ -20,10 +20,10 @@ struct ArticleDetailTemplate: View {
 }
 
 #Preview {
-    let article = DomainModel.Article(
+    @State var article: DomainModel.Article? = DomainModel.Article(
         id: "id", title: "title", body: "body", writer: "writer", tags: [], createdAt: Date.now,
         updatedAt: Date.now)
     return NavigationStack {
-        ArticleDetailTemplate(article: article)
+        ArticleDetailTemplate(article: $article)
     }
 }

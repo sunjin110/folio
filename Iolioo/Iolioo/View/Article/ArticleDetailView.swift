@@ -8,7 +8,7 @@ struct ArticleDetailView: View {
 
     var body: some View {
 
-        ArticleDetailTemplate(article: self.article).task {
+        ArticleDetailTemplate(article: $article).task {
             await loadArticleDetail()
         }
     }
@@ -18,7 +18,8 @@ struct ArticleDetailView: View {
         switch result {
         case .success(let article):
             self.article = article
-        case .failure(_):
+        case .failure(let err):
+            print("fialed self.articleUsecase.get(id: id). id: \(id), err: \(err)")
             self.article = nil
         }
     }
