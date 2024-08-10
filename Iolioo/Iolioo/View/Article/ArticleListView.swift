@@ -4,22 +4,37 @@ struct ArticleListView: View {
 
     let articleUsecase: Usecase.ArticleUsecase
     @State var summaries: [DomainModel.ArticleSummary]
+    
+    let limit = 10
+    
+    var offset: Int {
+        self.summaries.count
+    }
 
     var body: some View {
         ArticleListTemplate(
-            summaries: summaries,
+            summaries: $summaries,
             destinationProvider: { summary in
                 AnyView(ArticleDetailView(articleUsecase: articleUsecase, id: summary.id))
+            },
+            loadMoreArticlesFunc: self.loadMoreArticles
+        )
+    }
+    
+    private func loadMoreArticles() async -> ArticleListTemplateLoadMoreOutput {
+        
+        switch await articleUsecase.find(offset: self.offset, limit: limit, searchTitleText: nil) {
+        case .success(let summaries):
+            
+            self.summaries.append(contentsOf: summaries)
+            
+            if summaries.count < limit {
+                return .init(isFinished: true)
             }
-        ).task {
-            let result = await articleUsecase.find(offset: 0, limit: 10, searchTitleText: nil)
-            switch result {
-            case .success(let summaries):
-                self.summaries = summaries
-            case .failure(let err):
-                print("error: \(err)")
-            }
-
+            return .init(isFinished: false)
+        case .failure(let err):
+            print("error: \(err)")
+            return .init(isFinished: false)
         }
     }
 }
