@@ -1,17 +1,17 @@
-import SwiftUI
 import GoogleSignIn
+import SwiftUI
 
 struct MainView: View {
 
     @State
     var tabSelection = 1
-    
+
     @Environment(\.colorScheme) var colorSchema
-    
+
     var backgroundColor: Color {
         colorSchema == .dark ? .black : .white
     }
-    
+
     @State
     private var showLogin = false
 
@@ -35,7 +35,8 @@ struct MainView: View {
         }.overlay(
             Group {
                 if showLogin {
-                    LoginView(authUsecase: authUsecase, showLogin: $showLogin).background(backgroundColor)
+                    LoginView(authUsecase: authUsecase, showLogin: $showLogin).background(
+                        backgroundColor)
                 }
             }
         )
@@ -51,20 +52,22 @@ struct MainView: View {
                     showLogin.toggle()
                     return
                 }
-                
+
                 guard let user = user else {
                     showLogin.toggle()
                     return
                 }
-                
+
                 guard let idToken = user.idToken else {
                     showLogin.toggle()
                     return
                 }
-                
+
                 Task {
-                    let result = await self.authUsecase.verifyTokenAndStartSession(idToken: idToken.tokenString, accessToken: user.accessToken.tokenString, refreshToken: user.refreshToken.tokenString)
-                    
+                    let result = await self.authUsecase.verifyTokenAndStartSession(
+                        idToken: idToken.tokenString, accessToken: user.accessToken.tokenString,
+                        refreshToken: user.refreshToken.tokenString)
+
                     switch result {
                     case .success(_):
                         return
@@ -84,7 +87,8 @@ struct MainView: View {
                 id: "id", title: "title", body: "body", writer: "writer", tags: [],
                 createdAt: Date.now, updatedAt: Date.now)))
     articleUsecase.findResult = .success(Testdata.GetArticleSummaries())
-    
+
     let authUsecase = Usecase.AuthUsecaseMock()
-    return MainView(articleUsecase: articleUsecase, authUsecase: authUsecase).preferredColorScheme(.dark)
+    return MainView(articleUsecase: articleUsecase, authUsecase: authUsecase).preferredColorScheme(
+        .dark)
 }

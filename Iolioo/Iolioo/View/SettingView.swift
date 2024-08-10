@@ -3,11 +3,11 @@ import SwiftUI
 struct SettingView: View {
     var authUsecase: Usecase.AuthUsecase
     @Binding var showLogin: Bool
-    
+
     var body: some View {
         SettingTemplate(loginOnTap: self.loginOnTap)
     }
-    
+
     private func loginOnTap() {
         withAnimation {
             showLogin.toggle()

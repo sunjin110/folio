@@ -9,12 +9,14 @@
 /* Begin PBXBuildFile section */
 		BA081DBF2C609B5A0083A75C /* AuthRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA081DBE2C609B5A0083A75C /* AuthRepo.swift */; };
 		BA081DC12C609BFB0083A75C /* AuthInfraRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA081DC02C609BFB0083A75C /* AuthInfraRepo.swift */; };
+		BA091C802C673CFA009FDCD7 /* MarkdownView in Frameworks */ = {isa = PBXBuildFile; productRef = BA091C7F2C673CFA009FDCD7 /* MarkdownView */; };
 		BA1331D52C5C7791000EBB4E /* ArticleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1331D42C5C7791000EBB4E /* ArticleListView.swift */; };
 		BA1331DC2C5C838E000EBB4E /* Testdata.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1331DB2C5C838E000EBB4E /* Testdata.swift */; };
 		BA1331DE2C5C83AF000EBB4E /* ArticleTestdata.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1331DD2C5C83AF000EBB4E /* ArticleTestdata.swift */; };
 		BA1331E62C5CAEE7000EBB4E /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = BA1331E52C5CAEE7000EBB4E /* GoogleSignIn */; };
 		BA1331E82C5CAEE7000EBB4E /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BA1331E72C5CAEE7000EBB4E /* GoogleSignInSwift */; };
 		BA6925442C65E9E50061EFCD /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6925432C65E9E50061EFCD /* Configuration.swift */; };
+		BA6A962D2C673B7B00F42191 /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = BA6A962C2C673B7B00F42191 /* Markdown */; };
 		BA782C882C5BB630007628EC /* ArticleListTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA782C872C5BB630007628EC /* ArticleListTemplate.swift */; };
 		BA782C972C5BB6E0007628EC /* ArticleCardViewMolecules.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA782C962C5BB6E0007628EC /* ArticleCardViewMolecules.swift */; };
 		BA782CA12C5BBF72007628EC /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA782CA02C5BBF72007628EC /* FlowLayout.swift */; };
@@ -31,7 +33,6 @@
 		BAC5D8F32C5B865400DE9BE9 /* IoliooTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D8F22C5B865400DE9BE9 /* IoliooTests.swift */; };
 		BAC5D8FD2C5B865400DE9BE9 /* IoliooUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D8FC2C5B865400DE9BE9 /* IoliooUITests.swift */; };
 		BAC5D8FF2C5B865400DE9BE9 /* IoliooUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D8FE2C5B865400DE9BE9 /* IoliooUITestsLaunchTests.swift */; };
-		BAC5D90C2C5B866700DE9BE9 /* TestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D90B2C5B866700DE9BE9 /* TestProtocol.swift */; };
 		BAC5D90F2C5B867700DE9BE9 /* Spyable in Frameworks */ = {isa = PBXBuildFile; productRef = BAC5D90E2C5B867700DE9BE9 /* Spyable */; };
 		BAC5D9122C5B887000DE9BE9 /* OpenAPIURLSession in Frameworks */ = {isa = PBXBuildFile; productRef = BAC5D9112C5B887000DE9BE9 /* OpenAPIURLSession */; };
 		BAC5D9152C5B887900DE9BE9 /* OpenAPIRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = BAC5D9142C5B887900DE9BE9 /* OpenAPIRuntime */; };
@@ -98,7 +99,6 @@
 		BAC5D8F82C5B865400DE9BE9 /* IoliooUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IoliooUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAC5D8FC2C5B865400DE9BE9 /* IoliooUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IoliooUITests.swift; sourceTree = "<group>"; };
 		BAC5D8FE2C5B865400DE9BE9 /* IoliooUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IoliooUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		BAC5D90B2C5B866700DE9BE9 /* TestProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestProtocol.swift; sourceTree = "<group>"; };
 		BAC5D9182C5B8D9C00DE9BE9 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		BAC5D91A2C5B8DB100DE9BE9 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		BAC5D91C2C5B8DC000DE9BE9 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
@@ -126,6 +126,8 @@
 				BA1331E82C5CAEE7000EBB4E /* GoogleSignInSwift in Frameworks */,
 				BAC5D9122C5B887000DE9BE9 /* OpenAPIURLSession in Frameworks */,
 				BA1331E62C5CAEE7000EBB4E /* GoogleSignIn in Frameworks */,
+				BA6A962D2C673B7B00F42191 /* Markdown in Frameworks */,
+				BA091C802C673CFA009FDCD7 /* MarkdownView in Frameworks */,
 				BAC5D9152C5B887900DE9BE9 /* OpenAPIRuntime in Frameworks */,
 				BAC5D90F2C5B867700DE9BE9 /* Spyable in Frameworks */,
 			);
@@ -218,7 +220,6 @@
 				BAC5D8E32C5B865400DE9BE9 /* Item.swift */,
 				BAC5D8E52C5B865400DE9BE9 /* Assets.xcassets */,
 				BAC5D8E72C5B865400DE9BE9 /* Preview Content */,
-				BAC5D90B2C5B866700DE9BE9 /* TestProtocol.swift */,
 				BA6925432C65E9E50061EFCD /* Configuration.swift */,
 			);
 			path = Iolioo;
@@ -373,6 +374,8 @@
 				BAC5D9142C5B887900DE9BE9 /* OpenAPIRuntime */,
 				BA1331E52C5CAEE7000EBB4E /* GoogleSignIn */,
 				BA1331E72C5CAEE7000EBB4E /* GoogleSignInSwift */,
+				BA6A962C2C673B7B00F42191 /* Markdown */,
+				BA091C7F2C673CFA009FDCD7 /* MarkdownView */,
 			);
 			productName = Iolioo;
 			productReference = BAC5D8DC2C5B865400DE9BE9 /* Iolioo.app */;
@@ -452,6 +455,8 @@
 				BAC5D9132C5B887900DE9BE9 /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */,
 				BAC5D9162C5B888300DE9BE9 /* XCRemoteSwiftPackageReference "swift-openapi-generator" */,
 				BA1331E42C5CAEE7000EBB4E /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				BA6A962B2C673B7B00F42191 /* XCRemoteSwiftPackageReference "swift-markdown" */,
+				BA091C7E2C673CFA009FDCD7 /* XCRemoteSwiftPackageReference "MarkdownView" */,
 			);
 			productRefGroup = BAC5D8DD2C5B865400DE9BE9 /* Products */;
 			projectDirPath = "";
@@ -528,7 +533,6 @@
 				BA1331D52C5C7791000EBB4E /* ArticleListView.swift in Sources */,
 				BAC5D9362C5B91E700DE9BE9 /* DomainModel.swift in Sources */,
 				BAC5D9192C5B8D9C00DE9BE9 /* MainView.swift in Sources */,
-				BAC5D90C2C5B866700DE9BE9 /* TestProtocol.swift in Sources */,
 				BA782CA42C5C648B007628EC /* ArticleCardsViewOrganisms.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -869,12 +873,28 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		BA091C7E2C673CFA009FDCD7 /* XCRemoteSwiftPackageReference "MarkdownView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/LiYanan2004/MarkdownView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.6.0;
+			};
+		};
 		BA1331E42C5CAEE7000EBB4E /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 7.1.0;
+			};
+		};
+		BA6A962B2C673B7B00F42191 /* XCRemoteSwiftPackageReference "swift-markdown" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-markdown.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.0;
 			};
 		};
 		BAC5D90D2C5B867700DE9BE9 /* XCRemoteSwiftPackageReference "swift-spyable" */ = {
@@ -912,6 +932,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		BA091C7F2C673CFA009FDCD7 /* MarkdownView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BA091C7E2C673CFA009FDCD7 /* XCRemoteSwiftPackageReference "MarkdownView" */;
+			productName = MarkdownView;
+		};
 		BA1331E52C5CAEE7000EBB4E /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BA1331E42C5CAEE7000EBB4E /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
@@ -921,6 +946,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BA1331E42C5CAEE7000EBB4E /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
+		};
+		BA6A962C2C673B7B00F42191 /* Markdown */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BA6A962B2C673B7B00F42191 /* XCRemoteSwiftPackageReference "swift-markdown" */;
+			productName = Markdown;
 		};
 		BAC5D90E2C5B867700DE9BE9 /* Spyable */ = {
 			isa = XCSwiftPackageProductDependency;
