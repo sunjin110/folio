@@ -23,7 +23,7 @@ require (
 	github.com/lib/pq v1.10.9
 	github.com/pkg/errors v0.9.1
 	github.com/rs/cors v1.11.0
-	github.com/sashabaranov/go-openai v1.27.1
+	github.com/sashabaranov/go-openai v1.28.1
 	github.com/smartystreets/goconvey v1.8.1
 	go.uber.org/mock v0.4.0
 	golang.org/x/net v0.27.0
