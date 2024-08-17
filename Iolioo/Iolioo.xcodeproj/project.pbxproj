@@ -17,6 +17,7 @@
 		BA1331E82C5CAEE7000EBB4E /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BA1331E72C5CAEE7000EBB4E /* GoogleSignInSwift */; };
 		BA3D15912C705FCD004463E6 /* ArticleCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3D15902C705FCD004463E6 /* ArticleCreateView.swift */; };
 		BA3D15942C706267004463E6 /* ArticleCreateTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3D15932C706267004463E6 /* ArticleCreateTemplate.swift */; };
+		BA3D159B2C7074DF004463E6 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = BA3D159A2C7074DF004463E6 /* AlertToast */; };
 		BA6925442C65E9E50061EFCD /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6925432C65E9E50061EFCD /* Configuration.swift */; };
 		BA6A962D2C673B7B00F42191 /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = BA6A962C2C673B7B00F42191 /* Markdown */; };
 		BA782C882C5BB630007628EC /* ArticleListTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA782C872C5BB630007628EC /* ArticleListTemplate.swift */; };
@@ -132,6 +133,7 @@
 				BA1331E62C5CAEE7000EBB4E /* GoogleSignIn in Frameworks */,
 				BA6A962D2C673B7B00F42191 /* Markdown in Frameworks */,
 				BA091C802C673CFA009FDCD7 /* MarkdownView in Frameworks */,
+				BA3D159B2C7074DF004463E6 /* AlertToast in Frameworks */,
 				BAC5D9152C5B887900DE9BE9 /* OpenAPIRuntime in Frameworks */,
 				BAC5D90F2C5B867700DE9BE9 /* Spyable in Frameworks */,
 			);
@@ -382,6 +384,7 @@
 				BA1331E72C5CAEE7000EBB4E /* GoogleSignInSwift */,
 				BA6A962C2C673B7B00F42191 /* Markdown */,
 				BA091C7F2C673CFA009FDCD7 /* MarkdownView */,
+				BA3D159A2C7074DF004463E6 /* AlertToast */,
 			);
 			productName = Iolioo;
 			productReference = BAC5D8DC2C5B865400DE9BE9 /* Iolioo.app */;
@@ -463,6 +466,7 @@
 				BA1331E42C5CAEE7000EBB4E /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				BA6A962B2C673B7B00F42191 /* XCRemoteSwiftPackageReference "swift-markdown" */,
 				BA091C7E2C673CFA009FDCD7 /* XCRemoteSwiftPackageReference "MarkdownView" */,
+				BA3D15992C7074DF004463E6 /* XCRemoteSwiftPackageReference "AlertToast" */,
 			);
 			productRefGroup = BAC5D8DD2C5B865400DE9BE9 /* Products */;
 			projectDirPath = "";
@@ -897,6 +901,14 @@
 				minimumVersion = 7.1.0;
 			};
 		};
+		BA3D15992C7074DF004463E6 /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/elai950/AlertToast";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.9;
+			};
+		};
 		BA6A962B2C673B7B00F42191 /* XCRemoteSwiftPackageReference "swift-markdown" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-markdown.git";
@@ -954,6 +966,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BA1331E42C5CAEE7000EBB4E /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
+		};
+		BA3D159A2C7074DF004463E6 /* AlertToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BA3D15992C7074DF004463E6 /* XCRemoteSwiftPackageReference "AlertToast" */;
+			productName = AlertToast;
 		};
 		BA6A962C2C673B7B00F42191 /* Markdown */ = {
 			isa = XCSwiftPackageProductDependency;
