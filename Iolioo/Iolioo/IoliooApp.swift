@@ -27,6 +27,8 @@ struct IoliooApp: App {
 
         self.authUsecase = authUsecase
         self.articleUsecase = articleUsecase
+        
+        print("Iolioo start")
     }
 
     var body: some Scene {

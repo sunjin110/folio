@@ -8,6 +8,7 @@ struct ArticleListTemplate: View {
 
     @Binding var summaries: [DomainModel.ArticleSummary]
     let destinationProvider: (DomainModel.ArticleSummary) -> AnyView
+    let createArticleView: AnyView
     let loadMoreArticlesFunc: () async -> ArticleListTemplateLoadMoreOutput
 
     var body: some View {
@@ -22,17 +23,14 @@ struct ArticleListTemplate: View {
                 )
                 .navigationTitle("Article")
                 .toolbar {
-                    Button(action: {}) {
+                    NavigationLink(destination: {
+                        createArticleView
+                    }) {
                         Image(systemName: "plus")
-                    }
-                    .accessibilityLabel("New Article")
+                    }.accessibilityLabel("New Article")
                 }
             }
         }
-    }
-    
-    func loadMoreContent() {
-        print("loadMore")
     }
 }
 
@@ -56,7 +54,7 @@ struct ArticleListTemplate_Previews: PreviewProvider {
         var body: some View {
             
             ArticleListTemplate(summaries: $summaries, destinationProvider: { summary in
-                return AnyView(Text(summary.title))}, loadMoreArticlesFunc: self.loadMoreArticles)
+                return AnyView(Text(summary.title))}, createArticleView: AnyView(Text("Create Article View")), loadMoreArticlesFunc: self.loadMoreArticles)
         }
         
         func loadMoreArticles() async -> ArticleListTemplateLoadMoreOutput {

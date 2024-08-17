@@ -15,6 +15,8 @@
 		BA1331DE2C5C83AF000EBB4E /* ArticleTestdata.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1331DD2C5C83AF000EBB4E /* ArticleTestdata.swift */; };
 		BA1331E62C5CAEE7000EBB4E /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = BA1331E52C5CAEE7000EBB4E /* GoogleSignIn */; };
 		BA1331E82C5CAEE7000EBB4E /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BA1331E72C5CAEE7000EBB4E /* GoogleSignInSwift */; };
+		BA3D15912C705FCD004463E6 /* ArticleCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3D15902C705FCD004463E6 /* ArticleCreateView.swift */; };
+		BA3D15942C706267004463E6 /* ArticleCreateTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3D15932C706267004463E6 /* ArticleCreateTemplate.swift */; };
 		BA6925442C65E9E50061EFCD /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6925432C65E9E50061EFCD /* Configuration.swift */; };
 		BA6A962D2C673B7B00F42191 /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = BA6A962C2C673B7B00F42191 /* Markdown */; };
 		BA782C882C5BB630007628EC /* ArticleListTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA782C872C5BB630007628EC /* ArticleListTemplate.swift */; };
@@ -79,6 +81,8 @@
 		BA1331DB2C5C838E000EBB4E /* Testdata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Testdata.swift; sourceTree = "<group>"; };
 		BA1331DD2C5C83AF000EBB4E /* ArticleTestdata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleTestdata.swift; sourceTree = "<group>"; };
 		BA1331EA2C5CB011000EBB4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		BA3D15902C705FCD004463E6 /* ArticleCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCreateView.swift; sourceTree = "<group>"; };
+		BA3D15932C706267004463E6 /* ArticleCreateTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCreateTemplate.swift; sourceTree = "<group>"; };
 		BA6925432C65E9E50061EFCD /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		BA782C872C5BB630007628EC /* ArticleListTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleListTemplate.swift; sourceTree = "<group>"; };
 		BA782C962C5BB6E0007628EC /* ArticleCardViewMolecules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCardViewMolecules.swift; sourceTree = "<group>"; };
@@ -268,6 +272,7 @@
 			children = (
 				BAC5D9212C5B8DEF00DE9BE9 /* ArticleDetailView.swift */,
 				BA1331D42C5C7791000EBB4E /* ArticleListView.swift */,
+				BA3D15902C705FCD004463E6 /* ArticleCreateView.swift */,
 			);
 			path = Article;
 			sourceTree = "<group>";
@@ -345,6 +350,7 @@
 			children = (
 				BAC5D94E2C5B936500DE9BE9 /* ArticleDetailTemplate.swift */,
 				BA782C872C5BB630007628EC /* ArticleListTemplate.swift */,
+				BA3D15932C706267004463E6 /* ArticleCreateTemplate.swift */,
 				BAB594FF2C5CD4B9001E95C3 /* LoginTemplate.swift */,
 				BA8AD9EE2C64562200DFB69D /* SettingTemplate.swift */,
 			);
@@ -504,6 +510,7 @@
 			files = (
 				BAC5D8E22C5B865400DE9BE9 /* ContentView.swift in Sources */,
 				BAC5D8E42C5B865400DE9BE9 /* Item.swift in Sources */,
+				BA3D15912C705FCD004463E6 /* ArticleCreateView.swift in Sources */,
 				BAC5D9382C5B91F900DE9BE9 /* ArticleDomainModel.swift in Sources */,
 				BA782C972C5BB6E0007628EC /* ArticleCardViewMolecules.swift in Sources */,
 				BAC5D9432C5B926300DE9BE9 /* InfraRepo.swift in Sources */,
@@ -513,6 +520,7 @@
 				BAC5D91B2C5B8DB100DE9BE9 /* HomeView.swift in Sources */,
 				BAC5D94B2C5B92E200DE9BE9 /* ArticleUsecase.swift in Sources */,
 				BA8AD9EF2C64562200DFB69D /* SettingTemplate.swift in Sources */,
+				BA3D15942C706267004463E6 /* ArticleCreateTemplate.swift in Sources */,
 				BAC5D94F2C5B936500DE9BE9 /* ArticleDetailTemplate.swift in Sources */,
 				BAB595002C5CD4B9001E95C3 /* LoginTemplate.swift in Sources */,
 				BA1331DC2C5C838E000EBB4E /* Testdata.swift in Sources */,
