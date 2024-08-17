@@ -10,5 +10,6 @@ extension DomainRepo {
         func find(offset: Int, limit: Int, searchTitleText: String?) async -> Result<
             [DomainModel.ArticleSummary], DomainRepo.RepoError
         >
+        func insert(title: String, body: String) async -> Result<(), DomainRepo.RepoError>
     }
 }
