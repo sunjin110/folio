@@ -9,7 +9,15 @@ struct ArticleCreateView: View {
     }
     
     private func saveArticle(input: (title: String, body: String)) async -> Void {
-        print("todo")
+        let result = await self.articleUsecase.insert(title: input.title, body: input.body)
+        
+        switch result {
+        case .success(_):
+            return
+        case .failure(let err):
+            print("fialed save article. err: \(err)")
+            return
+        }
     }
 }
 

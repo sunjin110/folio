@@ -82,5 +82,16 @@ extension InfraRepo {
                     .init(message: "failed find", innerError: error, kind: .internalError))
             }
         }
+        
+        func insert(title: String, body: String) async -> Result<(), DomainRepo.RepoError> {
+            do {
+                let resp = try await self.client.post_sol_articles(body: .json(.init(title: title, body: body, tag_ids: [])))
+                
+                let _ = try resp.ok.body.json
+                return .success(())
+            } catch {
+                return .failure(.init(message: "failed insert article. title: \(title), body: \(body)", innerError: error, kind: .internalError))
+            }
+        }
     }
 }

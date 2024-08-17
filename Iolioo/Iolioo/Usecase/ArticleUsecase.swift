@@ -4,6 +4,7 @@ extension Usecase {
         func find(offset: Int, limit: Int, searchTitleText: String?) async -> Result<
             [DomainModel.ArticleSummary], UsecaseError
         >
+        func insert(title: String, body: String) async -> Result<(), UsecaseError>
     }
 }
 
@@ -42,6 +43,17 @@ extension Usecase {
                     .init(message: "failed find articles", innerError: err, kind: .internalError))
             }
         }
+        
+        func insert(title: String, body: String) async -> Result<(), UsecaseError> {
+            let result = await self.articleRepo.insert(title: title, body: body)
+            
+            switch result {
+            case .success(_):
+                return .success(())
+            case .failure(let err):
+                return .failure(.init(message: "failed insert article", innerError: err, kind: .internalError))
+            }
+        }
     }
 }
 
@@ -50,6 +62,7 @@ extension Usecase {
         struct ArticleUsecaseMock: ArticleUsecase {
             var getResult: Result<DomainModel.Article, Usecase.UsecaseError>?
             var findResult: Result<[DomainModel.ArticleSummary], Usecase.UsecaseError>?
+            var insertResult: Result<(), UsecaseError>?
 
             func get(id: String) async -> Result<DomainModel.Article, Usecase.UsecaseError> {
                 guard let result = self.getResult else {
@@ -63,6 +76,13 @@ extension Usecase {
                 [DomainModel.ArticleSummary], Usecase.UsecaseError
             > {
                 guard let result = self.findResult else {
+                    return .failure(.init(message: "", innerError: nil, kind: .internalError))
+                }
+                return result
+            }
+            
+            func insert(title: String, body: String) async -> Result<(), UsecaseError> {
+                guard let result = self.insertResult else {
                     return .failure(.init(message: "", innerError: nil, kind: .internalError))
                 }
                 return result
