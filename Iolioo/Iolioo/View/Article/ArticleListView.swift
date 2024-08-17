@@ -17,6 +17,7 @@ struct ArticleListView: View {
             destinationProvider: { summary in
                 AnyView(ArticleDetailView(articleUsecase: articleUsecase, id: summary.id))
             },
+            createArticleView: AnyView(ArticleCreateView(articleUsecase: articleUsecase)),
             loadMoreArticlesFunc: self.loadMoreArticles
         )
     }

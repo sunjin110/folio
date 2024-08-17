@@ -20,7 +20,7 @@ struct ArticleCardsViewOrganisms: View {
                     ArticleCardViewMolecules(summary: summary)
                 }
             }
-            
+
             if loadMoreFunc != nil && !isFinished {
                 ProgressView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
