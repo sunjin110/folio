@@ -32,7 +32,7 @@ struct ArticleCreateTemplate: View {
         }
         .padding(.horizontal)
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .topBarTrailing) {
                 
                 Button(action: {
                     self.tapSaveButton = true
@@ -57,6 +57,8 @@ struct ArticleCreateTemplate: View {
     func saveArticlePreview(input: (title: String, body: String)) async -> Void {
         print("save! title is \(input.title), body is \(input.body)")
     }
-    return ArticleCreateTemplate(saveArticleFunc: saveArticlePreview)
+    return NavigationStack {
+        ArticleCreateTemplate(saveArticleFunc: saveArticlePreview)
+    }
 }
 #endif

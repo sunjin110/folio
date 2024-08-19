@@ -7,8 +7,7 @@ struct ArticleDetailView: View {
     @State var article: DomainModel.Article?
 
     var body: some View {
-
-        ArticleDetailTemplate(article: $article).task {
+        ArticleDetailTemplate(article: $article, editDestinationFunc: self.editDestination).task {
             await loadArticleDetail()
         }
     }
@@ -23,6 +22,10 @@ struct ArticleDetailView: View {
             self.article = nil
         }
     }
+    
+    private func editDestination(article: DomainModel.Article) -> AnyView {
+        AnyView(ArticleUpdateView(articleUsecase: self.articleUsecase, id: article.id))
+    }
 }
 
 #Preview {
@@ -31,5 +34,7 @@ struct ArticleDetailView: View {
             DomainModel.Article(
                 id: "id", title: "title", body: "body", writer: "writer", tags: [],
                 createdAt: Date.now, updatedAt: Date.now)))
-    return ArticleDetailView(articleUsecase: articleUsecase, id: "id")
+    return NavigationStack {
+        ArticleDetailView(articleUsecase: articleUsecase, id: "id")
+    }
 }
