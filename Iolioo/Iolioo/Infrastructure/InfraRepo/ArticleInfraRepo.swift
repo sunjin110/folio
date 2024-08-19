@@ -36,7 +36,7 @@ extension InfraRepo {
         public func delete(id: String) async -> Result<(), DomainRepo.RepoError> {
             return .failure(.init(message: "todo", innerError: nil, kind: .internalError))
         }
-
+        
         public func update(article: DomainModel.Article) async -> Result<(), DomainRepo.RepoError> {
             do {
                 let resp = try await self.client.put_sol_articles_sol__lcub_article_id_rcub_(
@@ -45,7 +45,6 @@ extension InfraRepo {
                         .init(
                             title: article.title, body: article.body,
                             tag_ids: article.tags.map { $0.id })))
-
                 let _ = try resp.ok.body.json
                 return .success(())
             } catch {

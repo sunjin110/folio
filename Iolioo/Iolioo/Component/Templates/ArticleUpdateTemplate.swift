@@ -15,9 +15,6 @@ struct ArticleUpdateTemplate: View {
     private var articleWasLoaded = false
     
     @State
-    private var tapSaveButton = false
-    
-    @State
     private var isSaving = false
     
     let saveArticleFunc: ((title: String, body: String)) async -> Void
@@ -40,7 +37,7 @@ struct ArticleUpdateTemplate: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button(action: {
-                    self.tapSaveButton = true
+                    self.saveArticle()
                 }) {
                     Text("Save")
                 }
@@ -57,17 +54,14 @@ struct ArticleUpdateTemplate: View {
                 self.articleWasLoaded = true
             }
         }
-        .task(id: self.tapSaveButton) {
-            if !self.tapSaveButton {
-                return
-            }
-            self.tapSaveButton = false
-            if self.isSaving {
-                return
-            }
-            
-            isSaving = true
-            await self.saveArticleFunc((title: self.title, body: self.articleBody))
+    }
+    
+    private func saveArticle() {
+        guard !isSaving else { return }
+        
+        isSaving = true
+        Task {
+            await saveArticleFunc((title: self.title, body: self.articleBody))
             isSaving = false
         }
     }
@@ -75,6 +69,7 @@ struct ArticleUpdateTemplate: View {
 
 #if DEBUG
 #Preview {
+    
     func saveArticlePreview(input: (title: String, body: String)) async -> Void {
         print("save! title is \(input.title), body is \(input.body)")
     }

@@ -9,13 +9,20 @@ struct ArticleUpdateView: View {
     private var showSaveSuccessToast = false
     
     @State
+    private var showSaveFailedToast = false
+    
+    @State
     private var article: DomainModel.Article?
     
     var body: some View {
         ArticleUpdateTemplate(article: $article, saveArticleFunc: self.saveArticle).task {
             await self.loadArticleDetail()
-        }.toast(isPresenting: $showSaveSuccessToast, alert: {
+        }
+        .toast(isPresenting: $showSaveSuccessToast, alert: {
             AlertToast(displayMode: .hud, type: .complete(.green), title: "Save Success!")
+        })
+        .toast(isPresenting: $showSaveFailedToast, alert: {
+            AlertToast(displayMode: .hud, type: .error(.red), title: "Failed save article")
         })
     }
     
@@ -31,8 +38,19 @@ struct ArticleUpdateView: View {
     }
     
     private func saveArticle(input: (title: String, body: String)) async -> Void {
-        print("todo update save article")
-        showSaveSuccessToast = true
+        guard var article = self.article else {return}
+        
+        article.title = input.title
+        article.body = input.body
+        
+        let result = await self.articleUsecase.update(article: article)
+        switch result {
+        case .success(_):
+            showSaveSuccessToast = true
+        case .failure(let err):
+            print("failed self.articleUsecase.update. article: \(article), err: \(err)")
+            showSaveFailedToast = true
+        }
     }
 }
 

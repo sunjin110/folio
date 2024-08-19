@@ -42,6 +42,10 @@ struct ArticleCreateTemplate: View {
             }
         }
         .task(id: self.tapSaveButton) {
+            if !self.tapSaveButton {
+                return
+            }
+            
             if self.isSavingArticle {
                 return
             }
