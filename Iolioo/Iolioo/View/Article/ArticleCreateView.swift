@@ -22,6 +22,6 @@ struct ArticleCreateView: View {
 }
 
 #Preview {
-    var articleUsecase = Usecase.ArticleUsecaseMock()
+    let articleUsecase = Usecase.ArticleUsecaseMock()
     return ArticleCreateView(articleUsecase: articleUsecase)
 }

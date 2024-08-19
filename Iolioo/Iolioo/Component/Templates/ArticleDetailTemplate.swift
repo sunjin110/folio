@@ -3,6 +3,8 @@ import SwiftUI
 
 struct ArticleDetailTemplate: View {
     @Binding var article: DomainModel.Article?
+    let editDestinationFunc: (DomainModel.Article) -> AnyView
+    
     var body: some View {
         Group {
             if self.article == nil {
@@ -23,11 +25,14 @@ struct ArticleDetailTemplate: View {
             }
         }.toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    print("pressed edit button")
-                }) {
+                
+                NavigationLink(destination: {
+                    if let article = self.article {
+                        editDestinationFunc(article)
+                    }
+                }, label: {
                     Text("Edit")
-                }
+                })
             }
             ToolbarItem {
                 Button(action: {
@@ -59,7 +64,12 @@ struct ArticleDetailTemplate: View {
         id: "id", title: "title", body: body, writer: "writer",
         tags: [], createdAt: Date.now,
         updatedAt: Date.now)
+    
+    func editDestination(article: DomainModel.Article) -> AnyView {
+        AnyView(Text("edit view"))
+    }
+    
     return NavigationStack {
-        ArticleDetailTemplate(article: $article)
+        ArticleDetailTemplate(article: $article, editDestinationFunc: editDestination)
     }
 }

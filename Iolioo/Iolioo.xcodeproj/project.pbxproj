@@ -15,6 +15,8 @@
 		BA1331DE2C5C83AF000EBB4E /* ArticleTestdata.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1331DD2C5C83AF000EBB4E /* ArticleTestdata.swift */; };
 		BA1331E62C5CAEE7000EBB4E /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = BA1331E52C5CAEE7000EBB4E /* GoogleSignIn */; };
 		BA1331E82C5CAEE7000EBB4E /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BA1331E72C5CAEE7000EBB4E /* GoogleSignInSwift */; };
+		BA18177E2C72CC4900D45B2B /* ArticleUpdateTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA18177D2C72CC4900D45B2B /* ArticleUpdateTemplate.swift */; };
+		BA1817822C72CFB000D45B2B /* ArticleUpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1817812C72CFB000D45B2B /* ArticleUpdateView.swift */; };
 		BA3D15912C705FCD004463E6 /* ArticleCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3D15902C705FCD004463E6 /* ArticleCreateView.swift */; };
 		BA3D15942C706267004463E6 /* ArticleCreateTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3D15932C706267004463E6 /* ArticleCreateTemplate.swift */; };
 		BA3D159B2C7074DF004463E6 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = BA3D159A2C7074DF004463E6 /* AlertToast */; };
@@ -82,6 +84,8 @@
 		BA1331DB2C5C838E000EBB4E /* Testdata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Testdata.swift; sourceTree = "<group>"; };
 		BA1331DD2C5C83AF000EBB4E /* ArticleTestdata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleTestdata.swift; sourceTree = "<group>"; };
 		BA1331EA2C5CB011000EBB4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		BA18177D2C72CC4900D45B2B /* ArticleUpdateTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleUpdateTemplate.swift; sourceTree = "<group>"; };
+		BA1817812C72CFB000D45B2B /* ArticleUpdateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleUpdateView.swift; sourceTree = "<group>"; };
 		BA3D15902C705FCD004463E6 /* ArticleCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCreateView.swift; sourceTree = "<group>"; };
 		BA3D15932C706267004463E6 /* ArticleCreateTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCreateTemplate.swift; sourceTree = "<group>"; };
 		BA6925432C65E9E50061EFCD /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
@@ -275,6 +279,7 @@
 				BAC5D9212C5B8DEF00DE9BE9 /* ArticleDetailView.swift */,
 				BA1331D42C5C7791000EBB4E /* ArticleListView.swift */,
 				BA3D15902C705FCD004463E6 /* ArticleCreateView.swift */,
+				BA1817812C72CFB000D45B2B /* ArticleUpdateView.swift */,
 			);
 			path = Article;
 			sourceTree = "<group>";
@@ -353,6 +358,7 @@
 				BAC5D94E2C5B936500DE9BE9 /* ArticleDetailTemplate.swift */,
 				BA782C872C5BB630007628EC /* ArticleListTemplate.swift */,
 				BA3D15932C706267004463E6 /* ArticleCreateTemplate.swift */,
+				BA18177D2C72CC4900D45B2B /* ArticleUpdateTemplate.swift */,
 				BAB594FF2C5CD4B9001E95C3 /* LoginTemplate.swift */,
 				BA8AD9EE2C64562200DFB69D /* SettingTemplate.swift */,
 			);
@@ -540,8 +546,10 @@
 				BAC5D9222C5B8DEF00DE9BE9 /* ArticleDetailView.swift in Sources */,
 				BA081DC12C609BFB0083A75C /* AuthInfraRepo.swift in Sources */,
 				BA8AD9ED2C6450A400DFB69D /* AuthUsecase.swift in Sources */,
+				BA1817822C72CFB000D45B2B /* ArticleUpdateView.swift in Sources */,
 				BA1331DE2C5C83AF000EBB4E /* ArticleTestdata.swift in Sources */,
 				BAB594FC2C5CD44B001E95C3 /* LoginView.swift in Sources */,
+				BA18177E2C72CC4900D45B2B /* ArticleUpdateTemplate.swift in Sources */,
 				BA1331D52C5C7791000EBB4E /* ArticleListView.swift in Sources */,
 				BAC5D9362C5B91E700DE9BE9 /* DomainModel.swift in Sources */,
 				BAC5D9192C5B8D9C00DE9BE9 /* MainView.swift in Sources */,
