@@ -5,6 +5,7 @@ extension Usecase {
             [DomainModel.ArticleSummary], UsecaseError
         >
         func insert(title: String, body: String) async -> Result<(), UsecaseError>
+        func update(article: DomainModel.Article) async -> Result<(), UsecaseError>
     }
 }
 
@@ -54,6 +55,16 @@ extension Usecase {
                 return .failure(.init(message: "failed insert article", innerError: err, kind: .internalError))
             }
         }
+        
+        func update(article: DomainModel.Article) async -> Result<(), UsecaseError> {
+            let result = await self.articleRepo.update(article: article)
+            switch result {
+            case .success(_):
+                return .success(())
+            case .failure(let err):
+                return .failure(.init(message: "failed update article", innerError: err, kind: .internalError))
+            }
+        }
     }
 }
 
@@ -63,6 +74,7 @@ extension Usecase {
             var getResult: Result<DomainModel.Article, Usecase.UsecaseError>?
             var findResult: Result<[DomainModel.ArticleSummary], Usecase.UsecaseError>?
             var insertResult: Result<(), UsecaseError>?
+            var updateResult: Result<(), UsecaseError>?
 
             func get(id: String) async -> Result<DomainModel.Article, Usecase.UsecaseError> {
                 guard let result = self.getResult else {
@@ -83,6 +95,13 @@ extension Usecase {
             
             func insert(title: String, body: String) async -> Result<(), UsecaseError> {
                 guard let result = self.insertResult else {
+                    return .failure(.init(message: "", innerError: nil, kind: .internalError))
+                }
+                return result
+            }
+            
+            func update(article: DomainModel.Article) async -> Result<(), UsecaseError> {
+                guard let result = self.updateResult else {
                     return .failure(.init(message: "", innerError: nil, kind: .internalError))
                 }
                 return result
