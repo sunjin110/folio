@@ -17,6 +17,7 @@ struct MainView: View {
 
     var articleUsecase: Usecase.ArticleUsecase
     var authUsecase: Usecase.AuthUsecase
+    let mediaUsecase: Usecase.MediaUsecase
 
     var body: some View {
         TabView(selection: $tabSelection) {
@@ -26,7 +27,7 @@ struct MainView: View {
             ArticleListView(articleUsecase: articleUsecase, summaries: []).tabItem {
                 Label("Article", systemImage: "note")
             }.tag(2)
-            MediaView().tabItem {
+            MediaListView(mediaUsecase: mediaUsecase).tabItem {
                 Label("Media", systemImage: "photo.stack.fill")
             }.tag(3)
             SettingView(authUsecase: authUsecase, showLogin: $showLogin).tabItem {
@@ -89,6 +90,7 @@ struct MainView: View {
     articleUsecase.findResult = .success(Testdata.GetArticleSummaries())
 
     let authUsecase = Usecase.AuthUsecaseMock()
-    return MainView(articleUsecase: articleUsecase, authUsecase: authUsecase).preferredColorScheme(
+    let mediaUsecase = Usecase.MediaUsecaesMock()
+    return MainView(articleUsecase: articleUsecase, authUsecase: authUsecase, mediaUsecase: mediaUsecase).preferredColorScheme(
         .dark)
 }
