@@ -18,17 +18,15 @@ struct ArticleListView: View {
                 AnyView(ArticleDetailView(articleUsecase: articleUsecase, id: summary.id))
             },
             createArticleView: AnyView(ArticleCreateView(articleUsecase: articleUsecase)),
-            loadMoreArticlesFunc: self.loadMoreArticles
+            loadMoreArticlesFunc: self.loadMoreArticles,
+            refreshArticlesFunc: refreshArticles
         )
     }
     
     private func loadMoreArticles() async -> ArticleListTemplateLoadMoreOutput {
-        
         switch await articleUsecase.find(offset: self.offset, limit: limit, searchTitleText: nil) {
         case .success(let summaries):
-            
             self.summaries.append(contentsOf: summaries)
-            
             if summaries.count < limit {
                 return .init(isFinished: true)
             }
@@ -36,6 +34,20 @@ struct ArticleListView: View {
         case .failure(let err):
             print("error: \(err)")
             return .init(isFinished: false)
+        }
+    }
+    
+    private func refreshArticles() async {
+        switch await articleUsecase.find(offset: 0, limit: limit, searchTitleText: nil) {
+        case .success(let summaries):
+            self.summaries = summaries
+            if summaries.count < limit {
+                return
+            }
+            return
+        case .failure(let err):
+            print("error: \(err)")
+            return
         }
     }
 }

@@ -9,6 +9,8 @@ struct ArticleCardsViewOrganisms: View {
     let destinationProvider: (DomainModel.ArticleSummary) -> AnyView
     
     let loadMoreFunc: (() async -> ArticleCardsViewOrganismsLoadMoreOutput)?
+    
+    let refreshFunc: (() async -> Void)
 
     @State private var isLoading = false
     @State private var isFinished = false
@@ -40,6 +42,9 @@ struct ArticleCardsViewOrganisms: View {
                     }
             }
         }
+        .refreshable {
+            await self.refreshFunc()
+        }
     }
 }
 
@@ -61,6 +66,10 @@ struct ArticleCardsViewOrganisms_Previews: PreviewProvider {
             })
         }
         
+        private func refresh() async {
+            print("refresh!!")
+        }
+        
         var body: some View {
             ArticleCardsViewOrganisms(
                 summaries: $summaries,
@@ -79,7 +88,8 @@ struct ArticleCardsViewOrganisms_Previews: PreviewProvider {
                     }
                     summaries.append(contentsOf: additionalSummaries)
                     return .init(isFinished: true)
-                }
+                },
+                refreshFunc: self.refresh
             )
         }
     }
