@@ -41,10 +41,6 @@ struct ArticleListView: View {
         switch await articleUsecase.find(offset: 0, limit: limit, searchTitleText: nil) {
         case .success(let summaries):
             self.summaries = summaries
-            if summaries.count < limit {
-                return
-            }
-            return
         case .failure(let err):
             print("error: \(err)")
             return

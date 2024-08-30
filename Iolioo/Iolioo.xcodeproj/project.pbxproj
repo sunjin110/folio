@@ -20,14 +20,22 @@
 		BA3D15912C705FCD004463E6 /* ArticleCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3D15902C705FCD004463E6 /* ArticleCreateView.swift */; };
 		BA3D15942C706267004463E6 /* ArticleCreateTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3D15932C706267004463E6 /* ArticleCreateTemplate.swift */; };
 		BA3D159B2C7074DF004463E6 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = BA3D159A2C7074DF004463E6 /* AlertToast */; };
+		BA4032F32C772B36008DD96E /* MediaListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4032F22C772B36008DD96E /* MediaListView.swift */; };
+		BA4032F52C772B7C008DD96E /* MediaDomainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4032F42C772B7C008DD96E /* MediaDomainModel.swift */; };
+		BA4032F72C773392008DD96E /* MediaRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4032F62C773392008DD96E /* MediaRepo.swift */; };
+		BA4032F92C7733E6008DD96E /* MediaInfraRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4032F82C7733E6008DD96E /* MediaInfraRepo.swift */; };
 		BA6925442C65E9E50061EFCD /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6925432C65E9E50061EFCD /* Configuration.swift */; };
 		BA6A962D2C673B7B00F42191 /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = BA6A962C2C673B7B00F42191 /* Markdown */; };
+		BA6E3A6D2C7EA42700148C51 /* MediaListTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6E3A6C2C7EA42700148C51 /* MediaListTemplate.swift */; };
 		BA782C882C5BB630007628EC /* ArticleListTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA782C872C5BB630007628EC /* ArticleListTemplate.swift */; };
 		BA782C972C5BB6E0007628EC /* ArticleCardViewMolecules.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA782C962C5BB6E0007628EC /* ArticleCardViewMolecules.swift */; };
 		BA782CA12C5BBF72007628EC /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA782CA02C5BBF72007628EC /* FlowLayout.swift */; };
 		BA782CA42C5C648B007628EC /* ArticleCardsViewOrganisms.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA782CA32C5C648B007628EC /* ArticleCardsViewOrganisms.swift */; };
 		BA8AD9ED2C6450A400DFB69D /* AuthUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8AD9EC2C6450A400DFB69D /* AuthUsecase.swift */; };
 		BA8AD9EF2C64562200DFB69D /* SettingTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8AD9EE2C64562200DFB69D /* SettingTemplate.swift */; };
+		BA8C391F2C7C0A3900592347 /* MediaImageViewMolecules.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8C391E2C7C0A3900592347 /* MediaImageViewMolecules.swift */; };
+		BA8C39232C7C172E00592347 /* MediaImageGridViewOrganisms.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8C39222C7C172E00592347 /* MediaImageGridViewOrganisms.swift */; };
+		BA9E8A132C781C6000299362 /* MediaUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9E8A122C781C6000299362 /* MediaUsecase.swift */; };
 		BAB594FC2C5CD44B001E95C3 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB594FB2C5CD44B001E95C3 /* LoginView.swift */; };
 		BAB595002C5CD4B9001E95C3 /* LoginTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB594FF2C5CD4B9001E95C3 /* LoginTemplate.swift */; };
 		BAC5D8E02C5B865400DE9BE9 /* IoliooApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC5D8DF2C5B865400DE9BE9 /* IoliooApp.swift */; };
@@ -88,13 +96,21 @@
 		BA1817812C72CFB000D45B2B /* ArticleUpdateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleUpdateView.swift; sourceTree = "<group>"; };
 		BA3D15902C705FCD004463E6 /* ArticleCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCreateView.swift; sourceTree = "<group>"; };
 		BA3D15932C706267004463E6 /* ArticleCreateTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCreateTemplate.swift; sourceTree = "<group>"; };
+		BA4032F22C772B36008DD96E /* MediaListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaListView.swift; sourceTree = "<group>"; };
+		BA4032F42C772B7C008DD96E /* MediaDomainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDomainModel.swift; sourceTree = "<group>"; };
+		BA4032F62C773392008DD96E /* MediaRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaRepo.swift; sourceTree = "<group>"; };
+		BA4032F82C7733E6008DD96E /* MediaInfraRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaInfraRepo.swift; sourceTree = "<group>"; };
 		BA6925432C65E9E50061EFCD /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		BA6E3A6C2C7EA42700148C51 /* MediaListTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaListTemplate.swift; sourceTree = "<group>"; };
 		BA782C872C5BB630007628EC /* ArticleListTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleListTemplate.swift; sourceTree = "<group>"; };
 		BA782C962C5BB6E0007628EC /* ArticleCardViewMolecules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCardViewMolecules.swift; sourceTree = "<group>"; };
 		BA782CA02C5BBF72007628EC /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
 		BA782CA32C5C648B007628EC /* ArticleCardsViewOrganisms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCardsViewOrganisms.swift; sourceTree = "<group>"; };
 		BA8AD9EC2C6450A400DFB69D /* AuthUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUsecase.swift; sourceTree = "<group>"; };
 		BA8AD9EE2C64562200DFB69D /* SettingTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTemplate.swift; sourceTree = "<group>"; };
+		BA8C391E2C7C0A3900592347 /* MediaImageViewMolecules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaImageViewMolecules.swift; sourceTree = "<group>"; };
+		BA8C39222C7C172E00592347 /* MediaImageGridViewOrganisms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaImageGridViewOrganisms.swift; sourceTree = "<group>"; };
+		BA9E8A122C781C6000299362 /* MediaUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaUsecase.swift; sourceTree = "<group>"; };
 		BAB594FB2C5CD44B001E95C3 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		BAB594FF2C5CD4B9001E95C3 /* LoginTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTemplate.swift; sourceTree = "<group>"; };
 		BAC5D8DC2C5B865400DE9BE9 /* Iolioo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Iolioo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -169,6 +185,14 @@
 			path = Testdata;
 			sourceTree = "<group>";
 		};
+		BA4032F02C772B18008DD96E /* Media */ = {
+			isa = PBXGroup;
+			children = (
+				BA4032F22C772B36008DD96E /* MediaListView.swift */,
+			);
+			path = Media;
+			sourceTree = "<group>";
+		};
 		BA782C8B2C5BB683007628EC /* Atoms */ = {
 			isa = PBXGroup;
 			children = (
@@ -181,6 +205,7 @@
 			isa = PBXGroup;
 			children = (
 				BA782C962C5BB6E0007628EC /* ArticleCardViewMolecules.swift */,
+				BA8C391E2C7C0A3900592347 /* MediaImageViewMolecules.swift */,
 			);
 			path = Molecules;
 			sourceTree = "<group>";
@@ -189,6 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				BA782CA32C5C648B007628EC /* ArticleCardsViewOrganisms.swift */,
+				BA8C39222C7C172E00592347 /* MediaImageGridViewOrganisms.swift */,
 			);
 			path = Organisms;
 			sourceTree = "<group>";
@@ -269,6 +295,7 @@
 				BAC5D91C2C5B8DC000DE9BE9 /* SettingView.swift */,
 				BAC5D91E2C5B8DD500DE9BE9 /* MediaView.swift */,
 				BAC5D9202C5B8DDE00DE9BE9 /* Article */,
+				BA4032F02C772B18008DD96E /* Media */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -307,6 +334,7 @@
 				BAC5D9352C5B91E700DE9BE9 /* DomainModel.swift */,
 				BAC5D9372C5B91F900DE9BE9 /* ArticleDomainModel.swift */,
 				BAC5D9392C5B920900DE9BE9 /* ArticleTagDomainModel.swift */,
+				BA4032F42C772B7C008DD96E /* MediaDomainModel.swift */,
 			);
 			path = DomainModel;
 			sourceTree = "<group>";
@@ -317,6 +345,7 @@
 				BAC5D93D2C5B922E00DE9BE9 /* DomainRepo.swift */,
 				BAC5D93F2C5B923C00DE9BE9 /* ArticleRepo.swift */,
 				BA081DBE2C609B5A0083A75C /* AuthRepo.swift */,
+				BA4032F62C773392008DD96E /* MediaRepo.swift */,
 			);
 			path = DomainRepo;
 			sourceTree = "<group>";
@@ -327,6 +356,7 @@
 				BAC5D9422C5B926300DE9BE9 /* InfraRepo.swift */,
 				BAC5D9442C5B927800DE9BE9 /* ArticleInfraRepo.swift */,
 				BA081DC02C609BFB0083A75C /* AuthInfraRepo.swift */,
+				BA4032F82C7733E6008DD96E /* MediaInfraRepo.swift */,
 			);
 			path = InfraRepo;
 			sourceTree = "<group>";
@@ -348,6 +378,7 @@
 				BAC5D9482C5B92C800DE9BE9 /* Usecase.swift */,
 				BAC5D94A2C5B92E200DE9BE9 /* ArticleUsecase.swift */,
 				BA8AD9EC2C6450A400DFB69D /* AuthUsecase.swift */,
+				BA9E8A122C781C6000299362 /* MediaUsecase.swift */,
 			);
 			path = Usecase;
 			sourceTree = "<group>";
@@ -361,6 +392,7 @@
 				BA18177D2C72CC4900D45B2B /* ArticleUpdateTemplate.swift */,
 				BAB594FF2C5CD4B9001E95C3 /* LoginTemplate.swift */,
 				BA8AD9EE2C64562200DFB69D /* SettingTemplate.swift */,
+				BA6E3A6C2C7EA42700148C51 /* MediaListTemplate.swift */,
 			);
 			path = Templates;
 			sourceTree = "<group>";
@@ -520,9 +552,11 @@
 			files = (
 				BAC5D8E22C5B865400DE9BE9 /* ContentView.swift in Sources */,
 				BAC5D8E42C5B865400DE9BE9 /* Item.swift in Sources */,
+				BA9E8A132C781C6000299362 /* MediaUsecase.swift in Sources */,
 				BA3D15912C705FCD004463E6 /* ArticleCreateView.swift in Sources */,
 				BAC5D9382C5B91F900DE9BE9 /* ArticleDomainModel.swift in Sources */,
 				BA782C972C5BB6E0007628EC /* ArticleCardViewMolecules.swift in Sources */,
+				BA4032F92C7733E6008DD96E /* MediaInfraRepo.swift in Sources */,
 				BAC5D9432C5B926300DE9BE9 /* InfraRepo.swift in Sources */,
 				BAC5D93A2C5B920900DE9BE9 /* ArticleTagDomainModel.swift in Sources */,
 				BAC5D9492C5B92C800DE9BE9 /* Usecase.swift in Sources */,
@@ -537,15 +571,20 @@
 				BA782CA12C5BBF72007628EC /* FlowLayout.swift in Sources */,
 				BAC5D9402C5B923C00DE9BE9 /* ArticleRepo.swift in Sources */,
 				BAC5D91D2C5B8DC000DE9BE9 /* SettingView.swift in Sources */,
+				BA4032F72C773392008DD96E /* MediaRepo.swift in Sources */,
 				BA782C882C5BB630007628EC /* ArticleListTemplate.swift in Sources */,
 				BAC5D93E2C5B922E00DE9BE9 /* DomainRepo.swift in Sources */,
 				BAC5D91F2C5B8DD500DE9BE9 /* MediaView.swift in Sources */,
 				BAC5D9452C5B927800DE9BE9 /* ArticleInfraRepo.swift in Sources */,
 				BA6925442C65E9E50061EFCD /* Configuration.swift in Sources */,
+				BA4032F52C772B7C008DD96E /* MediaDomainModel.swift in Sources */,
 				BA081DBF2C609B5A0083A75C /* AuthRepo.swift in Sources */,
 				BAC5D9222C5B8DEF00DE9BE9 /* ArticleDetailView.swift in Sources */,
+				BA4032F32C772B36008DD96E /* MediaListView.swift in Sources */,
+				BA8C391F2C7C0A3900592347 /* MediaImageViewMolecules.swift in Sources */,
 				BA081DC12C609BFB0083A75C /* AuthInfraRepo.swift in Sources */,
 				BA8AD9ED2C6450A400DFB69D /* AuthUsecase.swift in Sources */,
+				BA8C39232C7C172E00592347 /* MediaImageGridViewOrganisms.swift in Sources */,
 				BA1817822C72CFB000D45B2B /* ArticleUpdateView.swift in Sources */,
 				BA1331DE2C5C83AF000EBB4E /* ArticleTestdata.swift in Sources */,
 				BAB594FC2C5CD44B001E95C3 /* LoginView.swift in Sources */,
@@ -553,6 +592,7 @@
 				BA1331D52C5C7791000EBB4E /* ArticleListView.swift in Sources */,
 				BAC5D9362C5B91E700DE9BE9 /* DomainModel.swift in Sources */,
 				BAC5D9192C5B8D9C00DE9BE9 /* MainView.swift in Sources */,
+				BA6E3A6D2C7EA42700148C51 /* MediaListTemplate.swift in Sources */,
 				BA782CA42C5C648B007628EC /* ArticleCardsViewOrganisms.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
