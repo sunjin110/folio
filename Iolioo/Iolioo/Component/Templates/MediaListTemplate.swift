@@ -52,7 +52,3 @@ struct MediaListTemplate_Previews: PreviewProvider {
 }
 
 #endif
-
-//#Preview {
-//    MediaListTemplate()
-//}

@@ -16,7 +16,11 @@ struct MediaImageGridViewOrganisms: View {
                 columns: Array(repeating: .init(.flexible(minimum: 50, maximum: 200)), count: 4), spacing: 8, content: {
                     ForEach(self.summaries, id: \.id) { summary in
                         if let thumbnailUrl = summary.thumbnailUrl {
-                            MediaImageViewMolecules(url: URL(string: thumbnailUrl))
+                            NavigationLink(destination: {
+                                Text("todo メディア詳細画面")
+                            }) {
+                                MediaImageViewMolecules(url: URL(string: thumbnailUrl))
+                            }
                         }
                     }
                     
@@ -68,7 +72,9 @@ struct MediaImageGridViewOrganisms_Previews: PreviewProvider {
     }
     
     static var previews: some View {
-        PreviewWrapper()
+        NavigationStack {
+            PreviewWrapper()
+        }
     }
 }
 
