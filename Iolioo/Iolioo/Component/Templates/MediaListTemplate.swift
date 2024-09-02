@@ -4,6 +4,7 @@ struct MediaListTemplate: View {
     @Binding var summaries: [DomainModel.MediumSummary]
     let loadMoreMediaFunc: () async -> Bool
     let refreshMediaFunc: () async -> Void
+    let detailDestinationProvider: (DomainModel.MediumSummary) -> AnyView
     
     var body: some View {
         Group {
@@ -11,7 +12,8 @@ struct MediaListTemplate: View {
                 MediaImageGridViewOrganisms(
                         summaries: $summaries,
                         loadMoreFunc: loadMoreMediaFunc,
-                        refreshFunc: refreshMediaFunc
+                        refreshFunc: refreshMediaFunc,
+                        detailDestinationProvider: detailDestinationProvider
                 )
                     .navigationTitle("Media")
                     .toolbar{
@@ -33,8 +35,12 @@ struct MediaListTemplate_Previews: PreviewProvider {
             })
         }
         
+        private func destinationProvider(medium: DomainModel.MediumSummary) -> AnyView {
+            AnyView(Text("todo"))
+        }
+        
         var body: some View {
-            MediaListTemplate(summaries: $summaries, loadMoreMediaFunc: loadMoreMedia, refreshMediaFunc: self.refreshMedia)
+            MediaListTemplate(summaries: $summaries, loadMoreMediaFunc: loadMoreMedia, refreshMediaFunc: self.refreshMedia, detailDestinationProvider: destinationProvider)
         }
         
         private func refreshMedia() {

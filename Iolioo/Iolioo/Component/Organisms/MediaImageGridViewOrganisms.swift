@@ -6,6 +6,8 @@ struct MediaImageGridViewOrganisms: View {
     
     let loadMoreFunc: (() async -> Bool)?
     let refreshFunc: (() async -> Void)
+    let detailDestinationProvider: (DomainModel.MediumSummary) -> AnyView
+
     
     @State private var isLoading = false
     @State private var isFinished = false
@@ -17,7 +19,7 @@ struct MediaImageGridViewOrganisms: View {
                     ForEach(self.summaries, id: \.id) { summary in
                         if let thumbnailUrl = summary.thumbnailUrl {
                             NavigationLink(destination: {
-                                Text("todo メディア詳細画面")
+                                detailDestinationProvider(summary)
                             }) {
                                 MediaImageViewMolecules(url: URL(string: thumbnailUrl))
                             }
@@ -62,8 +64,12 @@ struct MediaImageGridViewOrganisms_Previews: PreviewProvider {
             })
         }
         
+        private func destinationProvider(medium: DomainModel.MediumSummary) -> AnyView {
+            AnyView(Text("todo"))
+        }
+        
         var body: some View {
-            MediaImageGridViewOrganisms(summaries: $summaries, loadMoreFunc: nil, refreshFunc: refresh)
+            MediaImageGridViewOrganisms(summaries: $summaries, loadMoreFunc: nil, refreshFunc: refresh, detailDestinationProvider: destinationProvider)
         }
         
         private func refresh() {
