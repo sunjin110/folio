@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ArticleDetailView: View {
 
-    var articleUsecase: Usecase.ArticleUsecase
+    let articleUsecase: Usecase.ArticleUsecase
     var id: String
     @State var article: DomainModel.Article?
 
