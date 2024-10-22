@@ -7,6 +7,6 @@ variable "aws" {
 }
 
 variable "name" {
-  type = string
+  type        = string
   description = "repository name"
 }

@@ -107,7 +107,7 @@ module "reolio" {
 
 module "lime" {
   source = "../../modules/lime"
-  aws = local.aws
+  aws    = local.aws
   prefix = local.env
 }
 
