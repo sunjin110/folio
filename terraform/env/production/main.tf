@@ -105,6 +105,12 @@ module "reolio" {
   }
 }
 
+module "lime" {
+  source = "../../modules/lime"
+  aws = local.aws
+  prefix = local.env
+}
+
 module "rusthumb" {
   source = "../../modules/rusthumb"
   prefix = local.env

@@ -9,6 +9,4 @@ gcloud projects add-iam-policy-binding folio-sunjin\
   --role "roles/owner"
 
 gcloud iam service-accounts keys create credentials-terraform.json --iam-account folio-terraform@folio-sunjin.iam.gserviceaccount.com
-
-
 ```
