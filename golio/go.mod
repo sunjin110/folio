@@ -14,7 +14,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/translate v1.28.0
 	github.com/awslabs/aws-lambda-go-api-proxy v0.16.2
 	github.com/caarlos0/env/v10 v10.0.0
-	github.com/golang-migrate/migrate/v4 v4.17.1
+	github.com/golang-migrate/migrate/v4 v4.18.1
 	github.com/google/uuid v1.6.0
 	github.com/gorilla/mux v1.8.1
 	github.com/huandu/go-sqlbuilder v1.30.0
@@ -28,7 +28,7 @@ require (
 	go.uber.org/mock v0.4.0
 	golang.org/x/net v0.30.0
 	golang.org/x/sync v0.8.0
-	golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2
+	golang.org/x/xerrors v0.0.0-20231012003039-104605ab7028
 	google.golang.org/api v0.201.0
 )
 
