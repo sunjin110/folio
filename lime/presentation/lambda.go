@@ -11,6 +11,7 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/awslabs/aws-lambda-go-api-proxy/httpadapter"
 	"github.com/gorilla/mux"
+	"github.com/line/line-bot-sdk-go/v8/linebot/messaging_api"
 	"github.com/sunjin110/folio/lime/application"
 	"github.com/sunjin110/folio/lime/config"
 )
@@ -21,6 +22,8 @@ func GetLambdaHandler() (lambdaHandlerFunc func(ctx context.Context, req events.
 	if err != nil {
 		return nil, fmt.Errorf("failed config.NewEnvConfig. err: %w", err)
 	}
+
+	messaging_api.NewMessagingApiAPI("")
 
 	lineUsecase := application.NewLineUsecase(envConfig.Line.ChannelSecret)
 

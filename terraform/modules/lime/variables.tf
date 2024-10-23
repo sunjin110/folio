@@ -27,5 +27,6 @@ variable "domain" {
 variable "line" {
   type = object({
     channel_secret : string
+    channel_token : string
   })
 }

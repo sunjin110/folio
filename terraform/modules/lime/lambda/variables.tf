@@ -27,5 +27,6 @@ variable "iam" {
 variable "environment" {
   type = object({
     LINE_CHANNEL_SECRET : string
+    LINE_CHANNEL_TOKEN : string
   })
 }
