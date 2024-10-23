@@ -1,0 +1,69 @@
+name: deploy lime
+on: 
+    workflow_call:
+        inputs:
+            repository:
+                required: true
+                type: string
+            lambda_name:
+                required: true
+                type: string
+        secrets:
+            AWS_ROLE_TO_ASSUME:
+                required: true
+    
+permissions:
+    id-token: write
+    contents: read
+jobs:
+    deploy_image:
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: lime
+        steps:
+            - uses: actions/checkout@v4
+            - id: sha
+              run: echo "short_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+            - name: access
+              uses: aws-actions/configure-aws-credentials@v4
+              with:
+                aws-region: "ap-northeast-1"
+                role-to-assume: ${{secrets.AWS_ROLE_TO_ASSUME}}
+                audience: sts.amazonaws.com
+            - run: make image/lambda/build
+              env:
+                DOCKER_BUILDKIT: 1
+            - uses: aws-actions/amazon-ecr-login@v2
+              id: login-ecr
+            - run: |
+                docker tag lime-lambda:latest $ECR_REGISTRY/$ECR_REPOSITORY:latest
+                docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+              env:
+                ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+                ECR_REPOSITORY: ${{ inputs.repository }}
+            - run: |
+                MANIFEST=$(aws ecr batch-get-image --repository-name ${{ inputs.repository }} --image-ids imageTag=latest --output json | jq --raw-output --join-output '.images[0].imageManifest')
+                aws ecr put-image --repository-name ${{ inputs.repository }} --image-tag ${{ steps.sha.outputs.short_sha }} --image-manifest "$MANIFEST"
+        outputs:
+            short_sha: ${{ steps.sha.outputs.short_sha }}
+    dploy_lambda:
+        runs-on: ubuntu-latest
+        needs:
+        - deploy_image
+        steps:
+            - name: access
+              uses: aws-actions/configure-aws-credentials@v4
+              with:
+                aws-region: "ap-northeast-1"
+                role-to-assume: ${{secrets.AWS_ROLE_TO_ASSUME}}
+                audience: sts.amazonaws.com
+            - uses: aws-actions/amazon-ecr-login@v2
+              id: login-ecr
+            - run: |
+                IMAGE_URI=$ECR_REGISTRY/$ECR_REPOSITORY:${{ needs.deploy_image.outputs.short_sha }}
+                aws lambda update-function-code --function-name ${LAMBDA_FUNCTION_NAME} --image-uri ${IMAGE_URI}
+              env:
+                ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+                ECR_REPOSITORY: ${{ inputs.repository }}
+                LAMBDA_FUNCTION_NAME: ${{ inputs.lambda_name }}
