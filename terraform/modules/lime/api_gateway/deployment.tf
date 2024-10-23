@@ -3,7 +3,10 @@ locals {
 }
 
 resource "aws_api_gateway_deployment" "this" {
-  depends_on  = [aws_api_gateway_integration.this]
+  depends_on = [
+    aws_api_gateway_integration.this,
+    aws_api_gateway_integration.root,
+  ]
   rest_api_id = aws_api_gateway_rest_api.this.id
   stage_name  = local.stage_name
   lifecycle {
