@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log/slog"
+
 	awslambda "github.com/aws/aws-lambda-go/lambda"
 	"github.com/sunjin110/folio/lime/presentation"
 )
@@ -8,6 +10,7 @@ import (
 func main() {
 	handler, err := presentation.GetHandler()
 	if err != nil {
+		slog.Error("failed get handler", "err", err)
 		panic(err)
 	}
 	awslambda.Start(handler)
