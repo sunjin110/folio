@@ -12,12 +12,14 @@ module "iam" {
 }
 
 module "lambda" {
-  source      = "./lambda"
-  name        = "${var.prefix}-lime"
-  prefix      = var.prefix
-  ecr         = module.ecr.repository
-  iam         = module.iam
-  environment = {}
+  source = "./lambda"
+  name   = "${var.prefix}-lime"
+  prefix = var.prefix
+  ecr    = module.ecr.repository
+  iam    = module.iam
+  environment = {
+    LINE_CHANNEL_SECRET = var.line.channel_secret
+  }
 }
 
 module "api_gateway" {
