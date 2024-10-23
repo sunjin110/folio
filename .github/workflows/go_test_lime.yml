@@ -1,0 +1,15 @@
+name: Go Test for lime
+on:
+    pull_request:
+        types: [opened, synchronize]
+        paths:
+            - "lime/**.go"
+            - "lime/**.mod"
+            - "lime/**.sum"
+            - ".github/workflows/go_test_lime.yml"
+            - ".github/workflows/go_test.yml"
+jobs:
+    test:
+        uses: ./.github/workflows/go_test.yml
+        with:
+            directory: ./lime
