@@ -15,7 +15,7 @@ import (
 	"github.com/sunjin110/folio/lime/config"
 )
 
-func GetHandler() (lambdaHandlerFunc func(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error), err error) {
+func GetLambdaHandler() (lambdaHandlerFunc func(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error), err error) {
 
 	envConfig, err := config.NewEnvConfig()
 	if err != nil {
@@ -24,15 +24,11 @@ func GetHandler() (lambdaHandlerFunc func(ctx context.Context, req events.APIGat
 
 	lineUsecase := application.NewLineUsecase(envConfig.Line.ChannelSecret)
 
+	httpHandler := NewHttpHandler(lineUsecase)
+
 	r := mux.NewRouter()
-	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"hello": "home"}`))
-	}).Methods(http.MethodGet)
-	r.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"hello": "lime"}`))
-	}).Methods(http.MethodGet)
+	r.HandleFunc("/", httpHandler.Home).Methods(http.MethodGet)
+	r.HandleFunc("/hello", httpHandler.Hello).Methods(http.MethodGet)
 
 	r.PathPrefix("/line").Path("/webhook").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
