@@ -59,7 +59,7 @@ func GetHandler() (lambdaHandlerFunc func(ctx context.Context, req events.APIGat
 			return
 		}
 		io.WriteString(w, "success")
-	}).Methods(http.MethodGet)
+	}).Methods(http.MethodPost)
 
 	return httpadapter.New(r).ProxyWithContext, nil
 }
