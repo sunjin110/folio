@@ -12,9 +12,9 @@ import (
 
 func GetHandler() (lambdaHandlerFunc func(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error), err error) {
 	r := mux.NewRouter()
-	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		slog.Info("hello lime world!")
-		w.Write([]byte("hello lime"))
+	r.Get("/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		slog.Info("base")
+		w.Write([]byte(`{"hello": "lime"}`))
 		w.WriteHeader(http.StatusOK)
 	})
 	r.Get("/hello").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
