@@ -19,6 +19,7 @@ module "lambda" {
   iam    = module.iam
   environment = {
     LINE_CHANNEL_SECRET = var.line.channel_secret
+    LINE_CHANNEL_TOKEN  = var.line.channel_token
   }
 }
 

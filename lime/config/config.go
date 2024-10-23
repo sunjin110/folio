@@ -12,6 +12,7 @@ type EnvConfig struct {
 
 type EnvLineConfig struct {
 	ChannelSecret string `env:"CHANNEL_SECRET"`
+	ChannelToken  string `env:"CHANNEL_TOKEN"`
 }
 
 func NewEnvConfig() (*EnvConfig, error) {

@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	handler, err := presentation.GetHandler()
+	handler, err := presentation.GetLambdaHandler()
 	if err != nil {
 		slog.Error("failed get handler", "err", err)
 		panic(err)

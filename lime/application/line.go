@@ -2,44 +2,27 @@ package application
 
 import (
 	"context"
-	"crypto/hmac"
-	"crypto/sha256"
-	"encoding/base64"
-	"errors"
-	"fmt"
-	"log/slog"
+
+	"github.com/sunjin110/folio/lime/domain/model"
 )
 
 type LineUsecase interface {
-	// Err: ErrAuthInvalidArg
-	VerifySignature(ctx context.Context, lineSignature string, body []byte) error
+	SaveContents(ctx context.Context, events model.LineEvents) error
 }
 
 type lineUsecase struct {
-	channelSecret string
 }
 
-func NewLineUsecase(channelSecret string) LineUsecase {
-	return &lineUsecase{
-		channelSecret: channelSecret,
-	}
+func NewLineUsecase() LineUsecase {
+	return &lineUsecase{}
 }
 
-func (line *lineUsecase) VerifySignature(ctx context.Context, lineSignature string, body []byte) error {
-	slog.Info("VerifySignature", "lineSignature", lineSignature, "body", string(body))
+func (l *lineUsecase) SaveContents(ctx context.Context, events model.LineEvents) error {
+	// TODO コンテンツを取得
 
-	decoded, err := base64.StdEncoding.DecodeString(lineSignature)
-	if err != nil {
-		return errors.Join(fmt.Errorf("failed decode line signature. err: %w", err), ErrAuthInvalidArg)
-	}
+	// TODO s3に保存
 
-	hash := hmac.New(sha256.New, []byte(line.channelSecret))
-	if _, err := hash.Write(body); err != nil {
-		return errors.Join(fmt.Errorf("failed hash.Write. err: %w", err), ErrAuthInvalidArg)
-	}
+	// TODO say success
 
-	if !hmac.Equal(decoded, hash.Sum(nil)) {
-		return errors.Join(errors.New("invalid signature"), ErrAuthInvalidArg)
-	}
-	return nil
+	panic("unimplemented")
 }

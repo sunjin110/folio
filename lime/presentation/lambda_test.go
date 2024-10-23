@@ -10,7 +10,7 @@ import (
 func Test_GetHandler(t *testing.T) {
 	Convey("Test_GetHandler", t, func() {
 		Convey("panicしないこと", func() {
-			_, err := presentation.GetHandler()
+			_, err := presentation.GetLambdaHandler()
 			So(err, ShouldBeNil)
 		})
 	})

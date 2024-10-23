@@ -53,6 +53,10 @@ variable "line_channel_secret" {
   sensitive = true
 }
 
+variable "line_channel_token" {
+  type = string
+}
+
 
 # TODO これはapiのcustom domainを決めたタイミングでどうにかする
 # variable "google_oauth_redirect_uri" {

@@ -124,6 +124,7 @@ module "lime" {
   }
   line = {
     channel_secret = var.line_channel_secret
+    channel_token  = var.line_channel_token
   }
 }
 
