@@ -2,63 +2,23 @@ package presentation
 
 import (
 	"context"
-	"errors"
 	"fmt"
-	"io"
-	"log/slog"
 	"net/http"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/awslabs/aws-lambda-go-api-proxy/httpadapter"
 	"github.com/gorilla/mux"
-	"github.com/line/line-bot-sdk-go/v8/linebot/messaging_api"
-	"github.com/sunjin110/folio/lime/application"
-	"github.com/sunjin110/folio/lime/config"
 )
 
 func GetLambdaHandler() (lambdaHandlerFunc func(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error), err error) {
-
-	envConfig, err := config.NewEnvConfig()
+	httpHandler, err := NewHttpHandler()
 	if err != nil {
-		return nil, fmt.Errorf("failed config.NewEnvConfig. err: %w", err)
+		return nil, fmt.Errorf("failed NewHttpHandler. err: %w", err)
 	}
-
-	messaging_api.NewMessagingApiAPI("")
-
-	lineUsecase := application.NewLineUsecase(envConfig.Line.ChannelSecret)
-
-	httpHandler := NewHttpHandler(lineUsecase)
 
 	r := mux.NewRouter()
 	r.HandleFunc("/", httpHandler.Home).Methods(http.MethodGet)
 	r.HandleFunc("/hello", httpHandler.Hello).Methods(http.MethodGet)
-
-	r.PathPrefix("/line").Path("/webhook").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-
-		lineSignature := r.Header.Get("x-line-signature")
-		body, err := io.ReadAll(r.Body)
-		if err != nil {
-			slog.Error("failed io.ReadAll(r.Body)", "err", err)
-			if errors.Is(err, application.ErrAuthInvalidArg) {
-				w.WriteHeader(http.StatusUnauthorized)
-				return
-			}
-			w.WriteHeader(http.StatusInternalServerError)
-			return
-		}
-		defer r.Body.Close()
-
-		if err := lineUsecase.VerifySignature(r.Context(), lineSignature, body); err != nil {
-			slog.Error("failed lineUsecase.VerifySignature", "err", err)
-			if errors.Is(err, application.ErrAuthInvalidArg) {
-				w.WriteHeader(http.StatusUnauthorized)
-				return
-			}
-			w.WriteHeader(http.StatusInternalServerError)
-			return
-		}
-		io.WriteString(w, "success")
-	}).Methods(http.MethodPost)
-
+	r.PathPrefix("/line").Path("/webhook").HandlerFunc(httpHandler.LineWebhook).Methods(http.MethodPost)
 	return httpadapter.New(r).ProxyWithContext, nil
 }
