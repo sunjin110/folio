@@ -17,5 +17,10 @@ func GetHandler() (lambdaHandlerFunc func(ctx context.Context, req events.APIGat
 		w.Write([]byte("hello lime"))
 		w.WriteHeader(http.StatusOK)
 	})
+	r.Get("/hello").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		slog.Info("hello lime")
+		w.Write([]byte(`{"hello": "lime"}`))
+		w.WriteHeader(http.StatusOK)
+	})
 	return httpadapter.New(r).ProxyWithContext, nil
 }
