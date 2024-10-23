@@ -17,7 +17,7 @@ func GetHandler() (lambdaHandlerFunc func(ctx context.Context, req events.APIGat
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		slog.Info("======= / がリクエストされた")
 		slog.Info("base")
-		w.Write([]byte(`{"hello": "lime"}`))
+		w.Write([]byte(`{"hello": "home"}`))
 		w.WriteHeader(http.StatusOK)
 		slog.Info("====== / の処理終わり")
 	}).Methods(http.MethodGet)
