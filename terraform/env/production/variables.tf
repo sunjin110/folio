@@ -48,6 +48,11 @@ variable "neon_api_key" {
   type = string
 }
 
+variable "line_channel_secret" {
+  type      = string
+  sensitive = true
+}
+
 
 # TODO これはapiのcustom domainを決めたタイミングでどうにかする
 # variable "google_oauth_redirect_uri" {

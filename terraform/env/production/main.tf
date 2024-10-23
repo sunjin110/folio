@@ -122,6 +122,9 @@ module "lime" {
     account_id = var.cloudflare_account_id
     zone_id    = var.cloudflare_zone_id
   }
+  line = {
+    channel_secret = var.line_channel_secret
+  }
 }
 
 module "rusthumb" {

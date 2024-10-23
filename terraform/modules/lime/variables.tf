@@ -23,3 +23,9 @@ variable "domain" {
     name : string
   })
 }
+
+variable "line" {
+  type = object({
+    channel_secret : string
+  })
+}
