@@ -40,6 +40,7 @@ locals {
   }
   reolio_base_url = "https://folio.sunjin.info"
   golio_domain    = "folio-api.sunjin.info"
+  lime_domain     = "lime.sunjin.info"
   tfstate_name    = "production-folio-terraform-state"
   env             = "production"
 }
@@ -107,8 +108,20 @@ module "reolio" {
 
 module "lime" {
   source = "../../modules/lime"
+  providers = {
+    aws          = aws
+    aws.virginia = aws.virginia
+  }
   aws    = local.aws
   prefix = local.env
+  domain = {
+    domain_name = local.lime_domain
+    name        = "lime"
+  }
+  cloudflare = {
+    account_id = var.cloudflare_account_id
+    zone_id    = var.cloudflare_zone_id
+  }
 }
 
 module "rusthumb" {
@@ -125,3 +138,9 @@ module "tfstate" {
 data "aws_caller_identity" "this" {}
 
 data "aws_region" "this" {}
+
+# なんかいつもここの依存が外れる
+# import {
+#   to = module.lime.module.api_gateway.aws_api_gateway_stage.this
+#   id = "xzyga1fse4/v1"
+# }
