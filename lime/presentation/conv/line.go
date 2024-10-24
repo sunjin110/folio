@@ -25,6 +25,7 @@ func toLineMessageEvent(event *webhook.MessageEvent) *model.LineMessageEvent {
 		return nil
 	}
 	return &model.LineMessageEvent{
+		ReplyToken:         event.ReplyToken,
 		LineMessageContent: toLineMessageContent(event.Message),
 	}
 }

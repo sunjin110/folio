@@ -3,23 +3,20 @@ package repository
 import (
 	"context"
 	"fmt"
-	"mime"
 	"net/http"
 
 	"github.com/line/line-bot-sdk-go/v8/linebot"
-	"github.com/line/line-bot-sdk-go/v8/linebot/messaging_api"
 	"github.com/sunjin110/folio/lime/domain/model"
 	"github.com/sunjin110/folio/lime/domain/repository"
 )
 
 type lineContent struct {
-	lineMessageClient *messaging_api.MessagingApiAPI
-	lineClient        *linebot.Client
+	lineClient *linebot.Client
 }
 
-func NewLineContent(lineMessageClient *messaging_api.MessagingApiAPI) repository.LineContent {
+func NewLineContent(lineClient *linebot.Client) repository.LineContent {
 	return &lineContent{
-		lineMessageClient: lineMessageClient,
+		lineClient: lineClient,
 	}
 }
 
@@ -38,14 +35,8 @@ func (*lineContent) getFromExternal(provider *model.LineContentProviderExternal)
 	if err != nil {
 		return nil, fmt.Errorf("failed http.Get. OriginalContentURL: %s, err: %w", provider.OriginalContentURL, err)
 	}
-
 	contentType := resp.Header.Get("Content-Type")
-	mediatype, _, err := mime.ParseMediaType(contentType)
-	if err != nil {
-		return nil, fmt.Errorf("failed mime.ParseMediaType. err: %w", err)
-	}
-
-	return model.NewContent(resp.Body, mediatype, resp.ContentLength), nil
+	return model.NewContent(resp.Body, contentType, resp.ContentLength, nil), nil
 }
 
 func (l *lineContent) getFromLine(ctx context.Context, provider *model.LineContentProviderLine) (*model.Content, error) {
@@ -54,9 +45,5 @@ func (l *lineContent) getFromLine(ctx context.Context, provider *model.LineConte
 		return nil, fmt.Errorf("failed lineClient.GetMessageContent. messageID: %s, err: %w", provider.MessageID, err)
 	}
 
-	mediatype, _, err := mime.ParseMediaType(resp.ContentType)
-	if err != nil {
-		return nil, fmt.Errorf("failed mime.ParseMediaType. err: %w", err)
-	}
-	return model.NewContent(resp.Content, mediatype, resp.ContentLength), nil
+	return model.NewContent(resp.Content, resp.ContentType, resp.ContentLength, nil), nil
 }

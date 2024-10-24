@@ -7,7 +7,8 @@ import (
 )
 
 type EnvConfig struct {
-	Line EnvLineConfig `envPrefix:"LINE_"`
+	Line              EnvLineConfig `envPrefix:"LINE_"`
+	MediaS3BucketName string        `env:"MEDIA_S3_BUCKET_NAME"`
 }
 
 type EnvLineConfig struct {

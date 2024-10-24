@@ -28,5 +28,6 @@ variable "environment" {
   type = object({
     LINE_CHANNEL_SECRET : string
     LINE_CHANNEL_TOKEN : string
+    MEDIA_S3_BUCKET_NAME : string,
   })
 }

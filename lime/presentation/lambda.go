@@ -11,7 +11,8 @@ import (
 )
 
 func GetLambdaHandler() (lambdaHandlerFunc func(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error), err error) {
-	httpHandler, err := NewHttpHandler()
+	ctx := context.Background()
+	httpHandler, err := NewHttpHandler(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("failed NewHttpHandler. err: %w", err)
 	}

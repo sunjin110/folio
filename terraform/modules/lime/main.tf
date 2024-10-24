@@ -1,3 +1,7 @@
+locals {
+  media_s3_name = "${var.prefix}-golio-media"
+}
+
 module "ecr" {
   source = "./ecr"
   aws    = var.aws
@@ -18,8 +22,9 @@ module "lambda" {
   ecr    = module.ecr.repository
   iam    = module.iam
   environment = {
-    LINE_CHANNEL_SECRET = var.line.channel_secret
-    LINE_CHANNEL_TOKEN  = var.line.channel_token
+    LINE_CHANNEL_SECRET  = var.line.channel_secret
+    LINE_CHANNEL_TOKEN   = var.line.channel_token
+    MEDIA_S3_BUCKET_NAME = local.media_s3_name
   }
 }
 
