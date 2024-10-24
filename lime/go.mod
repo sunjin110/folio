@@ -7,6 +7,7 @@ require (
 	github.com/awslabs/aws-lambda-go-api-proxy v0.16.2
 	github.com/caarlos0/env/v11 v11.2.2
 	github.com/gorilla/mux v1.8.1
+	github.com/line/line-bot-sdk-go/v8 v8.9.0
 	github.com/smartystreets/goconvey v1.8.1
 )
 
