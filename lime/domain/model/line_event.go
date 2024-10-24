@@ -7,6 +7,7 @@ type LineEvent interface {
 }
 
 type LineMessageEvent struct {
+	ReplyToken         string
 	LineMessageContent *LineMessageContent
 }
 

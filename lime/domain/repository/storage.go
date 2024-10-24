@@ -2,9 +2,10 @@ package repository
 
 import (
 	"context"
-	"io"
+
+	"github.com/sunjin110/folio/lime/domain/model"
 )
 
-type Strage interface {
-	SaveContent(ctx context.Context, reader io.ReadCloser) error
+type Storage interface {
+	SaveContent(ctx context.Context, content *model.Content) (err error)
 }

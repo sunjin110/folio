@@ -1,16 +1,21 @@
 package presentation
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"io"
 	"log/slog"
 	"net/http"
 
+	aws_cfg "github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/service/s3"
+	"github.com/line/line-bot-sdk-go/v8/linebot"
 	"github.com/line/line-bot-sdk-go/v8/linebot/messaging_api"
 	"github.com/line/line-bot-sdk-go/v8/linebot/webhook"
 	"github.com/sunjin110/folio/lime/application"
 	"github.com/sunjin110/folio/lime/config"
+	"github.com/sunjin110/folio/lime/infrastructure/repository"
 	"github.com/sunjin110/folio/lime/presentation/conv"
 )
 
@@ -26,7 +31,7 @@ type httpHandler struct {
 	lineUsecase       application.LineUsecase
 }
 
-func NewHttpHandler() (HttpHandler, error) {
+func NewHttpHandler(ctx context.Context) (HttpHandler, error) {
 	envConfig, err := config.NewEnvConfig()
 	if err != nil {
 		return nil, fmt.Errorf("failed config.NewEnvConfig. err: %w", err)
@@ -37,7 +42,21 @@ func NewHttpHandler() (HttpHandler, error) {
 		return nil, fmt.Errorf("failed messaging_api.NewMessagingApiAPI. err: %w", err)
 	}
 
-	lineUsecase := application.NewLineUsecase()
+	lineClient, err := linebot.New(envConfig.Line.ChannelSecret, envConfig.Line.ChannelToken)
+	if err != nil {
+		return nil, fmt.Errorf("failed linebot.New. err: %w", err)
+	}
+
+	awsCfg, err := aws_cfg.LoadDefaultConfig(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed aws_cfg.LoadDefaultConfig. err: %w", err)
+	}
+
+	lineContentRepo := repository.NewLineContent(lineClient)
+	lineMessageRepo := repository.NewLineMessage(lineMessageClient)
+	storageRepo := repository.NewStorage(s3.NewFromConfig(awsCfg), envConfig.MediaS3BucketName)
+
+	lineUsecase := application.NewLineUsecase(lineContentRepo, lineMessageRepo, storageRepo)
 
 	return &httpHandler{
 		lineChannelSecret: envConfig.Line.ChannelSecret,
