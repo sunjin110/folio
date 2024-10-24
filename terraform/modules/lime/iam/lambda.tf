@@ -24,6 +24,11 @@ resource "aws_iam_role_policy_attachment" "lambda_basic" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
+resource "aws_iam_role_policy_attachment" "lambda_s3_access" {
+  role       = aws_iam_role.lambda.name
+  policy_arn = aws_iam_policy.lambda_s3_access.arn
+}
+
 resource "aws_iam_policy" "lambda_s3_access" {
   name = "${var.prefix}-lime-lambda-s3-access"
 
