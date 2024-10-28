@@ -60,8 +60,8 @@ github.com/aws/aws-sdk-go-v2/service/ssooidc v1.26.7 h1:/Cfdu0XV3mONYKaOt1Gr0k1K
 github.com/aws/aws-sdk-go-v2/service/ssooidc v1.26.7/go.mod h1:bCbAxKDqNvkHxRaIMnyVPXPo+OaPRwvmgzMxbz1VKSA=
 github.com/aws/aws-sdk-go-v2/service/sts v1.30.7 h1:NKTa1eqZYw8tiHSRGpP0VtTdub/8KNk8sDkNPFaOKDE=
 github.com/aws/aws-sdk-go-v2/service/sts v1.30.7/go.mod h1:NXi1dIAGteSaRLqYgarlhP/Ij0cFT+qmCwiJqWh/U5o=
-github.com/aws/aws-sdk-go-v2/service/translate v1.28.0 h1:buDkuCREZ6ySeNpDIan+3wSCUMJegBLx/+rozC5Guno=
-github.com/aws/aws-sdk-go-v2/service/translate v1.28.0/go.mod h1:0R0yyK+MWaZFt9WwhEB64zbTwd5t09oExzO+KAyLIU0=
+github.com/aws/aws-sdk-go-v2/service/translate v1.28.2 h1:BsUOF8w+U1bjUS0j7NWE5UKN04KxAVQhPu67cg9PHWY=
+github.com/aws/aws-sdk-go-v2/service/translate v1.28.2/go.mod h1:4dJ6g6GBf8Adr6DmhnSNjAgseiYohLEmzFkOkVPchMA=
 github.com/aws/smithy-go v1.22.0 h1:uunKnWlcoL3zO7q+gG2Pk53joueEOsnNB28QdMsmiMM=
 github.com/aws/smithy-go v1.22.0/go.mod h1:irrKGvNn1InZwb2d7fkIRNucdfwR8R+Ts3wxYa/cJHg=
 github.com/awslabs/aws-lambda-go-api-proxy v0.16.2 h1:CJyGEyO1CIwOnXTU40urf0mchf6t3voxpvUDikOU9LY=
