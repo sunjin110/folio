@@ -1,0 +1,37 @@
+FROM --platform=$BUILDPLATFORM ubuntu:22.04
+
+WORKDIR /home
+RUN apt-get update -y
+RUN apt-get install -y build-essential git wget sudo
+
+RUN wget https://go.dev/dl/go1.23.2.linux-arm64.tar.gz
+RUN tar -C /usr/local -xzf go1.23.2.linux-arm64.tar.gz
+ENV PATH=$PATH:/usr/local/go/bin
+RUN /usr/local/go/bin/go version
+RUN echo $PATH
+RUN go version
+RUN git clone https://github.com/hybridgroup/gocv.git
+RUN cd gocv && make install
+
+WORKDIR /src
+
+RUN --mount=type=cache,target=/go/pkg/mod/ \
+    --mount=type=bind,source=go.sum,target=go.sum \
+    --mount=type=bind,source=go.mod,target=go.mod \
+    go mod download -x
+
+RUN curl -Lo /src/aws-lambda-rie https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie-arm64 && \
+    chmod +x /src/aws-lambda-rie
+
+# This is the architecture you’re building for, which is passed in by the builder.
+# Placing it here allows the previous steps to be cached across architectures.
+ARG TARGETARCH
+
+RUN --mount=type=cache,target=/go/pkg/mod/ \
+    --mount=type=bind,target=. \
+    CGO_ENABLED=1 GOARCH=${TARGETARCH} go build -o /bin/main ./cmd/lambda/main.go
+
+RUN rm -rf /var/lib/apt/lists/*
+RUN rm -rf /src
+
+ENTRYPOINT ["/bin/main"]

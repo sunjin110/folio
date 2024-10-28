@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
-	"github.com/sunjin110/folio/lime/domain/model"
+	"github.com/sunjin110/folio/gomb/domain/model"
 )
 
 func Test_Image(t *testing.T) {
