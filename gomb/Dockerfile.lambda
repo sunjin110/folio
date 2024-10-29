@@ -1,37 +1,65 @@
-FROM --platform=$BUILDPLATFORM ubuntu:22.04
+FROM --platform=$BUILDPLATFORM debian:bullseye-slim AS build
 
 WORKDIR /home
-RUN apt-get update -y
-RUN apt-get install -y build-essential git wget sudo
 
-RUN wget https://go.dev/dl/go1.23.2.linux-arm64.tar.gz
-RUN tar -C /usr/local -xzf go1.23.2.linux-arm64.tar.gz
+# 必要なパッケージのインストール
+RUN apt-get update -y && \
+    apt-get install -y --no-install-recommends \
+        build-essential \
+        git \
+        wget \
+        ca-certificates \
+        sudo \
+        pkg-config && \
+    rm -rf /var/lib/apt/lists/*
+
+# Goのインストール
+RUN wget https://go.dev/dl/go1.23.2.linux-arm64.tar.gz && \
+    tar -C /usr/local -xzf go1.23.2.linux-arm64.tar.gz && \
+    rm go1.23.2.linux-arm64.tar.gz
+
 ENV PATH=$PATH:/usr/local/go/bin
-RUN /usr/local/go/bin/go version
-RUN echo $PATH
+
+# Goのバージョン確認
 RUN go version
-RUN git clone https://github.com/hybridgroup/gocv.git
-RUN cd gocv && make install
+
+# gocvのインストール
+RUN git clone https://github.com/hybridgroup/gocv.git && \
+    cd gocv && make clean && \
+    make install
 
 WORKDIR /src
 
+# Goモジュールのコピーと依存関係のダウンロード
+COPY go.mod .
+COPY go.sum .
 RUN --mount=type=cache,target=/go/pkg/mod/ \
-    --mount=type=bind,source=go.sum,target=go.sum \
-    --mount=type=bind,source=go.mod,target=go.mod \
     go mod download -x
 
-RUN curl -Lo /src/aws-lambda-rie https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie-arm64 && \
-    chmod +x /src/aws-lambda-rie
-
-# This is the architecture you’re building for, which is passed in by the builder.
-# Placing it here allows the previous steps to be cached across architectures.
+# ソースコードのコピーとビルド
 ARG TARGETARCH
-
+COPY . .
 RUN --mount=type=cache,target=/go/pkg/mod/ \
-    --mount=type=bind,target=. \
     CGO_ENABLED=1 GOARCH=${TARGETARCH} go build -o /bin/main ./cmd/lambda/main.go
 
-RUN rm -rf /var/lib/apt/lists/*
-RUN rm -rf /src
+# ランタイムステージ
+FROM debian:bullseye-slim
 
+# # 実行時の最小限の依存関係をインストール
+RUN apt-get update -y && \
+    apt-get install -y --no-install-recommends \
+        ca-certificates \
+        libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libdc1394-22-dev libharfbuzz-dev libfreetype6-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+
+COPY --from=build /usr/local/lib /usr/local/lib
+
+# ビルドしたバイナリをコピー
+COPY --from=build /bin/main /bin/main
+ENV LD_LIBRARY_PATH=/usr/local/lib
+
+RUN ldconfig
+
+# エントリーポイントの設定
 ENTRYPOINT ["/bin/main"]
