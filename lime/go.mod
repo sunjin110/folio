@@ -13,7 +13,6 @@ require (
 	github.com/gorilla/mux v1.8.1
 	github.com/line/line-bot-sdk-go/v8 v8.9.0
 	github.com/smartystreets/goconvey v1.8.1
-	golang.org/x/image v0.21.0
 )
 
 require (
@@ -35,4 +34,5 @@ require (
 	github.com/gopherjs/gopherjs v1.17.2 // indirect
 	github.com/jtolds/gls v4.20.0+incompatible // indirect
 	github.com/smarty/assertions v1.15.0 // indirect
+	golang.org/x/text v0.19.0 // indirect
 )
