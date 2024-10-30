@@ -1,13 +1,17 @@
 package main
 
 import (
-	"fmt"
+	"log/slog"
 
-	"gocv.io/x/gocv"
+	awslambda "github.com/aws/aws-lambda-go/lambda"
+	"github.com/sunjin110/folio/gomb/presentation"
 )
 
 func main() {
-	fmt.Println("===== hello lambda thumbnail")
-	fmt.Printf("gocv version: %s\n", gocv.Version())
-	fmt.Printf("opencv lib version: %s\n", gocv.OpenCVVersion())
+	entrypoint, err := presentation.GetS3EventLambdaEntrypoint()
+	if err != nil {
+		slog.Error("failed get entrypoint", "err", err)
+		panic(err)
+	}
+	awslambda.Start(entrypoint)
 }
