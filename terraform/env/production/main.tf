@@ -128,6 +128,12 @@ module "lime" {
   }
 }
 
+module "gomb" {
+  source = "../../modules/gomb"
+  aws    = local.aws
+  prefix = local.env
+}
+
 module "rusthumb" {
   source = "../../modules/rusthumb"
   prefix = local.env

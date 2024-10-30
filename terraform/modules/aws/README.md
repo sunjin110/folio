@@ -1,0 +1,2 @@
+# aws
+よく使うaws moduleを簡単に利用できるようにするmodule郡
