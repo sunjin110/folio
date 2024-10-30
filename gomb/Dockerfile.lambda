@@ -43,7 +43,7 @@ RUN --mount=type=cache,target=/go/pkg/mod/ \
     CGO_ENABLED=1 GOARCH=${TARGETARCH} go build -o /bin/main ./cmd/lambda/main.go
 
 # ランタイムステージ
-FROM debian:bullseye-slim
+FROM --platform=$BUILDPLATFORM debian:bullseye-slim
 
 # # 実行時の最小限の依存関係をインストール
 RUN apt-get update -y && \
