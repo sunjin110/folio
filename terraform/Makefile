@@ -18,7 +18,7 @@ prd-init:
 	@cd "$(PWD)/env/production" && terraform init
 
 prd-plan:
-	@cd "$(PWD)/env/production" && terraform plan --var-file=./secret.tfvars
+	@cd "$(PWD)/env/production" && terraform plan -lock=false --var-file=./secret.tfvars
 
 prd-apply:
 	@cd "$(PWD)/env/production" && terraform apply -lock=false --var-file=./secret.tfvars

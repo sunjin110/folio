@@ -129,9 +129,10 @@ module "lime" {
 }
 
 module "gomb" {
-  source = "../../modules/gomb"
-  aws    = local.aws
-  prefix = local.env
+  source   = "../../modules/gomb"
+  aws      = local.aws
+  prefix   = local.env
+  media_s3 = module.golio.media_s3
 }
 
 module "rusthumb" {
