@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log/slog"
 
 	awslambda "github.com/aws/aws-lambda-go/lambda"
@@ -8,7 +9,7 @@ import (
 )
 
 func main() {
-	entrypoint, err := presentation.GetS3EventLambdaEntrypoint()
+	entrypoint, err := presentation.GetS3EventLambdaEntrypoint(context.Background())
 	if err != nil {
 		slog.Error("failed get entrypoint", "err", err)
 		panic(err)
