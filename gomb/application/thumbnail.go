@@ -47,7 +47,7 @@ func (t *thumbnailApplication) GenerateAndPutThumbnail(ctx context.Context, s3Ke
 		return fmt.Errorf("failed generate thumbnail. s3Key: %s, err: %w", s3Key, err)
 	}
 
-	thumbnailContent, err := thumbnail.ToContent(s3Key)
+	thumbnailContent, err := thumbnail.ToContent(s3Key + ".jpg") // TODO これを綺麗にする
 	if err != nil {
 		return fmt.Errorf("failed thumbnail.ToContent. s3Key: %s, err: %w", s3Key, err)
 	}
