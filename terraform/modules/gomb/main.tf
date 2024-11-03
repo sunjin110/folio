@@ -22,4 +22,14 @@ module "lambda" {
   ecr          = module.ecr.repository
   iam          = module.iam
   architecture = "arm64"
+  memory_size  = 512 # MB
+  environment = {
+    "MEDIA_S3_BUCKET_NAME" : var.media_s3.name
+  }
+}
+
+module "s3_notification" {
+  source = "./s3_notification"
+  s3     = var.media_s3
+  lambda = module.lambda
 }
