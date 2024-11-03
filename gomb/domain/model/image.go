@@ -89,7 +89,7 @@ func (i *Image) ResizeKeepAspect(size int) Image {
 }
 
 func (i *Image) ToContent(fileName string) (*Content, error) {
-	var b *bytes.Buffer
+	b := &bytes.Buffer{}
 	buf := bufio.NewWriter(b)
 	if err := jpeg.Encode(buf, i.img, nil); err != nil {
 		return nil, fmt.Errorf("failed encode. err: %w", err)

@@ -6,13 +6,13 @@ resource "aws_s3_bucket_notification" "bucket_notification" {
   lambda_function {
     lambda_function_arn = var.lambda.arn
     events              = ["s3:ObjectCreated:*"]
-    filter_prefix       = "/default"
+    filter_prefix       = "default/"
   }
 
   lambda_function {
     lambda_function_arn = var.lambda.arn
     events              = ["s3:ObjectCreated:*"]
-    filter_prefix       = "/lime"
+    filter_prefix       = "lime/"
   }
 
   depends_on = [
