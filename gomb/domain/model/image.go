@@ -1,9 +1,12 @@
 package model
 
 import (
+	"bufio"
+	"bytes"
 	"fmt"
 	"image"
 	"io"
+	"net/http"
 
 	_ "image/gif"
 	"image/jpeg"
@@ -83,4 +86,17 @@ func (i *Image) ResizeKeepAspect(size int) Image {
 		height = size
 	}
 	return i.Resize(width, height)
+}
+
+func (i *Image) ToContent(fileName string) (*Content, error) {
+	var b *bytes.Buffer
+	buf := bufio.NewWriter(b)
+	if err := jpeg.Encode(buf, i.img, nil); err != nil {
+		return nil, fmt.Errorf("failed encode. err: %w", err)
+	}
+	readCloser := io.NopCloser(b)
+
+	contentType := http.DetectContentType(b.Bytes())
+
+	return NewContent(readCloser, contentType, int64(b.Len()), fileName), nil
 }
