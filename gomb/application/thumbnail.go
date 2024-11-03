@@ -52,10 +52,8 @@ func (t *thumbnailApplication) GenerateAndPutThumbnail(ctx context.Context, s3Ke
 		return fmt.Errorf("failed thumbnail.ToContent. s3Key: %s, err: %w", s3Key, err)
 	}
 
-	thumbnailS3Key := fmt.Sprintf("%s/%s", thumbnailPathPrefix, s3Key)
-
-	if err := t.storageRepo.SaveContent(ctx, thumbnailS3Key, thumbnailContent); err != nil {
-		return fmt.Errorf("failed save thumbnail. thumbnailS3Key: %s, err: %w", thumbnailS3Key, err)
+	if err := t.storageRepo.SaveContent(ctx, thumbnailPathPrefix, thumbnailContent); err != nil {
+		return fmt.Errorf("failed save thumbnail. thumbnailPathPrefix: %s, err: %w", thumbnailPathPrefix, err)
 	}
 
 	return nil
