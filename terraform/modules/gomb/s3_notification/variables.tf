@@ -1,6 +1,6 @@
 variable "s3" {
   type = object({
-    id: string
+    id : string
     arn : string
   })
 }

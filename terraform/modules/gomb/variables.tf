@@ -12,7 +12,7 @@ variable "prefix" {
 
 variable "media_s3" {
   type = object({
-    id: string
+    id : string
     name : string
     arn : string
   })
