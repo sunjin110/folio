@@ -1,17 +1,25 @@
-FROM --platform=$BUILDPLATFORM debian:bullseye-slim AS build
+FROM alpine AS build
 
 WORKDIR /home
 
 # 必要なパッケージのインストール
-RUN apt-get update -y && \
-    apt-get install -y --no-install-recommends \
-        build-essential \
+RUN apk update && \
+    apk add --no-cache \
+        build-base \
         git \
         wget \
         ca-certificates \
         sudo \
-        pkg-config && \
-    rm -rf /var/lib/apt/lists/*
+        pkgconfig \
+        make \
+        cmake \
+        opencv-dev \
+        opencv \
+        libtbb-dev \
+        ffmpeg-dev \
+        gtk+2.0-dev \
+        freetype-dev \
+        harfbuzz-dev
 
 # Goのインストール
 RUN wget https://go.dev/dl/go1.23.2.linux-arm64.tar.gz && \
@@ -19,48 +27,54 @@ RUN wget https://go.dev/dl/go1.23.2.linux-arm64.tar.gz && \
     rm go1.23.2.linux-arm64.tar.gz
 
 ENV PATH=$PATH:/usr/local/go/bin
+ENV PKG_CONFIG_PATH=/usr/lib/pkgconfig
+
+RUN apk add curl
+
+WORKDIR /src
+RUN curl -Lo /src/aws-lambda-rie https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie-arm64 && \
+    chmod +x /src/aws-lambda-rie
 
 # Goのバージョン確認
 RUN go version
 
 # gocvのインストール
-RUN git clone https://github.com/hybridgroup/gocv.git && \
-    cd gocv && make clean && \
-    make install
+# RUN go install -v gocv.io/x/gocv@latest
 
 WORKDIR /src
 
 # Goモジュールのコピーと依存関係のダウンロード
 COPY go.mod .
 COPY go.sum .
-RUN --mount=type=cache,target=/go/pkg/mod/ \
-    go mod download -x
+RUN go mod download -x
 
 # ソースコードのコピーとビルド
-ARG TARGETARCH
 COPY . .
-RUN --mount=type=cache,target=/go/pkg/mod/ \
-    CGO_ENABLED=1 GOARCH=${TARGETARCH} go build -o /bin/main ./cmd/lambda/main.go
+RUN CGO_ENABLED=1 GOARCH=${TARGETARCH} go build -o /bin/main ./cmd/lambda/main.go
 
 # ランタイムステージ
-FROM debian:bullseye-slim
+FROM alpine
 
-# # 実行時の最小限の依存関係をインストール
-RUN apt-get update -y && \
-    apt-get install -y --no-install-recommends \
+# 実行時の最小限の依存関係をインストール
+RUN apk update && \
+    apk add --no-cache \
         ca-certificates \
-        libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libdc1394-22-dev libharfbuzz-dev libfreetype6-dev && \
-    rm -rf /var/lib/apt/lists/*
+        opencv \
+        libtbb \
+        freetype \
+        harfbuzz \
+        gtk+2.0 \
+        ffmpeg
 
-
-COPY --from=build /usr/local/lib /usr/local/lib
+# RUN ldconfig
+RUN apk add libopencv_aruco
+RUN apk add libopencv_photo
+RUN apk add libopencv_video
 
 # ビルドしたバイナリをコピー
 COPY --from=build /bin/main /bin/main
-ENV LD_LIBRARY_PATH=/usr/local/lib
 
-RUN ldconfig
+COPY --from=build /src/aws-lambda-rie /usr/local/bin/aws-lambda-rie
 
 # エントリーポイントの設定
 ENTRYPOINT ["/bin/main"]
-
