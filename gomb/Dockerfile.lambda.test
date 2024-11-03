@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM alpine AS build
+FROM alpine AS build
 
 WORKDIR /home
 
