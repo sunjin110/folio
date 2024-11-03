@@ -1,0 +1,22 @@
+name: deploy gomb production
+on:
+    push:
+        tags:
+            - "gomb/v?[0-9]+.[0-9]+.[0-9]+" 
+        branches:
+            - main
+        paths:
+            - "gomb/**.go"
+            - ".github/workflows/deploy_gomb*"
+        
+permissions:
+    id-token: write
+    contents: read
+jobs:
+    deploy:
+        uses: ./.github/workflows/deploy_gomb.yml
+        secrets:
+            AWS_ROLE_TO_ASSUME: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+        with:
+            repository: "production-gomb"
+            lambda_name: "production-gomb"
