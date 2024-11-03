@@ -50,15 +50,21 @@ func (i *Image) SquareTrim(size int) Image {
 	width := i.img.Bounds().Max.X
 	height := i.img.Bounds().Max.Y
 
+	// 短辺を基に正方形を作成
 	shorter := min(width, height)
 
-	// 左上の座標
+	// トリミングする正方形の左上座標を計算
 	top := (height - shorter) / 2
 	left := (width - shorter) / 2
 
+	// 新しい画像を作成
 	newImg := image.NewRGBA(image.Rect(0, 0, size, size))
 
-	draw.BiLinear.Scale(newImg, newImg.Bounds(), i.img, image.Rect(left, top, width, height), draw.Over, nil)
+	// 元の画像から正方形部分を切り出し、新しいサイズにリサイズ
+	srcSub := image.NewRGBA(image.Rect(0, 0, shorter, shorter))
+	draw.Draw(srcSub, srcSub.Bounds(), i.img, image.Point{X: left, Y: top}, draw.Src)
+	draw.BiLinear.Scale(newImg, newImg.Bounds(), srcSub, srcSub.Bounds(), draw.Over, nil)
+
 	return Image{
 		img: newImg,
 	}
