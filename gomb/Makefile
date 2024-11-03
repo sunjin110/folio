@@ -13,6 +13,7 @@ lambda/test/req:
 deploy/lambda/prd:
 	@make image/lambda/build
 	@make login/aws/ecr/prd
+	@docker tag gomb-lambda:latest 891377020091.dkr.ecr.ap-northeast-1.amazonaws.com/production-gomb:latest
 	@make push/lambda/prd
 	@aws --region ap-northeast-1 --profile folio-terraform lambda update-function-code --function-name production-gomb --image-uri 891377020091.dkr.ecr.ap-northeast-1.amazonaws.com/production-gomb:latest
 
