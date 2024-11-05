@@ -9,3 +9,14 @@ image/lambda/test:
 
 lambda/test/req:
 	@curl "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{"path":"/"}'
+
+gen/golio/openapi:
+	@docker run --rm \
+  		-v ${PWD}/../:/local openapitools/openapi-generator-cli:v7.9.0 generate \
+  		-i /local/golio/schema/http/folio.openapi.json \
+  		-g go \
+		--git-repo-id github.com/sunjin110/folio/lime \
+		--git-user-id sunjin110 \
+  		-o /local/lime/generate/schema/golio/http/openapi
+
+	@rm -rf generate/schema/golio/http/openapi/test
