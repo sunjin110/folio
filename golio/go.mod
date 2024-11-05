@@ -8,7 +8,7 @@ require (
 	github.com/aws/aws-sdk-go-v2 v1.32.3
 	github.com/aws/aws-sdk-go-v2/config v1.28.1
 	github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue v1.15.13
-	github.com/aws/aws-sdk-go-v2/feature/dynamodb/expression v1.7.47
+	github.com/aws/aws-sdk-go-v2/feature/dynamodb/expression v1.7.48
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.36.3
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.66.1
 	github.com/aws/aws-sdk-go-v2/service/translate v1.28.3
