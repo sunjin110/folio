@@ -83,7 +83,7 @@ func (m *media) FindSummary(ctx context.Context, paging *repository.Paging) ([]*
 		medium := medium
 		eg.Go(func() error {
 			path := m.generatePath(medium.ID, medium.FileType)
-			presignedURL, err := m.getDownloadPresignedURL(ctx, path)
+			presignedURL, err := m.getThumbnailPresignedURL(ctx, path)
 			if err != nil {
 				return fmt.Errorf("failed get download presigned url. path: %s, err: %w", path, err)
 			}
