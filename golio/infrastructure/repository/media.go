@@ -18,6 +18,9 @@ import (
 
 const mediaPresignedExpireDuration = 10 * time.Minute
 
+// thumbnailPathPattern gombで生成されるthumbnailのパターン
+const thumbnailPathPattern = "thumbnail/%s.jpg"
+
 type media struct {
 	db              *sqlx.DB
 	s3BucketName    string
@@ -111,8 +114,12 @@ func (m *media) Get(ctx context.Context, id string) (*model.Medium, error) {
 		return nil, fmt.Errorf("failed get download presigned url: %w", err)
 	}
 
-	// TODO thumbnailは別で発行できるようにする
-	return mediumDto.ToModel(downloadPresignedURL, downloadPresignedURL), nil
+	thumbnailPresignedURL, err := m.getThumbnailPresignedURL(ctx, mediumDto.Path)
+	if err != nil {
+		return nil, fmt.Errorf("failed get thumbnail presigned url. err: %w", err)
+	}
+
+	return mediumDto.ToModel(thumbnailPresignedURL, downloadPresignedURL), nil
 }
 
 func (m *media) Insert(ctx context.Context, txTime time.Time, id string, fileType string) (uploadPresignedURL string, err error) {
@@ -154,6 +161,20 @@ func (m *media) getDownloadPresignedURL(ctx context.Context, path string) (strin
 	req, err := m.presignedClient.PresignGetObject(ctx, &s3.GetObjectInput{
 		Bucket: &m.s3BucketName,
 		Key:    &path,
+	}, func(po *s3.PresignOptions) {
+		po.Expires = mediaPresignedExpireDuration
+	})
+	if err != nil {
+		return "", fmt.Errorf("failed make presigned url: %w", err)
+	}
+	return req.URL, nil
+}
+
+func (m *media) getThumbnailPresignedURL(ctx context.Context, downloadPath string) (string, error) {
+	thumbnailPath := fmt.Sprintf(thumbnailPathPattern, downloadPath)
+	req, err := m.presignedClient.PresignGetObject(ctx, &s3.GetObjectInput{
+		Bucket: &m.s3BucketName,
+		Key:    &thumbnailPath,
 	}, func(po *s3.PresignOptions) {
 		po.Expires = mediaPresignedExpireDuration
 	})
