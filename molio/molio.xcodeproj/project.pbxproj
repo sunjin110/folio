@@ -1,0 +1,648 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BACADF8A2C33DC3C007230F9 /* molioApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACADF892C33DC3C007230F9 /* molioApp.swift */; };
+		BACADF8C2C33DC3C007230F9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACADF8B2C33DC3C007230F9 /* ContentView.swift */; };
+		BACADF8E2C33DC3C007230F9 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACADF8D2C33DC3C007230F9 /* Item.swift */; };
+		BACADF902C33DC3D007230F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BACADF8F2C33DC3D007230F9 /* Assets.xcassets */; };
+		BACADF932C33DC3D007230F9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BACADF922C33DC3D007230F9 /* Preview Assets.xcassets */; };
+		BACADF9E2C33DC3D007230F9 /* molioTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACADF9D2C33DC3D007230F9 /* molioTests.swift */; };
+		BACADFA82C33DC3D007230F9 /* molioUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACADFA72C33DC3D007230F9 /* molioUITests.swift */; };
+		BACADFAA2C33DC3D007230F9 /* molioUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACADFA92C33DC3D007230F9 /* molioUITestsLaunchTests.swift */; };
+		BACADFBB2C33E640007230F9 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACADFBA2C33E640007230F9 /* LoginView.swift */; };
+		BACADFC52C33EB72007230F9 /* ArticlesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACADFC42C33EB72007230F9 /* ArticlesView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BACADF9A2C33DC3D007230F9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BACADF7E2C33DC3C007230F9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BACADF852C33DC3C007230F9;
+			remoteInfo = molio;
+		};
+		BACADFA42C33DC3D007230F9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BACADF7E2C33DC3C007230F9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BACADF852C33DC3C007230F9;
+			remoteInfo = molio;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		BACADF862C33DC3C007230F9 /* molio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = molio.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BACADF892C33DC3C007230F9 /* molioApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = molioApp.swift; sourceTree = "<group>"; };
+		BACADF8B2C33DC3C007230F9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		BACADF8D2C33DC3C007230F9 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		BACADF8F2C33DC3D007230F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BACADF922C33DC3D007230F9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		BACADF942C33DC3D007230F9 /* molio.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = molio.entitlements; sourceTree = "<group>"; };
+		BACADF992C33DC3D007230F9 /* molioTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = molioTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BACADF9D2C33DC3D007230F9 /* molioTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = molioTests.swift; sourceTree = "<group>"; };
+		BACADFA32C33DC3D007230F9 /* molioUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = molioUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BACADFA72C33DC3D007230F9 /* molioUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = molioUITests.swift; sourceTree = "<group>"; };
+		BACADFA92C33DC3D007230F9 /* molioUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = molioUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		BACADFBA2C33E640007230F9 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		BACADFC42C33EB72007230F9 /* ArticlesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BACADF832C33DC3C007230F9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BACADF962C33DC3D007230F9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BACADFA02C33DC3D007230F9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BACADF7D2C33DC3C007230F9 = {
+			isa = PBXGroup;
+			children = (
+				BACADF882C33DC3C007230F9 /* molio */,
+				BACADF9C2C33DC3D007230F9 /* molioTests */,
+				BACADFA62C33DC3D007230F9 /* molioUITests */,
+				BACADF872C33DC3C007230F9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BACADF872C33DC3C007230F9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BACADF862C33DC3C007230F9 /* molio.app */,
+				BACADF992C33DC3D007230F9 /* molioTests.xctest */,
+				BACADFA32C33DC3D007230F9 /* molioUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BACADF882C33DC3C007230F9 /* molio */ = {
+			isa = PBXGroup;
+			children = (
+				BACADFC72C33F44C007230F9 /* Infrastrutures */,
+				BACADFC62C33F446007230F9 /* Domains */,
+				BACADFBC2C33E7CB007230F9 /* Components */,
+				BACADFB92C33E623007230F9 /* Views */,
+				BACADF892C33DC3C007230F9 /* molioApp.swift */,
+				BACADF8B2C33DC3C007230F9 /* ContentView.swift */,
+				BACADF8D2C33DC3C007230F9 /* Item.swift */,
+				BACADF8F2C33DC3D007230F9 /* Assets.xcassets */,
+				BACADF942C33DC3D007230F9 /* molio.entitlements */,
+				BACADF912C33DC3D007230F9 /* Preview Content */,
+			);
+			path = molio;
+			sourceTree = "<group>";
+		};
+		BACADF912C33DC3D007230F9 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				BACADF922C33DC3D007230F9 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		BACADF9C2C33DC3D007230F9 /* molioTests */ = {
+			isa = PBXGroup;
+			children = (
+				BACADF9D2C33DC3D007230F9 /* molioTests.swift */,
+			);
+			path = molioTests;
+			sourceTree = "<group>";
+		};
+		BACADFA62C33DC3D007230F9 /* molioUITests */ = {
+			isa = PBXGroup;
+			children = (
+				BACADFA72C33DC3D007230F9 /* molioUITests.swift */,
+				BACADFA92C33DC3D007230F9 /* molioUITestsLaunchTests.swift */,
+			);
+			path = molioUITests;
+			sourceTree = "<group>";
+		};
+		BACADFB92C33E623007230F9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BACADFC02C33EA85007230F9 /* Articles */,
+				BACADFBA2C33E640007230F9 /* LoginView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		BACADFBC2C33E7CB007230F9 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				BACADFBD2C33E7D7007230F9 /* Organisms */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		BACADFBD2C33E7D7007230F9 /* Organisms */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Organisms;
+			sourceTree = "<group>";
+		};
+		BACADFC02C33EA85007230F9 /* Articles */ = {
+			isa = PBXGroup;
+			children = (
+				BACADFC42C33EB72007230F9 /* ArticlesView.swift */,
+			);
+			path = Articles;
+			sourceTree = "<group>";
+		};
+		BACADFC62C33F446007230F9 /* Domains */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Domains;
+			sourceTree = "<group>";
+		};
+		BACADFC72C33F44C007230F9 /* Infrastrutures */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Infrastrutures;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BACADF852C33DC3C007230F9 /* molio */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BACADFAD2C33DC3D007230F9 /* Build configuration list for PBXNativeTarget "molio" */;
+			buildPhases = (
+				BACADF822C33DC3C007230F9 /* Sources */,
+				BACADF832C33DC3C007230F9 /* Frameworks */,
+				BACADF842C33DC3C007230F9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = molio;
+			productName = molio;
+			productReference = BACADF862C33DC3C007230F9 /* molio.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BACADF982C33DC3D007230F9 /* molioTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BACADFB02C33DC3D007230F9 /* Build configuration list for PBXNativeTarget "molioTests" */;
+			buildPhases = (
+				BACADF952C33DC3D007230F9 /* Sources */,
+				BACADF962C33DC3D007230F9 /* Frameworks */,
+				BACADF972C33DC3D007230F9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BACADF9B2C33DC3D007230F9 /* PBXTargetDependency */,
+			);
+			name = molioTests;
+			productName = molioTests;
+			productReference = BACADF992C33DC3D007230F9 /* molioTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		BACADFA22C33DC3D007230F9 /* molioUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BACADFB32C33DC3D007230F9 /* Build configuration list for PBXNativeTarget "molioUITests" */;
+			buildPhases = (
+				BACADF9F2C33DC3D007230F9 /* Sources */,
+				BACADFA02C33DC3D007230F9 /* Frameworks */,
+				BACADFA12C33DC3D007230F9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BACADFA52C33DC3D007230F9 /* PBXTargetDependency */,
+			);
+			name = molioUITests;
+			productName = molioUITests;
+			productReference = BACADFA32C33DC3D007230F9 /* molioUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BACADF7E2C33DC3C007230F9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 1540;
+				TargetAttributes = {
+					BACADF852C33DC3C007230F9 = {
+						CreatedOnToolsVersion = 15.4;
+					};
+					BACADF982C33DC3D007230F9 = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = BACADF852C33DC3C007230F9;
+					};
+					BACADFA22C33DC3D007230F9 = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = BACADF852C33DC3C007230F9;
+					};
+				};
+			};
+			buildConfigurationList = BACADF812C33DC3C007230F9 /* Build configuration list for PBXProject "molio" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BACADF7D2C33DC3C007230F9;
+			productRefGroup = BACADF872C33DC3C007230F9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BACADF852C33DC3C007230F9 /* molio */,
+				BACADF982C33DC3D007230F9 /* molioTests */,
+				BACADFA22C33DC3D007230F9 /* molioUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BACADF842C33DC3C007230F9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BACADF932C33DC3D007230F9 /* Preview Assets.xcassets in Resources */,
+				BACADF902C33DC3D007230F9 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BACADF972C33DC3D007230F9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BACADFA12C33DC3D007230F9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BACADF822C33DC3C007230F9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BACADF8C2C33DC3C007230F9 /* ContentView.swift in Sources */,
+				BACADF8E2C33DC3C007230F9 /* Item.swift in Sources */,
+				BACADFC52C33EB72007230F9 /* ArticlesView.swift in Sources */,
+				BACADF8A2C33DC3C007230F9 /* molioApp.swift in Sources */,
+				BACADFBB2C33E640007230F9 /* LoginView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BACADF952C33DC3D007230F9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BACADF9E2C33DC3D007230F9 /* molioTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BACADF9F2C33DC3D007230F9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BACADFA82C33DC3D007230F9 /* molioUITests.swift in Sources */,
+				BACADFAA2C33DC3D007230F9 /* molioUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BACADF9B2C33DC3D007230F9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BACADF852C33DC3C007230F9 /* molio */;
+			targetProxy = BACADF9A2C33DC3D007230F9 /* PBXContainerItemProxy */;
+		};
+		BACADFA52C33DC3D007230F9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BACADF852C33DC3C007230F9 /* molio */;
+			targetProxy = BACADFA42C33DC3D007230F9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		BACADFAB2C33DC3D007230F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		BACADFAC2C33DC3D007230F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		BACADFAE2C33DC3D007230F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = molio/molio.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"molio/Preview Content\"";
+				DEVELOPMENT_TEAM = DNK8T65US7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = info.sunjin.molio;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		BACADFAF2C33DC3D007230F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = molio/molio.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"molio/Preview Content\"";
+				DEVELOPMENT_TEAM = DNK8T65US7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = info.sunjin.molio;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		BACADFB12C33DC3D007230F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DNK8T65US7;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = info.sunjin.molioTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/molio.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/molio";
+			};
+			name = Debug;
+		};
+		BACADFB22C33DC3D007230F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DNK8T65US7;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = info.sunjin.molioTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/molio.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/molio";
+			};
+			name = Release;
+		};
+		BACADFB42C33DC3D007230F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DNK8T65US7;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = info.sunjin.molioUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = molio;
+			};
+			name = Debug;
+		};
+		BACADFB52C33DC3D007230F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DNK8T65US7;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = info.sunjin.molioUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = molio;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BACADF812C33DC3C007230F9 /* Build configuration list for PBXProject "molio" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BACADFAB2C33DC3D007230F9 /* Debug */,
+				BACADFAC2C33DC3D007230F9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BACADFAD2C33DC3D007230F9 /* Build configuration list for PBXNativeTarget "molio" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BACADFAE2C33DC3D007230F9 /* Debug */,
+				BACADFAF2C33DC3D007230F9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BACADFB02C33DC3D007230F9 /* Build configuration list for PBXNativeTarget "molioTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BACADFB12C33DC3D007230F9 /* Debug */,
+				BACADFB22C33DC3D007230F9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BACADFB32C33DC3D007230F9 /* Build configuration list for PBXNativeTarget "molioUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BACADFB42C33DC3D007230F9 /* Debug */,
+				BACADFB52C33DC3D007230F9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BACADF7E2C33DC3C007230F9 /* Project object */;
+}
