@@ -27,7 +27,7 @@ require (
 	github.com/smartystreets/goconvey v1.8.1
 	go.uber.org/mock v0.5.0
 	golang.org/x/net v0.31.0
-	golang.org/x/sync v0.9.0
+	golang.org/x/sync v0.10.0
 	golang.org/x/xerrors v0.0.0-20231012003039-104605ab7028
 	google.golang.org/api v0.210.0
 )
