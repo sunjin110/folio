@@ -25,6 +25,7 @@ import { NewArticleTagRepository } from "./infrastructure/repository/article_tag
 import EnglishDictionary from "./pages/english_dictionary";
 import { NewEnglishDictionaryUsecase } from "./usecase/english_dictionary";
 import { NewEnglishDictionaryRepository } from "./infrastructure/repository/english_dictionary";
+import JsonFormat from "./pages/tools/jsonFormatter";
 
 // https://github.com/reactjs/react-modal?tab=readme-ov-file
 Modal.setAppElement("#root");
@@ -44,7 +45,9 @@ const App: React.FC = () => {
   const englishDictionaryRepo = NewEnglishDictionaryRepository(golioApi);
   const mediaUsecase = NewMediaUsecase(mediaRepo);
   const articleUsecase = NewArticleUsecase(articleRepo, articleTagRepo);
-  const englishDctionaryUsecase = NewEnglishDictionaryUsecase(englishDictionaryRepo);
+  const englishDctionaryUsecase = NewEnglishDictionaryUsecase(
+    englishDictionaryRepo,
+  );
 
   return (
     <TooltipProvider>
@@ -76,7 +79,15 @@ const App: React.FC = () => {
               path="/articles/edit/:articleId"
               element={<EditArticle articleUsecase={articleUsecase} />}
             />
-            <Route path="/english_dictionary" element={<EnglishDictionary englishDctionaryUsecase={englishDctionaryUsecase} />} />
+            <Route
+              path="/english_dictionary"
+              element={
+                <EnglishDictionary
+                  englishDctionaryUsecase={englishDctionaryUsecase}
+                />
+              }
+            />
+            <Route path="/tools/json" element={<JsonFormat />} />
           </Routes>
         </div>
         <Toaster />
