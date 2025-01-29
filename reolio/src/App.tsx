@@ -26,6 +26,7 @@ import EnglishDictionary from "./pages/english_dictionary";
 import { NewEnglishDictionaryUsecase } from "./usecase/english_dictionary";
 import { NewEnglishDictionaryRepository } from "./infrastructure/repository/english_dictionary";
 import JsonFormat from "./pages/tools/jsonFormatter";
+import Time from "./pages/tools/time";
 
 // https://github.com/reactjs/react-modal?tab=readme-ov-file
 Modal.setAppElement("#root");
@@ -88,6 +89,7 @@ const App: React.FC = () => {
               }
             />
             <Route path="/tools/json" element={<JsonFormat />} />
+            <Route path="/tools/time" element={<Time />} />
           </Routes>
         </div>
         <Toaster />

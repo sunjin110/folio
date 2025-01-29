@@ -15,10 +15,16 @@ const Home: React.FC = () => {
           <div className="p-5">
             unix time: {Math.ceil(Number(new Date().getTime() / 1000))}
           </div>
+          <div className="p-5">RFC3339: {new Date().toISOString()}</div>
 
           <div className="p-5">
             <Link to={"/tools/json"}>
               <Button>Json Formatter</Button>
+            </Link>
+          </div>
+          <div className="p-5">
+            <Link to={"/tools/time"}>
+              <Button>Time Formatter</Button>
             </Link>
           </div>
         </CardContent>
