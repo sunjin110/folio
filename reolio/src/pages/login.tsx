@@ -7,7 +7,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { FaGoogle } from "react-icons/fa";
+import { FaGoogle as RawFaGoogle } from "react-icons/fa";
+
+const FaGoogle = RawFaGoogle as React.FC;
 
 export default function Login() {
   return (

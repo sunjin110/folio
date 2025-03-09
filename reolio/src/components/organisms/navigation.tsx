@@ -18,8 +18,8 @@ import { Link } from "react-router-dom";
 
 export interface NavigationProps {
   title?: string;
-  children: string | JSX.Element | JSX.Element[];
-  headerContent?: string | JSX.Element | JSX.Element[];
+  children: string | React.JSX.Element | React.JSX.Element[];
+  headerContent?: string | React.JSX.Element | React.JSX.Element[];
   sidebarPosition:
     | ""
     | "messages"

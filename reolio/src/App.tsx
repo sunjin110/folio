@@ -18,7 +18,6 @@ import { Configuration, GolioApi } from "./generate/schema/http";
 import MediaDetail from "./pages/media/detial";
 import { NewArticleRepository } from "./infrastructure/repository/article";
 import { NewArticleUsecase } from "./usecase/article";
-import Modal from "react-modal";
 import { TranslateModalPage } from "./pages/modals/translateModalPage";
 import { NewTranslationRepository } from "./infrastructure/repository/translation";
 import { NewArticleTagRepository } from "./infrastructure/repository/article_tag";
@@ -27,9 +26,6 @@ import { NewEnglishDictionaryUsecase } from "./usecase/english_dictionary";
 import { NewEnglishDictionaryRepository } from "./infrastructure/repository/english_dictionary";
 import JsonFormat from "./pages/tools/jsonFormatter";
 import Time from "./pages/tools/time";
-
-// https://github.com/reactjs/react-modal?tab=readme-ov-file
-Modal.setAppElement("#root");
 
 const App: React.FC = () => {
   // goli apiの設定

@@ -32,7 +32,7 @@ export function DataTable<TData, TValue>({
   pageSize,
   onPageChange,
   pageCount,
-}: DataTableProps<TData, TValue>): JSX.Element {
+}: DataTableProps<TData, TValue>): React.JSX.Element {
   const table = useReactTable({
     data,
     columns,
