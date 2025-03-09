@@ -21,5 +21,5 @@ jobs:
             - run: go mod tidy && git diff --exit-code go.sum
             - uses: golangci/golangci-lint-action@v6
               with:
-                version: v1.61
+                version: v1.64
                 working-directory: ${{ inputs.directory }}
