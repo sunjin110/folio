@@ -8,6 +8,10 @@ up:
 down:
 	docker compose down
 
+lint:
+	# brew install golangci-lint
+	@golangci-lint run --path-prefix=.
+
 build:
 	go build ./cmd/http/main.go
 

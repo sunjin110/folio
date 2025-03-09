@@ -52,8 +52,8 @@ func Test_articleV2_FindSummary(t *testing.T) {
 						AddRow("article_id_1", "title_1", pq.StringArray{"tag_1"}, time.Date(2024, 6, 13, 0, 0, 0, 0, time.UTC), time.Date(2024, 6, 13, 0, 0, 0, 0, time.UTC)).
 						AddRow("article_id_2", "title_2", pq.StringArray{"tag_2"}, time.Date(2024, 6, 13, 0, 0, 0, 0, time.UTC), time.Date(2024, 6, 13, 0, 0, 0, 0, time.UTC))
 
-					mock.ExpectQuery(regexp.QuoteMeta("SELECT * FROM article_summaries WHERE tag_ids @> array[$1,$2] ORDER BY created_at ASC LIMIT 10 OFFSET 0")).
-						WithArgs("tag_1", "tag_2").
+					mock.ExpectQuery(regexp.QuoteMeta("SELECT * FROM article_summaries WHERE tag_ids @> array[$1,$2] ORDER BY created_at ASC LIMIT $3 OFFSET $4")).
+						WithArgs("tag_1", "tag_2", 10, 0).
 						WillReturnRows(rows)
 
 					articleTagRepo.EXPECT().FindByIDs(gomock.Any(), gomock.InAnyOrder([]string{"tag_1", "tag_2"})).Return([]*model.ArticleTag{
