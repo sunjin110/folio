@@ -41,7 +41,7 @@ export default function Media(props: MediaProps) {
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  const observer = useRef<IntersectionObserver>(); // scroll
+  const observer = useRef<IntersectionObserver>(null); // scroll
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
 

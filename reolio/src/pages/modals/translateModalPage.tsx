@@ -4,10 +4,6 @@ import { TranslationRepository } from "@/domain/repository/translation";
 import { AuthError, InternalError } from "@/error/error";
 import { useDelayState } from "@/hooks/useDelayState";
 import { useEffect, useState } from "react";
-import Modal from "react-modal";
-
-// https://github.com/reactjs/react-modal?tab=readme-ov-file
-Modal.setAppElement("#root");
 
 interface TranslateModalPageProps {
   translationRepository: TranslationRepository;
@@ -30,19 +26,19 @@ export function TranslateModalPage(props: TranslateModalPageProps) {
     setIsTranslateModalOpen(false);
   };
 
-  // cmd + kでmodalが開くようにする
+  // cmd + u で modal を開閉できるようにする
   useEffect(() => {
     const handleTranslateModalOpen = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key === "u") {
         event.preventDefault();
-        setIsTranslateModalOpen(!isTranslateModalOpen);
+        setIsTranslateModalOpen((prev) => !prev);
       }
     };
     window.addEventListener("keydown", handleTranslateModalOpen);
     return () => {
       window.removeEventListener("keydown", handleTranslateModalOpen);
     };
-  });
+  }, []);
 
   useEffect(() => {
     if (!delayText) {
@@ -50,7 +46,7 @@ export function TranslateModalPage(props: TranslateModalPageProps) {
       return;
     }
 
-    const fetch = async (text: string) => {
+    const fetchTranslation = async (text: string) => {
       try {
         const output = await translationRepository.TranslationText(
           text,
@@ -80,7 +76,7 @@ export function TranslateModalPage(props: TranslateModalPageProps) {
         });
       }
     };
-    fetch(delayText);
+    fetchTranslation(delayText);
   }, [
     delayText,
     toast,
