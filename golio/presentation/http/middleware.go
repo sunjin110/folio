@@ -16,12 +16,15 @@ import (
 func AuthMW(authUsecase usecase.Auth, userRepo repository.User) mux.MiddlewareFunc {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			slog.Info("============= AuthMW")
+
 			if strings.HasPrefix(r.URL.Path, "/auth/google-oauth") {
 				// 認証の必要なし
 				next.ServeHTTP(w, r)
 				return
 			}
 
+			slog.Info("============= get access_token from cookie")
 			cookie, err := r.Cookie("access_token")
 			if err != nil {
 				if errors.Is(err, http.ErrNoCookie) {
@@ -33,6 +36,7 @@ func AuthMW(authUsecase usecase.Auth, userRepo repository.User) mux.MiddlewareFu
 				return
 			}
 
+			slog.Info("============= GetSessionInfoFromToken", "token", cookie.Value)
 			userSession, err := authUsecase.GetSessionInfoFromToken(r.Context(), cookie.Value)
 			if err != nil {
 				if errors.Is(err, usecase.ErrNotFound) {
@@ -44,9 +48,12 @@ func AuthMW(authUsecase usecase.Auth, userRepo repository.User) mux.MiddlewareFu
 				return
 			}
 
+			slog.Info("=========== userSession is ", "user_session", userSession)
+
 			// check
 			if userSession.AccessTokenExpireTime.Before(time.Now()) {
 				// userInfoにアクセスしてrefresh_tokenを取得する必要がある
+				slog.Info("========= refresh_token発火")
 
 				user, err := userRepo.Get(r.Context(), userSession.Email)
 				if err != nil {
