@@ -12,7 +12,7 @@ struct MediaListView: View {
     }
     
     var body: some View {
-        MediaListTemplate(summaries: $summaries, loadMoreMediaFunc: self.loadMoreMedia, refreshMediaFunc: self.refreshMedia)
+        MediaListTemplate(summaries: $summaries, loadMoreMediaFunc: self.loadMoreMedia, refreshMediaFunc: self.refreshMedia, detailDestinationProvider: self.detailDestinationProvider)
     }
     
     private func loadMoreMedia() async -> Bool {
@@ -33,6 +33,10 @@ struct MediaListView: View {
         case .failure(let err):
             print("error: \(err)")
         }
+    }
+    
+    private func detailDestinationProvider(medium: DomainModel.MediumSummary) -> AnyView {
+        AnyView(Text("todo"))
     }
 }
 
