@@ -82,7 +82,8 @@ func (m *media) FindSummary(ctx context.Context, paging *repository.Paging) ([]*
 	for _, medium := range media {
 		medium := medium
 		eg.Go(func() error {
-			path := m.generatePath(medium.ID, medium.FileType)
+			// path := m.generatePath(medium.ID, medium.FileType)
+			path := medium.Path
 			presignedURL, err := m.getThumbnailPresignedURL(ctx, path)
 			if err != nil {
 				return fmt.Errorf("failed get download presigned url. path: %s, err: %w", path, err)
@@ -141,7 +142,8 @@ func (m *media) Insert(ctx context.Context, txTime time.Time, id string, fileTyp
 
 func (m *media) generatePath(id string, fileType string) string {
 	// TODO user_idができたらそれごとに分けるようにする
-	return fmt.Sprintf("default/%s.%s", id, fileType)
+	// return fmt.Sprintf("default/%s.%s", id, fileType)
+	return fmt.Sprintf("default/%s%s", id, fileType)
 }
 
 func (m *media) getUploadPresignedURL(ctx context.Context, path string) (string, error) {
