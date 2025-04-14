@@ -25,7 +25,7 @@ require (
 	github.com/rs/cors v1.11.1
 	github.com/sashabaranov/go-openai v1.38.0
 	github.com/smartystreets/goconvey v1.8.1
-	go.uber.org/mock v0.5.0
+	go.uber.org/mock v0.5.1
 	golang.org/x/net v0.37.0
 	golang.org/x/sync v0.12.0
 	golang.org/x/xerrors v0.0.0-20240903120638-7835f813f4da
