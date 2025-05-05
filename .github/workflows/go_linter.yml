@@ -19,7 +19,7 @@ jobs:
                 go-version-file: '${{ inputs.directory }}/go.mod'
                 cache-dependency-path: '${{ inputs.directory }}'
             - run: go mod tidy && git diff --exit-code go.sum
-            - uses: golangci/golangci-lint-action@v6
+            - uses: golangci/golangci-lint-action@v8
               with:
                 version: v1.64
                 working-directory: ${{ inputs.directory }}
