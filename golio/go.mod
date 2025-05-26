@@ -14,7 +14,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/translate v1.29.1
 	github.com/awslabs/aws-lambda-go-api-proxy v0.16.2
 	github.com/caarlos0/env/v10 v10.0.0
-	github.com/golang-migrate/migrate/v4 v4.18.2
+	github.com/golang-migrate/migrate/v4 v4.18.3
 	github.com/google/uuid v1.6.0
 	github.com/gorilla/mux v1.8.1
 	github.com/huandu/go-sqlbuilder v1.34.0
