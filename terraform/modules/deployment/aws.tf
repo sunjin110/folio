@@ -6,6 +6,12 @@ resource "github_actions_secret" "aws_secret_arn" {
   plaintext_value = aws_iam_role.iam.arn
 }
 
+resource "github_dependabot_secret" "aws_secret_arn" {
+  repository      = "folio"
+  secret_name     = "AWS_ROLE_TO_ASSUME"
+  plaintext_value = aws_iam_role.iam.arn
+}
+
 data "http" "github_actions_openid_configuration" {
   url = "https://token.actions.githubusercontent.com/.well-known/openid-configuration"
 }

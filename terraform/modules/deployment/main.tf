@@ -23,7 +23,7 @@ resource "github_actions_secret" "cloudflare_account_id" {
 resource "cloudflare_api_token" "cloudflare_api_token" {
   name = "github_actions_access_token"
 
-  policies = [{
+  policy {
     permission_groups = [
       data.cloudflare_api_token_permission_groups.all.account["Pages Write"],
       data.cloudflare_api_token_permission_groups.all.account["Pages Read"],
@@ -32,18 +32,18 @@ resource "cloudflare_api_token" "cloudflare_api_token" {
     resources = {
       "com.cloudflare.api.account.${var.cloudflare.account_id}" = "*"
     }
-    },
-    {
-      permission_groups = [
-        data.cloudflare_api_token_permission_groups.all.user["User Details Read"],
-        data.cloudflare_api_token_permission_groups.all.user["Memberships Read"]
-      ]
-      resources = {
-        # ここの文字列が何かわからないので、これを究明する必要がある
-        "com.cloudflare.api.user.c6c05087bac8efd53e5dff1e626574e8" = "*"
-      }
+  }
+
+  policy {
+    permission_groups = [
+      data.cloudflare_api_token_permission_groups.all.user["User Details Read"],
+      data.cloudflare_api_token_permission_groups.all.user["Memberships Read"]
+    ]
+    resources = {
+      # ここの文字列が何かわからないので、これを究明する必要がある
+      "com.cloudflare.api.user.c6c05087bac8efd53e5dff1e626574e8" = "*"
     }
-  ]
+  }
 }
 
 # Account permissions
