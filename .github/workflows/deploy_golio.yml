@@ -22,7 +22,7 @@ jobs:
             run:
                 working-directory: golio
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v5
             - id: sha
               run: echo "short_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
             - name: access
