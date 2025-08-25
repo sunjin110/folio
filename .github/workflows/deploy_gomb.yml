@@ -26,7 +26,7 @@ jobs:
               uses: docker/setup-qemu-action@v3
               with:
                 platforms: linux/arm64
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v5
             - id: sha
               run: echo "short_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
             - name: access
